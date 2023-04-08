@@ -20,7 +20,7 @@ assignees: Arman17Babaei
 
   1. [ ] شروع نشده
   2. [ ] در حال انجام
-  3. [ ] تمام شده
+  3. [x] تمام شده
   </div>
 </details>
 
@@ -31,7 +31,7 @@ assignees: Arman17Babaei
   
   1. [ ] شروع نشده
   2. [ ] در حال انجام
-  3. [ ] تمام شده
+  3. [x] تمام شده
      </div>
 </details>
 
@@ -50,20 +50,6 @@ assignees: Arman17Babaei
 
   **نام و نام خانوادگی:شمیم رحیمی**
 <details>
-  <summary>تسک مربوطه</summary>
-
-  <div dir="ltr" align='right'>
-
-  1. [ ] شروع نشده
-  2. [ ] در حال انجام
-  3. [ ] تمام شده
-  </div>
-</details>
-
-## تسک‌های نفر دوم
-
-  **نام و نام خانوادگی:اشکان تاریوردی**
-<details>
   <summary>کامیت نام و شماره دانشجویی در README.md</summary>
 
   <div dir="ltr" align='right'>
@@ -74,7 +60,7 @@ assignees: Arman17Babaei
   </div>
 </details>
 
-## تسک‌های نفر سوم
+## تسک‌های نفر دوم
 
   **نام و نام خانوادگی:**
 <details>
@@ -83,6 +69,20 @@ assignees: Arman17Babaei
   <div dir="ltr" align='right'>
 
   1. [ ] شروع نشده
+  2. [ ] در حال انجام
+  3. [ ] تمام شده
+  </div>
+</details>
+
+## تسک‌های نفر سوم
+
+  **نام و نام خانوادگی:امیرکسری احمدی**
+<details>
+  <summary>کامیت نام و شماره دانشجویی در README.md </summary>
+
+  <div dir="ltr" align='right'>
+
+  1. [x] شروع نشده
   2. [ ] در حال انجام
   3. [ ] تمام شده
   </div>
