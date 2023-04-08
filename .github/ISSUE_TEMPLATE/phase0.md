@@ -68,7 +68,7 @@ assignees: Arman17Babaei
 
   <div dir="ltr" align='right'>
 
-  1. [0] شروع نشده
+  1. [x] شروع نشده
   2. [ ] در حال انجام
   3. [ ] تمام شده
   </div>
