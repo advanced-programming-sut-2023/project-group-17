@@ -64,7 +64,7 @@ assignees: Arman17Babaei
 
   **نام و نام خانوادگی:اشکان تاریوردی**
 <details>
-  <summary>کامیت نام و شماره دانشجویی در md.R</summary>
+  <summary>کامیت نام و شماره دانشجویی در README.md</summary>
 
   <div dir="ltr" align='right'>
 
