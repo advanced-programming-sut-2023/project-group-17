@@ -73,13 +73,43 @@ assignees: Arman17Babaei
 
 ## تسک‌های نفر سوم
 
-  **نام و نام خانوادگی:**
+  **نام و نام خانوادگی: امیرکسری احمدی**
 <details>
-  <summary>تسک مربوطه</summary>
+  <summary>طراحی منو اصلی</summary>
 
   <div dir="ltr" align='right'>
 
-  1. [ ] شروع نشده
+  1. [x] شروع نشده
+  2. [ ] در حال انجام
+  3. [ ] تمام شده
+  </div>
+</details>
+<details>
+  <summary>طراحی منو ساختمان ها</summary>
+
+  <div dir="ltr" align='right'>
+
+  1. [x] شروع نشده
+  2. [ ] در حال انجام
+  3. [ ] تمام شده
+  </div>
+</details>
+<details>
+  <summary>طراحی منو مپ</summary>
+
+  <div dir="ltr" align='right'>
+
+  1. [x] شروع نشده
+  2. [ ] در حال انجام
+  3. [ ] تمام شده
+  </div>
+</details>
+<details>
+  <summary>طراحی منو حکومت</summary>
+
+  <div dir="ltr" align='right'>
+
+  1. [x] شروع نشده
   2. [ ] در حال انجام
   3. [ ] تمام شده
   </div>
