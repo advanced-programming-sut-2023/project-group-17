@@ -45,9 +45,29 @@ assignees: Arman17Babaei
 
 ## تسک‌های نفر اول
 
-  **نام و نام خانوادگی:**
+  **نام و نام خانوادگی: شمیم رحیمی
 <details>
-  <summary>تسک مربوطه</summary>
+  <summary>Login Menu</summary>
+
+  <div dir="ltr" align='right'>
+
+  1. [ ] شروع نشده
+  2. [ ] در حال انجام
+  3. [ ] تمام شده
+  </div>
+</details>
+  <details>
+  <summary>Game Menu</summary>
+
+  <div dir="ltr" align='right'>
+
+  1. [ ] شروع نشده
+  2. [ ] در حال انجام
+  3. [ ] تمام شده
+  </div>
+</details>
+  <details>
+  <summary>Trade Menu</summary>
 
   <div dir="ltr" align='right'>
 
