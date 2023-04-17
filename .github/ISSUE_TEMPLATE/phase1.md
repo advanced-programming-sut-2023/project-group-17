@@ -95,7 +95,7 @@ assignees: Arman17Babaei
 
   **نام و نام خانوادگی: امیرکسری احمدی**
 <details>
-  <summary>طراحی منو اصلی</summary>
+  <summary>Main Menu</summary>
 
   <div dir="ltr" align='right'>
 
@@ -105,7 +105,7 @@ assignees: Arman17Babaei
   </div>
 </details>
 <details>
-  <summary>طراحی منو ساختمان ها</summary>
+  <summary>Buildings Menu</summary>
 
   <div dir="ltr" align='right'>
 
@@ -115,7 +115,7 @@ assignees: Arman17Babaei
   </div>
 </details>
 <details>
-  <summary>طراحی منو مپ</summary>
+  <summary>Map Menu</summary>
 
   <div dir="ltr" align='right'>
 
@@ -125,7 +125,7 @@ assignees: Arman17Babaei
   </div>
 </details>
 <details>
-  <summary>طراحی منو حکومت</summary>
+  <summary>Empire Menu</summary>
 
   <div dir="ltr" align='right'>
 
