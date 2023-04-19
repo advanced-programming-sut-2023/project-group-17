@@ -7,6 +7,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class MainMenu {
+
     private MainMenuController controller;
 
     public MainMenu() {
