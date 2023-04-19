@@ -11,9 +11,7 @@ public enum LoginMenuCommands {
     ENTER_SIGNUP_MENU("");
 
     final String regex;
-    private LoginMenuCommands(String regex){
-        this.regex = regex;
-    }
+    private LoginMenuCommands(String regex) { this.regex = regex; }
 
     public static Matcher getMatcher(String input , LoginMenuCommands regex){
         Matcher matcher = Pattern.compile(regex.regex).matcher(input);
