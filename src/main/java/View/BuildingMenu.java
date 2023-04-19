@@ -25,8 +25,7 @@ public class BuildingMenu extends Menu{
                 createUnit(matcher);
             else if ((matcher = BuildingMenuCommands.getMatcher(command, BuildingMenuCommands.REPAIR)) != null)
                 repair();
-            else
-                System.out.println("invalid command");
+            else System.out.println("invalid command");
         }
     }
 
