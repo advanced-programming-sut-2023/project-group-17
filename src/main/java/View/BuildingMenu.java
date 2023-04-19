@@ -11,7 +11,7 @@ public class BuildingMenu extends Menu{
     BuildingMenuController controller;
     public BuildingMenu() {
         controller = new BuildingMenuController();
-    }
+}
     void run(Scanner scanner) {
         Matcher matcher;
         String command;
@@ -25,8 +25,8 @@ public class BuildingMenu extends Menu{
                 createUnit(matcher);
             else if ((matcher = BuildingMenuCommands.getMatcher(command, BuildingMenuCommands.REPAIR)) != null)
                 repair();
-
-
+            else
+                System.out.println("invalid command");
         }
     }
 
