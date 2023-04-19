@@ -11,7 +11,7 @@ public class BuildingMenu extends Menu{
     BuildingMenuController controller;
     public BuildingMenu() {
         controller = new BuildingMenuController();
-}
+    }
     void run(Scanner scanner) {
         Matcher matcher;
         String command;

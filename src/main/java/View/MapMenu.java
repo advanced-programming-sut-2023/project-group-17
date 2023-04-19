@@ -34,6 +34,7 @@ public class MapMenu extends Menu{
                 dropBuilding(matcher);
             else if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.DROP_UNIT)) != null)
                 dropUnit(matcher);
+            else System.out.println("Invalid Command");
         }
     }
 
