@@ -23,9 +23,9 @@ public class LoginMenu extends Menu {
                 loginUser(matcher);
             else if((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.FORGET_PASSWORD)) != null)
                 forgetPassword(matcher);
-            else if((matcher = LoginMenuCommands.getMatcher(command , LoginMenuCommands.ENTER_SIGNUP_MENU)) != null)
+            else if((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.ENTER_SIGNUP_MENU)) != null)
                 enterSignupMenu();
-            else System.out.println("Invalid command!");
+            else System.out.println("Invalid Command");
         }
     }
 

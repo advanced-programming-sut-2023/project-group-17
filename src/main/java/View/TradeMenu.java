@@ -26,11 +26,11 @@ public class TradeMenu extends Menu {
                 tradeHistory(matcher);
             else if ((matcher = TradeMenuCommands.getMatcher(command, TradeMenuCommands.TRADE_REQUEST)) != null)
                 tradeRequest(matcher);
-            else if ((matcher = TradeMenuCommands.getMatcher(command, TradeMenuCommands.TRADE_LIST)) != null)
+            else if (TradeMenuCommands.getMatcher(command, TradeMenuCommands.TRADE_LIST) != null)
                 tradeList();
-            else if ((matcher = TradeMenuCommands.getMatcher(command, TradeMenuCommands.BACK)) != null)
+            else if (TradeMenuCommands.getMatcher(command, TradeMenuCommands.BACK) != null)
                 return;
-            else System.out.println("Invalid command!");
+            else System.out.println("Invalid Command");
         }
     }
 
