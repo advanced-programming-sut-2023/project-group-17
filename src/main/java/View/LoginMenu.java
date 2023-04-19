@@ -19,29 +19,25 @@ public class LoginMenu extends Menu {
 
         while (true){
             command = scanner.nextLine();
-            if((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.USER_LOGIN)) != null){
+            if((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.USER_LOGIN)) != null)
                 loginUser(matcher);
-            }
-
-            else if((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.FORGET_PASSWORD)) != null){
+            else if((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.FORGET_PASSWORD)) != null)
                 forgetPassword(matcher);
-            }
-
-            else if((matcher = LoginMenuCommands.getMatcher(command , LoginMenuCommands.ENTER_SIGNUP_MENU)) != null){
+            else if((matcher = LoginMenuCommands.getMatcher(command , LoginMenuCommands.ENTER_SIGNUP_MENU)) != null)
                 enterSignupMenu();
-            }
+            else System.out.println("Invalid command!");
         }
     }
 
-    public void loginUser(Matcher matcher){
+    private void loginUser(Matcher matcher){
 
     }
 
-    public void forgetPassword(Matcher matcher){
+    private void forgetPassword(Matcher matcher){
 
     }
 
-    public void enterSignupMenu(){
+    private void enterSignupMenu(){
 
     }
 }
