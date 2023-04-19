@@ -1,6 +1,6 @@
 package View;
 
 public class BuildingMenu {
-    String push;
+    String push2;
 
 }
