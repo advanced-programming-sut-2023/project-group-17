@@ -1,4 +1,11 @@
 package View;
 
-public class GameMenu {
+import java.util.Scanner;
+
+public class GameMenu extends Menu {
+
+    @Override
+    public void run(Scanner scanner) {
+
+    }
 }

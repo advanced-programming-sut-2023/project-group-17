@@ -1,4 +1,10 @@
 package View;
 
-public class EmpireMenu {
+import java.util.Scanner;
+
+public class EmpireMenu extends Menu {
+    @Override
+    public void run(Scanner scanner) {
+
+    }
 }

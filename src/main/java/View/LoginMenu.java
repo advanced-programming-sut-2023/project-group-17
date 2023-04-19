@@ -6,15 +6,14 @@ import View.Enums.Commands.LoginMenuCommands;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
-public class LoginMenu {
+public class LoginMenu extends Menu {
     private LoginMenuController controller;
-    Scanner scanner = new Scanner(System.in);
 
     public LoginMenu(){
          this.controller = new LoginMenuController();
     }
 
-    public void run(){
+    public void run(Scanner scanner){
         String command;
         Matcher matcher = null;
 

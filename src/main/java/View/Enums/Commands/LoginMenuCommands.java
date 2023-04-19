@@ -6,9 +6,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum LoginMenuCommands {
-    USER_LOGIN(""),
-    FORGET_PASSWORD(""),
-    ENTER_SIGNUP_MENU("");
+    USER_LOGIN("\\s*user\\s+login\\s+(-u\\s+(?<username>\\S+))\\s+(-p\\s+(?<password>\\S+))\\s+(<?stayLoggedIn>--stay-logged-in)?\\s*"),
+    FORGET_PASSWORD("\\s*forgot\\s+my\\s+password\\s+(-u\\s+(?<username>\\S+))\\s*"),
+    ENTER_SIGNUP_MENU("\\s*enter\\s+signup\\s+menu\\s*");
 
     final String regex;
     private LoginMenuCommands(String regex) { this.regex = regex; }

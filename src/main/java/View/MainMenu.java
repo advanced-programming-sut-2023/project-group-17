@@ -6,7 +6,7 @@ import View.Enums.Commands.MainMenuCommands;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
-public class MainMenu {
+public class MainMenu extends Menu {
 
     private MainMenuController controller;
 
