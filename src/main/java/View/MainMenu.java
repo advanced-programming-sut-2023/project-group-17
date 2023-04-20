@@ -38,17 +38,17 @@ public class MainMenu extends Menu {
     }
 
     private boolean logout(Scanner scanner) {
-        System.out.println("Are you sure want to logout?");
+        System.out.println("Are you sure you want to logout?");
         String answer = scanner.nextLine().trim();
         return answer.matches("yes");
     }
     private void startNewGame(Matcher matcher) {
-        String turnsNumber = matcher.group("turnsNumber");
-        String users = Menu.handleDoubleQuote(matcher.group("users"));
-        if (Menu.checkBlankField(turnsNumber) && Menu.checkBlankField(users)) {
+        if (Menu.checkBlankField(matcher.group("turnsNumber")) || Menu.checkBlankField(matcher.group("users"))) {
             System.out.println("error : blank field");
             return;
         }
-        controller.startNewGame(users, Integer.parseInt(turnsNumber));
+        int turnsNumber = Integer.parseInt(matcher.group("turnsNumber"));
+        String users = Menu.handleDoubleQuote(matcher.group("users"));
+        System.out.println(controller.startNewGame(users, turnsNumber));
     }
 }
