@@ -76,7 +76,8 @@ public class LoginMenu extends Menu {
     }
 
     private void enterSignupMenu() {
-
+        System.out.println("entered signup menu");
+        new SignupMenu().run(scanner);
     }
 
     public void print(String string){
