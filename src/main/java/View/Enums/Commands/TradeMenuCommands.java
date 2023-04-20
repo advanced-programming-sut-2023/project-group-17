@@ -4,11 +4,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum TradeMenuCommands {
-    TRADE_REQUEST(""),
-    TRADE_LIST(""),
-    ACCEPT_TRADE(""),
-    TRADE_HISTORY(""),
-    BACK("");
+    TRADE_REQUEST("\\s*trade\\s+(?:(-t\\s*)(?<resourceType>\\S+)?(\\s*)()|(-a\\s*)(?<resourceAmount>\\S+)?(\\s*)()|" +
+            "(-p\\s*)(?<price>\\S+)?(\\s*)()|(-m\\s*)(?<message>(\".+\")|(\\S+))?(\\s*)()){4}\\4\\8\\12\\18"),
+    TRADE_LIST("\\s*trade\\s+list\\s*"),
+    ACCEPT_TRADE("\\s*trade\\s+accept\\s+(?:(-i\\s*)(?<id>\\S+)?(\\s*)()|(-m\\s*)(?<message>(\".+\")|(\\S+))?(\\s*)()){2}\\4\\10"),
+    TRADE_HISTORY("\\s*trade\\s+history\\s*"),
+    BACK("\\s*back\\s*");
 
     final String regex;
     private TradeMenuCommands(String regex) { this.regex = regex; }

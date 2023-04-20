@@ -33,7 +33,7 @@ public class EmpireMenu extends Menu {
             else if ((matcher = EmpireMenuCommands.getMatcher(command, EmpireMenuCommands.SHOW_TAX_RATE)) != null)
                 showTaxRate();
             else if ((matcher = EmpireMenuCommands.getMatcher(command, EmpireMenuCommands.SET_FEAR_RATE)) != null)
-                setFearRate();
+                setFearRate(matcher);
             else if ((matcher = EmpireMenuCommands.getMatcher(command, EmpireMenuCommands.SHOW_FEAR_RATE)) != null)
                 showFearRate();
             else if ((matcher = EmpireMenuCommands.getMatcher(command, EmpireMenuCommands.BACK)) != null) return;
@@ -42,29 +42,53 @@ public class EmpireMenu extends Menu {
     }
 
     private void showPopularity() {
+        System.out.println(controller.showPopularity());
     }
 
     private void showPopularityFactors() {
+        System.out.println(controller.showPopularityFactors());
     }
 
     private void showFoodList() {
+        System.out.println(controller.showFoodList());
     }
 
     private void setFoodRate(Matcher matcher) {
+        if (Menu.checkBlankField(matcher.group("rateNumber"))) {
+            System.out.println("error : blank field");
+            return;
+        }
+        int foodRate = Integer.parseInt(matcher.group("rateNumber"));
+        System.out.println(controller.setFoodRate(foodRate));
     }
 
     private void showFoodRate() {
+        System.out.println(controller.showFoodRate());
     }
 
     private void setTaxRate(Matcher matcher) {
+        if (Menu.checkBlankField(matcher.group("rateNumber"))) {
+            System.out.println("error : blank field");
+            return;
+        }
+        int taxRate = Integer.parseInt(matcher.group("rateNumber"));
+        System.out.println(controller.setTaxRate(taxRate));
     }
 
     private void showTaxRate() {
+        System.out.println(controller.showTaxRate());
     }
 
-    private void setFearRate() {
+    private void setFearRate(Matcher matcher) {
+        if (Menu.checkBlankField(matcher.group("rateNumber"))) {
+            System.out.println("error : blank field");
+            return;
+        }
+        int fearRate = Integer.parseInt(matcher.group("rateNumber"));
+        System.out.println(controller.setFearRate(fearRate));
     }
 
     private void showFearRate() {
+        System.out.println(controller.showFearRate());
     }
 }
