@@ -16,7 +16,7 @@ public enum SignupMenuCommands {
     ENTER_LOGIN_MENU("\\s*enter\\s+login\\s+menu\\s*")
     ;
 
-    String regex;
+    final String regex;
 
     private SignupMenuCommands(String regex) {
         this.regex = regex;

@@ -19,7 +19,7 @@ public enum ProfileMenuCommands {
     BACK("\\s*back\\s*")
     ;
 
-    String regex;
+    final String regex;
 
     private ProfileMenuCommands(String regex) {
         this.regex = regex;
