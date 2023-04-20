@@ -9,6 +9,7 @@ import jdk.jshell.execution.Util;
 import java.util.Scanner;
 
 import static Model.Database.*;
+import static View.Menu.print;
 
 public class LoginMenuController {
 
@@ -31,12 +32,12 @@ public class LoginMenuController {
             return LoginMenuMessages.USERNAME_DOES_NOT_EXISTS;
 
         User user = getUserByUsername(username);
-        loginMenu.print("please answer this question : " + user.getPasswordRecoveryQuestion());
+        print("please answer this question : " + user.getPasswordRecoveryQuestion());
         String answer = loginMenu.scan();
         if(!answer.equals(user.getPasswordRecoveryAnswer()))
             return LoginMenuMessages.WRONG_PASSWORD_RECOVERY_ANSWER;
 
-        loginMenu.print("please enter your new password:");
+        print("please enter your new password:");
         String newPassword = loginMenu.scan();
 
         if(!CheckValidation.isPasswordStrong(newPassword).equals(LoginMenuMessages.PASSWORD_IS_STRONG))

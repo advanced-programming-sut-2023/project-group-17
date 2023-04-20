@@ -95,11 +95,8 @@ public class LoginMenu extends Menu {
         new SignupMenu().run(scanner);
     }
 
-    public void print(String string){
-        System.out.println(string);
-    }
-
     public String scan(){
         return scanner.nextLine();
     }
+
 }

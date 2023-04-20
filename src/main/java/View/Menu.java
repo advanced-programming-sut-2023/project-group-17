@@ -13,4 +13,8 @@ public abstract class Menu {
     public static boolean checkBlankField(String matcherGroup) {
         return matcherGroup==null;
     }
+
+    public static void print(String string){
+        System.out.println(string);
+    }
 }
