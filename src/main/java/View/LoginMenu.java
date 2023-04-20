@@ -64,11 +64,26 @@ public class LoginMenu extends Menu {
 
         switch (controller.forgetPassword(this , username)) {
             case WRONG_PASSWORD_RECOVERY_ANSWER:
-                System.out.println("error : your answer is not correct");
+                System.out.println("password change failed : your answer is not correct");
                 break;
             case USERNAME_DOES_NOT_EXISTS:
-                System.out.println("error : username does not exist");
+                System.out.println("password change failed : username does not exist");
                 break;
+            case SHORT_PASSWORD:
+                System.out.println("password change failed : your password must contain mare than five characters");
+                break;
+            case PASSWORD_DOES_NOT_CONTAIN_INTEGER:
+                System.out.println("password change failed : your password must contain at least one integer");
+                break;
+            case PASSWORD_DOES_NOT_CONTAIN_UPPERCASE:
+                System.out.println("password change failed : your password must contain at least one uppercase character");
+                break;
+            case PASSWORD_DOES_NOT_CONTAIN_LOWERCASE:
+                System.out.println("password change failed : your password must contain at least one lowercase character");
+                break;
+            case PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER:
+                System.out.println("password change failed : your password must contain at least" +
+                        " one character other than letters and numbers");
             case SUCCESS:
                 System.out.println("password changed successfully");
                 break;

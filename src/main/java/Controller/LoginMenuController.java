@@ -1,8 +1,10 @@
 package Controller;
 
 import Model.User;
+import Utils.CheckValidation;
 import View.Enums.Messages.LoginMenuMessages;
 import View.LoginMenu;
+import jdk.jshell.execution.Util;
 
 import java.util.Scanner;
 
@@ -36,7 +38,9 @@ public class LoginMenuController {
 
         loginMenu.print("please enter your new password:");
         String newPassword = loginMenu.scan();
-        //TODO password validation method
+
+        if(!CheckValidation.isPasswordStrong(newPassword).equals(LoginMenuMessages.PASSWORD_IS_STRONG))
+            return CheckValidation.isPasswordStrong(newPassword);
 
         user.setPassword(newPassword);
         return LoginMenuMessages.SUCCESS;
