@@ -7,14 +7,15 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class TradeMenu extends Menu {
-    private TradeMenuController tradeMenuController;
+    private TradeMenuController controller;
 
     public TradeMenu(){
-        this.tradeMenuController = new TradeMenuController();
+        this.controller = new TradeMenuController();
     }
 
     @Override
     public void run(Scanner scanner) {
+        showUsersInTheGame();
         String command = null;
         Matcher matcher;
 
@@ -34,15 +35,69 @@ public class TradeMenu extends Menu {
         }
     }
 
+    private void showUsersInTheGame(){
+        System.out.print(controller.showUsersInTheGame());
+    }
+
     private void tradeList() {
     }
 
     private void tradeRequest(Matcher matcher) {
+        if(checkBlankField(matcher.group("resourceType")) || checkBlankField(matcher.group("resourceAmount")) ||
+        checkBlankField(matcher.group("price")) || checkBlankField(matcher.group("message")) ||
+        checkBlankField(matcher.group("username"))) {
+            System.out.println("send trade request failed : blank field");
+            return;
+        }
+
+
+        String resourceType = matcher.group("resourceType");
+        int resourceAmount = Integer.parseInt(matcher.group("resourceAmount"));
+        int price = Integer.parseInt(matcher.group("price"));
+        String message = handleDoubleQuote(matcher.group("message"));
+        String username = handleDoubleQuote(matcher.group("username"));
+
+        switch (controller.tradeRequest(resourceType , resourceAmount , price , message , username)) {
+            case INVALID_AMOUNT:
+                System.out.println("send trade request failed : invalid amount");
+                break;
+            case INVALID_PRICE:
+                System.out.println("send trade request failed : invalid price");
+                break;
+            case INSUFFICIENT_RESOURCE_AMOUNT:
+                System.out.println("send trade request failed : insufficient resource inventory");
+                break;
+            case INVALID_RESOURCE_TYPE:
+                System.out.println("send trade request failed : invalid resource type");
+                break;
+            case USERNAME_DOES_NOT_EXIST:
+                System.out.println("send trade request failed : username does not exist");
+                break;
+            case SUCCESS:
+                System.out.println("trade request sent successfully");
+                break;
+        }
     }
 
     private void tradeHistory(Matcher matcher) {
     }
 
     private void acceptTrade(Matcher matcher) {
+        if(checkBlankField(matcher.group("id")) || checkBlankField(matcher.group("message"))) {
+            System.out.println("trade accept failed : blank field");
+            return;
+        }
+
+        int id = Integer.parseInt(matcher.group("id"));
+        String message = handleDoubleQuote(matcher.group("message"));
+
+        switch (controller.acceptTrade(id , message)) {
+            case ID_DOES_NOT_EXISTS:
+                System.out.println("trade accept failed : id does not exist");
+                break;
+            case SUCCESS:
+                System.out.println("trade accepted successfully");
+                break;
+        }
     }
 }

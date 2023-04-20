@@ -20,7 +20,7 @@ public class LoginMenuController {
         if(!user.getPassword().equals(password))
             return SignupAndLoginMenuMessages.WRONG_PASSWORD;
 
-        //TODO handle stay logged in
+        //TODO: handle stay logged in
         setLoggedInUser(user);
         return SignupAndLoginMenuMessages.SUCCESS;
     }
@@ -39,7 +39,7 @@ public class LoginMenuController {
         String newPassword = loginMenu.scan();
 
         if(!CheckValidation.isPasswordStrong(newPassword).equals(SignupAndLoginMenuMessages.PASSWORD_IS_STRONG))
-            return CheckValidation.isPasswordStrong(newPassword);
+            return (LoginMenuMessages) CheckValidation.isPasswordStrong(newPassword);
 
         user.setPassword(newPassword);
         return SignupAndLoginMenuMessages.SUCCESS;

@@ -8,6 +8,7 @@ public class Database {
     private static final ArrayList<User> users = new ArrayList<>();
     private static final ArrayList<MapCell> currentMapGame = new ArrayList<>();
     private static final ArrayList<String> recoveryQuestions = new ArrayList<>();
+    private static final ArrayList<User> usersInTheGame = new ArrayList<>();
     private static User loggedInUser = null;
     private static int turnsPassed = 0;
     private static int totalTurns = 0;
@@ -20,6 +21,18 @@ public class Database {
 
     public static ArrayList<User> getUsers() {
         return users;
+    }
+
+    public static ArrayList<User> getUesrsInTheGame(){
+        return usersInTheGame;
+    }
+
+    public static User getUserInTheGameByUsername(String username){
+        for (User user : getUesrsInTheGame()) {
+            if(user.getUsername().equals(username))
+                return user;
+        }
+        return null;
     }
 
     public static User getUserByUsername(String username) {

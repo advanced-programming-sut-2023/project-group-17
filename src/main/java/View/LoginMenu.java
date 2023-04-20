@@ -33,7 +33,7 @@ public class LoginMenu extends Menu {
 
     private void loginUser(Matcher matcher) {
         if(checkBlankField(matcher.group("username")) || checkBlankField(matcher.group("password"))) {
-            System.out.println("error : blank field");
+            System.out.println("login failed : blank field");
             return;
         }
 
@@ -43,20 +43,20 @@ public class LoginMenu extends Menu {
 
         switch (controller.loginUser(username , password , stayLoggedIn)){
             case SUCCESS:
-                System.out.println("user " + username + " logged in successfully");
+                System.out.println("login failed " + username + " logged in successfully");
                 break;
             case WRONG_PASSWORD:
-                System.out.println("error : password is not correct");
+                System.out.println("login failed : password is not correct");
                 break;
             case USERNAME_DOES_NOT_EXISTS:
-                System.out.println("error : username does not exist");
+                System.out.println("login failed : username does not exist");
                 break;
         }
     }
 
     private void forgetPassword(Scanner scanner , Matcher matcher) {
         if(checkBlankField(matcher.group("username"))) {
-            System.out.println("error : blank field");
+            System.out.println("password change failed : blank field");
             return;
         }
 
