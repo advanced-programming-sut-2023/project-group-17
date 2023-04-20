@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Database;
 import Model.User;
+import View.Enums.Messages.EmpireMenuMessages;
 
 public class EmpireMenuController {
 
@@ -21,7 +22,7 @@ public class EmpireMenuController {
         return null;
     }
 
-    public String setFoodRate(int foodRate) {
+    public EmpireMenuMessages setFoodRate(int foodRate) {
         return null;
     }
 
@@ -29,7 +30,7 @@ public class EmpireMenuController {
         return null;
     }
 
-    public String setTaxRate(int taxRate) {
+    public EmpireMenuMessages setTaxRate(int taxRate) {
         return null;
     }
 
@@ -37,7 +38,7 @@ public class EmpireMenuController {
         return null;
     }
 
-    public String setFearRate(int fearRate) {
+    public EmpireMenuMessages setFearRate(int fearRate) {
         return null;
     }
 

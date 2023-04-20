@@ -14,7 +14,7 @@ public enum EmpireMenuCommands {
     SET_FEAR_RATE("\\s*fear\\s+rate\\s+-r\\s+(?<rateNumber>\\d)\\s*"),
     SHOW_FEAR_RATE("\\s*fear\\s+rate\\s+show\\s*"),
     BACK("\\s*back\\s*");
-   String regex;
+   final String regex;
    private EmpireMenuCommands(String regex) {
        this.regex = regex;
    }

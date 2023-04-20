@@ -12,7 +12,7 @@ public enum BuildingMenuCommands {
     REPAIR("\\s*repair\\s*"),
     BACK("\\s*back\\s*")
     ;
-    String regex;
+    final String regex;
     private BuildingMenuCommands(String regex) {this.regex = regex;}
 
     public static Matcher getMatcher(String input, BuildingMenuCommands regex) {

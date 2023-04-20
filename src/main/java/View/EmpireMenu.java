@@ -2,6 +2,7 @@ package View;
 
 import Controller.EmpireMenuController;
 import View.Enums.Commands.EmpireMenuCommands;
+import View.Enums.Messages.EmpireMenuMessages;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -59,7 +60,14 @@ public class EmpireMenu extends Menu {
             return;
         }
         int foodRate = Integer.parseInt(matcher.group("rateNumber"));
-        System.out.println(controller.setFoodRate(foodRate));
+        switch (controller.setFoodRate(foodRate)) {
+            case SUCCESS:
+                System.out.println("Now the food rate is : " + foodRate);
+                break;
+            case INVALID_NUMBER:
+                System.out.println("The number you entered is invalid");
+                break;
+        }
     }
 
     private void showFoodRate() {
@@ -72,7 +80,14 @@ public class EmpireMenu extends Menu {
             return;
         }
         int taxRate = Integer.parseInt(matcher.group("rateNumber"));
-        System.out.println(controller.setTaxRate(taxRate));
+        switch (controller.setTaxRate(taxRate)) {
+            case SUCCESS:
+                System.out.println("Now the tax rate is : " + taxRate);
+                break;
+            case INVALID_NUMBER:
+                System.out.println("The number you entered is invalid");
+                break;
+        }
     }
 
     private void showTaxRate() {
@@ -85,7 +100,14 @@ public class EmpireMenu extends Menu {
             return;
         }
         int fearRate = Integer.parseInt(matcher.group("rateNumber"));
-        System.out.println(controller.setFearRate(fearRate));
+        switch (controller.setFearRate(fearRate)) {
+            case SUCCESS:
+                System.out.println("Now the fear rate is : " + fearRate);
+                break;
+            case INVALID_NUMBER:
+                System.out.println("The number you entered is invalid");
+                break;
+        }
     }
 
     private void showFearRate() {

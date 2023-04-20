@@ -4,8 +4,11 @@ import Controller.MainMenuController;
 import Model.User;
 import View.Enums.Commands.MainMenuCommands;
 
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.regex.Matcher;
+import View.Enums.Messages.MainMenuMessages;
+
 
 public class MainMenu extends Menu {
 
@@ -49,6 +52,9 @@ public class MainMenu extends Menu {
         }
         int turnsNumber = Integer.parseInt(matcher.group("turnsNumber"));
         String users = Menu.handleDoubleQuote(matcher.group("users"));
-        System.out.println(controller.startNewGame(users, turnsNumber));
+        if (Objects.requireNonNull(controller.startNewGame(users, turnsNumber))
+                .equals(MainMenuMessages.USERNAME_DOES_NOT_EXIST)) {
+            System.out.println("Username does not exist");
+        }
     }
 }

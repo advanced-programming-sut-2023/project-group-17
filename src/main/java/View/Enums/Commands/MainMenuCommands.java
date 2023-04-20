@@ -9,7 +9,7 @@ public enum MainMenuCommands {
     START_NEW_GAME("\\s*start\\s+new\\s+game\\s+(?:(-t\\s+)(?<turnsNumber>\\d)?(\\s*)()" +
             "|(-u\\s+)(?<users>.+)?(\\s*)()){2}\\4\\8")
     ;
-    String regex;
+    final String regex;
     private MainMenuCommands(String regex) {this.regex = regex;}
 
     public static Matcher getMatcher(String input, MainMenuCommands regex) {

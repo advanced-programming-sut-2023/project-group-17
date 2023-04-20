@@ -21,7 +21,7 @@ public enum MapMenuCommands {
     DROP_UNIT("\\s*dropunit\\s+(?:(-x\\s*)(?<x>\\d)?(\\s*)()|(-y\\s*)(?<y>\\d)?(\\s*)()|" +
             "(-type\\s*)(\\S+)?(\\s*)()|(-c\\s*)(?<count>\\d)(\\s*)()){4}\\4\\8\\12\\16"),
     EXIT("\\s*exit\\s*");
-    String regex;
+    final String regex;
     private MapMenuCommands(String regex) {
         this.regex = regex;
     }
