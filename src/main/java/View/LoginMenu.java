@@ -8,12 +8,14 @@ import java.util.regex.Matcher;
 
 public class LoginMenu extends Menu {
     private LoginMenuController controller;
+    private Scanner scanner;
 
     public LoginMenu(){
          this.controller = new LoginMenuController();
     }
 
     public void run(Scanner scanner){
+        this.scanner = scanner;
         String command;
         Matcher matcher = null;
 
@@ -60,7 +62,7 @@ public class LoginMenu extends Menu {
 
         String username = handleDoubleQuote(matcher.group("username"));
 
-        switch (controller.forgetPassword(scanner , username)){
+        switch (controller.forgetPassword(this , username)) {
             case WRONG_PASSWORD_RECOVERY_ANSWER:
                 System.out.println("error : your answer is not correct");
                 break;
@@ -75,5 +77,13 @@ public class LoginMenu extends Menu {
 
     private void enterSignupMenu() {
 
+    }
+
+    public void print(String string){
+        System.out.println(string);
+    }
+
+    public String scan(){
+        return scanner.nextLine();
     }
 }
