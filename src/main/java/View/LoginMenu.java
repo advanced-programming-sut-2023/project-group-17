@@ -1,6 +1,6 @@
 package View;
 
-import Controller.LoginMenuController;
+import  Controller.LoginMenuController;
 import View.Enums.Commands.LoginMenuCommands;
 
 import java.util.Scanner;

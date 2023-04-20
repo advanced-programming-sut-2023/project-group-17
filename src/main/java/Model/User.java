@@ -11,6 +11,14 @@ public class User {
     private String passwordRecoveryAnswer;
     private Empire empire;
 
+    public User(String username, String password, String nickname, String email, String slogan) {
+        this.username = username;
+        this.password = password;
+        this.nickname = nickname;
+        this.email = email;
+        this.slogan = slogan;
+    }
+
     public String getUsername() {
         return username;
     }

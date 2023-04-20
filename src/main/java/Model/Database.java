@@ -3,14 +3,20 @@ package Model;
 import Model.Items.ArmorAndWeapon;
 
 import java.util.ArrayList;
-import java.util.regex.Matcher;
 
 public class Database {
     private static final ArrayList<User> users = new ArrayList<>();
     private static final ArrayList<MapCell> currentMapGame = new ArrayList<>();
+    private static final ArrayList<String> recoveryQuestions = new ArrayList<>();
     private static User loggedInUser = null;
     private static int turnsPassed = 0;
     private static int totalTurns = 0;
+
+    static {
+        recoveryQuestions.add("1. What is my father's name?");
+        recoveryQuestions.add("2. What was my first pet's name?");
+        recoveryQuestions.add("3. What is my mother's last name?");
+    }
 
     public static ArrayList<User> getUsers() {
         return users;
@@ -22,6 +28,18 @@ public class Database {
                 return user;
         }
         return null;
+    }
+
+    public static boolean emailExists(String email) {
+        for (User user : users) {
+            if(user.getEmail().equals(email))
+                return true;
+        }
+        return false;
+    }
+
+    public static String getQuestionByNumber(Integer questionNumber) {
+        return recoveryQuestions.get(questionNumber - 1);
     }
 
     public static ArrayList<MapCell> getCurrentMapGame() {

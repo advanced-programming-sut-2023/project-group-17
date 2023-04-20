@@ -1,20 +1,20 @@
 package Utils;
 
-import View.Enums.Messages.LoginMenuMessages;
+import View.Enums.Messages.SignupAndLoginMenuMessages;
 
 public class CheckValidation {
-    public static LoginMenuMessages isPasswordStrong(String password) {
+    public static SignupAndLoginMenuMessages isPasswordStrong(String password) {
         if(password.length() < 6)
-            return LoginMenuMessages.SHORT_PASSWORD;
+            return SignupAndLoginMenuMessages.SHORT_PASSWORD;
         if(!password.matches(".*[a-z].*"))
-            return LoginMenuMessages.PASSWORD_DOES_NOT_CONTAIN_LOWERCASE;
+            return SignupAndLoginMenuMessages.PASSWORD_DOES_NOT_CONTAIN_LOWERCASE;
         if(!password.matches(".*[A-Z].*"))
-            return LoginMenuMessages.PASSWORD_DOES_NOT_CONTAIN_UPPERCASE;
+            return SignupAndLoginMenuMessages.PASSWORD_DOES_NOT_CONTAIN_UPPERCASE;
         if(!password.matches(".*[0-9].*"))
-            return LoginMenuMessages.PASSWORD_DOES_NOT_CONTAIN_INTEGER;
+            return SignupAndLoginMenuMessages.PASSWORD_DOES_NOT_CONTAIN_INTEGER;
         if(!password.matches(".*[!@#$%^&\\-+?*.].*"))
-            return LoginMenuMessages.PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER;
+            return SignupAndLoginMenuMessages.PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER;
 
-        return LoginMenuMessages.PASSWORD_IS_STRONG;
+        return SignupAndLoginMenuMessages.PASSWORD_IS_STRONG;
     }
 }
