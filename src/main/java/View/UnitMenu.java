@@ -1,6 +1,7 @@
 package View;
 
 import Controller.UnitMenuController;
+import View.Enums.Commands.UnitMenuCommands;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -14,7 +15,41 @@ public class UnitMenu extends Menu {
 
     @Override
     public void run(Scanner scanner) {
+        Matcher matcher;
+        String command;
 
+        while(true) {
+            command = scanner.nextLine();
+            if((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.SELECT_UNIT)) != null)
+                selectUnit(matcher);
+            else if((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.MOVE_UNIT)) != null)
+                moveUnit(matcher);
+            else if((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.PATROL_UNIT)) != null)
+                patrolUnit(matcher);
+            else if((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.SET_UNIT_MODE)) != null)
+                setUnitMood(matcher);
+            else if((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.ATTACK_ENEMY)) != null)
+                attackEnemy(matcher);
+            else if((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.AIR_ATTACK)) != null)
+                airAttack(matcher);
+            else if((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.POUR_OIL)) != null)
+                pourOil(matcher);
+            else if((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.DIG_TUNNEL)) != null)
+                digTunnel(matcher);
+            else if((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.BUILD_SURROUNDING_EQUIPMENT)) != null)
+                buildSurroundingEquipment(matcher);
+            else if((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.DISBAND_UNIT)) != null)
+                disbandUnit(matcher);
+            else if((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.DIG_MOAT)) != null)
+                digMoat(matcher);
+            else if((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.BURN_OIL)) != null)
+                burnOil();
+            else if((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.FILL_MOAT)) != null)
+                fillMoat(matcher);
+            else if((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.BACK)) != null)
+                return;
+            else System.out.println("Invalid Command");
+        }
     }
 
     private void selectUnit(Matcher matcher) {
