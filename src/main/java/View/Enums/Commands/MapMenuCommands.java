@@ -5,15 +5,22 @@ import java.util.regex.Pattern;
 
 public enum MapMenuCommands {
     SHOW_MAP(""),
-    MOVE_MAP(""),
-    SHOW_DETAILS(""),
-    SET_TEXTURE(""),
-    CLEAR_BLOCK(""),
-    DROP_ROCK(""),
-    DROP_TREE(""),
-    DROP_BUILDING(""),
-    DROP_UNIT(""),
-    EXIT("");
+    MOVE_MAP("\\s*map\\s+"),
+    SHOW_DETAILS("\\s*show\\s+details\\s+(?:(-x\\s+)(?<x>\\d)?(\\s*)()|(-y\\s+)(?<y>\\d)?(\\s*)()){2}\\4\\8"),
+    SET_TEXTURE_ONE_BLOCK("\\s*settexture\\s+(?:(-x\\s+)(?<x>\\d)?(\\s*)()|(-y\\s+)(?<y>\\d)?(\\s*)()|" +
+            "(-type\\s+)(\\S+)?(\\s*)()){3}\\4\\8\\12"),
+    SET_TEXTURE_MULTIPLE_BLOCKS("\\s*settexture\\s+(?:(-x1\\s+)(?<x1>\\d)?(\\s*)()|(-y1\\s+)(?<y1>\\d)?(\\s*)()|" +
+            "(-x2\\s+)(?<x2>\\d)?(\\s*)()|(-y2\\s+)(?<y2>\\d)?(\\s*)()|(-type\\s+)(\\S+)?(\\s*)()){5}\\4\\8\\12\\16\\20"),
+    CLEAR_BLOCK("\\s*clear\\s+block\\s+(?:(-x\\s+)(?<x>\\d)?(\\s*)()|(-y\\s+)(?<y>\\d)?(\\s*)()){2}\\4\\8"),
+    DROP_ROCK("\\s*droprock\\s+(?:(-x\\s+)(?<x>\\d)?(\\s*)()|(-y\\s+)(?<y>\\d)?(\\s*)()|" +
+            "(-direction\\s+)(\\S+)?(\\s*)()){3}\\4\\8\\12"),
+    DROP_TREE("\\s*droptree\\s+(?:(-x\\s+)(?<x>\\d)?(\\s*)()|(-y\\s+)(?<y>\\d)?(\\s*)()|" +
+            "(-type\\s+)(\\S+)?(\\s*)()){3}\\4\\8\\12"),
+    DROP_BUILDING("\\s*dropbuilding\\s+(?:(-x\\s+)(?<x>\\d)?(\\s*)()|(-y\\s+)(?<y>\\d)?(\\s*)()|" +
+            "(-type\\s+)(\\S+)?(\\s*)()){3}\\4\\8\\12"),
+    DROP_UNIT("\\s*dropunit\\s+(?:(-x\\s+)(?<x>\\d)?(\\s*)()|(-y\\s+)(?<y>\\d)?(\\s*)()|" +
+            "(-type\\s+)(\\S+)?(\\s*)()|(-c\\s+)(?<count>\\d)(\\s*)()){4}\\4\\8\\12\\16"),
+    EXIT("\\s*exit\\s*");
     String regex;
     private MapMenuCommands(String regex) {
         this.regex = regex;

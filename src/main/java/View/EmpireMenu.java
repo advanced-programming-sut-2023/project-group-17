@@ -36,6 +36,7 @@ public class EmpireMenu extends Menu {
                 setFearRate();
             else if ((matcher = EmpireMenuCommands.getMatcher(command, EmpireMenuCommands.SHOW_FEAR_RATE)) != null)
                 showFearRate();
+            else if ((matcher = EmpireMenuCommands.getMatcher(command, EmpireMenuCommands.BACK)) != null) return;
             else System.out.println("Invalid Command");
         }
     }

@@ -22,7 +22,9 @@ public class MapMenu extends Menu{
                 moveMap(matcher);
             else if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.SHOW_DETAILS)) != null)
                 showDetails(matcher);
-            else if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.SET_TEXTURE)) != null)
+            else if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.SET_TEXTURE_ONE_BLOCK)) != null)
+                setTexture(matcher);
+            else if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.SET_TEXTURE_MULTIPLE_BLOCKS)) != null)
                 setTexture(matcher);
             else if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.CLEAR_BLOCK)) != null)
                 clearBlock(matcher);
@@ -34,6 +36,7 @@ public class MapMenu extends Menu{
                 dropBuilding(matcher);
             else if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.DROP_UNIT)) != null)
                 dropUnit(matcher);
+            else if ((matcher = MapMenuCommands.getMatcher(command,MapMenuCommands.EXIT)) != null) return;
             else System.out.println("Invalid Command");
         }
     }
