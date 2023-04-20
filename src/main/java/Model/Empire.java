@@ -15,6 +15,8 @@ public class Empire {
     private ArrayList<Person> people;
     private ArrayList<ArmorAndWeapon> weapons;
     private ArrayList<Animal> animals;
+    private ArrayList<TradeRequest> recievedTradeRequests;
+    private ArrayList<TradeRequest> sentTradeRequests;
     private int fearRate;
     private int taxRate;
     private int foodRate;
@@ -27,6 +29,8 @@ public class Empire {
         this.people = new ArrayList<Person>();
         this.weapons = new ArrayList<ArmorAndWeapon>();
         this.animals = new ArrayList<Animal>();
+        this.recievedTradeRequests = new ArrayList<>();
+        this.acceptedTradeRequests = new ArrayList<>();
         this.fearRate = 0;
         this.taxRate = 0;
         this.foodRate = 0;
@@ -53,6 +57,14 @@ public class Empire {
 
     public ArrayList<Animal> getAnimals() {
         return animals;
+    }
+
+    public ArrayList<TradeRequest> getRecievedTradeRequests() {
+        return recievedTradeRequests;
+    }
+
+    public ArrayList<TradeRequest> getSentTradeRequests() {
+        return sentTradeRequests;
     }
 
     public int getFearRate() {

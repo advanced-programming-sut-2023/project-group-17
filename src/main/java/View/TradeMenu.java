@@ -15,6 +15,7 @@ public class TradeMenu extends Menu {
 
     @Override
     public void run(Scanner scanner) {
+        showRequestsNotifications();
         showUsersInTheGame();
         String command = null;
         Matcher matcher;
@@ -35,11 +36,16 @@ public class TradeMenu extends Menu {
         }
     }
 
+    private void showRequestsNotifications() {
+        System.out.print("your new trade requests: " + "\n" + controller.showRequestsNotification());
+    }
+
     private void showUsersInTheGame(){
         System.out.print(controller.showUsersInTheGame());
     }
 
     private void tradeList() {
+        System.out.print(controller.tradeList());
     }
 
     private void tradeRequest(Matcher matcher) {
@@ -80,6 +86,7 @@ public class TradeMenu extends Menu {
     }
 
     private void tradeHistory(Matcher matcher) {
+        System.out.print(controller.tradeHistory());
     }
 
     private void acceptTrade(Matcher matcher) {

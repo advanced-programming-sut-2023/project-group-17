@@ -5,12 +5,14 @@ import View.TradeMenu;
 public class TradeRequest {
     private final User senderUser;
     private final User recieverUser;
-    private static int id = 1;
+    private static int idCount = 1;
+    private final int id;
     private final String resourceType;
     private final int resourceAmount;
     private final int price;
     private final String message;
-    boolean isAccepted;
+    boolean isAccepted = false;
+    boolean isSeen = false;
 
     public TradeRequest(User senderUser, User recieverUser, String resourceType, int resourceAmount, int price, String message) {
         this.senderUser = senderUser;
@@ -19,12 +21,15 @@ public class TradeRequest {
         this.resourceAmount = resourceAmount;
         this.price = price;
         this.message = message;
-        id++;
+        this.id = idCount;
+        idCount++;
     }
 
-    public void setAccepted(boolean accepted) {
-        isAccepted = accepted;
+    public void setAccepted() {
+        this.isAccepted = true;
     }
+
+    public void setSeen() {this.isSeen = true; }
 
     public User getSenderUser() {
         return senderUser;
@@ -34,7 +39,7 @@ public class TradeRequest {
         return recieverUser;
     }
 
-    public static int getId() {
+    public int getId() {
         return id;
     }
 
@@ -53,8 +58,10 @@ public class TradeRequest {
     public String getMessage() {
         return message;
     }
-
     public boolean isAccepted() {
         return isAccepted;
+    }
+    public boolean isSeen() {
+        return isSeen;
     }
 }
