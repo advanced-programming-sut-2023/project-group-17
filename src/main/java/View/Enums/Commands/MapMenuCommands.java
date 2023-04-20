@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public enum MapMenuCommands {
     SHOW_MAP(""),
-    MOVE_MAP("\\s*map\\s+"),
+    MOVE_MAP("\\s*map\\s+(?<direction>.+)"),
     SHOW_DETAILS("\\s*show\\s+details\\s+(?:(-x\\s*)(?<x>\\d)?(\\s*)()|(-y\\s*)(?<y>\\d)?(\\s*)()){2}\\4\\8"),
     SET_TEXTURE_ONE_BLOCK("\\s*settexture\\s+(?:(-x\\s*)(?<x>\\d)?(\\s*)()|(-y\\s*)(?<y>\\d)?(\\s*)()|" +
             "(-type\\s*)(\\S+)?(\\s*)()){3}\\4\\8\\12"),

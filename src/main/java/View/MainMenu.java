@@ -31,7 +31,7 @@ public class MainMenu extends Menu {
                     return;
             else if ((matcher = MainMenuCommands.getMatcher(command, MainMenuCommands.START_NEW_GAME)) != null)
                 startNewGame(matcher);
-            else System.out.println("invalid command");
+            else System.out.println("Invalid Command");
         }
     }
 
@@ -47,14 +47,14 @@ public class MainMenu extends Menu {
     }
     private void startNewGame(Matcher matcher) {
         if (Menu.checkBlankField(matcher.group("turnsNumber")) || Menu.checkBlankField(matcher.group("users"))) {
-            System.out.println("error : blank field");
+            System.out.println("Start new game failed : blank field");
             return;
         }
         int turnsNumber = Integer.parseInt(matcher.group("turnsNumber"));
         String users = Menu.handleDoubleQuote(matcher.group("users"));
         if (Objects.requireNonNull(controller.startNewGame(users, turnsNumber))
                 .equals(MainMenuMessages.USERNAME_DOES_NOT_EXIST)) {
-            System.out.println("Username does not exist");
+            System.out.println("Start new game failed : Username does not exist");
         }
     }
 }

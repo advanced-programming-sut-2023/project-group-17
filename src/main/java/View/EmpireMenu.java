@@ -56,7 +56,7 @@ public class EmpireMenu extends Menu {
 
     private void setFoodRate(Matcher matcher) {
         if (Menu.checkBlankField(matcher.group("rateNumber"))) {
-            System.out.println("error : blank field");
+            System.out.println("Set food rate failed : blank field");
             return;
         }
         int foodRate = Integer.parseInt(matcher.group("rateNumber"));
@@ -65,7 +65,7 @@ public class EmpireMenu extends Menu {
                 System.out.println("Now the food rate is : " + foodRate);
                 break;
             case INVALID_NUMBER:
-                System.out.println("The number you entered is invalid");
+                System.out.println("Set food rate failed : The number is invalid");
                 break;
         }
     }
@@ -76,7 +76,7 @@ public class EmpireMenu extends Menu {
 
     private void setTaxRate(Matcher matcher) {
         if (Menu.checkBlankField(matcher.group("rateNumber"))) {
-            System.out.println("error : blank field");
+            System.out.println("Set tax rate failed : blank field");
             return;
         }
         int taxRate = Integer.parseInt(matcher.group("rateNumber"));
@@ -85,7 +85,7 @@ public class EmpireMenu extends Menu {
                 System.out.println("Now the tax rate is : " + taxRate);
                 break;
             case INVALID_NUMBER:
-                System.out.println("The number you entered is invalid");
+                System.out.println("Set tax rate failed : The number is invalid");
                 break;
         }
     }
@@ -96,7 +96,7 @@ public class EmpireMenu extends Menu {
 
     private void setFearRate(Matcher matcher) {
         if (Menu.checkBlankField(matcher.group("rateNumber"))) {
-            System.out.println("error : blank field");
+            System.out.println("Set fear rate failed : blank field");
             return;
         }
         int fearRate = Integer.parseInt(matcher.group("rateNumber"));
@@ -105,7 +105,7 @@ public class EmpireMenu extends Menu {
                 System.out.println("Now the fear rate is : " + fearRate);
                 break;
             case INVALID_NUMBER:
-                System.out.println("The number you entered is invalid");
+                System.out.println("Set fear rate failed : The number is invalid");
                 break;
         }
     }

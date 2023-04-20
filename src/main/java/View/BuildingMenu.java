@@ -26,14 +26,14 @@ public class BuildingMenu extends Menu{
             else if ((matcher = BuildingMenuCommands.getMatcher(command, BuildingMenuCommands.REPAIR)) != null)
                 repair();
             else if ((matcher = BuildingMenuCommands.getMatcher(command, BuildingMenuCommands.BACK)) != null) return;
-            else System.out.println("invalid command");
+            else System.out.println("Invalid Command");
         }
     }
 
     private void dropBuilding(Matcher matcher) {
         if (Menu.checkBlankField(matcher.group("x")) || Menu.checkBlankField(matcher.group("y")) ||
         Menu.checkBlankField(matcher.group("type"))) {
-            System.out.println("error : blank field");
+            System.out.println("Drop building failed : blank field");
             return;
         }
         int x = Integer.parseInt(matcher.group("x"));
@@ -44,26 +44,26 @@ public class BuildingMenu extends Menu{
                 System.out.println("The building successfully dropped");
                 break;
             case X_OUT_OF_BOUNDS:
-                System.out.println("Coordinate of x is out of bounds");
+                System.out.println("Drop building failed : Coordinate of x is out of bounds");
                 break;
             case Y_OUT_OF_BOUNDS:
-                System.out.println("Coordinate of y is out of bounds");
+                System.out.println("Drop building failed : Coordinate of y is out of bounds");
                 break;
             case INVALID_TYPE:
-                System.out.println("Type of building you entered is invalid");
+                System.out.println("Drop building failed : Type of building is invalid");
                 break;
             case INAPPROPRIATE_TEXTURE:
-                System.out.println("Texture of this place is inappropriate for placing this building");
+                System.out.println("Drop building failed : Texture of this cell is inappropriate for placing this building");
                 break;
             case CELL_IS_FULL:
-                System.out.println("There is another building in this cell");
+                System.out.println("Drop building failed : Cell is full");
                 break;
         }
     }
 
     private void selectBuilding(Matcher matcher) {
         if (Menu.checkBlankField(matcher.group("x")) || Menu.checkBlankField(matcher.group("y"))) {
-            System.out.println("error : blank field");
+            System.out.println("Select building failed : blank field");
             return;
         }
         int x = Integer.parseInt(matcher.group("x"));
@@ -73,10 +73,10 @@ public class BuildingMenu extends Menu{
                 System.out.println("The building successfully selected");
                 break;
             case CELL_IS_EMPTY:
-                System.out.println("There is not any building in this cell");
+                System.out.println("Select building failed : There is not any building in this cell");
                 break;
             case OPPONENT_BUILDING:
-                System.out.println("The building belongs to your opponents");
+                System.out.println("Select building failed : The building belongs to your opponents");
                 break;
         }
     }
@@ -84,7 +84,7 @@ public class BuildingMenu extends Menu{
     private void createUnit(Matcher matcher) {
         if (Menu.checkBlankField(matcher.group("type")) || Menu.checkBlankField(matcher.group("count")) ||
                 Menu.checkBlankField(matcher.group("type"))) {
-            System.out.println("error : blank field");
+            System.out.println("Create unit failed : blank field");
             return;
         }
         String type = Menu.handleDoubleQuote(matcher.group("type"));
@@ -94,16 +94,16 @@ public class BuildingMenu extends Menu{
                 System.out.println("Units successfully crated");
                 break;
             case INVALID_NUMBER:
-                System.out.println("The number you entered is invalid");
+                System.out.println("Create unit failed : The number is invalid");
                 break;
             case INSUFFICIENT_STORAGE:
-                System.out.println("There is not enough resource for creating units");
+                System.out.println("Create unit failed : Lack of resource for creating units");
                 break;
             case NOT_ENOUGH_CROWD:
-                System.out.println("There is not enough crowd for creating units");
+                System.out.println("Create unit failed : Lack of crowd for creating units");
                 break;
             case BUILDING_IS_NOT_SELECTED:
-                System.out.println("You did not select any building");
+                System.out.println("Create unit failed : Building is not selected");
                 break;
         }
     }
@@ -114,13 +114,13 @@ public class BuildingMenu extends Menu{
                 System.out.println("Units successfully crated");
                 break;
             case INSUFFICIENT_STONE:
-                System.out.println("There is not enough stone for repairing this building");
+                System.out.println("Repair failed : Lack stone for repairing this building");
                 break;
             case OPPONENT_SOLDIER_AROUND:
-                System.out.println("Opponent soldier is near this building");
+                System.out.println("Repair failed : Opponent soldier is near this building");
                 break;
             case BUILDING_IS_NOT_SELECTED:
-                System.out.println("You did not select any building");
+                System.out.println("Repair failed : Building is not selected");
                 break;
         }
     }
