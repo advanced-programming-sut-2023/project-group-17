@@ -1,5 +1,6 @@
 package View;
 
+import Controller.GameMenuController;
 import View.Enums.Commands.GameMenuCommands;
 
 import java.util.Scanner;
@@ -7,6 +8,9 @@ import java.util.regex.Matcher;
 
 public class GameMenu extends Menu {
 
+    private GameMenuController controller;
+
+    public GameMenu() { this.controller = new GameMenuController(); }
     @Override
     public void run(Scanner scanner) {
         String command = null;
@@ -40,15 +44,67 @@ public class GameMenu extends Menu {
 
             else System.out.println("Invalid Command");
         }
-
     }
 
     private void defineMapSize(Matcher matcher) {
+        if(checkBlankField(matcher.group("width")) || checkBlankField(matcher.group("length"))) {
+            System.out.println("define map size failed : blank field");
+            return;
+        }
+
+        int width = Integer.parseInt(matcher.group("width"));
+        int length = Integer.parseInt(matcher.group("length"));
+
+        switch (controller.defineMapSize(width , length)) {
+            case INVALID_LENGTH:
+                System.out.println("define map size failed : invalid length");
+                break;
+            case INVALID_WIDTH:
+                System.out.println("define map size failed : invalid width");
+                break;
+            case SUCCESS:
+                System.out.println("map size defined successfully");
+                break;
+        }
     }
 
     private void showMap(Matcher matcher) {
+        if(checkBlankField(matcher.group("x")) || checkBlankField(matcher.group("y"))) {
+            System.out.println("show map failed : blank field");
+            return;
+        }
+
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+
+        switch (controller.showMap(x , y)) {
+            case X_OUT_OF_BOUNDS:
+                System.out.println("show map failed : x out of bounds");
+                break;
+            case Y_OUT_OF_BOUNDS:
+                System.out.println("show map failed : y out of bounds");
+                break;
+            case SUCCESS:
+                //TODO: print map
+                break;
+        }
     }
 
     private void chooseMapGame(Matcher matcher) {
+        if(checkBlankField(matcher.group("id"))) {
+            System.out.println("choose map failed : blank field");
+            return;
+        }
+
+        int mapId = Integer.parseInt(matcher.group("id"));
+
+        switch (controller.chooseMapGame(mapId)) {
+            case INVALID_MAP_NUMBER:
+                System.out.println("choose map failed : id does not exist");
+                break;
+            case SUCCESS:
+                System.out.println("map chose successfully ");
+                break;
+        }
     }
 }
