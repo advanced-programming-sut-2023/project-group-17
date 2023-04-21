@@ -11,38 +11,45 @@ public class EmpireMenuController {
         this.user = Database.getLoggedInUser();
     }
     public String showPopularity() {
-        return null;
+        return user.getUsername() + "'s popularity rate is : " + user.getEmpire().getPopularityRate();
     }
 
     public String showPopularityFactors() {
-        return null;
+        return user.getEmpire().toString();
     }
 
     public String showFoodList() {
+        //TODO after completing food class
         return null;
     }
 
     public EmpireMenuMessages setFoodRate(int foodRate) {
-        return null;
+        if (foodRate < -2 || 2 < foodRate) return EmpireMenuMessages.INVALID_NUMBER;
+        user.getEmpire().setFoodRate(foodRate);
+        return EmpireMenuMessages.SUCCESS;
     }
 
     public String showFoodRate() {
-        return null;
+        return user.getUsername() + "'s food rate is : " + user.getEmpire().getFoodRate();
     }
 
     public EmpireMenuMessages setTaxRate(int taxRate) {
-        return null;
+        if (taxRate < -3 || 8 < taxRate) return EmpireMenuMessages.INVALID_NUMBER;
+        user.getEmpire().setTaxRate(taxRate);
+        return EmpireMenuMessages.SUCCESS;
     }
 
     public String showTaxRate() {
-        return null;
+        return user.getUsername() + "'s tax rate is : " + user.getEmpire().getTaxRate();
     }
 
     public EmpireMenuMessages setFearRate(int fearRate) {
-        return null;
+        if (fearRate < -5 || 5 < fearRate) return EmpireMenuMessages.INVALID_NUMBER;
+        user.getEmpire().setTaxRate(fearRate);
+        return EmpireMenuMessages.SUCCESS;
     }
 
     public String showFearRate() {
-        return null;
+        return user.getUsername() + "'s fear rate is : " + user.getEmpire().getFearRate();
     }
 }

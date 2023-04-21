@@ -137,4 +137,11 @@ public class Empire {
     public void changeCoins(double coins) {
         this.coins += coins;
     }
+    @Override
+    public String toString() {
+        return "1.Food : " + getFoodRate() + "\n" +
+                "2.Tax : " + getTaxRate() + "\n" +
+                "3.Religion : " + getReligionRate() + "\n" +
+                "4.Fear : " + getFearRate() ;
+    }
 }

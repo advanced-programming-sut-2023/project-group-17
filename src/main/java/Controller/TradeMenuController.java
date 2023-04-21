@@ -31,7 +31,7 @@ public class TradeMenuController {
     public String tradeList() {
         String result = "";
 
-        for (TradeRequest request : Database.getLoggedInUser().getEmpire().getRecievedTradeRequests()) {
+        for (TradeRequest request : Database.getLoggedInUser().getEmpire().getReceivedTradeRequests()) {
             result += tradeToString(request);
         }
 
@@ -42,7 +42,7 @@ public class TradeMenuController {
         String result = "";
 
         result += "Accepted Requests: " + "\n";
-        for (TradeRequest request : Database.getLoggedInUser().getEmpire().getRecievedTradeRequests()) {
+        for (TradeRequest request : Database.getLoggedInUser().getEmpire().getReceivedTradeRequests()) {
             if(request.isAccepted())
                 result += tradeToString(request);
         }
@@ -60,7 +60,7 @@ public class TradeMenuController {
     public String showRequestsNotification() {
         String result = "";
 
-        for (TradeRequest request : Database.getLoggedInUser().getEmpire().getRecievedTradeRequests()) {
+        for (TradeRequest request : Database.getLoggedInUser().getEmpire().getReceivedTradeRequests()) {
             if(!request.isSeen()){
                 result += "id " + request.getId() + ") from " + request.getSenderUser() +
                         " | message: " + request.getMessage() + "\n";
