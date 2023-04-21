@@ -32,5 +32,4 @@ public class Item {
     public void changeNumber(int number) {
         this.number += number;
     }
-    //TODO hashmap for items and getCost by name
 }
