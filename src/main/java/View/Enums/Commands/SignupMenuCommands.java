@@ -7,9 +7,9 @@ import java.util.regex.Pattern;
 
 public enum SignupMenuCommands {
     CREATE_USER("\\s*user\\s+create\\s+(?:(-u\\s*)(?<username>\".+\"|\\S+)?(\\s*)()|" +
-                    "(-p\\s*)(?<password>\".+\"|\\S+)?(\\s*)()|(-c\\s*)(?<confirmation>\".+\"|\\S+)?(\\s*)()|" +
-                    "(-email\\s*)(?<email>\".+\"|\\S+)?(\\s*)()|(-n\\s*)(?<nickname>\".+\"|\\S+)?(\\s*)()|" +
-                    "(-s\\s*)(?<slogan>\".+\"|\\S+)?(\\s*)()){5,}\\4\\8\\12\\16\\20"),
+                    "(-p\\s*)(?<password>\".+\"|\\S+)?(\\s*)((-c\\s*)(?<confirmation>\".+\"|\\S+)?(\\s*))?()|" +
+                    "(-e\\s*)(?<email>\".+\"|\\S+)?(\\s*)()|(-n\\s*)(?<nickname>\".+\"|\\S+)?(\\s*)()|" +
+                    "(-s\\s*)(?<slogan>\".+\"|\\S+)?(\\s*)()){4,}\\4\\12\\16\\20"),
     PICK_QUESTION("\\s*question\\s+pick\\s+(?:(-q\\s*)(?<questionNumber>\\d+)?(\\s*)()|" +
                     "(-a\\s*)(?<answer>\".+\"|\\S+)?(\\s*)()|" +
                     "(-c\\s*)(?<confirmation>\".+\"|\\S+)?(\\s*)()){3}\\4\\8\\12"),

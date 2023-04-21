@@ -8,14 +8,14 @@ import java.util.regex.Matcher;
 
 public class LoginMenu extends Menu {
     private LoginMenuController controller;
-    private Scanner scanner;
+//    private Scanner scanner;
 
     public LoginMenu(){
          this.controller = new LoginMenuController();
     }
 
     public void run(Scanner scanner){
-        this.scanner = scanner;
+//        this.scanner = scanner;
         String command;
         Matcher matcher = null;
 
@@ -95,8 +95,8 @@ public class LoginMenu extends Menu {
         new SignupMenu().run(scanner);
     }
 
-    public String scan(){
-        return scanner.nextLine();
-    }
+//    public String scan(){
+//        return scanner.nextLine();
+//    }
 
 }
