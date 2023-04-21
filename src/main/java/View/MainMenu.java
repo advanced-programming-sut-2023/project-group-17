@@ -52,9 +52,13 @@ public class MainMenu extends Menu {
         }
         int turnsNumber = Integer.parseInt(matcher.group("turnsNumber"));
         String users = Menu.handleDoubleQuote(matcher.group("users"));
-        if (Objects.requireNonNull(controller.startNewGame(users, turnsNumber))
-                .equals(MainMenuMessages.USERNAME_DOES_NOT_EXIST)) {
-            System.out.println("Start new game failed : Username does not exist");
+        switch (controller.startNewGame(users, turnsNumber)) {
+            case USERNAME_DOES_NOT_EXIST:
+                System.out.println("Start new game failed : Username does not exist");
+                break;
+            case INVALID_NUMBER:
+                System.out.println("Start new game failed : Invalid number");
+                break;
         }
     }
 }
