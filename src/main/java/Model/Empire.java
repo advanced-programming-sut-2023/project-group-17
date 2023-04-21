@@ -71,6 +71,13 @@ public class Empire {
         this.sentTradeRequests.add(tradeRequest);
     }
 
+    public TradeRequest getRecievedRequestById(int id) {
+        for (TradeRequest request : recievedTradeRequests) {
+            if(request.getId() == id) return request;
+        }
+        return null;
+    }
+
     public int getFearRate() {
         return fearRate;
     }

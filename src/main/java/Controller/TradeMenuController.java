@@ -5,14 +5,22 @@ import Model.TradeRequest;
 import Model.User;
 import View.Enums.Messages.TradeMenuMessages;
 
+import javax.xml.crypto.Data;
 import java.util.concurrent.LinkedBlockingDeque;
 
 public class TradeMenuController {
     public TradeMenuMessages tradeRequest(String resourceType, int resourceAmount, int price, String message, String username) {
 
+        TradeRequest tradeRequest = new TradeRequest(Database.getLoggedInUser(), Database.getUserByUsername(username),
+                resourceType, resourceAmount, price, message);
+        Database.getLoggedInUser().getEmpire().addSentTradeRequests(tradeRequest);
+        Database.getUserByUsername(username).getEmpire().addReceivedTradeRequests(tradeRequest);
+        return TradeMenuMessages.SUCCESS;
     }
 
     public TradeMenuMessages acceptTrade(int id, String message) {
+        Database.getLoggedInUser().getEmpire().getRecievedRequestById(id).setAccepted();
+        return TradeMenuMessages.SUCCESS;
 
     }
 

@@ -56,7 +56,6 @@ public class TradeMenu extends Menu {
             return;
         }
 
-
         String resourceType = matcher.group("resourceType");
         int resourceAmount = Integer.parseInt(matcher.group("resourceAmount"));
         int price = Integer.parseInt(matcher.group("price"));
