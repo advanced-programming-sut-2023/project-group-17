@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Database;
+import Model.Items.Resource;
 import Model.TradeRequest;
 import Model.User;
 import View.Enums.Messages.TradeMenuMessages;
@@ -10,6 +11,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 
 public class TradeMenuController {
     public TradeMenuMessages tradeRequest(String resourceType, int resourceAmount, int price, String message, String username) {
+        if(!Resource.contains(resourceType)) return TradeMenuMessages.INVALID_RESOURCE_TYPE;
 
         TradeRequest tradeRequest = new TradeRequest(Database.getLoggedInUser(), Database.getUserByUsername(username),
                 resourceType, resourceAmount, price, message);
