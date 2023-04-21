@@ -19,6 +19,7 @@ public class TradeMenuController {
     public String showUsersInTheGame() {
         String result = "";
         int index = 1;
+        result += "users currently in the game: " + "\n";
 
         for (User user : Database.getUesrsInTheGame()) {
             result += index + ") " + user.getUsername() + "\n";
@@ -32,7 +33,7 @@ public class TradeMenuController {
         String result = "";
 
         for (TradeRequest request : Database.getLoggedInUser().getEmpire().getReceivedTradeRequests()) {
-            result += tradeToString(request);
+            result += recievedTradeToString(request);
         }
 
         return result;
@@ -44,14 +45,12 @@ public class TradeMenuController {
         result += "Accepted Requests: " + "\n";
         for (TradeRequest request : Database.getLoggedInUser().getEmpire().getReceivedTradeRequests()) {
             if(request.isAccepted())
-                result += tradeToString(request);
+                result += recievedTradeToString(request);
         }
 
         result += "Sent Requests: " + "\n";
         for (TradeRequest request : Database.getLoggedInUser().getEmpire().getSentTradeRequests()) {
-            result += "id " + request.getId() + ") to " + request.getRecieverUser() + " | resource type: " +
-                    request.getResourceType() + " | amount: " + request.getResourceAmount() +
-                    " | price: " + request.getPrice() + " | message: " + request.getMessage() + "\n";
+            result += sentTradeToString(request);
         }
 
         return result;
@@ -71,8 +70,14 @@ public class TradeMenuController {
         return result;
     }
 
-    public String tradeToString(TradeRequest request){
+    public String recievedTradeToString(TradeRequest request){
         return "id " + request.getId() + ") from " + request.getSenderUser() + " | resource type: " +
+                request.getResourceType() + " | amount: " + request.getResourceAmount() +
+                " | price: " + request.getPrice() + " | message: " + request.getMessage() + "\n";
+    }
+
+    public String sentTradeToString(TradeRequest request){
+        return "id " + request.getId() + ") to " + request.getRecieverUser() + " | resource type: " +
                 request.getResourceType() + " | amount: " + request.getResourceAmount() +
                 " | price: " + request.getPrice() + " | message: " + request.getMessage() + "\n";
     }

@@ -29,7 +29,7 @@ public class TradeRequest {
         this.isAccepted = true;
     }
 
-    public void setSeen() {this.isSeen = true; }
+    public void setSeen() { this.isSeen = true; }
 
     public User getSenderUser() {
         return senderUser;
