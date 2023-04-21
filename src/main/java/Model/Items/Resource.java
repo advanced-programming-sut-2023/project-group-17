@@ -19,17 +19,28 @@ public class Resource extends Item {
             this.name = name;
             this.cost = cost;
         }
+
+        public String getName() {
+            return this.name;
+        }
     }
 
-    //TODO: set costs
-    Resource(resourceType resourceType, User owner){
+    //TODO: set costs and numbers?
+    public Resource(resourceType resourceType, User owner){
         super(resourceType.name, resourceType.cost, owner);
     }
 
-    public static boolean contains(String resourceName) {
-        for (resourceType nameValue : resourceType.values()) {
-            if(nameValue.name.equals(resourceName)) return true;
+    public static Resource.resourceType getResourceType(String resourceName) {
+        for (resourceType resourceType : resourceType.values()) {
+            if(resourceType.name.equals(resourceName)) return resourceType;
         }
-        return false;
+        return null;
+    }
+
+    public static double getCostByName(String name) {
+        for (resourceType resourceType : resourceType.values()) {
+            if(resourceType.name.equals(name)) return resourceType.cost;
+        }
+        return -1;
     }
 }

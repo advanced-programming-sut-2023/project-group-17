@@ -58,6 +58,13 @@ public class Empire {
         return animals;
     }
 
+    public Resource getResourceByName(String name) {
+        for (Resource resource : resources) {
+            if(resource.getItemName().equals(name)) return resource;
+        }
+        return null;
+    }
+
     public ArrayList<TradeRequest> getReceivedTradeRequests() {
         return receivedTradeRequests;
     }
