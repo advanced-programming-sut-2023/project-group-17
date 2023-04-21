@@ -3,8 +3,11 @@ package View;
 import Controller.ProfileMenuController;
 import View.Enums.Commands.ProfileMenuCommands;
 
+import java.sql.SQLOutput;
 import java.util.Scanner;
 import java.util.regex.Matcher;
+
+import static View.Enums.Messages.ProfileMenuMessages.*;
 
 public class ProfileMenu extends Menu {
 
@@ -50,15 +53,76 @@ public class ProfileMenu extends Menu {
     }
 
     private void changeUsername(Matcher matcher) {
+        if(checkBlankField(matcher.group("username")))
+            System.out.println("username change failed : blank field");
 
+        String username = handleDoubleQuote(matcher.group("username"));
+
+        switch (controller.changeUsername(username)) {
+            case SUCCESS:
+                System.out.println("username changed successfully");
+                break;
+            case INVALID_USERNAME:
+                System.out.println("username change failed : invalid username format");
+                break;
+            case USERNAME_EXISTS:
+                System.out.println("username change failed : username " + username + " already exists");
+                break;
+        }
     }
 
     private void changeNickname(Matcher matcher) {
+        if(checkBlankField(matcher.group("nickname")))
+            System.out.println("profile change failed : blank field");
 
+        String nickname = handleDoubleQuote(matcher.group("nickname"));
+
+        switch (controller.changeNickname(nickname)) {
+            case SUCCESS:
+                System.out.println("nickname changed successfully");
+                break;
+            case SAME_NICKNAME:
+                System.out.println("nickname change failed : your new nickname cannot be the same as your current nickname");
+                break;
+        }
     }
 
     private void changePassword(Matcher matcher) {
+        if(checkBlankField(matcher.group("oldPass")) || checkBlankField(matcher.group("newPass")))
+            System.out.println("profile change failed : blank field");
 
+        String oldPassword = handleDoubleQuote(matcher.group("oldPass"));
+        String newPassword = handleDoubleQuote(matcher.group("newPass"));
+
+        switch (controller.changePassword(oldPassword, newPassword)) {
+            case SUCCESS:
+                System.out.println("password changed successfully");
+                break;
+            case INCORRECT_PASSWORD:
+                System.out.println("password change failed : current password is incorrect");
+                break;
+            case SAME_PASSWORD:
+                System.out.println("password change failed : your new password cannot be the same as your current password");
+                break;
+            case SHORT_PASSWORD:
+                System.out.println("password change failed : password must have at least 6 characters");
+                break;
+            case PASSWORD_DOES_NOT_CONTAIN_LOWERCASE:
+                System.out.println("password change failed : password must have at least 1 lowercase character");
+                break;
+            case PASSWORD_DOES_NOT_CONTAIN_UPPERCASE:
+                System.out.println("password change failed : password must have at least 1 uppercase character");
+                break;
+            case PASSWORD_DOES_NOT_CONTAIN_INTEGER:
+                System.out.println("password change failed : password must have at least 1 integer");
+                break;
+            case PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER:
+                System.out.println("password change failed : password must have at least 1 special character");
+                break;
+            case PASSWORD_DOES_NOT_MATCH:
+                System.out.println("password change failed : passwords do not match");
+                break;
+        }
     }
 
     private void changeEmail(Matcher matcher) {
