@@ -6,7 +6,7 @@ public class Map {
     private final ArrayList<MapCell> mapCells;
     private final int length;
     private final int width;
-    private int id;
+    private final int id;
     private static int idCount = 1;
 
     public Map(int length, int width) {
@@ -39,7 +39,7 @@ public class Map {
         return id;
     }
 
-    public MapCell getMapCellByXY(int x, int y) {
+    public MapCell getMapCellByCoordinates(int x, int y) {
         for (MapCell mapCell : mapCells) {
             if(mapCell.getX() == x && mapCell.getY() == y) {
                 return mapCell;
