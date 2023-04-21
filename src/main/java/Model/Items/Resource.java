@@ -3,26 +3,32 @@ package Model.Items;
 import Model.User;
 
 public class Resource extends Item {
-    public enum names {
-        WHEAT("wheat"),
-        FLOUR("flour"),
-        HOPS("hops"),
-        ALE("ale"),
-        STONE("stone"),
-        IRON("iron"),
-        WOOD("wood"),
-        PITCH("pitch");
+    public enum resourceType {
+        WHEAT("wheat", 0),
+        FLOUR("flour", 0),
+        HOPS("hops", 0),
+        ALE("ale", 0),
+        STONE("stone", 0),
+        IRON("iron", 0),
+        WOOD("wood", 0),
+        PITCH("pitch", 0);
 
-        names(String name) {
+        private final String name;
+        private final Double cost;
+        resourceType(String name, double cost) {
+            this.name = name;
+            this.cost = cost;
         }
     }
-    Resource(String name, double cost, User owner){
-        super(name, cost, owner);
+
+    //TODO: set costs
+    Resource(resourceType resourceType, User owner){
+        super(resourceType.name, resourceType.cost, owner);
     }
 
     public static boolean contains(String resourceName) {
-        for (names nameValue : names.values()) {
-            if(nameValue.name().equals(resourceName)) return true;
+        for (resourceType nameValue : resourceType.values()) {
+            if(nameValue.name.equals(resourceName)) return true;
         }
         return false;
     }
