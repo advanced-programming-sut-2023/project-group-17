@@ -3,7 +3,7 @@ package Model;
 import java.util.ArrayList;
 
 public class Map {
-    private ArrayList<MapCell> mapCells;
+    private final ArrayList<MapCell> mapCells;
     private final int length;
     private final int width;
     private int id;
@@ -14,6 +14,7 @@ public class Map {
         this.width = width;
         this.id = idCount;
         idCount++;
+        mapCells = new ArrayList<>();
         for(int i=1; i<=length; i++) {
             for(int j=1; j<=width; j++) {
                 mapCells.add(new MapCell(i, j, ));
