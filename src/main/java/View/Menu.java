@@ -3,6 +3,7 @@ package View;
 import java.util.Scanner;
 
 public abstract class Menu {
+    public static Scanner scanner = new Scanner(System.in);
     abstract void run(Scanner scanner);
 
     public static String handleDoubleQuote(String matcherGroup) {
@@ -19,4 +20,9 @@ public abstract class Menu {
     public static void print(String string){
         System.out.println(string);
     }
+
+    public static String scan(){
+        return scanner.nextLine();
+    }
+
 }

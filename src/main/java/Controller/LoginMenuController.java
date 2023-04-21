@@ -39,7 +39,7 @@ public class LoginMenuController {
         String newPassword = loginMenu.scan();
 
         if(!CheckValidation.isPasswordStrong(newPassword).equals(SignupAndLoginMenuMessages.PASSWORD_IS_STRONG))
-            return (LoginMenuMessages) CheckValidation.isPasswordStrong(newPassword);
+            return CheckValidation.isPasswordStrong(newPassword);
 
         user.setPassword(newPassword);
         return SignupAndLoginMenuMessages.SUCCESS;

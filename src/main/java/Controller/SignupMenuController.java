@@ -2,8 +2,14 @@ package Controller;
 
 import Model.User;
 import Utils.CheckValidation;
+import Utils.Randoms;
 import View.Enums.Messages.SignupAndLoginMenuMessages;
+import View.Menu;
 
+import java.util.Random;
+
+import static View.Menu.print;
+import static View.Menu.scan;
 import static Model.Database.*;
 
 public class SignupMenuController {
@@ -16,6 +22,13 @@ public class SignupMenuController {
         if(getUserByUsername(username) != null)
             return SignupAndLoginMenuMessages.USERNAME_EXISTS;
 
+        if(password.equals("random") && confirmationPassword == null) {
+            password = Randoms.generateRandomPassword();
+            print("your random password is " + password);
+            print("please re-enter your password here:");
+            confirmationPassword = scan();
+        }
+
         if(!CheckValidation.isPasswordStrong(password).equals(SignupAndLoginMenuMessages.PASSWORD_IS_STRONG))
             return CheckValidation.isPasswordStrong(password);
 
@@ -27,6 +40,11 @@ public class SignupMenuController {
 
         if(!email.matches("([A-Za-z0-9_.]+@[A-Za-z0-9_.]+\\.[A-Za-z0-9_.]+)"))
             return SignupAndLoginMenuMessages.INVALID_EMAIL;
+
+        if(slogan.equals("random")) {
+            slogan = Randoms.generateRandomSlogan();
+            print("your slogan is \"" + slogan + "\"");
+        }
 
         tempUser = new User(username, password, nickname, email, slogan);
         addUser(tempUser);
