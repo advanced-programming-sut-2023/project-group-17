@@ -2,9 +2,6 @@ package View;
 
 import Controller.ProfileMenuController;
 import View.Enums.Commands.ProfileMenuCommands;
-import org.w3c.dom.ls.LSOutput;
-
-import java.sql.SQLOutput;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
@@ -12,7 +9,7 @@ import static View.Enums.Messages.ProfileMenuMessages.*;
 
 public class ProfileMenu extends Menu {
 
-    private ProfileMenuController controller;
+    private final ProfileMenuController controller;
 
     public ProfileMenu() {
         controller = new ProfileMenuController();
@@ -36,15 +33,15 @@ public class ProfileMenu extends Menu {
             else if((matcher = ProfileMenuCommands.getMatcher(command, ProfileMenuCommands.CHANGE_SLOGAN)) != null)
                 changeSlogan(matcher);
             else if((matcher = ProfileMenuCommands.getMatcher(command, ProfileMenuCommands.REMOVE_SLOGAN)) != null)
-                removeSlogan(matcher);
+                removeSlogan();
             else if((matcher = ProfileMenuCommands.getMatcher(command, ProfileMenuCommands.DISPLAY_HIGH_SCORE)) != null)
-                displayHighScore(matcher);
+                displayHighScore();
             else if((matcher = ProfileMenuCommands.getMatcher(command, ProfileMenuCommands.DISPLAY_PROFILE)) != null)
-                displayProfile(matcher);
+                displayProfile();
             else if((matcher = ProfileMenuCommands.getMatcher(command, ProfileMenuCommands.DISPLAY_SLOGAN)) != null)
-                displaySlogan(matcher);
+                displaySlogan();
             else if((matcher = ProfileMenuCommands.getMatcher(command, ProfileMenuCommands.DISPLAY_RANK)) != null)
-                displayRank(matcher);
+                displayRank();
             else if((matcher = ProfileMenuCommands.getMatcher(command, ProfileMenuCommands.BACK)) != null)
                 return;
             else System.out.println("Invalid Command");
@@ -68,6 +65,9 @@ public class ProfileMenu extends Menu {
                 break;
             case USERNAME_EXISTS:
                 System.out.println("username change failed : username " + username + " already exists");
+                break;
+            case SAME_USERNAME:
+                System.out.println("username change failed : your new username cannot be the same as your current username");
                 break;
         }
     }
@@ -120,7 +120,7 @@ public class ProfileMenu extends Menu {
             case PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER:
                 System.out.println("password change failed : password must have at least 1 special character");
                 break;
-            case PASSWORD_DOES_NOT_MATCH:
+            case PASSWORDS_DO_NOT_MATCH:
                 System.out.println("password change failed : passwords do not match");
                 break;
         }
@@ -165,23 +165,30 @@ public class ProfileMenu extends Menu {
         }
     }
 
-    private void removeSlogan(Matcher matcher) {
-
+    private void removeSlogan() {
+        switch (controller.removeSlogan()) {
+            case SUCCESS:
+                System.out.println("slogan removed successfully");
+                break;
+            case EMPTY_SLOGAN:
+                System.out.println("slogan change failed : there is no slogan to remove");
+                break;
+        }
     }
 
-    private void displayHighScore(Matcher matcher) {
-
+    private void displaySlogan() {
+        System.out.println(controller.displaySlogan());
     }
 
-    private void displayRank(Matcher matcher) {
-
+    private void displayHighScore() {
+        System.out.println(controller.displayHighScore());
     }
 
-    private void displaySlogan(Matcher matcher) {
-
+    private void displayRank() {
+        System.out.println(controller.displayRank());
     }
 
-    private void displayProfile(Matcher matcher) {
-
+    private void displayProfile() {
+        System.out.print(controller.displayProfile());
     }
 }

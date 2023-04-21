@@ -19,6 +19,11 @@ public class SignupMenuController {
         if(getUserByUsername(username) != null)
             return SignupMenuMessages.USERNAME_EXISTS;
 
+        if(slogan.equals("random")) {
+            slogan = Randoms.generateRandomSlogan();
+            print("your slogan is \"" + slogan + "\"");
+        }
+
         if(password.equals("random") && confirmationPassword == null) {
             password = Randoms.generateRandomPassword();
             print("your random password is " + password);
@@ -51,11 +56,6 @@ public class SignupMenuController {
 
         if(!email.matches("([A-Za-z0-9_.]+@[A-Za-z0-9_.]+\\.[A-Za-z0-9_.]+)"))
             return SignupMenuMessages.INVALID_EMAIL;
-
-        if(slogan.equals("random")) {
-            slogan = Randoms.generateRandomSlogan();
-            print("your slogan is \"" + slogan + "\"");
-        }
 
         tempUser = new User(username, password, nickname, email, slogan);
         addUser(tempUser);

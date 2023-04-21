@@ -54,7 +54,7 @@ public class SignupMenu extends Menu{
 
         switch (controller.createUser(username, password, confirmationPassword, email, nickname, slogan)) {
             case SUCCESS:
-                System.out.println("user " + username + " created successfully");
+                 System.out.println("user " + username + " created successfully");
                 break;
             case INVALID_USERNAME:
                 System.out.println("signup failed : invalid username format");
