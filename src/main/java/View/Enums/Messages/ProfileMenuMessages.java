@@ -5,12 +5,13 @@ public enum ProfileMenuMessages {
     //messages for username
     INVALID_USERNAME,
     USERNAME_EXISTS,
+    SAME_USERNAME,
     //message for nickname
     SAME_NICKNAME,
     //messages for password
     INCORRECT_PASSWORD,
     SAME_PASSWORD,
-    PASSWORD_DOES_NOT_MATCH,
+    PASSWORDS_DO_NOT_MATCH,
     SHORT_PASSWORD,
     PASSWORD_DOES_NOT_CONTAIN_LOWERCASE,
     PASSWORD_DOES_NOT_CONTAIN_UPPERCASE,
@@ -22,6 +23,7 @@ public enum ProfileMenuMessages {
     EMAIL_EXISTS,
     SAME_EMAIL,
     //message for slogan
-    SAME_SLOGAN
+    SAME_SLOGAN,
+    EMPTY_SLOGAN
     ;
 }

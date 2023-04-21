@@ -1,6 +1,5 @@
 package Utils;
 
-import View.Enums.Messages.SignupAndLoginMenuMessages;
 import View.Enums.Messages.UtilsMessages;
 
 public class CheckValidation {
