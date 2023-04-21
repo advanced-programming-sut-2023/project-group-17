@@ -5,7 +5,6 @@ import Model.Items.ArmorAndWeapon;
 import Model.Items.Food;
 import Model.Items.Resource;
 import Model.People.Person;
-import Model.UnitAttributes.Weapon;
 
 import java.util.ArrayList;
 
@@ -30,7 +29,7 @@ public class Empire {
         this.weapons = new ArrayList<ArmorAndWeapon>();
         this.animals = new ArrayList<Animal>();
         this.recievedTradeRequests = new ArrayList<>();
-        this.acceptedTradeRequests = new ArrayList<>();
+        this.sentTradeRequests = new ArrayList<>();
         this.fearRate = 0;
         this.taxRate = 0;
         this.foodRate = 0;
@@ -59,12 +58,17 @@ public class Empire {
         return animals;
     }
 
-    public ArrayList<TradeRequest> getRecievedTradeRequests() {
+    public ArrayList<TradeRequest> getReceivedTradeRequests() {
         return recievedTradeRequests;
     }
-
+    public void addReceivedTradeRequests(TradeRequest tradeRequest) {
+        this.recievedTradeRequests.add(tradeRequest);
+    }
     public ArrayList<TradeRequest> getSentTradeRequests() {
         return sentTradeRequests;
+    }
+    public void addSentTradeRequests(TradeRequest tradeRequest) {
+        this.sentTradeRequests.add(tradeRequest);
     }
 
     public int getFearRate() {
