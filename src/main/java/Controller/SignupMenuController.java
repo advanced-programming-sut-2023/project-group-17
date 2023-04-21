@@ -24,8 +24,13 @@ public class SignupMenuController {
             confirmationPassword = scan();
         }
 
-        if(!CheckValidation.isPasswordStrong(password).equals(SignupAndLoginMenuMessages.PASSWORD_IS_STRONG))
-            return CheckValidation.isPasswordStrong(password);
+        if(!CheckValidation.isPasswordStrong(password).equals(SignupAndLoginMenuMessages.PASSWORD_IS_STRONG)) {
+            switch (CheckValidation.isPasswordStrong(password)) {
+                case PASSWORD_DOES_NOT_CONTAIN_LOWERCASE:
+                    return SignupAndLoginMenuMessages.PASSWORD_DOES_NOT_CONTAIN_LOWERCASE;
+                    break;
+            }
+        }
 
         if(!password.equals(confirmationPassword))
             return SignupAndLoginMenuMessages.PASSWORD_DOES_NOT_MATCH;

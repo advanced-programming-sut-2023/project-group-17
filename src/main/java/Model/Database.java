@@ -65,7 +65,7 @@ public class Database {
 
     public static MapCell getMapCellByCoordinates(int x, int y) {
         for (MapCell mapCell : currentMapGame) {
-            if(mapCell.getX == x && mapCell.getY == y) return mapCell;
+            if(mapCell.getX() == x && mapCell.getY() == y) return mapCell;
         }
         return null;
     }
