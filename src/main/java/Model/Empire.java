@@ -14,7 +14,7 @@ public class Empire {
     private ArrayList<Person> people;
     private ArrayList<ArmorAndWeapon> weapons;
     private ArrayList<Animal> animals;
-    private ArrayList<TradeRequest> recievedTradeRequests;
+    private ArrayList<TradeRequest> receivedTradeRequests;
     private ArrayList<TradeRequest> sentTradeRequests;
     private int fearRate;
     private int taxRate;
@@ -28,7 +28,7 @@ public class Empire {
         this.people = new ArrayList<Person>();
         this.weapons = new ArrayList<ArmorAndWeapon>();
         this.animals = new ArrayList<Animal>();
-        this.recievedTradeRequests = new ArrayList<>();
+        this.receivedTradeRequests = new ArrayList<>();
         this.sentTradeRequests = new ArrayList<>();
         this.fearRate = 0;
         this.taxRate = 0;
@@ -59,10 +59,10 @@ public class Empire {
     }
 
     public ArrayList<TradeRequest> getReceivedTradeRequests() {
-        return recievedTradeRequests;
+        return receivedTradeRequests;
     }
     public void addReceivedTradeRequests(TradeRequest tradeRequest) {
-        this.recievedTradeRequests.add(tradeRequest);
+        this.receivedTradeRequests.add(tradeRequest);
     }
     public ArrayList<TradeRequest> getSentTradeRequests() {
         return sentTradeRequests;
@@ -72,7 +72,7 @@ public class Empire {
     }
 
     public TradeRequest getRecievedRequestById(int id) {
-        for (TradeRequest request : recievedTradeRequests) {
+        for (TradeRequest request : receivedTradeRequests) {
             if(request.getId() == id) return request;
         }
         return null;
