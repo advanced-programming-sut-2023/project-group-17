@@ -4,10 +4,6 @@ import Model.User;
 import Utils.CheckValidation;
 import Utils.Randoms;
 import View.Enums.Messages.SignupAndLoginMenuMessages;
-import View.Menu;
-
-import java.util.Random;
-
 import static View.Menu.print;
 import static View.Menu.scan;
 import static Model.Database.*;
@@ -18,7 +14,6 @@ public class SignupMenuController {
         if(!username.matches("[A-Za-z0-9_]+"))
             return SignupAndLoginMenuMessages.INVALID_USERNAME;
 
-        //TODO suggested username based on this username
         if(getUserByUsername(username) != null)
             return SignupAndLoginMenuMessages.USERNAME_EXISTS;
 

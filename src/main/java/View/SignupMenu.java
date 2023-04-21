@@ -2,12 +2,12 @@ package View;
 
 import Controller.SignupMenuController;
 import View.Enums.Commands.SignupMenuCommands;
-
-import java.sql.SQLOutput;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class SignupMenu extends Menu{
+    private Random random = new Random();
     private SignupMenuController controller;
 
     public SignupMenu() {
@@ -45,8 +45,6 @@ public class SignupMenu extends Menu{
             return;
         }
 
-        //TODO random password and slogan
-
         String username = handleDoubleQuote(matcher.group("username"));
         String password = handleDoubleQuote(matcher.group("password"));
         String confirmationPassword = handleDoubleQuote(matcher.group("confirmation"));
@@ -63,6 +61,7 @@ public class SignupMenu extends Menu{
                 break;
             case USERNAME_EXISTS:
                 System.out.println("signup failed : user " + username + " already exists");
+                System.out.println("suggested username: " + username + random.nextInt(10) + random.nextInt(10));
                 break;
             case SHORT_PASSWORD:
                 System.out.println("signup failed : password must have at least 6 characters");
