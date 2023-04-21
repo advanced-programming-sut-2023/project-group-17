@@ -2,6 +2,7 @@ package View;
 
 import Controller.ProfileMenuController;
 import View.Enums.Commands.ProfileMenuCommands;
+import org.w3c.dom.ls.LSOutput;
 
 import java.sql.SQLOutput;
 import java.util.Scanner;
@@ -126,11 +127,42 @@ public class ProfileMenu extends Menu {
     }
 
     private void changeEmail(Matcher matcher) {
+        if(checkBlankField(matcher.group("email")))
+            System.out.println("email change failed : blank field");
+
+        String email = handleDoubleQuote(matcher.group("email"));
+
+        switch (controller.changeEmail(email)) {
+            case SUCCESS:
+                System.out.println("email changed successfully");
+                break;
+            case INVALID_EMAIL:
+                System.out.println("email change failed : invalid email format");
+                break;
+            case EMAIL_EXISTS:
+                System.out.println("email change failed : email already exists");
+                break;
+            case SAME_EMAIL:
+                System.out.println("email change failed : your new email cannot be the same as your current email");
+                break;
+        }
 
     }
 
     private void changeSlogan(Matcher matcher) {
+        if(checkBlankField(matcher.group("slogan")))
+            System.out.println("slogan change failed : blank field");
 
+        String slogan = handleDoubleQuote(matcher.group("slogan"));
+
+        switch (controller.changeSlogan(slogan)) {
+            case SUCCESS:
+                System.out.println("slogan changed successfully");
+                break;
+            case SAME_SLOGAN:
+                System.out.println("slogan change failed : your new slogan cannot be the same as your current slogan");
+                break;
+        }
     }
 
     private void removeSlogan(Matcher matcher) {

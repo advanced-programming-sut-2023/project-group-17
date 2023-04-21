@@ -1,8 +1,6 @@
 package View.Enums.Messages;
 
 public enum UtilsMessages {
-    INCORRECT_PASSWORD,
-    SAME_PASSWORD,
     SHORT_PASSWORD,
     PASSWORD_DOES_NOT_CONTAIN_LOWERCASE,
     PASSWORD_DOES_NOT_CONTAIN_UPPERCASE,

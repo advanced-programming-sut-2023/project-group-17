@@ -2,47 +2,59 @@ package Controller;
 
 import Model.User;
 import Utils.CheckValidation;
-import View.Enums.Messages.SignupAndLoginMenuMessages;
-import View.LoginMenu;
-import java.util.Scanner;
-
+import View.Enums.Messages.LoginMenuMessages;
+import View.Enums.Messages.UtilsMessages;
 import static Model.Database.*;
 import static View.Menu.print;
 import static View.Menu.scan;
 
 public class LoginMenuController {
 
-    public SignupAndLoginMenuMessages loginUser(String username, String password, boolean stayLoggedIn) {
+    public LoginMenuMessages loginUser(String username, String password, boolean stayLoggedIn) {
         if(getUserByUsername(username) == null)
-            return SignupAndLoginMenuMessages.USERNAME_DOES_NOT_EXISTS;
+            return LoginMenuMessages.USERNAME_DOES_NOT_EXISTS;
 
         User user = getUserByUsername(username);
 
         if(!user.getPassword().equals(password))
-            return SignupAndLoginMenuMessages.WRONG_PASSWORD;
+            return LoginMenuMessages.WRONG_PASSWORD;
 
         //TODO: handle stay logged in
         setLoggedInUser(user);
-        return SignupAndLoginMenuMessages.SUCCESS;
+        return LoginMenuMessages.SUCCESS;
     }
 
-    public SignupAndLoginMenuMessages forgetPassword(String username) {
+    public LoginMenuMessages forgetPassword(String username) {
         if(getUserByUsername(username) == null)
-            return SignupAndLoginMenuMessages.USERNAME_DOES_NOT_EXISTS;
+            return LoginMenuMessages.USERNAME_DOES_NOT_EXISTS;
 
         User user = getUserByUsername(username);
         print("please answer this question : " + user.getPasswordRecoveryQuestion());
         String answer = scan();
         if(!answer.equals(user.getPasswordRecoveryAnswer()))
-            return SignupAndLoginMenuMessages.WRONG_PASSWORD_RECOVERY_ANSWER;
+            return LoginMenuMessages.WRONG_PASSWORD_RECOVERY_ANSWER;
 
         print("please enter your new password:");
         String newPassword = scan();
 
-        if(!CheckValidation.isPasswordStrong(newPassword).equals(SignupAndLoginMenuMessages.PASSWORD_IS_STRONG))
-            return CheckValidation.isPasswordStrong(newPassword);
+        if(!CheckValidation.isPasswordStrong(newPassword).equals(UtilsMessages.PASSWORD_IS_STRONG)) {
+            switch (CheckValidation.isPasswordStrong(newPassword)) {
+                case SHORT_PASSWORD:
+                    return LoginMenuMessages.SHORT_PASSWORD;
+                case PASSWORD_DOES_NOT_CONTAIN_LOWERCASE:
+                    return LoginMenuMessages.PASSWORD_DOES_NOT_CONTAIN_LOWERCASE;
+                case PASSWORD_DOES_NOT_CONTAIN_INTEGER:
+                    return LoginMenuMessages.PASSWORD_DOES_NOT_CONTAIN_INTEGER;
+                case PASSWORD_DOES_NOT_CONTAIN_UPPERCASE:
+                    return LoginMenuMessages.PASSWORD_DOES_NOT_CONTAIN_UPPERCASE;
+                case PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER:
+                    return LoginMenuMessages.PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER;
+                case PASSWORD_IS_STRONG:
+                    return LoginMenuMessages.PASSWORD_IS_STRONG;
+            }
+        }
 
         user.setPassword(newPassword);
-        return SignupAndLoginMenuMessages.SUCCESS;
+        return LoginMenuMessages.SUCCESS;
     }
 }

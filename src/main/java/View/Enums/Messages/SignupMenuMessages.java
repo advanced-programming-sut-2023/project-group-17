@@ -1,27 +1,20 @@
 package View.Enums.Messages;
 
-public enum ProfileMenuMessages {
+public enum SignupMenuMessages {
     SUCCESS,
-    //messages for username
     INVALID_USERNAME,
     USERNAME_EXISTS,
-    //message for nickname
-    SAME_NICKNAME,
-    //messages for password
-    INCORRECT_PASSWORD,
-    SAME_PASSWORD,
     PASSWORD_DOES_NOT_MATCH,
+    EMAIL_EXISTS,
+    INVALID_EMAIL,
+    WRONG_NUMBER,
+    ANSWER_DOES_NOT_MATCH,
+    PICK_QUESTION_TWICE,
     SHORT_PASSWORD,
     PASSWORD_DOES_NOT_CONTAIN_LOWERCASE,
     PASSWORD_DOES_NOT_CONTAIN_UPPERCASE,
     PASSWORD_DOES_NOT_CONTAIN_INTEGER,
     PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER,
     PASSWORD_IS_STRONG,
-    //message for email
-    INVALID_EMAIL,
-    EMAIL_EXISTS,
-    SAME_EMAIL,
-    //message for slogan
-    SAME_SLOGAN
     ;
 }
