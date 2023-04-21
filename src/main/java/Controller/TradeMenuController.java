@@ -8,19 +8,20 @@ import Model.User;
 import View.Enums.Messages.TradeMenuMessages;
 
 public class TradeMenuController {
-    public TradeMenuMessages tradeRequest(String resourceType, int resourceAmount, int price, String message, String username) {
-        if(!Resource.contains(resourceType)) return TradeMenuMessages.INVALID_RESOURCE_TYPE;
+    public TradeMenuMessages tradeRequest(String resourceTypeName, int resourceAmount, int price, String message, String username) {
+        if(Resource.getResourceType(resourceTypeName) == null) return TradeMenuMessages.INVALID_RESOURCE_TYPE;
         if(resourceAmount <= 0) return TradeMenuMessages.INVALID_AMOUNT;
         if(price < 0) return TradeMenuMessages.INVALID_PRICE;
         if(Database.getUserByUsername(username)==null) return TradeMenuMessages.USERNAME_DOES_NOT_EXIST;
-        if(Database.getLoggedInUser().getEmpire().getResourceByName(resourceType) == null ||
-                Database.getLoggedInUser().getEmpire().getResourceByName(resourceType).getNumber() < resourceAmount)
+
+        Resource resource = Database.getLoggedInUser().getEmpire().getResourceByName(resourceTypeName);
+        if(resource == null || resource.getNumber() < resourceAmount)
             return TradeMenuMessages.INSUFFICIENT_RESOURCE_AMOUNT;
 
-        //TODO: kootah kon
-
+        Resource.resourceType resourceType = Resource.getResourceType(resourceTypeName);
         TradeRequest tradeRequest = new TradeRequest(Database.getLoggedInUser(), Database.getUserByUsername(username),
                 resourceType, resourceAmount, price, message);
+
         Database.getLoggedInUser().getEmpire().addSentTradeRequests(tradeRequest);
         Database.getUserByUsername(username).getEmpire().addReceivedTradeRequests(tradeRequest);
         return TradeMenuMessages.SUCCESS;

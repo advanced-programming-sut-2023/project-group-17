@@ -25,16 +25,16 @@ public class Resource extends Item {
         }
     }
 
-    //TODO: set costs
+    //TODO: set costs and numbers?
     public Resource(resourceType resourceType, User owner){
         super(resourceType.name, resourceType.cost, owner);
     }
 
-    public static boolean contains(String resourceName) {
+    public static Resource.resourceType getResourceType(String resourceName) {
         for (resourceType resourceType : resourceType.values()) {
-            if(resourceType.name.equals(resourceName)) return true;
+            if(resourceType.name.equals(resourceName)) return resourceType;
         }
-        return false;
+        return null;
     }
 
     public static double getCostByName(String name) {
