@@ -56,13 +56,13 @@ public class TradeMenu extends Menu {
             return;
         }
 
-        String resourceType = matcher.group("resourceType");
+        String resourceTypeName = matcher.group("resourceType");
         int resourceAmount = Integer.parseInt(matcher.group("resourceAmount"));
         int price = Integer.parseInt(matcher.group("price"));
         String message = handleDoubleQuote(matcher.group("message"));
         String username = handleDoubleQuote(matcher.group("username"));
 
-        switch (controller.tradeRequest(resourceType , resourceAmount , price , message , username)) {
+        switch (controller.tradeRequest(resourceTypeName , resourceAmount , price , message , username)) {
             case INVALID_AMOUNT:
                 System.out.println("send trade request failed : invalid amount");
                 break;

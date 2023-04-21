@@ -1,5 +1,6 @@
 package Model;
 
+import Model.Items.Resource;
 import View.TradeMenu;
 
 public class TradeRequest {
@@ -7,29 +8,32 @@ public class TradeRequest {
     private final User recieverUser;
     private static int idCount = 1;
     private final int id;
-    private final String resourceType;
+    private final Resource.resourceType resourceType;
     private final int resourceAmount;
     private final int price;
-    private final String message;
+    private final String sentMessage;
+    private String acceptMessage;
     boolean isAccepted = false;
     boolean isSeen = false;
 
-    public TradeRequest(User senderUser, User recieverUser, String resourceType, int resourceAmount, int price, String message) {
+    public TradeRequest(User senderUser, User recieverUser, Resource.resourceType resourceType, int resourceAmount, int price, String sentMessage) {
         this.senderUser = senderUser;
         this.recieverUser = recieverUser;
         this.resourceType = resourceType;
         this.resourceAmount = resourceAmount;
         this.price = price;
-        this.message = message;
+        this.sentMessage = sentMessage;
         this.id = idCount;
         idCount++;
     }
-
     public void setAccepted() {
         this.isAccepted = true;
     }
 
     public void setSeen() { this.isSeen = true; }
+    public void setAcceptMessage(String acceptMessage) {
+        this.acceptMessage = acceptMessage;
+    }
 
     public User getSenderUser() {
         return senderUser;
@@ -43,7 +47,7 @@ public class TradeRequest {
         return id;
     }
 
-    public String getResourceType() {
+    public Resource.resourceType getResourceType() {
         return resourceType;
     }
 
@@ -55,8 +59,11 @@ public class TradeRequest {
         return price;
     }
 
-    public String getMessage() {
-        return message;
+    public String getSentMessage() {
+        return sentMessage;
+    }
+    public String getAcceptMessage() {
+        return acceptMessage;
     }
     public boolean isAccepted() {
         return isAccepted;
