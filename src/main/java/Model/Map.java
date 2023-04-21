@@ -15,8 +15,8 @@ public class Map {
         this.id = idCount;
         idCount++;
         mapCells = new ArrayList<>();
-        for(int i=1; i<=length; i++) {
-            for(int j=1; j<=width; j++) {
+        for(int i=1; i<=width; i++) {
+            for(int j=1; j<=length; j++) {
                 mapCells.add(new MapCell(i, j, ));
                 //todo: add default material to map cell constructor
             }
