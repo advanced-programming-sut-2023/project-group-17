@@ -38,4 +38,13 @@ public class Map {
     public int getId() {
         return id;
     }
+
+    public MapCell getMapCellByXY(int x, int y) {
+        for (MapCell mapCell : mapCells) {
+            if(mapCell.getX() == x && mapCell.getY() == y) {
+                return mapCell;
+            }
+        }
+        return null;
+    }
 }

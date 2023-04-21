@@ -6,9 +6,10 @@ import java.util.ArrayList;
 
 public class Database {
     private static final ArrayList<User> users = new ArrayList<>();
-    private static final ArrayList<MapCell> currentMapGame = new ArrayList<>();
+    private static Map currentMapGame;
     private static final ArrayList<String> recoveryQuestions = new ArrayList<>();
     private static final ArrayList<User> usersInTheGame = new ArrayList<>();
+    private static final ArrayList<Map> allMaps = new ArrayList<>();
     private static User loggedInUser = null;
     private static int turnsPassed = 0;
     private static int totalTurns = 0;
@@ -18,6 +19,8 @@ public class Database {
         recoveryQuestions.add("2. What was my first pet's name?");
         recoveryQuestions.add("3. What is my mother's last name?");
     }
+
+    //todo: static class to add default maps
 
     public static ArrayList<User> getUsers() {
         return users;
@@ -55,19 +58,12 @@ public class Database {
         return recoveryQuestions.get(questionNumber - 1);
     }
 
-    public static ArrayList<MapCell> getCurrentMapGame() {
+    public static Map getCurrentMapGame() {
         return currentMapGame;
     }
 
     public static User getLoggedInUser() {
         return loggedInUser;
-    }
-
-    public static MapCell getMapCellByCoordinates(int x, int y) {
-        for (MapCell mapCell : currentMapGame) {
-            if(mapCell.getX() == x && mapCell.getY() == y) return mapCell;
-        }
-        return null;
     }
 
     public static int getTurnsPassed() {
@@ -93,5 +89,17 @@ public class Database {
 
     public static void increaseTurnsPassed(){
         turnsPassed++;
+    }
+
+    public static ArrayList<Map> getAllMaps() {
+        return allMaps;
+    }
+
+    public static void addMap(Map map) {
+        allMaps.add(map);
+    }
+
+    public static void setCurrentMapGame(Map map) {
+        currentMapGame = map;
     }
 }
