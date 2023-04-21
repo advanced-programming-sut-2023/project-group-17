@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Database;
+import Model.Items.Food;
 import Model.User;
 import View.Enums.Messages.EmpireMenuMessages;
 
@@ -19,8 +20,11 @@ public class EmpireMenuController {
     }
 
     public String showFoodList() {
-        //TODO after completing food class
-        return null;
+        String result = "";
+        for (Food food : user.getEmpire().getFoods()) {
+            result += food.toString() + "\n";
+        }
+        return result;
     }
 
     public EmpireMenuMessages setFoodRate(int foodRate) {
