@@ -8,22 +8,23 @@ import Model.User;
 import View.Enums.Messages.TradeMenuMessages;
 
 public class TradeMenuController {
-    public TradeMenuMessages tradeRequest(String resourceTypeName, int resourceAmount, int price, String message, String username) {
+    public TradeMenuMessages tradeRequest(String resourceTypeName, int resourceAmount, int price, String message) {
         if(Resource.getResourceType(resourceTypeName) == null) return TradeMenuMessages.INVALID_RESOURCE_TYPE;
         if(resourceAmount <= 0) return TradeMenuMessages.INVALID_AMOUNT;
         if(price < 0) return TradeMenuMessages.INVALID_PRICE;
-        if(Database.getUserByUsername(username)==null) return TradeMenuMessages.USERNAME_DOES_NOT_EXIST;
 
         Resource resource = Database.getLoggedInUser().getEmpire().getResourceByName(resourceTypeName);
         if(resource == null || resource.getNumber() < resourceAmount)
             return TradeMenuMessages.INSUFFICIENT_RESOURCE_AMOUNT;
 
         Resource.resourceType resourceType = Resource.getResourceType(resourceTypeName);
-        TradeRequest tradeRequest = new TradeRequest(Database.getLoggedInUser(), Database.getUserByUsername(username),
+        TradeRequest tradeRequest = new TradeRequest(Database.getLoggedInUser(),
                 resourceType, resourceAmount, price, message);
 
         Database.getLoggedInUser().getEmpire().addSentTradeRequests(tradeRequest);
-        Database.getUserByUsername(username).getEmpire().addReceivedTradeRequests(tradeRequest);
+        for (User user : Database.getUsers()) {
+            user.getEmpire().addReceivedTradeRequests(tradeRequest);
+        }
         return TradeMenuMessages.SUCCESS;
     }
 
@@ -107,7 +108,7 @@ public class TradeMenuController {
     }
 
     public String sentTradeToString(TradeRequest request){
-        return "id " + request.getId() + ") to " + request.getRecieverUser() + " | resource type: " +
+        return "id " + request.getId() + " | resource type: " +
                 request.getResourceType() + " | amount: " + request.getResourceAmount() +
                 " | price: " + request.getPrice() + " | message: " + request.getSentMessage() + "\n";
     }

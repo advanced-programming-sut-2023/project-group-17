@@ -5,7 +5,6 @@ import View.TradeMenu;
 
 public class TradeRequest {
     private final User senderUser;
-    private final User recieverUser;
     private static int idCount = 1;
     private final int id;
     private final Resource.resourceType resourceType;
@@ -16,9 +15,8 @@ public class TradeRequest {
     boolean isAccepted = false;
     boolean isSeen = false;
 
-    public TradeRequest(User senderUser, User recieverUser, Resource.resourceType resourceType, int resourceAmount, int price, String sentMessage) {
+    public TradeRequest(User senderUser, Resource.resourceType resourceType, int resourceAmount, int price, String sentMessage) {
         this.senderUser = senderUser;
-        this.recieverUser = recieverUser;
         this.resourceType = resourceType;
         this.resourceAmount = resourceAmount;
         this.price = price;
@@ -37,10 +35,6 @@ public class TradeRequest {
 
     public User getSenderUser() {
         return senderUser;
-    }
-
-    public User getRecieverUser() {
-        return recieverUser;
     }
 
     public int getId() {
