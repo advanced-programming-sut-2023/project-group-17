@@ -7,18 +7,18 @@ import java.util.ArrayList;
 public class Database {
     private static final ArrayList<User> users = new ArrayList<>();
     private static Map currentMapGame;
-    private static final ArrayList<String> recoveryQuestions = new ArrayList<>();
+//    private static final ArrayList<String> recoveryQuestions = new ArrayList<>();
     private static final ArrayList<User> usersInTheGame = new ArrayList<>();
     private static final ArrayList<Map> allMaps = new ArrayList<>();
     private static User loggedInUser = null;
     private static int turnsPassed = 0;
     private static int totalTurns = 0;
 
-    static {
-        recoveryQuestions.add("1. What is my father's name?");
-        recoveryQuestions.add("2. What was my first pet's name?");
-        recoveryQuestions.add("3. What is my mother's last name?");
-    }
+    static final String[] recoveryQuestions = {
+        "1. What is my father's name?",
+        "2. What was my first pet's name?",
+        "3. What is my mother's last name?",
+    };
 
     //todo: static class to add default maps
 
@@ -55,7 +55,7 @@ public class Database {
     }
 
     public static String getQuestionByNumber(Integer questionNumber) {
-        return recoveryQuestions.get(questionNumber - 1);
+        return recoveryQuestions[questionNumber - 1];
     }
 
     public static Map getCurrentMapGame() {
