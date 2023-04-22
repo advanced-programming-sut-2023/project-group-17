@@ -53,6 +53,25 @@ public class UnitMenu extends Menu {
     }
 
     private void selectUnit(Matcher matcher) {
+//        if (checkBlankField(matcher.group("x")) || checkBlankField(matcher.group("y"))) {
+//            System.out.println("select unit failed : blank field");
+//            return;
+//        }
+//
+//        Integer x = Integer.parseInt(matcher.group("x"));
+//        Integer y = Integer.parseInt(matcher.group("y"));
+//
+//        switch (controller.selectUnit(x, y)) {
+//            case SUCCESS:
+//                System.out.println("unit selected successfully");
+//                break;
+//            case X_OUT_OF_BOUNDS:
+//                System.out.println("select unit failed : x out of bounds");
+//                break;
+//            case Y_OUT_OF_BOUNDS:
+//                System.out.println("select unit failed : y out of bounds");
+//                break;
+//        }
 
     }
 
