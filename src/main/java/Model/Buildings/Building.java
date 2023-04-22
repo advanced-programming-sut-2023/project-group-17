@@ -1,6 +1,7 @@
 package Model.Buildings;
 
 import Model.Items.Item;
+import Model.Items.Resource;
 import Model.People.Person;
 import Model.User;
 
@@ -12,7 +13,7 @@ public class Building {
     private int buildingHp;
     private final String buildingName;
     //TODO: emun beshe
-    private final HashMap<Item, Integer> buildingCost;
+    private final HashMap<Resource.resourceType, Integer> buildingCost;
     private final HashMap<Person, Integer> numberOfWorkers;
     //TODO: nesfeshoon aslan worker nemikhan
 
@@ -37,7 +38,7 @@ public class Building {
         return buildingName;
     }
 
-    public HashMap<Item, Integer> getBuildingCost() {
+    public HashMap<Resource.resourceType, Integer> getBuildingCost() {
         return buildingCost;
     }
 

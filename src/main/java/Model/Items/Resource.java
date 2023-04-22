@@ -11,7 +11,10 @@ public class Resource extends Item {
         STONE("stone", 0),
         IRON("iron", 0),
         WOOD("wood", 0),
-        PITCH("pitch", 0);
+        PITCH("pitch", 0),
+        GOLD("gold", 0);
+
+        //TODO: number ham ezafe beshe?
 
         private final String name;
         private final Double cost;
