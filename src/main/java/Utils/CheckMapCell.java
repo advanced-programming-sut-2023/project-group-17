@@ -2,6 +2,8 @@ package Utils;
 
 import Model.Database;
 import Model.MapCell;
+import Model.User;
+import View.Enums.Messages.UtilsMessages;
 
 public class CheckMapCell {
     public static boolean validationOfX(int x) {
@@ -13,6 +15,13 @@ public class CheckMapCell {
     public static boolean mapCellEmptyByCoordinates(int x, int y) {
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
         assert mapCell != null;
-        return mapCell.getBuildings().size() == 0 && mapCell.getMapCellItems().size() == 0;
+        return !(mapCell.haveBuilding() || mapCell.haveMapCellItem());
+    }
+    public static UtilsMessages mapCellHaveBuildingByCoordinates(int x, int y, User owner) {
+        MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
+        assert mapCell != null;
+        if (!mapCell.haveBuilding()) return UtilsMessages.NO_BUILDING_IN_THIS_CELL;
+        if (!mapCell.getBuilding().getOwner().equals(owner)) return UtilsMessages.OPPONENT_BUILDING;
+        return UtilsMessages.SUCCESS;
     }
 }

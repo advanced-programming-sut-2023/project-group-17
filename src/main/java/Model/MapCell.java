@@ -12,7 +12,7 @@ public class MapCell {
     private final int x;
     private final int y;
     private MaterialMap materialMap;
-    private ArrayList<Building> buildings;
+    private Building building;
     private ArrayList<Person> people;
     private ArrayList<Item> items;
     private ArrayList<MapCellItems> mapCellItems;
@@ -21,7 +21,6 @@ public class MapCell {
         this.x = x;
         this.y = y;
         this.materialMap = materialMap;
-        buildings = new ArrayList<Building>();
         people = new ArrayList<Person>();
         items = new ArrayList<Item>();
         mapCellItems = new ArrayList<MapCellItems>();
@@ -40,8 +39,8 @@ public class MapCell {
         return materialMap;
     }
 
-    public ArrayList<Building> getBuildings() {
-        return buildings;
+    public Building getBuilding() {
+        return building;
     }
 
     public ArrayList<Person> getPeople() {
@@ -64,8 +63,8 @@ public class MapCell {
         this.materialMap = materialMap;
     }
 
-    public void addBuildings(Building building) {
-        this.buildings.add(building);
+    public void addBuilding(Building building) {
+        this.building = building;
     }
 
     public void setPeople(Person person) {
@@ -82,5 +81,11 @@ public class MapCell {
 
     public void setAttackToolsAndMethods(AttackToolsAndMethods attackToolsAndMethod) {
         this.attackToolsAndMethods.add(attackToolsAndMethod);
+    }
+    public boolean haveBuilding() {
+        return building != null;
+    }
+    public boolean haveMapCellItem() {
+        return mapCellItems.size() != 0;
     }
 }
