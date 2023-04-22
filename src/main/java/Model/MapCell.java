@@ -11,13 +11,13 @@ import java.util.ArrayList;
 public class MapCell {
     private final int x;
     private final int y;
-    private MaterialMap materialMap;
+    private MaterialMap.textureMap materialMap;
     private Building building;
     private ArrayList<Person> people;
     private ArrayList<Item> items;
     private ArrayList<MapCellItems> mapCellItems;
     private ArrayList<AttackToolsAndMethods> attackToolsAndMethods;
-    public MapCell(int x, int y, MaterialMap materialMap) {
+    public MapCell(int x, int y, MaterialMap.textureMap materialMap) {
         this.x = x;
         this.y = y;
         this.materialMap = materialMap;
@@ -35,7 +35,7 @@ public class MapCell {
         return y;
     }
 
-    public MaterialMap getMaterialMap() {
+    public MaterialMap.textureMap getMaterialMap() {
         return materialMap;
     }
 
@@ -59,27 +59,47 @@ public class MapCell {
         return attackToolsAndMethods;
     }
 
-    public void setMaterialMap(MaterialMap materialMap) {
+    public void setMaterialMap(MaterialMap.textureMap textureMap) {
         this.materialMap = materialMap;
+    }
+
+    public void setBuilding(Building building) {
+        this.building = building;
+    }
+
+    public void setPeople(ArrayList<Person> people) {
+        this.people = people;
+    }
+
+    public void setItems(ArrayList<Item> items) {
+        this.items = items;
+    }
+
+    public void setMapCellItems(ArrayList<MapCellItems> mapCellItems) {
+        this.mapCellItems = mapCellItems;
+    }
+
+    public void setAttackToolsAndMethods(ArrayList<AttackToolsAndMethods> attackToolsAndMethods) {
+        this.attackToolsAndMethods = attackToolsAndMethods;
     }
 
     public void addBuilding(Building building) {
         this.building = building;
     }
 
-    public void setPeople(Person person) {
+    public void addPeople(Person person) {
         this.people.add(person);
     }
 
-    public void setItems(Item item) {
+    public void addItems(Item item) {
         this.items.add(item);
     }
 
-    public void setMapCellItems(MapCellItems mapCellItem) {
+    public void addMapCellItems(MapCellItems mapCellItem) {
         this.mapCellItems.add(mapCellItem);
     }
 
-    public void setAttackToolsAndMethods(AttackToolsAndMethods attackToolsAndMethod) {
+    public void addAttackToolsAndMethods(AttackToolsAndMethods attackToolsAndMethod) {
         this.attackToolsAndMethods.add(attackToolsAndMethod);
     }
     public boolean haveBuilding() {
