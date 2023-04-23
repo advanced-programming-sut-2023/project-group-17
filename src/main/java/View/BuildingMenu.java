@@ -25,7 +25,10 @@ public class BuildingMenu extends Menu{
                 createUnit(matcher);
             else if ((matcher = BuildingMenuCommands.getMatcher(command, BuildingMenuCommands.REPAIR)) != null)
                 repair();
-            else if ((matcher = BuildingMenuCommands.getMatcher(command, BuildingMenuCommands.BACK)) != null) return;
+            else if ((matcher = BuildingMenuCommands.getMatcher(command, BuildingMenuCommands.BACK)) != null) {
+                controller.selectedBuilding = null;
+                return;
+            }
             else System.out.println("Invalid Command");
         }
     }

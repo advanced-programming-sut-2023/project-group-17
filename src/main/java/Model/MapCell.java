@@ -17,6 +17,7 @@ public class MapCell {
     private ArrayList<Item> items;
     private ArrayList<MapCellItems> mapCellItems;
     private ArrayList<AttackToolsAndMethods> attackToolsAndMethods;
+    private String color;
     public MapCell(int x, int y, MaterialMap.textureMap materialMap) {
         this.x = x;
         this.y = y;
@@ -25,6 +26,7 @@ public class MapCell {
         items = new ArrayList<Item>();
         mapCellItems = new ArrayList<MapCellItems>();
         attackToolsAndMethods = new ArrayList<AttackToolsAndMethods>();
+        this.color = materialMap.getColor();
     }
 
     public int getX() {
@@ -107,5 +109,20 @@ public class MapCell {
     }
     public boolean haveMapCellItem() {
         return mapCellItems.size() != 0;
+    }
+
+    @Override
+    public String toString() {
+        String mapCellString = "";
+        mapCellString += color;
+        for (int i = 0; i < 3; i++) mapCellString += "#";
+        mapCellString += Color.ANSI_RESET + "\n";
+        mapCellString += color + "#";
+        if (haveBuilding()) mapCellString += "B";
+        //TODO bayad baghie halat ha ezafe beshe
+        mapCellString += "#" + Color.ANSI_RESET + "\n" + color;
+        for (int i = 0; i < 3; i++) mapCellString += "#";
+        mapCellString += Color.ANSI_RESET + "\n";
+        return mapCellString;
     }
 }

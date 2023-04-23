@@ -9,10 +9,19 @@ import Model.MaterialMap;
 import Utils.CheckMapCell;
 import View.Enums.Messages.BuildingMenuMessages;
 import View.Enums.Messages.MapMenuMessages;
+import View.MapMenu;
+import View.Menu;
 
 public class MapMenuController {
     public MapMenuMessages showMap(int x, int y) {
-        return null;
+        String map;
+        if (!CheckMapCell.validationOfX(x)) return MapMenuMessages.X_OUT_OF_BOUNDS;
+        if (!CheckMapCell.validationOfY(y)) return MapMenuMessages.Y_OUT_OF_BOUNDS;
+        int xFromCadre = Math.min((x - Database.getCurrentMapGame().getWidth()), x);
+        int yFromCadre = Math.min((y - Database.getCurrentMapGame().getLength()), y);
+        //TODO complete how to print map
+//        MapMenu.print();
+        return MapMenuMessages.SUCCESS;
     }
 
     public MapMenuMessages moveMap(String directions) {
