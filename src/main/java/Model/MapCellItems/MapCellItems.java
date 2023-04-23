@@ -13,6 +13,6 @@ public class MapCellItems {
     }
 
     public void addItem(int x, int y) {
-
+        //TODO chera aslan in vojod dare
     }
 }
