@@ -160,7 +160,7 @@ public class MapCell {
         return mapCellString;
     }
 
-    private String objectInCell() {
+    public String objectInCell() {
         if (haveBuilding()) return  "B";
         if (getRock() != null) return "R";
         if (getTree() != null) return "T";

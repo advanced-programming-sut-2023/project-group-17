@@ -1,30 +1,54 @@
 package Controller;
 
-import Model.Database;
-import Model.Direction;
-import Model.MapCell;
+import Model.*;
 import Model.MapCellItems.Rock;
 import Model.MapCellItems.Tree;
-import Model.MaterialMap;
 import Utils.CheckMapCell;
 import View.Enums.Messages.MapMenuMessages;
 import View.MapMenu;
-import View.Menu;
 
 public class MapMenuController {
     private int xMap;
     private int yMap;
     public MapMenuMessages showMap(int x, int y) {
-        String map = "";
+        String map ;
         if (!CheckMapCell.validationOfX(x)) return MapMenuMessages.X_OUT_OF_BOUNDS;
         if (!CheckMapCell.validationOfY(y)) return MapMenuMessages.Y_OUT_OF_BOUNDS;
-        xMap = x;
-        yMap = y;
-        int xFromCadre = Math.min((x - Database.getCurrentMapGame().getWidth()), x);
-        int yFromCadre = Math.min((y - Database.getCurrentMapGame().getLength()), y);
+        xMap = getAppropriateX(x);
+        yMap = getAppropriateY(y);
+        map = showMapCells(x, y);
         //TODO complete how to print map
-//        MapMenu.print();
+        MapMenu.print(map);
         return MapMenuMessages.SUCCESS;
+    }
+
+    private int getAppropriateX(int x) {
+        if (x < 3) return 3;
+        return Math.min(x, Database.getCurrentMapGame().getWidth() - 3);
+    }
+    private int getAppropriateY(int y) {
+        if (y < 3) return 3;
+        return Math.min(y, Database.getCurrentMapGame().getLength() - 3);
+    }
+
+    private String showMapCells(int x, int y) {
+        if (!CheckMapCell.validationOfX(x)) return "";
+        String data = "";
+        for (int i = 0; i < 5 * 4 + 1; i++) {
+            for (int j = 0; j < 5 * 4 + 1; j++) {
+                if (j % 4 == 0) data += "-";
+                else if (i % 4 == 0) data += "|";
+                else if (i % 2 == 0 && j % 2 == 0) {
+                    MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x - 5 + i, y - 5 + j);
+                    data += mapCell.getMaterialMap().getColor() + mapCell.objectInCell() + Color.ANSI_RESET;
+                } else {
+                    MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x - 5 + i, y - 5 + j);
+                    data += mapCell.getMaterialMap().getColor() + "#" + Color.ANSI_RESET;
+                }
+            }
+            data += "\n";
+        }
+        return data;
     }
 
     public String moveMap(int[] directions) {
