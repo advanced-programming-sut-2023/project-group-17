@@ -9,8 +9,12 @@ import java.util.regex.Matcher;
 public class GameMenu extends Menu {
 
     private GameMenuController controller;
+    private MapMenu mapMenu;
 
-    public GameMenu() { this.controller = new GameMenuController(); }
+    public GameMenu() {
+        this.controller = new GameMenuController();
+        mapMenu = new MapMenu();
+    }
     @Override
     public void run(Scanner scanner) {
         String command = null;
@@ -41,6 +45,9 @@ public class GameMenu extends Menu {
 
             else if(GameMenuCommands.getMatcher(command, GameMenuCommands.ENTER_SHOP_MENU) != null)
                 new ShopMenu().run(scanner);
+
+            else if(GameMenuCommands.getMatcher(command, GameMenuCommands.ENTER_MAP_MENU) != null)
+                mapMenu.run(scanner);
 
             else System.out.println("Invalid Command");
         }
@@ -85,7 +92,8 @@ public class GameMenu extends Menu {
                 System.out.println("show map failed : y out of bounds");
                 break;
             case SUCCESS:
-                //TODO: print map
+                mapMenu.showMap(x, y);
+                mapMenu.run(scanner);
                 break;
         }
     }

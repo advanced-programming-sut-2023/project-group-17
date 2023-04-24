@@ -44,16 +44,7 @@ public class MapMenu extends Menu{
     }
 
     public void showMap(int x, int y) {
-        switch (controller.showMap(x, y)) {
-            case SUCCESS:
-                //TODO handle showing map
-            case X_OUT_OF_BOUNDS:
-                System.out.println("Show map failed : Coordinate of x is out of bounds");
-                break;
-            case Y_OUT_OF_BOUNDS:
-                System.out.println("Show map failed : Coordinate of y is out of bounds");
-                break;
-        }
+        System.out.println(controller.showMap(x, y));
     }
     private void moveMap(Matcher matcher) {
         int[] directions = new int[4];
