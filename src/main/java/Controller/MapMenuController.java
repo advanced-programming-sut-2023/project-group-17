@@ -12,10 +12,14 @@ import View.MapMenu;
 import View.Menu;
 
 public class MapMenuController {
+    private int xMap;
+    private int yMap;
     public MapMenuMessages showMap(int x, int y) {
         String map = "";
         if (!CheckMapCell.validationOfX(x)) return MapMenuMessages.X_OUT_OF_BOUNDS;
         if (!CheckMapCell.validationOfY(y)) return MapMenuMessages.Y_OUT_OF_BOUNDS;
+        xMap = x;
+        yMap = y;
         int xFromCadre = Math.min((x - Database.getCurrentMapGame().getWidth()), x);
         int yFromCadre = Math.min((y - Database.getCurrentMapGame().getLength()), y);
         //TODO complete how to print map
@@ -23,8 +27,33 @@ public class MapMenuController {
         return MapMenuMessages.SUCCESS;
     }
 
-    public MapMenuMessages moveMap(String directions) {
-        return null;
+    public String moveMap(int[] directions) {
+        int transversalMove = directions[1] - directions[3];
+        int longitudinalMove = directions[0] - directions[2];
+        MapMenu.print(isSafeToMove(transversalMove, longitudinalMove));
+        showMap(xMap, yMap);
+        return "";
+    }
+    public String isSafeToMove(int transversalMove, int longitudinalMove) {
+        int width = xMap + transversalMove;
+        int length = yMap + longitudinalMove;
+        boolean widthOutOfMap = width < 0 || width > Database.getCurrentMapGame().getWidth();
+        boolean lengthOutOfMap = length < 0 || length > Database.getCurrentMapGame().getLength();
+        if (widthOutOfMap && lengthOutOfMap) return "Both coordinates out of map";
+        if (widthOutOfMap) {
+            yMap = length;
+            return "Width out of map";
+        }
+        if (lengthOutOfMap) {
+            xMap = width;
+            return "Length out of map";
+        }
+        xMap = width;
+        yMap = length;
+        return "Move successfully\n" +
+                "New map coordinates are : \n" +
+                "x : " + xMap + "\n" +
+                "y : " + yMap;
     }
 
     public MapMenuMessages showDetails(int x, int y) {

@@ -1,6 +1,7 @@
 package View;
 
 import Controller.MapMenuController;
+import Utils.CheckValidation;
 import View.Enums.Commands.MapMenuCommands;
 import View.Enums.Messages.MapMenuMessages;
 
@@ -42,7 +43,7 @@ public class MapMenu extends Menu{
         }
     }
 
-    private void showMap(int x, int y) {
+    public void showMap(int x, int y) {
         switch (controller.showMap(x, y)) {
             case SUCCESS:
                 //TODO handle showing map
@@ -55,16 +56,17 @@ public class MapMenu extends Menu{
         }
     }
     private void moveMap(Matcher matcher) {
-        if (Menu.checkBlankField(matcher.group("direction"))) {
-            System.out.println("Move map failed : Blanked field");
-            return;
-        }
-        String directions = Menu.handleDoubleQuote(matcher.group("direction"));
-        switch (controller.moveMap(directions)) {
-            case INVALID_DIRECTION:
-                System.out.println("Move map failed : Invalid direction");
-                break;
-        }
+        int[] directions = new int[4];
+        initializeDirections(matcher, "up", "moveUp", directions, 0);
+        initializeDirections(matcher, "right", "moveRight", directions, 1);
+        initializeDirections(matcher, "down", "moveDown", directions, 2);
+        initializeDirections(matcher, "left", "moveLeft", directions, 3);
+        System.out.println(controller.moveMap(directions));
+    }
+    private void initializeDirections(Matcher matcher, String directionMatcher, String numberMatcher, int[] directions, int index) {
+        if (Menu.checkBlankField(matcher.group(directionMatcher))) directions[index] = 0;
+        else if (Menu.checkBlankField(matcher.group(numberMatcher))) directions[index] = 1;
+        else directions[index] = Integer.parseInt(matcher.group(numberMatcher));
     }
 
     private void showDetails(Matcher matcher) {
