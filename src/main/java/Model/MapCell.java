@@ -4,7 +4,11 @@ import Model.AttackToolsAndMethods.AttackToolsAndMethods;
 import Model.Buildings.Building;
 import Model.Items.Item;
 import Model.MapCellItems.MapCellItems;
+import Model.MapCellItems.Rock;
+import Model.MapCellItems.Tree;
+import Model.MapCellItems.Wall;
 import Model.People.Person;
+import Model.People.Soldier;
 
 import java.util.ArrayList;
 
@@ -110,19 +114,58 @@ public class MapCell {
     public boolean haveMapCellItem() {
         return mapCellItems.size() != 0;
     }
+    public boolean haveAttackTools() {
+        return attackToolsAndMethods.size() != 0;
+    }
+    public Wall getWall() {
+        for (MapCellItems mapCellItem : mapCellItems) {
+            if (mapCellItem instanceof Wall) return (Wall) mapCellItem;
+        }
+        return null;
+    }
+    public Tree getTree() {
+        for (MapCellItems mapCellItem : mapCellItems) {
+            if (mapCellItem instanceof Tree) return (Tree) mapCellItem;
+        }
+        return null;
+    }
+    public Rock getRock() {
+        for (MapCellItems mapCellItem : mapCellItems) {
+            if (mapCellItem instanceof Rock) return (Rock) mapCellItem;
+        }
+        return null;
+    }
+    public ArrayList<Soldier> getSoldier() {
+        ArrayList<Soldier> soldiers = new ArrayList<>();
+        for (Person person : people) {
+            if (person instanceof Soldier) soldiers.add((Soldier) person);
+        }
+        return soldiers;
+    }
+    public boolean canDropItems() {
+        return !haveMapCellItem() && !haveBuilding() && !haveAttackTools();
+    }
 
     @Override
     public String toString() {
         String mapCellString = "";
-        mapCellString += color;
+        mapCellString += color +"|";
         for (int i = 0; i < 3; i++) mapCellString += "#";
-        mapCellString += Color.ANSI_RESET + "\n";
-        mapCellString += color + "#";
-        if (haveBuilding()) mapCellString += "B";
-        //TODO bayad baghie halat ha ezafe beshe
-        mapCellString += "#" + Color.ANSI_RESET + "\n" + color;
+        mapCellString += "|" + Color.ANSI_RESET + "\n";
+        mapCellString += color + "|#";
+        mapCellString += objectInCell();
+        mapCellString += "#|" + Color.ANSI_RESET + "\n" + color + "|";
         for (int i = 0; i < 3; i++) mapCellString += "#";
-        mapCellString += Color.ANSI_RESET + "\n";
+        mapCellString += "|" + Color.ANSI_RESET + "\n";
         return mapCellString;
+    }
+
+    private String objectInCell() {
+        if (haveBuilding()) return  "B";
+        if (getRock() != null) return "R";
+        if (getTree() != null) return "T";
+        if (getWall() != null) return "W";
+        if (getSoldier().size() != 0) return "S";
+        return "#";
     }
 }

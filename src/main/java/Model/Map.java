@@ -17,8 +17,7 @@ public class Map {
         mapCells = new ArrayList<>();
         for(int i=1; i<=width; i++) {
             for(int j=1; j<=length; j++) {
-                mapCells.add(new MapCell(i, j, ));
-                //todo: add default material to map cell constructor
+                mapCells.add(new MapCell(i, j, MaterialMap.textureMap.LAND));
             }
         }
     }

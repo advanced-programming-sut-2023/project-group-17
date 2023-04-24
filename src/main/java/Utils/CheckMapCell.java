@@ -15,7 +15,7 @@ public class CheckMapCell {
     public static boolean mapCellEmptyByCoordinates(int x, int y) {
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
         assert mapCell != null;
-        return !(mapCell.haveBuilding() || mapCell.haveMapCellItem());
+        return mapCell.canDropItems();
     }
     public static UtilsMessages mapCellHaveBuildingByCoordinates(int x, int y, User owner) {
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);

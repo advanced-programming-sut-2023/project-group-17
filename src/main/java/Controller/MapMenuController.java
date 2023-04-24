@@ -7,14 +7,13 @@ import Model.MapCellItems.Rock;
 import Model.MapCellItems.Tree;
 import Model.MaterialMap;
 import Utils.CheckMapCell;
-import View.Enums.Messages.BuildingMenuMessages;
 import View.Enums.Messages.MapMenuMessages;
 import View.MapMenu;
 import View.Menu;
 
 public class MapMenuController {
     public MapMenuMessages showMap(int x, int y) {
-        String map;
+        String map = "";
         if (!CheckMapCell.validationOfX(x)) return MapMenuMessages.X_OUT_OF_BOUNDS;
         if (!CheckMapCell.validationOfY(y)) return MapMenuMessages.Y_OUT_OF_BOUNDS;
         int xFromCadre = Math.min((x - Database.getCurrentMapGame().getWidth()), x);
@@ -29,7 +28,21 @@ public class MapMenuController {
     }
 
     public MapMenuMessages showDetails(int x, int y) {
-        return null;
+        String details = "";
+        if (!CheckMapCell.validationOfX(x)) return MapMenuMessages.X_OUT_OF_BOUNDS;
+        if (!CheckMapCell.validationOfY(y)) return MapMenuMessages.Y_OUT_OF_BOUNDS;
+        MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
+        details += "MapCell with coordinates of x : " + x + " and y : " + y + "\n"
+                + "Texture : " + mapCell.getMaterialMap().getMaterial() + "\n";
+        if(mapCell.haveBuilding()) details += "Building : " + mapCell.getBuilding().getBuildingName() + "\n";
+        else if (mapCell.haveAttackTools()) details += "AttackTool : "
+                + mapCell.getAttackToolsAndMethods().get(0).getName() + "\n";
+        else if (mapCell.getWall() != null) details += "have wall\n" ;
+        else if (mapCell.getTree() != null) details += "Tree : " + mapCell.getTree().getTypeOfTree().getType() + "\n";
+        else if (mapCell.getRock() != null) details += "have rock\n" ;
+        details += "Number of people in this cell : " + mapCell.getSoldier().size();
+        //TODO complete soldiers
+        return MapMenuMessages.SUCCESS;
     }
 
     public MapMenuMessages setTextureOfOneBlock(int x, int y, String type) {
