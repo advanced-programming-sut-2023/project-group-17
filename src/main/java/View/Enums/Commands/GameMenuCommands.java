@@ -12,7 +12,8 @@ public enum GameMenuCommands {
     ENTER_UNIT_MENU("\\s*enter\\s+unit\\s+menu\\s*"),
     ENTER_TRADE_MENU("\\s*enter\\s+trade\\s+menu\\s*"),
     ENTER_SHOP_MENU("\\s*enter\\s+shop\\s+menu\\s*"),
-    ENTER_MAP_MENU("\\s*enter\\s+map\\s+menu\\s*");
+    ENTER_MAP_MENU("\\s*enter\\s+map\\s+menu\\s*"),
+    NEXT_TURN("\\s*next\\s+turn\\s*");
 
     final String regex;
     private GameMenuCommands(String regex) { this.regex = regex; }

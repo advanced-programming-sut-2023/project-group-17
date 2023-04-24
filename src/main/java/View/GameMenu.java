@@ -1,6 +1,7 @@
 package View;
 
 import Controller.GameMenuController;
+import Model.Database;
 import View.Enums.Commands.GameMenuCommands;
 
 import java.util.Scanner;
@@ -19,17 +20,15 @@ public class GameMenu extends Menu {
     public void run(Scanner scanner) {
         String command = null;
         Matcher matcher;
+        chooseMapGame();
 
         while (true) {
             command = scanner.nextLine();
-            if((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.CHOOSE_GAME_MAP)) != null)
-                chooseMapGame(matcher);
-
-            else if((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.SHOW_MAP)) != null)
+            if((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.SHOW_MAP)) != null)
                 showMap(matcher);
 
-            else if((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.DEFINE_MAP_SIZE)) != null)
-                defineMapSize(matcher);
+            else if(GameMenuCommands.getMatcher(command, GameMenuCommands.NEXT_TURN) != null)
+                nextTurn();
 
             else if(GameMenuCommands.getMatcher(command, GameMenuCommands.ENTER_EMPIRE_MENU) != null)
                 new EmpireMenu().run(scanner);
@@ -50,28 +49,6 @@ public class GameMenu extends Menu {
                 mapMenu.run(scanner);
 
             else System.out.println("Invalid Command");
-        }
-    }
-
-    private void defineMapSize(Matcher matcher) {
-        if(checkBlankField(matcher.group("width")) || checkBlankField(matcher.group("length"))) {
-            System.out.println("define map size failed : blank field");
-            return;
-        }
-
-        int width = Integer.parseInt(matcher.group("width"));
-        int length = Integer.parseInt(matcher.group("length"));
-
-        switch (controller.defineMapSize(width , length)) {
-            case INVALID_LENGTH:
-                System.out.println("define map size failed : invalid length");
-                break;
-            case INVALID_WIDTH:
-                System.out.println("define map size failed : invalid width");
-                break;
-            case SUCCESS:
-                System.out.println("map size defined successfully");
-                break;
         }
     }
 
@@ -98,21 +75,44 @@ public class GameMenu extends Menu {
         }
     }
 
-    private void chooseMapGame(Matcher matcher) {
-        if(checkBlankField(matcher.group("id"))) {
-            System.out.println("choose map failed : blank field");
+    private void chooseMapGame() {
+        System.out.println("choose your map by id:");
+        System.out.println("give an id between 1 and " + Database.getAllMaps().size());
+        System.out.println("If you want to create custom map enter 0");
+
+        int mapId = scanner.nextInt();
+
+        if(mapId == 0) {
+            System.out.println("enter width and length");
+            int width = scanner.nextInt();
+            int length = scanner.nextInt();
+            switch (controller.createNewMap(width, length)) {
+                case INVALID_LENGTH:
+                    System.out.println("create map failed : invalid length");
+                    chooseMapGame();
+                    break;
+                case INVALID_WIDTH:
+                    System.out.println("create map failed : invalid width");
+                    chooseMapGame();
+                    break;
+                case SUCCESS:
+                    System.out.println("map created successfully");
+                    break;
+            }
             return;
         }
-
-        int mapId = Integer.parseInt(matcher.group("id"));
 
         switch (controller.chooseMapGame(mapId)) {
             case INVALID_MAP_NUMBER:
                 System.out.println("choose map failed : id does not exist");
                 break;
             case SUCCESS:
-                System.out.println("map chose successfully ");
+                System.out.println("map chose successfully");
                 break;
         }
+    }
+
+    public void nextTurn() {
+        controller.nextTurn();
     }
 }
