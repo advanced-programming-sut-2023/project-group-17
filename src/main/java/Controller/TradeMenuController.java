@@ -38,10 +38,10 @@ public class TradeMenuController {
         int amount = request.getResourceAmount();
         double price = request.getPrice();
 
-        receiverEmpire.getResourceByName(resourceName).changeNumber(amount);
-        senderEmpire.getResourceByName(resourceName).changeNumber(-amount);
-        senderEmpire.changeCoins(price);
-        receiverEmpire.changeCoins(-price);
+        receiverEmpire.getResourceByName(resourceName).changeNumber(-amount);
+        senderEmpire.getResourceByName(resourceName).changeNumber(amount);
+        senderEmpire.changeCoins(-price);
+        receiverEmpire.changeCoins(price);
         receiverEmpire.getRecievedRequestById(id).setAcceptMessage(message);
         receiverEmpire.getRecievedRequestById(id).setAccepted();
         return TradeMenuMessages.SUCCESS;
