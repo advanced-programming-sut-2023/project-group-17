@@ -48,7 +48,7 @@ public class SignupMenu extends Menu{
     }
 
     private void enterLoginMenu() {
-        System.out.println("enter login menu successfully");
+        System.out.println("entered login menu successfully");
     }
 
     private void createUser(Matcher matcher) {
