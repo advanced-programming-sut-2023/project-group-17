@@ -23,7 +23,7 @@ public class Randoms {
             if(password[i] == 0)
                 password[i] = lowercase.charAt(random.nextInt(lowercase.length()));
         }
-        return Arrays.toString(password);
+        return String.valueOf(password);
     }
     private static int getNextIndex(Random random, int length, char[] password) {
             int index = random.nextInt(length);

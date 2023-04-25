@@ -62,6 +62,10 @@ public class Database {
         return false;
     }
 
+    public static String getRecoveryQuestions() {
+        return recoveryQuestions[0] + '\n' + recoveryQuestions[1] + '\n' + recoveryQuestions[2] + '\n';
+    }
+
     public static String getQuestionByNumber(Integer questionNumber) {
         return recoveryQuestions[questionNumber - 1];
     }
