@@ -63,6 +63,10 @@ public class LoginMenuController {
     }
 
     public boolean checkStayLoggedIn() {
-        return Database.getStayLoggedInUser() != null;
+        if (Database.getStayLoggedInUser() != null) {
+            Database.setLoggedInUser(Database.getStayLoggedInUser());
+            return true;
+        }
+        return false;
     }
 }
