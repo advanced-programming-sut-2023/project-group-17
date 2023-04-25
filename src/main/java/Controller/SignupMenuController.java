@@ -22,10 +22,11 @@ public class SignupMenuController {
         if(getUserByUsername(username) != null)
             return SignupMenuMessages.USERNAME_EXISTS;
 
-        if(slogan != null && slogan.equals("random")) {
-            slogan = Randoms.generateRandomSlogan();
-            print("your slogan is \"" + slogan + "\"");
-        }
+        if(emailExists(email))
+            return SignupMenuMessages.EMAIL_EXISTS;
+
+        if(!email.matches("([A-Za-z0-9_.]+@[A-Za-z0-9_.]+\\.[A-Za-z0-9_.]+)"))
+            return SignupMenuMessages.INVALID_EMAIL;
 
         if(password.equals("random") && confirmationPassword == null) {
             password = Randoms.generateRandomPassword();
@@ -54,11 +55,10 @@ public class SignupMenuController {
         if(!password.equals(confirmationPassword))
             return SignupMenuMessages.PASSWORD_DOES_NOT_MATCH;
 
-        if(emailExists(email))
-            return SignupMenuMessages.EMAIL_EXISTS;
-
-        if(!email.matches("([A-Za-z0-9_.]+@[A-Za-z0-9_.]+\\.[A-Za-z0-9_.]+)"))
-            return SignupMenuMessages.INVALID_EMAIL;
+        if(slogan != null && slogan.equals("random")) {
+            slogan = Randoms.generateRandomSlogan();
+            print("your slogan is \"" + slogan + "\"");
+        }
 
         tempUser = new User(username, User.SHA256Code(password), nickname, email, slogan);
         addUser(tempUser);
@@ -81,7 +81,7 @@ public class SignupMenuController {
         return SignupMenuMessages.SUCCESS;
     }
     public String getSecurityQuestions() {
-        String questions = "";
+        String questions = "pick your question : \n";
         for (int i = 0; i < recoveryQuestions.length; i++)
             questions += (i + 1) + ". " + recoveryQuestions[i] + "\n";
         return questions;
