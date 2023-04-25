@@ -1,6 +1,5 @@
 package Utils;
 
-import java.util.Arrays;
 import java.util.Random;
 
 public class Randoms {
@@ -23,11 +22,8 @@ public class Randoms {
             if(password[i] == 0)
                 password[i] = lowercase.charAt(random.nextInt(lowercase.length()));
         }
-        StringBuffer passwords = new StringBuffer();
-        for (char character : password) {
-            passwords.append(character);
-        }
-        return passwords.toString();
+
+        return String.valueOf(password);
     }
     private static int getNextIndex(Random random, int length, char[] password) {
             int index = random.nextInt(length);

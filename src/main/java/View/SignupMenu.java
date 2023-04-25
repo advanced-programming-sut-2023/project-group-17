@@ -24,13 +24,30 @@ public class SignupMenu extends Menu{
             command = scanner.nextLine();
             if((matcher = SignupMenuCommands.getMatcher(command, SignupMenuCommands.CREATE_USER)) != null)
                 createUser(matcher);
-            else if((matcher = SignupMenuCommands.getMatcher(command, SignupMenuCommands.PICK_QUESTION)) != null)
-                pickQuestion(matcher);
             else if((matcher = SignupMenuCommands.getMatcher(command, SignupMenuCommands.ENTER_LOGIN_MENU)) != null) {
                 enterLoginMenu();
                 return;
             }
             else System.out.println("Invalid Command");
+        }
+    }
+
+    public void mustPickQuestion() {
+        Matcher matcher;
+        String pickQuestionCommand;
+
+        System.out.print("pick your question : " + '\n'  +
+                "1. What is my father's name?" + '\n' +
+                "2. What was my first pet's name?" + '\n' +
+                "3. What is my mother's last name?" + '\n');
+
+        while(true) {
+            pickQuestionCommand = scanner.next();
+            if((matcher = SignupMenuCommands.getMatcher(pickQuestionCommand, SignupMenuCommands.PICK_QUESTION)) != null) {
+                pickQuestion(matcher);
+                return;
+            }
+            else System.out.println("signup failed : please pick question to complete your registration");
         }
     }
 
@@ -58,10 +75,7 @@ public class SignupMenu extends Menu{
         switch (controller.createUser(username, password, confirmationPassword, email, nickname, slogan)) {
             case SUCCESS:
                 System.out.println("user " + username + " created successfully");
-                System.out.print("pick your question : " + '\n'  +
-                                 "1. What is my father's name?" + '\n' +
-                                 "2. What was my first pet's name?" + '\n' +
-                                 "3. What is my mother's last name?" + '\n');
+                mustPickQuestion();
                 break;
             case INVALID_USERNAME:
                 System.out.println("signup failed : invalid username format");

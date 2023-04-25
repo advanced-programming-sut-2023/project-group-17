@@ -13,7 +13,8 @@ import static Model.Database.*;
 
 public class SignupMenuController {
     User tempUser;
-    public SignupMenuMessages createUser(String username, String password, String confirmationPassword, String email, String nickname, String slogan) {
+    public SignupMenuMessages createUser(String username, String password, String confirmationPassword,
+                                         String email, String nickname, String slogan) {
         Database.loadUsers();
         if(!username.matches("[A-Za-z0-9_]+"))
             return SignupMenuMessages.INVALID_USERNAME;
