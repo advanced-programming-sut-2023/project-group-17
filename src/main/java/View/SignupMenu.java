@@ -40,7 +40,8 @@ public class SignupMenu extends Menu{
     private void createUser(Matcher matcher) {
         if(checkBlankField(matcher.group("username")) || checkBlankField(matcher.group("password")) ||
            checkBlankField(matcher.group("confirmation")) || checkBlankField(matcher.group("email")) ||
-           checkBlankField(matcher.group("nickname")) || checkBlankField(matcher.group("slogan"))) {
+           checkBlankField(matcher.group("nickname")) ||
+                (!checkBlankField(matcher.group("sloganDash")) && checkBlankField(matcher.group("slogan")))) {
             System.out.println("signup failed : blank field");
             return;
         }

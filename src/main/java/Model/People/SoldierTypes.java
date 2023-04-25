@@ -10,21 +10,22 @@ public enum SoldierTypes {
     SPEARMAN("spearman", UnitAttributes.Speed.AVERAGE, UnitAttributes.AttackRating.MEDIUM, UnitAttributes.Armor.NA,
             UnitAttributes.DefenceRating.VERY_LOW, UnitAttributes.Weapon.SPEAR, UnitAttributes.Nationality.EUROPEAN,
             UnitAttributes.Health.LOW, true, true),
-    PIKEMEN,
-    MACEMEN,
-    SWORDSMEN,
-    KNIGHT,
-    TUNNELER,
-    LADDERMAN,
-    ENGINEER,
-    BLACK_MONK,
-    ARCHER_BOW,
-    SLAVE,
-    SLINGER,
-    ASSASIN,
-    HORSE_ARCHERS,
-    ARABIAN_SWORDSMAN,
-    FIRE_THROWER;
+//    PIKEMEN,
+//    MACEMEN,
+//    SWORDSMEN,
+//    KNIGHT,
+//    TUNNELER,
+//    LADDERMAN,
+//    ENGINEER,
+//    BLACK_MONK,
+//    ARCHER_BOW,
+//    SLAVE,
+//    SLINGER,
+//    ASSASIN,
+//    HORSE_ARCHERS,
+//    ARABIAN_SWORDSMAN,
+//    FIRE_THROWER
+;
 
     private String name;
     private String status;

@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Database;
 import Model.User;
 import Utils.CheckValidation;
 import View.Enums.Messages.LoginMenuMessages;
@@ -11,6 +12,7 @@ import static View.Menu.scan;
 public class LoginMenuController {
 
     public LoginMenuMessages loginUser(String username, String password, boolean stayLoggedIn) {
+        Database.loadUsers();
         if(getUserByUsername(username) == null)
             return LoginMenuMessages.USERNAME_DOES_NOT_EXISTS;
 

@@ -10,21 +10,22 @@ import java.util.HashMap;
 
 public class Building {
     private final User owner;
-    private final String category;
+    private String category;
     private int buildingHp;
-    private final String buildingName;
+    private String buildingName;
     //TODO: emun beshe
-    private final HashMap<Resource.resourceType, Integer> buildingCost;
-    private final HashMap<PeopleType, Integer> numberOfWorkers;
+    private HashMap<Resource.resourceType, Integer> buildingCost;
+    private HashMap<PeopleType, Integer> numberOfWorkers;
     //TODO: nesfeshoon aslan worker nemikhan
 
-    public Building(User owner, BuildingType buildingType) {
+    public Building(User owner) {
+        //TODO make buildings file
         this.owner = owner;
-        this.buildingHp = buildingType.getHp();
-        this.buildingCost = buildingType.getCost();
-        this.buildingName = buildingType.getName();
-        this.numberOfWorkers = buildingType.getWorkers();
-        this.category = buildingType.getCategory();
+//        this.buildingHp = buildingType.getHp();
+//        this.buildingCost = buildingType.getCost();
+//        this.buildingName = buildingType.getName();
+//        this.numberOfWorkers = buildingType.getWorkers();
+//        this.category = buildingType.getCategory();
     }
 
     public User getOwner() {

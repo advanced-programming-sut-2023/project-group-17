@@ -1,6 +1,5 @@
 package Controller;
 
-import Model.Buildings.BuildingName;
 import Model.Direction;
 import Model.UnitAttributes.Status;
 import View.Enums.Messages.UnitMenuMessages;
@@ -41,7 +40,7 @@ public class UnitMenuController {
         return null;
     }
 
-    public UnitMenuMessages buildSurroundingEquipment(BuildingName name) {
+    public UnitMenuMessages buildSurroundingEquipment(String buildingName) {
         return null;
     }
 

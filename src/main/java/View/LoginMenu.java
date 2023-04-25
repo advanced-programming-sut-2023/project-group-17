@@ -41,7 +41,7 @@ public class LoginMenu extends Menu {
 
         switch (controller.loginUser(username , password , stayLoggedIn)){
             case SUCCESS:
-                System.out.println("login failed " + username + " logged in successfully");
+                System.out.println(username + " logged in successfully");
                 break;
             case WRONG_PASSWORD:
                 System.out.println("login failed : password is not correct");

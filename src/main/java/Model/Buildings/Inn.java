@@ -7,6 +7,6 @@ public class Inn extends Building{
     private int popularityRate;
 
     public Inn(User owner, int number) {
-        super(owner, BuildingType.INN);
+        super(owner);
     }
 }
