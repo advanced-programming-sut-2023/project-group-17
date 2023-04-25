@@ -41,7 +41,7 @@ public class SignupMenu extends Menu{
             pickQuestionCommand = scanner.nextLine();
             if((matcher = SignupMenuCommands.getMatcher(pickQuestionCommand, SignupMenuCommands.PICK_QUESTION)) != null) {
                 pickQuestion(matcher);
-                return;
+                break;
             }
             else System.out.println("signup failed : please pick question to complete your registration");
         }

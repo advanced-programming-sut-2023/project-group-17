@@ -51,7 +51,7 @@ public class SignupMenuController {
             }
         }
 
-        if(!password.equals(confirmationPassword))
+        if(!password.equals(User.SHA256Code(confirmationPassword)))
             return SignupMenuMessages.PASSWORD_DOES_NOT_MATCH;
 
         if(emailExists(email))
@@ -60,7 +60,7 @@ public class SignupMenuController {
         if(!email.matches("([A-Za-z0-9_.]+@[A-Za-z0-9_.]+\\.[A-Za-z0-9_.]+)"))
             return SignupMenuMessages.INVALID_EMAIL;
 
-        tempUser = new User(username, password, nickname, email, slogan);
+        tempUser = new User(username, User.SHA256Code(password), nickname, email, slogan);
         addUser(tempUser);
         return SignupMenuMessages.SUCCESS;
     }

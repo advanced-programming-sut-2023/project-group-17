@@ -18,7 +18,7 @@ public class LoginMenuController {
 
         User user = getUserByUsername(username);
 
-        if(!user.getPassword().equals(password))
+        if(!user.getPassword().equals(User.SHA256Code(password)))
             return LoginMenuMessages.WRONG_PASSWORD;
 
         //TODO: handle stay logged in
@@ -56,7 +56,7 @@ public class LoginMenuController {
             }
         }
 
-        user.setPassword(newPassword);
+        user.setPassword(User.SHA256Code(newPassword));
         return LoginMenuMessages.SUCCESS;
     }
 }

@@ -22,7 +22,7 @@ public class LoginMenu extends Menu {
             if((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.USER_LOGIN)) != null)
                 loginUser(matcher);
             else if((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.FORGET_PASSWORD)) != null)
-                forgetPassword(scanner , matcher);
+                forgetPassword(matcher);
             else if((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.ENTER_SIGNUP_MENU)) != null)
                 enterSignupMenu();
             else System.out.println("Invalid Command");
@@ -52,7 +52,7 @@ public class LoginMenu extends Menu {
         }
     }
 
-    private void forgetPassword(Scanner scanner , Matcher matcher) {
+    private void forgetPassword(Matcher matcher) {
         if(checkBlankField(matcher.group("username"))) {
             System.out.println("password change failed : blank field");
             return;

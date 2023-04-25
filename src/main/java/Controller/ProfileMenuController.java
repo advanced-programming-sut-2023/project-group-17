@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.User;
 import Utils.CheckValidation;
 import Utils.Randoms;
 import View.Enums.Messages.ProfileMenuMessages;
@@ -32,10 +33,10 @@ public class ProfileMenuController {
     }
 
     public ProfileMenuMessages changePassword(String oldPassword, String newPassword) {
-        if (!getLoggedInUser().getPassword().equals(oldPassword))
+        if (!getLoggedInUser().getPassword().equals(User.SHA256Code(oldPassword)))
             return ProfileMenuMessages.INCORRECT_PASSWORD;
 
-        if (getLoggedInUser().getPassword().equals(newPassword))
+        if (getLoggedInUser().getPassword().equals(User.SHA256Code(newPassword)))
             return ProfileMenuMessages.SAME_PASSWORD;
 
         String confirmationPassword;
@@ -69,7 +70,7 @@ public class ProfileMenuController {
             }
         }
 
-        getLoggedInUser().setPassword(newPassword);
+        getLoggedInUser().setPassword(User.SHA256Code(newPassword));
         return ProfileMenuMessages.SUCCESS;
     }
     public ProfileMenuMessages changeEmail (String email){

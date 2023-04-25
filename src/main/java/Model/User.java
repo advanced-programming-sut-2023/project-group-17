@@ -1,6 +1,8 @@
 package Model;
 
 
+import java.security.MessageDigest;
+
 public class User {
     private String username;
     private String password;
@@ -17,6 +19,22 @@ public class User {
         this.nickname = nickname;
         this.email = email;
         this.slogan = slogan;
+    }
+
+    public static String SHA256Code(String value) {
+        try{
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            digest.update(value.getBytes());
+            return bytesToHex(digest.digest());
+        } catch(Exception exception){
+            throw new RuntimeException(exception);
+        }
+    }
+    private static String bytesToHex(byte[] bytes) {
+        StringBuilder result = new StringBuilder();
+        for (byte b : bytes)
+            result.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
+        return result.toString();
     }
 
     public String getUsername() {
