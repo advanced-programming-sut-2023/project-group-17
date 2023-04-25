@@ -74,7 +74,6 @@ public class SignupMenu extends Menu{
 
         switch (controller.createUser(username, password, confirmationPassword, email, nickname, slogan)) {
             case SUCCESS:
-                System.out.println("user " + username + " created successfully");
                 mustPickQuestion();
                 break;
             case INVALID_USERNAME:
@@ -125,7 +124,7 @@ public class SignupMenu extends Menu{
 
         switch (controller.pickQuestion(questionNumber, answer, confirmationAnswer)) {
             case SUCCESS:
-                System.out.println("question number " + questionNumber + " picked successfully");
+                System.out.print("question number " + questionNumber + " picked successfully" + '\n' + "user created successfully" + '\n');
                 break;
             case WRONG_NUMBER:
                 System.out.println("pick question failed : invalid question number");
