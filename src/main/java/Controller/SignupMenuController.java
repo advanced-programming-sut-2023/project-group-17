@@ -51,7 +51,7 @@ public class SignupMenuController {
             }
         }
 
-        if(!password.equals(User.SHA256Code(confirmationPassword)))
+        if(!password.equals(confirmationPassword))
             return SignupMenuMessages.PASSWORD_DOES_NOT_MATCH;
 
         if(emailExists(email))
