@@ -16,4 +16,8 @@ public class MainMenuController {
         //TODO start new game
         return null;
     }
+
+    public void logout() {
+        if (Database.getStayLoggedInUser() != null) Database.clearStayLoggedIn();
+    }
 }

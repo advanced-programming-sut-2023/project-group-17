@@ -22,6 +22,7 @@ public class LoginMenuController {
             return LoginMenuMessages.WRONG_PASSWORD;
 
         //TODO: handle stay logged in
+        if (stayLoggedIn) Database.setStayLoggedInUser(user);
         setLoggedInUser(user);
         Database.loadBuildings();
         return LoginMenuMessages.SUCCESS;
@@ -59,5 +60,9 @@ public class LoginMenuController {
 
         user.setPassword(User.SHA256Code(newPassword));
         return LoginMenuMessages.SUCCESS;
+    }
+
+    public boolean checkStayLoggedIn() {
+        return Database.getStayLoggedInUser() != null;
     }
 }

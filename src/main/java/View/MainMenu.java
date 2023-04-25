@@ -26,9 +26,12 @@ public class MainMenu extends Menu {
             command = scanner.nextLine();
             if ((matcher = MainMenuCommands.getMatcher(command, MainMenuCommands.ENTER_PROFILE_MENU)) != null)
                 enterProfileMenu(scanner);
-            else if ((matcher = MainMenuCommands.getMatcher(command, MainMenuCommands.LOGOUT)) != null)
-                if(logout(scanner))
+
+            else if ((matcher = MainMenuCommands.getMatcher(command, MainMenuCommands.LOGOUT)) != null) {
+                if (logout(scanner))
                     return;
+            }
+
             else if ((matcher = MainMenuCommands.getMatcher(command, MainMenuCommands.START_NEW_GAME)) != null)
                 startNewGame(matcher);
             else System.out.println("Invalid Command");
@@ -43,7 +46,11 @@ public class MainMenu extends Menu {
     private boolean logout(Scanner scanner) {
         System.out.println("Are you sure you want to logout?");
         String answer = scanner.nextLine().trim();
-        return answer.matches("yes");
+        if (answer.matches("yes")) {
+            controller.logout();
+            return true;
+        }
+        return false;
     }
     private void startNewGame(Matcher matcher) {
         if (Menu.checkBlankField(matcher.group("turnsNumber")) || Menu.checkBlankField(matcher.group("users"))) {

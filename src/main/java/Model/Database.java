@@ -1,7 +1,6 @@
 package Model;
 
 import Model.Buildings.Building;
-import Model.Buildings.BuildingType;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -162,5 +161,38 @@ public class Database {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void setStayLoggedInUser(User user) {
+        try {
+            FileWriter fileWriter = new FileWriter("./src/main/resources/StayLoggedInUser.json");
+            String gson = new Gson().toJson(user);
+            fileWriter.write(gson);
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void clearStayLoggedIn() {
+        try {
+            FileWriter fileWriter = new FileWriter("./src/main/resources/StayLoggedInUser.json");
+            fileWriter.write("");
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static User getStayLoggedInUser() {
+        try {
+            String json = new String(Files.readAllBytes(Paths.get("./src/main/resources/StayLoggedInUser.json")));
+            User stayLoggedInUser;
+            stayLoggedInUser = new Gson().fromJson(json, new TypeToken<User>() {}.getType());
+            if (stayLoggedInUser != null) return stayLoggedInUser;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

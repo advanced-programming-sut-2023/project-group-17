@@ -17,6 +17,8 @@ public class LoginMenu extends Menu {
         String command;
         Matcher matcher = null;
 
+        if (controller.checkStayLoggedIn()) enterMainMenu();
+
         while (true){
             command = scanner.nextLine();
             if((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.USER_LOGIN)) != null)
@@ -42,6 +44,7 @@ public class LoginMenu extends Menu {
         switch (controller.loginUser(username , password , stayLoggedIn)){
             case SUCCESS:
                 System.out.println(username + " logged in successfully");
+                enterMainMenu();
                 break;
             case WRONG_PASSWORD:
                 System.out.println("login failed : password is not correct");
@@ -91,6 +94,10 @@ public class LoginMenu extends Menu {
     private void enterSignupMenu() {
         System.out.println("entered signup menu successfully");
         new SignupMenu().run(scanner);
+    }
+
+    private void enterMainMenu() {
+        new MainMenu().run(scanner);
     }
 
 }
