@@ -12,7 +12,7 @@ public class CheckValidation {
             return UtilsMessages.PASSWORD_DOES_NOT_CONTAIN_UPPERCASE;
         if(!password.matches(".*[0-9].*"))
             return UtilsMessages.PASSWORD_DOES_NOT_CONTAIN_INTEGER;
-        if(!password.matches(".*[!@#$%^&\\-+?*.].*"))
+        if(!password.matches(".*[!@#$%^&\\-+=?*./_].*"))
             return UtilsMessages.PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER;
 
         return UtilsMessages.PASSWORD_IS_STRONG;

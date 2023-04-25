@@ -8,12 +8,12 @@ public class Randoms {
         String uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String lowercase = "abcdefghijklmnopqrstuvwxyz";
         String number = "0123456789";
-        String specialCharacters = "!@#$%^&*_=+-/";
+        String specialCharacters = "!@#$%^&*_=+-/.";
         int maxLength = 12;
-        int minlength = 6;
+        int minLength = 6;
 
         Random random = new Random();
-        int passwordLength = random.nextInt(maxLength - minlength + 1) + minlength;
+        int passwordLength = random.nextInt(maxLength - minLength + 1) + minLength;
         char[] password = new char[passwordLength];
         password[getNextIndex(random, passwordLength, password)] = uppercase.charAt(random.nextInt(uppercase.length()));
         password[getNextIndex(random, passwordLength, password)] = lowercase.charAt(random.nextInt(lowercase.length()));

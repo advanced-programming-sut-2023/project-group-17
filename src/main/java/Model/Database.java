@@ -1,8 +1,6 @@
 package Model;
 
 import Model.Buildings.Building;
-import Model.Buildings.BuildingType;
-import Model.Items.ArmorAndWeapon;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -36,12 +34,12 @@ public class Database {
         return users;
     }
 
-    public static ArrayList<User> getUesrsInTheGame(){
+    public static ArrayList<User> getUsersInTheGame(){
         return usersInTheGame;
     }
 
     public static User getUserInTheGameByUsername(String username){
-        for (User user : getUesrsInTheGame()) {
+        for (User user : getUsersInTheGame()) {
             if(user.getUsername().equals(username))
                 return user;
         }

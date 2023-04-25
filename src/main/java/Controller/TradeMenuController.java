@@ -52,7 +52,7 @@ public class TradeMenuController {
         int index = 1;
         result += "users currently in the game: " + "\n";
 
-        for (User user : Database.getUesrsInTheGame()) {
+        for (User user : Database.getUsersInTheGame()) {
             result += index + ") " + user.getUsername() + "\n";
             index++;
         }

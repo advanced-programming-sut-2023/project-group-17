@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public enum SignupMenuCommands {
     CREATE_USER("\\s*user\\s+create\\s+(?:(-u\\s*)(?<username>\".+\"|\\S+)?(\\s*)()|" +
-                    "(-p\\s*)(?<password>\".+\"|\\S+)?(\\s*)((-c\\s*)(?<confirmation>\".+\"|\\S+)?(\\s*))?()|" +
+                    "(-p\\s*)(?<password>\".+\"|\\S+)?(\\s*)((?<confirmationDash>-c\\s*)(?<confirmation>\".+\"|\\S+)?(\\s*))?()|" +
                     "(-e\\s*)(?<email>\".+\"|\\S+)?(\\s*)()|(-n\\s*)(?<nickname>\".+\"|\\S+)?(\\s*)()|" +
                     "(?<sloganDash>-s\\s*)(?<slogan>\".+\"|\\S+)?(\\s*)()){4,}\\4\\12\\16\\20"),
     PICK_QUESTION("\\s*question\\s+pick\\s+(?:(-q\\s*)(?<questionNumber>\\d+)?(\\s*)()|" +
