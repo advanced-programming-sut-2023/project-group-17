@@ -68,8 +68,6 @@ public class SignupMenuController {
         if(tempUser == null)
             return SignupMenuMessages.PICK_QUESTION_TWICE;
 
-        print(getRecoveryQuestions());
-
         if(questionNumber != 1 && questionNumber != 2 && questionNumber != 3)
             return SignupMenuMessages.WRONG_NUMBER;
 

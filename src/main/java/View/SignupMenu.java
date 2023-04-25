@@ -2,6 +2,7 @@ package View;
 
 import Controller.SignupMenuController;
 import View.Enums.Commands.SignupMenuCommands;
+
 import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -56,7 +57,11 @@ public class SignupMenu extends Menu{
 
         switch (controller.createUser(username, password, confirmationPassword, email, nickname, slogan)) {
             case SUCCESS:
-                 System.out.println("user " + username + " created successfully");
+                System.out.println("user " + username + " created successfully");
+                System.out.print("pick your question : " + '\n'  +
+                                 "1. What is my father's name?" + '\n' +
+                                 "2. What was my first pet's name?" + '\n' +
+                                 "3. What is my mother's last name?" + '\n');
                 break;
             case INVALID_USERNAME:
                 System.out.println("signup failed : invalid username format");
