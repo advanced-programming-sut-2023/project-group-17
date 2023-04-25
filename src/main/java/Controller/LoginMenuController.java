@@ -23,6 +23,7 @@ public class LoginMenuController {
 
         //TODO: handle stay logged in
         setLoggedInUser(user);
+        Database.loadBuildings();
         return LoginMenuMessages.SUCCESS;
     }
 

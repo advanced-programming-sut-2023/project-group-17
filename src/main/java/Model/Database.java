@@ -1,6 +1,7 @@
 package Model;
 
 import Model.Buildings.Building;
+import Model.Buildings.BuildingType;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -120,6 +121,18 @@ public class Database {
         Database.allMaps = allMaps;
     }
 
+    public static ArrayList<Building> getBuildings() {
+        return buildings;
+    }
+
+    public static void setBuildings(ArrayList<Building> buildings) {
+        Database.buildings = buildings;
+    }
+    public static Building getBuildingDataByName(String name) {
+        for (Building building : buildings)
+            if (building.getBuildingName().equals(name)) return building;
+        return null;
+    }
     public static void saveUsers() {
         try {
             FileWriter fileWriter = new FileWriter("./src/main/resources/UserDatabase.json");
@@ -136,6 +149,16 @@ public class Database {
             ArrayList<User> savedUsers;
             savedUsers = new Gson().fromJson(json, new TypeToken<List<User>>() {}.getType());
             if (savedUsers != null) setUsers(savedUsers);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void loadBuildings() {
+        try {
+            String json = new String(Files.readAllBytes(Paths.get("./src/main/resources/BuildingDatabase.json")));
+            ArrayList<Building> savedBuildings;
+            savedBuildings = new Gson().fromJson(json, new TypeToken<List<Building>>() {}.getType());
+            if (savedBuildings != null) setBuildings(savedBuildings);
         } catch (IOException e) {
             e.printStackTrace();
         }
