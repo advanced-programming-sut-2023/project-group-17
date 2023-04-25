@@ -80,4 +80,10 @@ public class SignupMenuController {
         tempUser = null;
         return SignupMenuMessages.SUCCESS;
     }
+    public String getSecurityQuestions() {
+        String questions = "";
+        for (int i = 0; i < recoveryQuestions.length; i++)
+            questions += (i + 1) + ". " + recoveryQuestions[i] + "\n";
+        return questions;
+    }
 }

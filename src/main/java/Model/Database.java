@@ -22,10 +22,10 @@ public class Database {
     private static int turnsPassed = 0;
     private static int totalTurns = 0;
 
-    static final String[] recoveryQuestions = {
-        "1. What is my father's name?",
-        "2. What was my first pet's name?",
-        "3. What is my mother's last name?",
+    public static final String[] recoveryQuestions = {
+        "What is my father's name?",
+        "What was my first pet's name?",
+        "What is my mother's last name?",
     };
 
     //todo: static class to add default maps

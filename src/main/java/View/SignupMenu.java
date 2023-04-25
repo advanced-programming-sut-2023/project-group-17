@@ -36,13 +36,9 @@ public class SignupMenu extends Menu{
         Matcher matcher;
         String pickQuestionCommand;
 
-        System.out.print("pick your question : " + '\n'  +
-                "1. What is my father's name?" + '\n' +
-                "2. What was my first pet's name?" + '\n' +
-                "3. What is my mother's last name?" + '\n');
-
+        System.out.println(controller.getSecurityQuestions());
         while(true) {
-            pickQuestionCommand = scanner.next();
+            pickQuestionCommand = scanner.nextLine();
             if((matcher = SignupMenuCommands.getMatcher(pickQuestionCommand, SignupMenuCommands.PICK_QUESTION)) != null) {
                 pickQuestion(matcher);
                 return;
