@@ -2,7 +2,6 @@ package Model;
 
 import Model.Buildings.Building;
 import Model.People.Soldier;
-import Model.People.SoldierTypes;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -141,6 +140,12 @@ public class Database {
 
     public static void setAllSoldiers(ArrayList<Soldier> allSoldiers) {
         Database.allSoldiers = allSoldiers;
+    }
+
+    public static Soldier getSoldierDataByName(String name) {
+        for (Soldier soldier : allSoldiers)
+            if (soldier.getName().equals(name)) return soldier;
+        return null;
     }
 
     public static void saveUsers() {

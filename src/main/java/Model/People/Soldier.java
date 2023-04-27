@@ -1,6 +1,5 @@
 package Model.People;
 
-import Model.People.Person;
 import Model.User;
 
 public class Soldier extends Person {
@@ -13,24 +12,76 @@ public class Soldier extends Person {
     private String weapon;
     private UnitAttributes.Nationality nationality;
     private int health;
-    private boolean canClimbLadder;
-    private boolean canDigMoat;
+    private boolean climbLadder;
+    private boolean digMoat;
     private int attackRange;
     private double cost;
-    public Soldier(User owner, SoldierTypes soldierTypes) {
+    public Soldier(User owner, Soldier soldier) {
         super(owner);
-        this.name = soldierTypes.getName();
-        this.speed = soldierTypes.getSpeed();
-        this.attackRating = soldierTypes.getAttackRating();
-        this.armor = soldierTypes.getArmor();
-        this.defenceRating = soldierTypes.getDefenceRating();
-        this.weapon = soldierTypes.getWeapon();
-        this.nationality = soldierTypes.getNationality();
-        this.health = soldierTypes.getHealth();
-        this.canClimbLadder = soldierTypes.isCanClimbLadder();
-        this.canDigMoat = soldierTypes.isCanDigMoat();
+        this.name = soldier.name;
+        this.speed = soldier.speed;
+        this.attackRating = soldier.attackRating;
+        this.armor = soldier.armor;
+        this.defenceRating = soldier.defenceRating;
+        this.weapon = soldier.weapon;
+        this.nationality = soldier.nationality;
+        this.health = soldier.health;
+        this.climbLadder = soldier.climbLadder;
+        this.digMoat = soldier.digMoat;
         this.status = UnitAttributes.Status.STANDING.getStatus();
-        this.attackRange = soldierTypes.getAttackRange();
-        this.cost = soldierTypes.getCost();
+        this.attackRange = soldier.attackRange;
+        this.cost = soldier.cost;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public int getAttackRating() {
+        return attackRating;
+    }
+
+    public String getArmor() {
+        return armor;
+    }
+
+    public int getDefenceRating() {
+        return defenceRating;
+    }
+
+    public String getWeapon() {
+        return weapon;
+    }
+
+    public UnitAttributes.Nationality getNationality() {
+        return nationality;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public boolean CanClimbLadder() {
+        return climbLadder;
+    }
+
+    public boolean CanDigMoat() {
+        return digMoat;
+    }
+
+    public int getAttackRange() {
+        return attackRange;
+    }
+
+    public double getCost() {
+        return cost;
     }
 }
