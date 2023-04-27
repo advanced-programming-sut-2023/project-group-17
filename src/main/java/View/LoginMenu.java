@@ -97,6 +97,7 @@ public class LoginMenu extends Menu {
     }
 
     private void enterMainMenu() {
+        System.out.println("entered main menu successfully");
         new MainMenu().run(scanner);
     }
 

@@ -1,6 +1,8 @@
 package Model;
 
 import Model.Buildings.Building;
+import Model.People.Soldier;
+import Model.People.SoldierTypes;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -15,7 +17,7 @@ public class Database {
     private static ArrayList<User> users = new ArrayList<>();
     private static ArrayList<Building> buildings = new ArrayList<>();
     private static Map currentMapGame;
-//    private static final ArrayList<String> recoveryQuestions = new ArrayList<>();
+    private static ArrayList<Soldier> allSoldiers = new ArrayList<>();
     private static final ArrayList<User> usersInTheGame = new ArrayList<>();
     private static ArrayList<Map> allMaps = new ArrayList<>();
     private static User loggedInUser = null;
@@ -132,6 +134,15 @@ public class Database {
             if (building.getBuildingName().equals(name)) return building;
         return null;
     }
+
+    public static ArrayList<Soldier> getAllSoldiers() {
+        return allSoldiers;
+    }
+
+    public static void setAllSoldiers(ArrayList<Soldier> allSoldiers) {
+        Database.allSoldiers = allSoldiers;
+    }
+
     public static void saveUsers() {
         try {
             FileWriter fileWriter = new FileWriter("./src/main/resources/UserDatabase.json");
@@ -194,5 +205,15 @@ public class Database {
             e.printStackTrace();
         }
         return null;
+    }
+    public static void loadUnits() {
+        try {
+            String json = new String(Files.readAllBytes(Paths.get("./src/main/resources/SoldiersDatabase.json")));
+            ArrayList<Soldier> savedSoldiers;
+            savedSoldiers = new Gson().fromJson(json, new TypeToken<List<Soldier>>() {}.getType());
+            if (savedSoldiers != null) setAllSoldiers(savedSoldiers);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

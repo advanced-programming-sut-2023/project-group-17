@@ -4,6 +4,6 @@ import Model.User;
 
 public class LadderMan extends Soldier{
     public LadderMan(User owner) {
-        super(owner);
+        super(owner, SoldierTypes.LADDERMAN);
     }
 }

@@ -4,6 +4,6 @@ import Model.User;
 
 public class OtherSoldiers extends Soldier{
     public OtherSoldiers(User owner) {
-        super(owner);
+        super(owner, SoldierTypes.LADDERMAN);
     }
 }

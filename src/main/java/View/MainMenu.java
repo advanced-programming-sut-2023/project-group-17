@@ -40,7 +40,9 @@ public class MainMenu extends Menu {
 
 
     private void enterProfileMenu(Scanner scanner) {
+        System.out.println("entered profile menu successfully");
         new ProfileMenu().run(scanner);
+        System.out.println("entered main menu successfully");
     }
 
     private boolean logout(Scanner scanner) {

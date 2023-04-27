@@ -21,9 +21,9 @@ public class LoginMenuController {
         if(!user.getPassword().equals(User.SHA256Code(password)))
             return LoginMenuMessages.WRONG_PASSWORD;
 
-        //TODO: handle stay logged in
         if (stayLoggedIn) Database.setStayLoggedInUser(user);
         setLoggedInUser(user);
+        Database.loadUnits();
         Database.loadBuildings();
         return LoginMenuMessages.SUCCESS;
     }

@@ -4,11 +4,11 @@ public class UnitAttributes {
 
     //TODO: addada
     public enum AttackRating {
-        VERY_HIGH(5),
-        HIGH(4),
-        MEDIUM(3),
-        LOW(2),
-        VERY_LOW(1),
+        VERY_HIGH(140),
+        HIGH(90),
+        MEDIUM(60),
+        LOW(20),
+        VERY_LOW(10),
         NA(0);
         private final int attackRate;
         private AttackRating(int attackRate) {
@@ -38,11 +38,11 @@ public class UnitAttributes {
     }
 
     public enum Health {
-        VERY_HIGH(5),
-        HIGH(4),
-        MEDIUM(3),
-        LOW(2),
-        VERY_LOW(1),
+        VERY_HIGH(200),
+        HIGH(150),
+        MEDIUM(100),
+        LOW(50),
+        VERY_LOW(20),
         NA(0);
         private final int health;
         private Health(int health) {
@@ -60,8 +60,8 @@ public class UnitAttributes {
     }
 
     public enum AttackRange {
-        FAR(3),
-        MIDDLE(2),
+        FAR(15),
+        MIDDLE(7),
         CLOSE(1);
         private final int attackRange;
         private AttackRange (int attackRange) {
@@ -81,6 +81,7 @@ public class UnitAttributes {
         MACE("mace"),
         SWORD("sword"),
         PICK_AXE("pick axe"),
+        STAFF("staff"),
         TORCH("torch"),
         SLING("sling"),
         SCIMITAR("scimitar"),
@@ -99,10 +100,10 @@ public class UnitAttributes {
     }
 
     public enum Speed {
-        VERY_FAST(5),
-        FAST(4),
-        AVERAGE(3),
-        SLOW(2),
+        VERY_FAST(10),
+        FAST(8),
+        AVERAGE(5),
+        SLOW(3),
         EXTREMELY_SLOW(1);
         private final int speed;
 
