@@ -2,6 +2,9 @@ package Controller;
 
 import Model.Buildings.Building;
 import Model.Database;
+import Model.Items.Resource;
+import Model.MapCell;
+import Model.User;
 import Utils.CheckMapCell;
 import View.Enums.Messages.BuildingMenuMessages;
 
@@ -11,8 +14,32 @@ public class BuildingMenuController {
     public BuildingMenuMessages dropBuilding(int x, int y, String type) {
         if (!CheckMapCell.validationOfX(x)) return BuildingMenuMessages.X_OUT_OF_BOUNDS;
         if (!CheckMapCell.validationOfY(y)) return BuildingMenuMessages.Y_OUT_OF_BOUNDS;
+        if (Database.getBuildingDataByName(type) == null) return BuildingMenuMessages.INVALID_TYPE;
         if (!CheckMapCell.mapCellEmptyByCoordinates(x, y)) return BuildingMenuMessages.CELL_IS_FULL;
-        //TODO building types
+        Building buildingSample = Database.getBuildingDataByName(type);
+        User currentUser = Database.getLoggedInUser();
+
+        for (Resource.resourceType recourseRequired : buildingSample.getBuildingCost().keySet()) {
+            for (Resource currentResource : currentUser.getEmpire().getResources()) {
+                if (recourseRequired.getName().equals(currentResource.getItemName())) {
+                    if (buildingSample.getBuildingCost().get(recourseRequired) > currentResource.getNumber())
+                        return BuildingMenuMessages.INSUFFICIENT_STORAGE;
+                }
+            }
+        }
+
+        for (Resource.resourceType recourseRequired : buildingSample.getBuildingCost().keySet()) {
+            for (Resource currentResource : currentUser.getEmpire().getResources()) {
+                if (recourseRequired.getName().equals(currentResource.getItemName())) {
+                    currentResource.changeNumber(-buildingSample.getBuildingCost().get(recourseRequired));
+                }
+            }
+        }
+
+        Building newBuilding = new Building(currentUser, buildingSample);
+        MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
+        mapCell.addBuilding(newBuilding);
+
         return BuildingMenuMessages.SUCCESS;
     }
 
