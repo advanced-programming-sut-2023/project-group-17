@@ -10,7 +10,6 @@ import View.Enums.Messages.UtilsMessages;
 import static Model.Database.*;
 
 public class SignupMenuController {
-//    User tmpUser;
     String[] tmpUserInfo;
     public SignupMenuMessages createUser(String username, String password, String confirmationPassword,
                                          String email, String nickname, String slogan) {
@@ -54,7 +53,6 @@ public class SignupMenuController {
             return SignupMenuMessages.RANDOM_SLOGAN;
 
 
-//        tempUser = new User(username, User.SHA256Code(password), nickname, email, slogan, "null", "null");
         tmpUserInfo = new String[]{username, User.SHA256Code(password), nickname, email, slogan};
         return SignupMenuMessages.SUCCESS;
     }
@@ -79,11 +77,7 @@ public class SignupMenuController {
         if(!answer.equals(confirmationAnswer))
             return SignupMenuMessages.ANSWER_DOES_NOT_MATCH;
 
-//        tempUser.setPasswordRecoveryQuestion(getQuestionByNumber(questionNumber));
-//        tempUser.setPasswordRecoveryAnswer(answer);
-//        tmpUser = new User(tmpUserInfo[0], tmpUserInfo[1], tmpUserInfo[2], tmpUserInfo[3], tmpUserInfo[4], getQuestionByNumber(questionNumber), answer);
         addUser(new User(tmpUserInfo[0], tmpUserInfo[1], tmpUserInfo[2], tmpUserInfo[3], tmpUserInfo[4], getQuestionByNumber(questionNumber), answer));
-//        tmpUser = null;
         return SignupMenuMessages.SUCCESS;
     }
     public String getSecurityQuestions() {
