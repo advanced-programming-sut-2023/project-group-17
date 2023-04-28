@@ -1,7 +1,6 @@
 package View;
 
 import Controller.GameMenuController;
-import Model.Database;
 import View.Enums.Commands.GameMenuCommands;
 
 import java.util.Scanner;

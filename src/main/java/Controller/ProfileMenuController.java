@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Database;
 import Model.User;
 import Utils.CheckValidation;
 import Utils.Randoms;
@@ -21,6 +22,7 @@ public class ProfileMenuController {
             return ProfileMenuMessages.SAME_USERNAME;
 
         getLoggedInUser().setUsername(username);
+        Database.saveUsers();
         return ProfileMenuMessages.SUCCESS;
     }
 
@@ -29,6 +31,7 @@ public class ProfileMenuController {
             return ProfileMenuMessages.SAME_NICKNAME;
 
         getLoggedInUser().setNickname(nickname);
+        Database.saveUsers();
         return ProfileMenuMessages.SUCCESS;
     }
 
@@ -71,6 +74,7 @@ public class ProfileMenuController {
         }
 
         getLoggedInUser().setPassword(User.SHA256Code(newPassword));
+        Database.saveUsers();
         return ProfileMenuMessages.SUCCESS;
     }
     public ProfileMenuMessages changeEmail (String email){
@@ -84,6 +88,7 @@ public class ProfileMenuController {
             return ProfileMenuMessages.SAME_EMAIL;
 
         getLoggedInUser().setEmail(email);
+        Database.saveUsers();
         return ProfileMenuMessages.SUCCESS;
     }
 
@@ -97,6 +102,7 @@ public class ProfileMenuController {
         }
 
         getLoggedInUser().setSlogan(slogan);
+        Database.saveUsers();
         return ProfileMenuMessages.SUCCESS;
     }
 
@@ -106,6 +112,7 @@ public class ProfileMenuController {
             return ProfileMenuMessages.EMPTY_SLOGAN;
 
         getLoggedInUser().setSlogan(null);
+        Database.saveUsers();
         return ProfileMenuMessages.SUCCESS;
     }
 

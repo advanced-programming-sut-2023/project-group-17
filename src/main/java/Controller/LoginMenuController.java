@@ -59,6 +59,7 @@ public class LoginMenuController {
         }
 
         user.setPassword(User.SHA256Code(newPassword));
+        Database.saveUsers();
         return LoginMenuMessages.SUCCESS;
     }
 
