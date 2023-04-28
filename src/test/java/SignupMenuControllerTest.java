@@ -1,25 +1,15 @@
 import Controller.SignupMenuController;
-import Model.Database;
-import View.Enums.Messages.SignupMenuMessages;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import javax.xml.crypto.Data;
 
 import static View.Enums.Messages.SignupMenuMessages.*;
 
-public class TestClass {
+public class SignupMenuControllerTest {
     SignupMenuController controller = new SignupMenuController();
     @Test
     public void passwordValidationTest() {
         Assertions.assertEquals(PASSWORD_DOES_NOT_CONTAIN_UPPERCASE, controller.createUser("Shamim",
                 "shamim123$%%%", "shamim123$%%%",
-                "shamimrahimi83@gmail.com", "sham", "noSlogan"));
-
-        Assertions.assertEquals(PASSWORD_DOES_NOT_MATCH, controller.createUser("Shamim",
-                "shamimM123$%%%", "shamim123$%%%",
                 "shamimrahimi83@gmail.com", "sham", "noSlogan"));
 
         Assertions.assertEquals(PASSWORD_DOES_NOT_CONTAIN_INTEGER, controller.createUser("Shamim",
@@ -68,5 +58,24 @@ public class TestClass {
         Assertions.assertEquals(EMAIL_EXISTS, controller.createUser("amirkasra", "shamimM123$%%%",
                 "shamimM123$%%%", "shamimrahimi83@gmail.com",
                 "sham", "noSlogan"));
+    }
+
+    @Test
+    public void randomPasswordCheck() {
+        Assertions.assertEquals(RANDOM_PASSWORD, controller.createUser("shamimRahimi", "random", null,
+                "shamim@gmail.com", "sham", "noSlogan"));
+    }
+
+    @Test
+    public void randomSloganCheck() {
+        Assertions.assertEquals(RANDOM_SLOGAN, controller.createUser("KasraAhmadi", "kkkKKK123@", "kkkKKK123@",
+                "kas@gmail.com", "kas", "random"));
+    }
+
+    @Test
+    public void matchPasswordCheck() {
+        Assertions.assertEquals(PASSWORD_DOES_NOT_MATCH, controller.createUser("ShamimTariverdi",
+                "shamimM123$%%%", "shamim123$%%%",
+                "shamimtar@gmail.com", "sham", "noSlogan"));
     }
 }

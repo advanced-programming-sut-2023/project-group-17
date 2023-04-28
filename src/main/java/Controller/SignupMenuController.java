@@ -41,8 +41,6 @@ public class SignupMenuController {
                     return SignupMenuMessages.PASSWORD_DOES_NOT_CONTAIN_UPPERCASE;
                 case PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER:
                     return SignupMenuMessages.PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER;
-                case PASSWORD_IS_STRONG:
-                    return SignupMenuMessages.PASSWORD_IS_STRONG;
             }
         }
 
@@ -83,6 +81,7 @@ public class SignupMenuController {
         saveUsers();
         return SignupMenuMessages.SUCCESS;
     }
+
     public String getSecurityQuestions() {
         String questions = "pick your question : \n";
         for (int i = 0; i < recoveryQuestions.length; i++)
