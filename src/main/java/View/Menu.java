@@ -24,5 +24,4 @@ public abstract class Menu {
     public static String scan(){
         return scanner.nextLine();
     }
-
 }

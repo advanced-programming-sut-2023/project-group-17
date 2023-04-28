@@ -50,8 +50,7 @@ public class TradeMenu extends Menu {
 
     private void tradeRequest(Matcher matcher) {
         if(checkBlankField(matcher.group("resourceType")) || checkBlankField(matcher.group("resourceAmount")) ||
-        checkBlankField(matcher.group("price")) || checkBlankField(matcher.group("message")) ||
-        checkBlankField(matcher.group("username"))) {
+        checkBlankField(matcher.group("price")) || checkBlankField(matcher.group("message"))) {
             System.out.println("send trade request failed : blank field");
             return;
         }
