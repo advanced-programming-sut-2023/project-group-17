@@ -7,8 +7,6 @@ import Utils.Randoms;
 import View.Enums.Messages.SignupMenuMessages;
 import View.Enums.Messages.UtilsMessages;
 
-import static View.Menu.print;
-import static View.Menu.scan;
 import static Model.Database.*;
 
 public class SignupMenuController {
@@ -28,12 +26,8 @@ public class SignupMenuController {
         if(!email.matches("([A-Za-z0-9_.]+@[A-Za-z0-9_.]+\\.[A-Za-z0-9_.]+)"))
             return SignupMenuMessages.INVALID_EMAIL;
 
-        if(password.equals("random") && confirmationPassword == null) {
-            password = Randoms.generateRandomPassword();
-            print("your random password is " + password);
-            print("please re-enter your password here:");
-            confirmationPassword = scan();
-        }
+        if(password.equals("random") && confirmationPassword == null)
+            return SignupMenuMessages.RANDOM_PASSWORD;
 
         if(!CheckValidation.isPasswordStrong(password).equals(UtilsMessages.PASSWORD_IS_STRONG)) {
             switch (CheckValidation.isPasswordStrong(password)) {
@@ -55,19 +49,27 @@ public class SignupMenuController {
         if(!password.equals(confirmationPassword))
             return SignupMenuMessages.PASSWORD_DOES_NOT_MATCH;
 
-        if(slogan != null && slogan.equals("random")) {
-            slogan = Randoms.generateRandomSlogan();
-            print("your slogan is \"" + slogan + "\"");
-        }
+        if(slogan != null && slogan.equals("random"))
+            return SignupMenuMessages.RANDOM_SLOGAN;
+
 
         tempUser = new User(username, User.SHA256Code(password), nickname, email, slogan);
-        addUser(tempUser);
         return SignupMenuMessages.SUCCESS;
     }
 
+    public String getRandomPassword() {
+        return Randoms.generateRandomPassword();
+    }
+
+    public String getRandomSlogan() {
+        return Randoms.generateRandomSlogan();
+    }
+
+    public boolean isRandomPasswordsMatches(String password, String confirmationPassword) {
+        return password.equals(confirmationPassword);
+    }
+
     public SignupMenuMessages pickQuestion(Integer questionNumber, String answer, String confirmationAnswer) {
-        if(tempUser == null)
-            return SignupMenuMessages.PICK_QUESTION_TWICE;
 
         if(questionNumber != 1 && questionNumber != 2 && questionNumber != 3)
             return SignupMenuMessages.WRONG_NUMBER;
@@ -75,6 +77,7 @@ public class SignupMenuController {
         if(!answer.equals(confirmationAnswer))
             return SignupMenuMessages.ANSWER_DOES_NOT_MATCH;
 
+        addUser(tempUser);
         tempUser.setPasswordRecoveryQuestion(getQuestionByNumber(questionNumber));
         tempUser.setPasswordRecoveryAnswer(answer);
         tempUser = null;

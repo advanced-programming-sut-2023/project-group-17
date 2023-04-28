@@ -1,13 +1,10 @@
 package View;
 
 import Controller.MainMenuController;
-import Model.User;
 import View.Enums.Commands.MainMenuCommands;
 
-import java.util.Objects;
 import java.util.Scanner;
 import java.util.regex.Matcher;
-import View.Enums.Messages.MainMenuMessages;
 
 
 public class MainMenu extends Menu {
@@ -49,6 +46,7 @@ public class MainMenu extends Menu {
         System.out.println("Are you sure you want to logout?");
         String answer = scanner.nextLine().trim();
         if (answer.matches("yes")) {
+            System.out.println("user logged out successfully");
             controller.logout();
             return true;
         }

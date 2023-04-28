@@ -36,7 +36,6 @@ public class SignupMenu extends Menu{
         Matcher matcher;
         String pickQuestionCommand;
 
-        System.out.println(controller.getSecurityQuestions());
         while(true) {
             pickQuestionCommand = scanner.nextLine();
             if((matcher = SignupMenuCommands.getMatcher(pickQuestionCommand, SignupMenuCommands.PICK_QUESTION)) != null) {
@@ -68,16 +67,33 @@ public class SignupMenu extends Menu{
         String nickname = handleDoubleQuote(matcher.group("nickname"));
         String slogan = handleDoubleQuote(matcher.group("slogan"));
 
+        createUserErrors(username, password, confirmationPassword, email, nickname, slogan);
+
+    }
+
+    public void createUserErrors(String username, String password, String confirmationPassword, String email, String nickname, String slogan) {
         switch (controller.createUser(username, password, confirmationPassword, email, nickname, slogan)) {
             case SUCCESS:
+                System.out.print(controller.getSecurityQuestions());
                 mustPickQuestion();
                 break;
             case INVALID_USERNAME:
                 System.out.println("signup failed : invalid username format");
                 break;
             case USERNAME_EXISTS:
-                System.out.println("signup failed : user " + username + " already exists");
-                System.out.println("suggested username: " + username + random.nextInt(10) + random.nextInt(10));
+                System.out.print("signup failed : user " + username + " already exists" + '\n' +
+                        "suggested username: " + username + random.nextInt(10) + random.nextInt(10) + '\n');
+                break;
+            case RANDOM_SLOGAN:
+                System.out.println(("your slogan is \"" + (slogan = controller.getRandomSlogan()) + "\""));
+                createUserErrors(username, password, confirmationPassword, email, nickname, slogan);
+            case RANDOM_PASSWORD:
+                System.out.print("your random password is : " + (password = controller.getRandomPassword()) + '\n' +
+                                 "please re-enter your password here:" + '\n');
+                confirmationPassword = scanner.nextLine();
+                if(controller.isRandomPasswordsMatches(password, confirmationPassword))
+                    createUserErrors(username, password, confirmationPassword, email, nickname, slogan);
+                else System.out.println("signup failed : passwords do not match");
                 break;
             case SHORT_PASSWORD:
                 System.out.println("signup failed : password must have at least 6 characters");
@@ -103,7 +119,6 @@ public class SignupMenu extends Menu{
             case INVALID_EMAIL:
                 System.out.println("signup failed : invalid email format");
         }
-
     }
 
     private void pickQuestion(Matcher matcher) {
@@ -120,16 +135,16 @@ public class SignupMenu extends Menu{
 
         switch (controller.pickQuestion(questionNumber, answer, confirmationAnswer)) {
             case SUCCESS:
-                System.out.print("question number " + questionNumber + " picked successfully" + '\n' + "user created successfully" + '\n');
+                System.out.print("question number " + questionNumber + " picked successfully" + '\n' +
+                                 "user created successfully" + '\n');
                 break;
             case WRONG_NUMBER:
                 System.out.println("pick question failed : invalid question number");
+                mustPickQuestion();
                 break;
             case ANSWER_DOES_NOT_MATCH:
                 System.out.println("pick question failed : answers do not match");
-                break;
-            case PICK_QUESTION_TWICE:
-                System.out.println("pick question failed : you have already picked one question");
+                mustPickQuestion();
                 break;
         }
 
