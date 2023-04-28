@@ -4,7 +4,9 @@ import Model.Items.Animal;
 import Model.Items.ArmorAndWeapon;
 import Model.Items.Food;
 import Model.Items.Resource;
+import Model.People.NormalPeople;
 import Model.People.Person;
+import Model.People.Soldier;
 
 import java.util.ArrayList;
 
@@ -151,6 +153,22 @@ public class Empire {
     public void changeCoins(double coins) {
         this.coins += coins;
     }
+    public ArrayList<Soldier> getSoldiers() {
+        ArrayList<Soldier> soldiers = new ArrayList<>();
+        for (Person person : people) {
+            if (person instanceof Soldier) soldiers.add((Soldier) person);
+        }
+        return soldiers;
+    }
+
+    public ArrayList<NormalPeople> getNormalPeople() {
+        ArrayList<NormalPeople> normalPeople = new ArrayList<>();
+        for (Person person : people) {
+            if (person instanceof NormalPeople) normalPeople.add((NormalPeople) person);
+        }
+        return normalPeople;
+    }
+
     @Override
     public String toString() {
         return "1.Food : " + getFoodRate() + "\n" +

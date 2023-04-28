@@ -109,6 +109,12 @@ public class BuildingMenu extends Menu{
             case NOT_ENOUGH_CROWD:
                 System.out.println("Create unit failed : Lack of crowd for creating units");
                 break;
+            case INVALID_TYPE:
+                System.out.println("Crate unit failed : Invalid soldier type");
+                break;
+            case INVALID_TYPE_BUILDING:
+                System.out.println("Crate unit failed : Invalid building type for creating this unit");
+                break;
             case BUILDING_IS_NOT_SELECTED:
                 System.out.println("Create unit failed : Building is not selected");
                 break;

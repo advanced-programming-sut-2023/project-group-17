@@ -2,8 +2,11 @@ package Controller;
 
 import Model.Buildings.Building;
 import Model.Database;
+import Model.Items.ArmorAndWeapon;
 import Model.Items.Resource;
 import Model.MapCell;
+import Model.People.NormalPeople;
+import Model.People.Person;
 import Model.People.Soldier;
 import Model.User;
 import Utils.CheckMapCell;
@@ -15,10 +18,15 @@ public class BuildingMenuController {
     public int y = 0;
 
     public BuildingMenuMessages dropBuilding(int x, int y, String type) {
+
         if (!CheckMapCell.validationOfX(x)) return BuildingMenuMessages.X_OUT_OF_BOUNDS;
+
         if (!CheckMapCell.validationOfY(y)) return BuildingMenuMessages.Y_OUT_OF_BOUNDS;
+
         if (Database.getBuildingDataByName(type) == null) return BuildingMenuMessages.INVALID_TYPE;
+
         if (!CheckMapCell.mapCellEmptyByCoordinates(x, y)) return BuildingMenuMessages.CELL_IS_FULL;
+
         Building buildingSample = Database.getBuildingDataByName(type);
         User currentUser = Database.getLoggedInUser();
 
@@ -42,8 +50,11 @@ public class BuildingMenuController {
     }
 
     public BuildingMenuMessages selectBuilding(int x, int y) {
+
         if (!CheckMapCell.validationOfX(x)) return BuildingMenuMessages.X_OUT_OF_BOUNDS;
+
         if (!CheckMapCell.validationOfY(y)) return BuildingMenuMessages.Y_OUT_OF_BOUNDS;
+
         switch (CheckMapCell.mapCellHaveBuildingByCoordinates(x, y, Database.getLoggedInUser())) {
             case NO_BUILDING_IN_THIS_CELL:
                 return BuildingMenuMessages.CELL_IS_EMPTY;
@@ -55,11 +66,48 @@ public class BuildingMenuController {
                 this.y = y;
                 break;
         }
+
         return BuildingMenuMessages.SUCCESS;
     }
 
     public BuildingMenuMessages createUnit(String type, int count) {
-        return null;
+
+        User currentUser = Database.getLoggedInUser();
+        Soldier sampleSoldier = Database.getSoldierDataByName(type);
+
+        if (sampleSoldier == null) return BuildingMenuMessages.INVALID_TYPE;
+
+        if (count <= 0) return BuildingMenuMessages.INVALID_NUMBER;
+
+        if (selectedBuilding == null) return BuildingMenuMessages.BUILDING_IS_NOT_SELECTED;
+        MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
+
+        if (!selectedBuilding.getBuildingName().equals("barracks") &&
+        !selectedBuilding.getBuildingName().equals("mercenary post") && !selectedBuilding.getBuildingName().equals("engineer guild"))
+            return BuildingMenuMessages.INVALID_TYPE_BUILDING;
+
+        if (currentUser.getEmpire().getNormalPeople().size() < count) return BuildingMenuMessages.NOT_ENOUGH_CROWD;
+
+        for (ArmorAndWeapon armorAndWeapon : currentUser.getEmpire().getWeapons()) {
+            if (armorAndWeapon.getItemName().equals(sampleSoldier.getName())) {
+                if (armorAndWeapon.getNumber() < count) return BuildingMenuMessages.INSUFFICIENT_STORAGE;
+                else {
+                    armorAndWeapon.changeNumber(-count);
+                }
+            }
+        }
+
+        int counterToSoldier = 0;
+        for (NormalPeople normalPeople : currentUser.getEmpire().getNormalPeople()) {
+            //TODO remove normal people from map around fire
+            Soldier soldier = new Soldier(normalPeople.getOwner(), sampleSoldier);
+            currentUser.getEmpire().getNormalPeople().remove(normalPeople);
+            mapCell.addPeople(soldier);
+            counterToSoldier++;
+            if (counterToSoldier == count) break;
+        }
+
+        return BuildingMenuMessages.SUCCESS;
     }
 
     public BuildingMenuMessages repair() {
