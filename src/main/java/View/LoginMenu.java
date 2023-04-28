@@ -62,13 +62,67 @@ public class LoginMenu extends Menu {
         }
 
         String username = handleDoubleQuote(matcher.group("username"));
+        String answer;
+        String newPassword;
 
         switch (controller.forgetPassword(username)) {
+                case USERNAME_DOES_NOT_EXISTS:
+                System.out.println("password change failed : username does not exist");
+                break;
+                case ANSWER_RECOVERY_QUESTION:
+                System.out.println("please answer this question : " + controller.getUserRecoveryQuestion(username));
+                answer = scanner.nextLine();
+                if(controller.isRecoveryQuestionAnswerCorrect(username, answer)) {
+                    System.out.println("please enter your new password:");
+                    newPassword = scanner.nextLine();
+                    forgetPasswordError(username, newPassword);
+                }else System.out.println("password change failed : your answer is not correct");
+        }
+
+//        forgetPasswordError(username);
+
+//        switch (controller.forgetPassword(username)) {
+//            case USERNAME_DOES_NOT_EXISTS:
+//                System.out.println("password change failed : username does not exist");
+//                break;
+//            case ANSWER_RECOVERY_QUESTION:
+//                System.out.println("please answer this question : " + controller.getUserRecoveryQuestion(username));
+//                answer = scanner.nextLine();
+//                if(controller.isRecoveryQuestionAnswerCorrect(username, answer)) {
+//                    System.out.println("please enter your new password:");
+//                    newPassword = scanner.nextLine();
+//                    controller.setNewPassword(username, newPassword);
+//                }else
+//                    System.out.println("password change failed : your answer is not correct");
+//
+//            case WRONG_PASSWORD_RECOVERY_ANSWER:
+//                System.out.println("password change failed : your answer is not correct");
+//                break;
+//            case SHORT_PASSWORD:
+//                System.out.println("password change failed : your password must contain mare than five characters");
+//                break;
+//            case PASSWORD_DOES_NOT_CONTAIN_INTEGER:
+//                System.out.println("password change failed : your password must contain at least one integer");
+//                break;
+//            case PASSWORD_DOES_NOT_CONTAIN_UPPERCASE:
+//                System.out.println("password change failed : your password must contain at least one uppercase character");
+//                break;
+//            case PASSWORD_DOES_NOT_CONTAIN_LOWERCASE:
+//                System.out.println("password change failed : your password must contain at least one lowercase character");
+//                break;
+//            case PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER:
+//                System.out.println("password change failed : your password must contain at least" +
+//                        " one character other than letters and numbers");
+//            case SUCCESS:
+//                System.out.println("password changed successfully");
+//                break;
+//        }
+    }
+
+    private void forgetPasswordError(String username, String newPassword) {
+        switch (controller.setNewPassword(username, newPassword)) {
             case WRONG_PASSWORD_RECOVERY_ANSWER:
                 System.out.println("password change failed : your answer is not correct");
-                break;
-            case USERNAME_DOES_NOT_EXISTS:
-                System.out.println("password change failed : username does not exist");
                 break;
             case SHORT_PASSWORD:
                 System.out.println("password change failed : your password must contain mare than five characters");
@@ -84,7 +138,7 @@ public class LoginMenu extends Menu {
                 break;
             case PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER:
                 System.out.println("password change failed : your password must contain at least" +
-                        " one character other than letters and numbers");
+                                   " one character other than letters and numbers");
             case SUCCESS:
                 System.out.println("password changed successfully");
                 break;
