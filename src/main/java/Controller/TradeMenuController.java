@@ -3,6 +3,7 @@ package Controller;
 import Model.Database;
 import Model.Empire;
 import Model.Items.Resource;
+import Model.Items.TradableResources;
 import Model.TradeRequest;
 import Model.User;
 import View.Enums.Messages.TradeMenuMessages;
@@ -17,7 +18,7 @@ public class TradeMenuController {
         if(resource == null || resource.getNumber() < resourceAmount)
             return TradeMenuMessages.INSUFFICIENT_RESOURCE_AMOUNT;
 
-        Resource.resourceType resourceType = Resource.getResourceType(resourceTypeName);
+        TradableResources resourceType = TradableResources.getResourceType(resourceTypeName);
         TradeRequest tradeRequest = new TradeRequest(Database.getLoggedInUser(),
                 resourceType, resourceAmount, price, message);
 

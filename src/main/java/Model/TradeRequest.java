@@ -1,13 +1,14 @@
 package Model;
 
 import Model.Items.Resource;
+import Model.Items.TradableResources;
 import View.TradeMenu;
 
 public class TradeRequest {
     private final User senderUser;
     private static int idCount = 1;
     private final int id;
-    private final Resource.resourceType resourceType;
+    private final TradableResources resourceType;
     private final int resourceAmount;
     private final int price;
     private final String sentMessage;
@@ -15,7 +16,7 @@ public class TradeRequest {
     boolean isAccepted = false;
     boolean isSeen = false;
 
-    public TradeRequest(User senderUser, Resource.resourceType resourceType, int resourceAmount, int price, String sentMessage) {
+    public TradeRequest(User senderUser, TradableResources resourceType, int resourceAmount, int price, String sentMessage) {
         this.senderUser = senderUser;
         this.resourceType = resourceType;
         this.resourceAmount = resourceAmount;
@@ -41,7 +42,7 @@ public class TradeRequest {
         return id;
     }
 
-    public Resource.resourceType getResourceType() {
+    public TradableResources getResourceType() {
         return resourceType;
     }
 
