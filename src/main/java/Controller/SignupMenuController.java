@@ -81,9 +81,9 @@ public class SignupMenuController {
 
 //        tempUser.setPasswordRecoveryQuestion(getQuestionByNumber(questionNumber));
 //        tempUser.setPasswordRecoveryAnswer(answer);
-        tmpUser = new User(tmpUserInfo[0], tmpUserInfo[1], tmpUserInfo[2], tmpUserInfo[3], tmpUserInfo[4], getQuestionByNumber(questionNumber), answer);
-        addUser(tmpUser);
-        tmpUser = null;
+//        tmpUser = new User(tmpUserInfo[0], tmpUserInfo[1], tmpUserInfo[2], tmpUserInfo[3], tmpUserInfo[4], getQuestionByNumber(questionNumber), answer);
+        addUser(new User(tmpUserInfo[0], tmpUserInfo[1], tmpUserInfo[2], tmpUserInfo[3], tmpUserInfo[4], getQuestionByNumber(questionNumber), answer));
+//        tmpUser = null;
         return SignupMenuMessages.SUCCESS;
     }
     public String getSecurityQuestions() {
