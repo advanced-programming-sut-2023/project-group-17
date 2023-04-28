@@ -6,9 +6,9 @@ import Utils.CheckValidation;
 import Utils.Randoms;
 import View.Enums.Messages.ProfileMenuMessages;
 import View.Enums.Messages.UtilsMessages;
+
 import static Model.Database.*;
 import static View.Menu.print;
-import static View.Menu.scan;
 
 public class ProfileMenuController {
     public ProfileMenuMessages changeUsername(String username) {
@@ -42,17 +42,47 @@ public class ProfileMenuController {
         if (getLoggedInUser().getPassword().equals(User.SHA256Code(newPassword)))
             return ProfileMenuMessages.SAME_PASSWORD;
 
-        String confirmationPassword;
-        if (newPassword.equals("random")) {
-            newPassword = Randoms.generateRandomPassword();
-            print("your random password is " + newPassword);
-            print("please re-enter your password here:");
-            confirmationPassword = scan();
-        } else {
-            print("please enter your new password again:");
-            confirmationPassword = scan();
-        }
+        if (newPassword.equals("random"))
+            return ProfileMenuMessages.RANDOM_PASSWORD;
 
+        return ProfileMenuMessages.ENTER_PASSWORD_AGAIN;
+
+//        String confirmationPassword;
+//        if (newPassword.equals("random")) {
+//            newPassword = Randoms.generateRandomPassword();
+//            print("your random password is " + newPassword);
+//            print("please re-enter your password here:");
+//            confirmationPassword = scan();
+//        } else {
+//            print("please enter your new password again:");
+//            confirmationPassword = scan();
+//        }
+
+//        if (!newPassword.equals(confirmationPassword))
+//            return ProfileMenuMessages.PASSWORDS_DO_NOT_MATCH;
+//
+//        if (!CheckValidation.isPasswordStrong(newPassword).equals(UtilsMessages.PASSWORD_IS_STRONG)) {
+//            switch (CheckValidation.isPasswordStrong(newPassword)) {
+//                case SHORT_PASSWORD:
+//                    return ProfileMenuMessages.SHORT_PASSWORD;
+//                case PASSWORD_DOES_NOT_CONTAIN_LOWERCASE:
+//                    return ProfileMenuMessages.PASSWORD_DOES_NOT_CONTAIN_LOWERCASE;
+//                case PASSWORD_DOES_NOT_CONTAIN_INTEGER:
+//                    return ProfileMenuMessages.PASSWORD_DOES_NOT_CONTAIN_INTEGER;
+//                case PASSWORD_DOES_NOT_CONTAIN_UPPERCASE:
+//                    return ProfileMenuMessages.PASSWORD_DOES_NOT_CONTAIN_UPPERCASE;
+//                case PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER:
+//                    return ProfileMenuMessages.PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER;
+//                case PASSWORD_IS_STRONG:
+//                    return ProfileMenuMessages.PASSWORD_IS_STRONG;
+//            }
+//        }
+//
+//        getLoggedInUser().setPassword(User.SHA256Code(newPassword));
+//        return ProfileMenuMessages.SUCCESS;
+    }
+
+    public ProfileMenuMessages setNewPassword(String newPassword, String confirmationPassword) {
         if (!newPassword.equals(confirmationPassword))
             return ProfileMenuMessages.PASSWORDS_DO_NOT_MATCH;
 
@@ -77,6 +107,7 @@ public class ProfileMenuController {
         Database.saveUsers();
         return ProfileMenuMessages.SUCCESS;
     }
+
     public ProfileMenuMessages changeEmail (String email){
         if(emailExists(email))
             return ProfileMenuMessages.EMAIL_EXISTS;
@@ -142,5 +173,10 @@ public class ProfileMenuController {
                   "slogan : " + slogan + '\n';
         return result;
     }
+
+    public String getRandomPassword() {
+        return Randoms.generateRandomPassword();
+    }
+
 
 }

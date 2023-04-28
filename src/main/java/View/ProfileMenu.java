@@ -2,10 +2,9 @@ package View;
 
 import Controller.ProfileMenuController;
 import View.Enums.Commands.ProfileMenuCommands;
+
 import java.util.Scanner;
 import java.util.regex.Matcher;
-
-import static View.Enums.Messages.ProfileMenuMessages.*;
 
 public class ProfileMenu extends Menu {
 
@@ -88,44 +87,6 @@ public class ProfileMenu extends Menu {
         }
     }
 
-    private void changePassword(Matcher matcher) {
-        if(checkBlankField(matcher.group("oldPass")) || checkBlankField(matcher.group("newPass")))
-            System.out.println("profile change failed : blank field");
-
-        String oldPassword = handleDoubleQuote(matcher.group("oldPass"));
-        String newPassword = handleDoubleQuote(matcher.group("newPass"));
-
-        switch (controller.changePassword(oldPassword, newPassword)) {
-            case SUCCESS:
-                System.out.println("password changed successfully");
-                break;
-            case INCORRECT_PASSWORD:
-                System.out.println("password change failed : current password is incorrect");
-                break;
-            case SAME_PASSWORD:
-                System.out.println("password change failed : your new password cannot be the same as your current password");
-                break;
-            case SHORT_PASSWORD:
-                System.out.println("password change failed : password must have at least 6 characters");
-                break;
-            case PASSWORD_DOES_NOT_CONTAIN_LOWERCASE:
-                System.out.println("password change failed : password must have at least 1 lowercase character");
-                break;
-            case PASSWORD_DOES_NOT_CONTAIN_UPPERCASE:
-                System.out.println("password change failed : password must have at least 1 uppercase character");
-                break;
-            case PASSWORD_DOES_NOT_CONTAIN_INTEGER:
-                System.out.println("password change failed : password must have at least 1 integer");
-                break;
-            case PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER:
-                System.out.println("password change failed : password must have at least 1 special character");
-                break;
-            case PASSWORDS_DO_NOT_MATCH:
-                System.out.println("password change failed : passwords do not match");
-                break;
-        }
-    }
-
     private void changeEmail(Matcher matcher) {
         if(checkBlankField(matcher.group("email")))
             System.out.println("email change failed : blank field");
@@ -175,6 +136,84 @@ public class ProfileMenu extends Menu {
                 break;
         }
     }
+
+    private void changePassword(Matcher matcher) {
+        if (checkBlankField(matcher.group("oldPass")) || checkBlankField(matcher.group("newPass")))
+            System.out.println("profile change failed : blank field");
+
+        String oldPassword = handleDoubleQuote(matcher.group("oldPass"));
+        String newPassword = handleDoubleQuote(matcher.group("newPass"));
+        String confirmationPassword;
+
+        switch (controller.changePassword(oldPassword, newPassword)) {
+            case SUCCESS:
+                System.out.println("password changed successfully");
+                break;
+            case INCORRECT_PASSWORD:
+                System.out.println("password change failed : current password is incorrect");
+                break;
+            case SAME_PASSWORD:
+                System.out.println("password change failed : your new password cannot be the same as your current password");
+                break;
+            case RANDOM_PASSWORD:
+                System.out.print("your random password is : " + (newPassword = controller.getRandomPassword()) + '\n' +
+                                 "please re-enter your password here : \n");
+                confirmationPassword = scanner.nextLine();
+                changePasswordError(newPassword, confirmationPassword);
+                break;
+            case ENTER_PASSWORD_AGAIN:
+                System.out.println("please enter your new password again : ");
+                confirmationPassword = scanner.nextLine();
+                changePasswordError(newPassword, confirmationPassword);
+                break;
+
+//            case SHORT_PASSWORD:
+//                System.out.println("password change failed : password must have at least 6 characters");
+//                break;
+//            case PASSWORD_DOES_NOT_CONTAIN_LOWERCASE:
+//                System.out.println("password change failed : password must have at least 1 lowercase character");
+//                break;
+//            case PASSWORD_DOES_NOT_CONTAIN_UPPERCASE:
+//                System.out.println("password change failed : password must have at least 1 uppercase character");
+//                break;
+//            case PASSWORD_DOES_NOT_CONTAIN_INTEGER:
+//                System.out.println("password change failed : password must have at least 1 integer");
+//                break;
+//            case PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER:
+//                System.out.println("password change failed : password must have at least 1 special character");
+//                break;
+//            case PASSWORDS_DO_NOT_MATCH:
+//                System.out.println("password change failed : passwords do not match");
+//                break;
+//        }
+        }
+    }
+
+        private void changePasswordError(String newPassword, String confirmationPassword) {
+            switch (controller.setNewPassword(newPassword, confirmationPassword)) {
+                case SUCCESS:
+                    System.out.println("password changed successfully");
+                    break;
+                case SHORT_PASSWORD:
+                    System.out.println("password change failed : password must have at least 6 characters");
+                    break;
+                case PASSWORD_DOES_NOT_CONTAIN_LOWERCASE:
+                    System.out.println("password change failed : password must have at least 1 lowercase character");
+                    break;
+                case PASSWORD_DOES_NOT_CONTAIN_UPPERCASE:
+                    System.out.println("password change failed : password must have at least 1 uppercase character");
+                    break;
+                case PASSWORD_DOES_NOT_CONTAIN_INTEGER:
+                    System.out.println("password change failed : password must have at least 1 integer");
+                    break;
+                case PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER:
+                    System.out.println("password change failed : password must have at least 1 special character");
+                    break;
+                case PASSWORDS_DO_NOT_MATCH:
+                    System.out.println("password change failed : passwords do not match");
+                    break;
+            }
+        }
 
     private void displaySlogan() {
         System.out.println(controller.displaySlogan());
