@@ -76,9 +76,7 @@ public class GameMenu extends Menu {
     }
 
     private void chooseMapGame() {
-        System.out.println("choose your map by id:");
-        System.out.println("give an id between 1 and " + Database.getAllMaps().size());
-        System.out.println("If you want to create custom map enter 0");
+        System.out.println(controller.chooseMap());
 
         int mapId = scanner.nextInt();
 

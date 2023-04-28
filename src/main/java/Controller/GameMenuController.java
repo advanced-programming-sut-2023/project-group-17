@@ -80,4 +80,10 @@ public class GameMenuController {
     public void buildingsFight() {
 
     }
+
+    public String chooseMap() {
+        return "Choose your map by id:\n" +
+        "Give an id between 1 and " + Database.getAllMaps().size() + "\n" +
+        "If you want to create custom map enter 0";
+    }
 }
