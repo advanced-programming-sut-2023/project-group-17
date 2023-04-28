@@ -12,11 +12,13 @@ public class CheckMapCell {
     public static boolean validationOfY(int y) {
         return y > 0 && y <= Database.getCurrentMapGame().getLength();
     }
+
     public static boolean mapCellEmptyByCoordinates(int x, int y) {
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
         assert mapCell != null;
         return mapCell.canDropItems();
     }
+
     public static UtilsMessages mapCellHaveBuildingByCoordinates(int x, int y, User owner) {
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
         assert mapCell != null;
@@ -24,4 +26,5 @@ public class CheckMapCell {
         if (!mapCell.getBuilding().getOwner().equals(owner)) return UtilsMessages.OPPONENT_BUILDING;
         return UtilsMessages.SUCCESS;
     }
+
 }
