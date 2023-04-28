@@ -17,18 +17,22 @@ public class BuildingMenu extends Menu{
         String command;
         while (true) {
             command = scanner.nextLine();
+
             if ((matcher = BuildingMenuCommands.getMatcher(command, BuildingMenuCommands.DROP_BUILDING)) != null)
                 dropBuilding(matcher);
+
             else if ((matcher = BuildingMenuCommands.getMatcher(command, BuildingMenuCommands.SELECT_BUILDING)) != null)
                 selectBuilding(matcher);
+
             else if ((matcher = BuildingMenuCommands.getMatcher(command, BuildingMenuCommands.CREATE_UNIT)) != null)
                 createUnit(matcher);
+
             else if ((matcher = BuildingMenuCommands.getMatcher(command, BuildingMenuCommands.REPAIR)) != null)
                 repair();
-            else if ((matcher = BuildingMenuCommands.getMatcher(command, BuildingMenuCommands.BACK)) != null) {
-                controller.selectedBuilding = null;
+
+            else if ((matcher = BuildingMenuCommands.getMatcher(command, BuildingMenuCommands.BACK)) != null)
                 return;
-            }
+
             else System.out.println("Invalid Command");
         }
     }
@@ -117,7 +121,7 @@ public class BuildingMenu extends Menu{
                 System.out.println("Units successfully crated");
                 break;
             case INSUFFICIENT_STONE:
-                System.out.println("Repair failed : Lack stone for repairing this building");
+                System.out.println("Repair failed : Lack of stones for repairing this building");
                 break;
             case OPPONENT_SOLDIER_AROUND:
                 System.out.println("Repair failed : Opponent soldier is near this building");
@@ -126,6 +130,10 @@ public class BuildingMenu extends Menu{
                 System.out.println("Repair failed : Building is not selected");
                 break;
         }
+    }
+
+    private void back() {
+        controller.back();
     }
 
 }
