@@ -46,40 +46,6 @@ public class ProfileMenuController {
             return ProfileMenuMessages.RANDOM_PASSWORD;
 
         return ProfileMenuMessages.ENTER_PASSWORD_AGAIN;
-
-//        String confirmationPassword;
-//        if (newPassword.equals("random")) {
-//            newPassword = Randoms.generateRandomPassword();
-//            print("your random password is " + newPassword);
-//            print("please re-enter your password here:");
-//            confirmationPassword = scan();
-//        } else {
-//            print("please enter your new password again:");
-//            confirmationPassword = scan();
-//        }
-
-//        if (!newPassword.equals(confirmationPassword))
-//            return ProfileMenuMessages.PASSWORDS_DO_NOT_MATCH;
-//
-//        if (!CheckValidation.isPasswordStrong(newPassword).equals(UtilsMessages.PASSWORD_IS_STRONG)) {
-//            switch (CheckValidation.isPasswordStrong(newPassword)) {
-//                case SHORT_PASSWORD:
-//                    return ProfileMenuMessages.SHORT_PASSWORD;
-//                case PASSWORD_DOES_NOT_CONTAIN_LOWERCASE:
-//                    return ProfileMenuMessages.PASSWORD_DOES_NOT_CONTAIN_LOWERCASE;
-//                case PASSWORD_DOES_NOT_CONTAIN_INTEGER:
-//                    return ProfileMenuMessages.PASSWORD_DOES_NOT_CONTAIN_INTEGER;
-//                case PASSWORD_DOES_NOT_CONTAIN_UPPERCASE:
-//                    return ProfileMenuMessages.PASSWORD_DOES_NOT_CONTAIN_UPPERCASE;
-//                case PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER:
-//                    return ProfileMenuMessages.PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER;
-//                case PASSWORD_IS_STRONG:
-//                    return ProfileMenuMessages.PASSWORD_IS_STRONG;
-//            }
-//        }
-//
-//        getLoggedInUser().setPassword(User.SHA256Code(newPassword));
-//        return ProfileMenuMessages.SUCCESS;
     }
 
     public ProfileMenuMessages setNewPassword(String newPassword, String confirmationPassword) {

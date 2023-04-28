@@ -166,26 +166,6 @@ public class ProfileMenu extends Menu {
                 confirmationPassword = scanner.nextLine();
                 changePasswordError(newPassword, confirmationPassword);
                 break;
-
-//            case SHORT_PASSWORD:
-//                System.out.println("password change failed : password must have at least 6 characters");
-//                break;
-//            case PASSWORD_DOES_NOT_CONTAIN_LOWERCASE:
-//                System.out.println("password change failed : password must have at least 1 lowercase character");
-//                break;
-//            case PASSWORD_DOES_NOT_CONTAIN_UPPERCASE:
-//                System.out.println("password change failed : password must have at least 1 uppercase character");
-//                break;
-//            case PASSWORD_DOES_NOT_CONTAIN_INTEGER:
-//                System.out.println("password change failed : password must have at least 1 integer");
-//                break;
-//            case PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER:
-//                System.out.println("password change failed : password must have at least 1 special character");
-//                break;
-//            case PASSWORDS_DO_NOT_MATCH:
-//                System.out.println("password change failed : passwords do not match");
-//                break;
-//        }
         }
     }
 
