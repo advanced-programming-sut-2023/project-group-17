@@ -4,6 +4,7 @@ import Model.*;
 import Model.Buildings.Building;
 import Model.MapCellItems.Rock;
 import Model.MapCellItems.Tree;
+import Model.People.Soldier;
 import Utils.CheckMapCell;
 import View.Enums.Messages.MapMenuMessages;
 import View.MapMenu;
@@ -202,6 +203,23 @@ public class MapMenuController {
     }
 
     public MapMenuMessages dropUnit(int x, int y, String type, int count) {
-        return null;
+
+        if (!CheckMapCell.validationOfX(x)) return MapMenuMessages.X_OUT_OF_BOUNDS;
+        if (!CheckMapCell.validationOfY(y)) return MapMenuMessages.Y_OUT_OF_BOUNDS;
+        if (Database.getSoldierDataByName(type) == null) return MapMenuMessages.INVALID_TYPE;
+        if (!CheckMapCell.mapCellEmptyByCoordinates(x, y)) return MapMenuMessages.CELL_IS_FULL;
+
+        if (Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getMaterialMap().isWaterZone())
+            return MapMenuMessages.INAPPROPRIATE_TEXTURE;
+
+        MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
+
+        for (int i = 0; i < count; i++) {
+            Soldier soldier = new Soldier(Database.getLoggedInUser(), Database.getSoldierDataByName(type));
+            Database.getLoggedInUser().getEmpire().addPopulation(soldier);
+            mapCell.addPeople(soldier);
+        }
+
+        return MapMenuMessages.SUCCESS;
     }
 }
