@@ -10,7 +10,7 @@ import View.Enums.Messages.UtilsMessages;
 import static Model.Database.*;
 
 public class SignupMenuController {
-    User tmpUser;
+//    User tmpUser;
     String[] tmpUserInfo;
     public SignupMenuMessages createUser(String username, String password, String confirmationPassword,
                                          String email, String nickname, String slogan) {
