@@ -2,12 +2,12 @@ package Model.AttackToolsAndMethods;
 
 public enum AttackToolsAndMethodsType {
     //TODO
-    TREBUCHETS("trebuchets", 3, false, 0, 0, 0, 0, 0, 0),
-    PORTABLE_SHIELDS("portable shield", 1, true, 0, 0, 0, 0, 0, 0),
-    BATTERING_RAM("battering ram", 4, true, 0, 0, 0, 0, 0, 0),
-    FIRE_BALLISTA("fire ballista", 1, true, 0, 0, 0, 0, 0, 0),
-    SIEGE_TOWER("siege tower", 4, true, 0, 0, 0, 0, 0, 0),
-    CATAPULT("catapult", 2, true, 0, 0, 0, 0, 0, 0);
+    TREBUCHETS("trebuchets", 3, false, 150, 15, 140, 0, 0),
+    PORTABLE_SHIELDS("portable shield", 1, true, 0, 0, 0, 10, 10),
+    BATTERING_RAM("battering ram", 4, true, 200, -1, 0, 3, 200),
+    FIRE_BALLISTA("fire ballista", 1, true, 150, 15, 140, 3, 150),
+    SIEGE_TOWER("siege tower", 4, true, 200, 0, 0, 1, 250),
+    CATAPULT("catapult", 2, true, 100, 15, 90, 3, 150);
     private final int numberOfEngineers;
     private final String name;
     private final boolean isPortable;
@@ -15,10 +15,9 @@ public enum AttackToolsAndMethodsType {
     private final int range;
     private final int damage;
     private final int speed;
-    private final int accuracy;
-    private final int power;
+    private final int cost;
     private AttackToolsAndMethodsType(String name, int numberOfEngineers, boolean isPortable, int hp, int range,
-                                      int damage, int speed, int accuracy, int power) {
+                                      int damage, int speed, int cost) {
         this.name = name;
         this.numberOfEngineers = numberOfEngineers;
         this.isPortable = isPortable;
@@ -26,8 +25,7 @@ public enum AttackToolsAndMethodsType {
         this.range = range;
         this.damage = damage;
         this.speed = speed;
-        this.accuracy = accuracy;
-        this.power = power;
+        this.cost = cost;
     }
 
     public int getNumberOfEngineers() {
@@ -54,12 +52,8 @@ public enum AttackToolsAndMethodsType {
         return speed;
     }
 
-    public int getAccuracy() {
-        return accuracy;
-    }
-
-    public int getPower() {
-        return power;
+    public int getCost() {
+        return cost;
     }
 
     public String getName() {

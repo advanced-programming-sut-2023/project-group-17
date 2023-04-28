@@ -11,8 +11,7 @@ public class AttackToolsAndMethods {
     private final int range;
     private final int damage;
     private final int speed;
-    private final int accuracy;
-    private final int power;
+    private final int cost;
     public AttackToolsAndMethods(User owner, AttackToolsAndMethodsType type) {
         this.owner = owner;
         this.name = type.getName();
@@ -21,9 +20,8 @@ public class AttackToolsAndMethods {
         this.hp = type.getHp();
         this.range = type.getRange();
         this.damage = type.getDamage();
-        this.accuracy = type.getAccuracy();
+        this.cost = type.getCost();
         this.speed = type.getSpeed();
-        this.power = type.getPower();
     }
 
     public User getOwner() {
@@ -58,12 +56,8 @@ public class AttackToolsAndMethods {
         return speed;
     }
 
-    public int getAccuracy() {
-        return accuracy;
-    }
-
-    public int getPower() {
-        return power;
+    public int getCost() {
+        return cost;
     }
 
     public void changeHp(int hp) {
