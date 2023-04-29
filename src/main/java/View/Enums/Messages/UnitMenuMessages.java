@@ -18,6 +18,5 @@ public enum UnitMenuMessages {
     OIL_SMELTER_EMPTY,
     ATTACK_OPPONENT_UNIT,
     FILL_OPPONENT_DITCH,
-    NO_UNIT_SELECTED
-    ;
+    NO_UNIT_SELECTED;
 }
