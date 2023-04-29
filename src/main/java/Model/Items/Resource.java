@@ -22,7 +22,6 @@ public class Resource extends Item {
             this.name = name;
             this.cost = cost;
         }
-
         public String getName() {
             return this.name;
         }
@@ -33,7 +32,7 @@ public class Resource extends Item {
         super(resourceType.name, resourceType.cost, owner);
     }
 
-    public static Resource.resourceType getResourceType(String resourceName) {
+    public static resourceType getResourceType(String resourceName) {
         for (resourceType resourceType : resourceType.values()) {
             if(resourceType.name.equals(resourceName)) return resourceType;
         }
