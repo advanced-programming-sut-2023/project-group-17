@@ -50,7 +50,7 @@ public class SignupMenuController {
         if(slogan != null && slogan.equals("random"))
             return SignupMenuMessages.RANDOM_SLOGAN;
 
-        tmpUser = new User(username, password, nickname, email, slogan, null, null);
+        tmpUser = new User(username, User.SHA256Code(password), nickname, email, slogan, null, null);
         addUser(tmpUser);
         return SignupMenuMessages.SUCCESS;
     }
