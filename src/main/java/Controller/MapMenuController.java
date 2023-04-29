@@ -35,17 +35,22 @@ public class MapMenuController {
 
     private String showMapCells(int x, int y) {
         if (!CheckMapCell.validationOfX(x)) return "";
+        if (!CheckMapCell.validationOfY(y)) return "";
         String data = "";
-        for (int i = 0; i < 5 * 4 + 1; i++) {
-            for (int j = 0; j < 5 * 4 + 1; j++) {
-                if (j % 4 == 0) data += "|";
-                else if (i % 4 == 0) data += "-";
-                else if (i % 2 == 0 && j % 2 == 0) {
-                    MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x + i % 5, y + j % 5);
-                    data += mapCell.getMaterialMap().getColor() + mapCell.objectInCell() + Color.ANSI_RESET;
-                } else {
-                    MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x + i % 5, y + j % 5);
-                    data += mapCell.getMaterialMap().getColor() + "#" + Color.ANSI_RESET;
+        for (int i = 0; i < 5 * 3 + 6; i++) {
+            for (int j = 0; j < 5 * 3 + 6; j++) {
+                if (i % 4 == 0) {
+                    data += "-";
+                }
+                else if (j % 4 == 0)
+                    data += "|";
+                else {
+                    MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(xMap - 2 + j / 4, yMap - 2 + i / 4);
+                    if (mapCell.getMaterialMap().getColor().equals(Color.ANSI_BLACK_BACKGROUND))
+                        data += mapCell.getMaterialMap().getColor() + Color.ANSI_BLACK;
+                    else data += mapCell.getMaterialMap().getColor() + Color.ANSI_WHITE;
+                    data += mapCell.objectInCell();
+                    data += Color.ANSI_RESET;
                 }
             }
             data += "\n";

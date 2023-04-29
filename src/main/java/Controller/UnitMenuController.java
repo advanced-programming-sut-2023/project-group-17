@@ -5,7 +5,7 @@ import Model.Direction;
 import Model.People.Person;
 import Model.People.Soldier;
 import Model.People.Worker;
-import Model.UnitAttributes.Status;
+import Model.People.UnitAttributes.Status;
 import View.Enums.Messages.UnitMenuMessages;
 import View.UnitMenu;
 
