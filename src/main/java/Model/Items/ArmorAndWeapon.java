@@ -28,32 +28,18 @@ public class ArmorAndWeapon extends Item{
             this.cost = cost;
         }
     }
-    private String name;
     private Building producedIn;
     private Item itemType;
-    private double cost;
     public ArmorAndWeapon(WeaponAndArmor weaponAndArmor, User owner) {
         super(weaponAndArmor.name, weaponAndArmor.cost, owner);
-        this.name = weaponAndArmor.name;
-        this.cost = weaponAndArmor.cost;
         this.itemType = weaponAndArmor.itemType;
         this.producedIn = weaponAndArmor.producedIn;
     }
-
-    public String getName() {
-        return name;
-    }
-
     public Building getProducedIn() {
         return producedIn;
     }
 
     public Item getItemType() {
         return itemType;
-    }
-
-    @Override
-    public double getCost() {
-        return cost;
     }
 }
