@@ -63,9 +63,11 @@ public class GameMenu extends Menu {
         switch (controller.showMap(x , y)) {
             case X_OUT_OF_BOUNDS:
                 System.out.println("show map failed : x out of bounds");
+                chooseMapGame();
                 break;
             case Y_OUT_OF_BOUNDS:
                 System.out.println("show map failed : y out of bounds");
+                chooseMapGame();
                 break;
             case SUCCESS:
                 mapMenu.showMap(x, y);
@@ -83,6 +85,7 @@ public class GameMenu extends Menu {
             System.out.println("enter width and length");
             int width = scanner.nextInt();
             int length = scanner.nextInt();
+            scanner.nextLine();
             switch (controller.createNewMap(width, length)) {
                 case INVALID_LENGTH:
                     System.out.println("create map failed : invalid length");

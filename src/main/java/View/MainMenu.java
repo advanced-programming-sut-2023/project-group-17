@@ -58,8 +58,12 @@ public class MainMenu extends Menu {
             return;
         }
         int turnsNumber = Integer.parseInt(matcher.group("turnsNumber"));
-        String users = Menu.handleDoubleQuote(matcher.group("users"));
+        String users = matcher.group("users");
         switch (controller.startNewGame(users, turnsNumber)) {
+            case SUCCESS:
+                System.out.println("Entered new game");
+                new GameMenu().run(scanner);
+                break;
             case USERNAME_DOES_NOT_EXIST:
                 System.out.println("Start new game failed : Username does not exist");
                 break;

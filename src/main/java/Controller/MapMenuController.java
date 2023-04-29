@@ -38,13 +38,13 @@ public class MapMenuController {
         String data = "";
         for (int i = 0; i < 5 * 4 + 1; i++) {
             for (int j = 0; j < 5 * 4 + 1; j++) {
-                if (j % 4 == 0) data += "-";
-                else if (i % 4 == 0) data += "|";
+                if (j % 4 == 0) data += "|";
+                else if (i % 4 == 0) data += "-";
                 else if (i % 2 == 0 && j % 2 == 0) {
-                    MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x - 5 + i, y - 5 + j);
+                    MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x + i % 5, y + j % 5);
                     data += mapCell.getMaterialMap().getColor() + mapCell.objectInCell() + Color.ANSI_RESET;
                 } else {
-                    MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x - 5 + i, y - 5 + j);
+                    MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x + i % 5, y + j % 5);
                     data += mapCell.getMaterialMap().getColor() + "#" + Color.ANSI_RESET;
                 }
             }
