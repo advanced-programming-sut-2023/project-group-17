@@ -66,7 +66,7 @@ public class MapCell {
     }
 
     public void setMaterialMap(MaterialMap.textureMap textureMap) {
-        this.materialMap = materialMap;
+        this.materialMap = textureMap;
     }
 
     public void setBuilding(Building building) {
@@ -149,12 +149,12 @@ public class MapCell {
     @Override
     public String toString() {
         String mapCellString = "";
-        mapCellString += color +"|";
+        mapCellString += materialMap.getColor() +"|";
         for (int i = 0; i < 3; i++) mapCellString += "#";
         mapCellString += "|" + Color.ANSI_RESET + "\n";
-        mapCellString += color + "|#";
+        mapCellString += materialMap.getColor() + "|#";
         mapCellString += objectInCell();
-        mapCellString += "#|" + Color.ANSI_RESET + "\n" + color + "|";
+        mapCellString += "#|" + Color.ANSI_RESET + "\n" + materialMap.getColor() + "|";
         for (int i = 0; i < 3; i++) mapCellString += "#";
         mapCellString += "|" + Color.ANSI_RESET + "\n";
         return mapCellString;
