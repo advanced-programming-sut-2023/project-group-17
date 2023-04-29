@@ -1,15 +1,31 @@
 package Controller;
 
+import Model.Database;
 import Model.Direction;
+import Model.People.Person;
+import Model.People.Soldier;
+import Model.People.Worker;
 import Model.UnitAttributes.Status;
 import View.Enums.Messages.UnitMenuMessages;
 import View.UnitMenu;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 public class UnitMenuController {
+    private ArrayList<Person> selectedUnit;
     public UnitMenuMessages selectUnit(Integer x, Integer y) {
-        return null;
+        if(!Utils.CheckMapCell.validationOfX(x)) return UnitMenuMessages.X_OUT_OF_BOUNDS;
+        if(!Utils.CheckMapCell.validationOfY(y)) return UnitMenuMessages.Y_OUT_OF_BOUNDS;
+
+        for (Person person : selectedUnit = Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getPeople()) {
+            if((person instanceof Soldier || person instanceof Worker) && person.getOwner().equals(Database.getLoggedInUser())) {
+                selectedUnit.add(person);
+            }
+        }
+
+        if(selectedUnit.size() == 0) return UnitMenuMessages.DOES_NOT_INCLUDE_UNIT;
+        return UnitMenuMessages.SUCCESS;
     }
 
     public UnitMenuMessages moveUnit(Integer x, Integer y) {
