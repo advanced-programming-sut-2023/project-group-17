@@ -3,5 +3,6 @@ package View.Enums.Messages;
 public enum MainMenuMessages {
     SUCCESS,
     USERNAME_DOES_NOT_EXIST,
-    INVALID_NUMBER
+    INVALID_NUMBER,
+    INVALID_NUMBER_OF_USERS
 }
