@@ -67,10 +67,10 @@ public class TradeMenu extends Menu {
             case INVALID_PRICE:
                 System.out.println("send trade request failed : invalid price");
                 break;
-            case INSUFFICIENT_RESOURCE_AMOUNT:
+            case INSUFFICIENT_ITEM_AMOUNT:
                 System.out.println("send trade request failed : insufficient resource inventory");
                 break;
-            case INVALID_RESOURCE_TYPE:
+            case INVALID_ITEM_TYPE:
                 System.out.println("send trade request failed : invalid resource type");
                 break;
             case USERNAME_DOES_NOT_EXIST:
