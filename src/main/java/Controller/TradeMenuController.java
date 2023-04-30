@@ -9,13 +9,15 @@ import View.Enums.Messages.TradeMenuMessages;
 
 public class TradeMenuController {
     Item item;
-    public TradeMenuMessages tradeRequest(String itemTypeName, int itemAmount, int price, String message) {
-        if(getItemByName(itemTypeName) == null) return TradeMenuMessages.INVALID_ITEM_NAME;
+    public TradeMenuMessages tradeRequest(String itemName, int itemAmount, int price, String message) {
+        if(Item.getItemByName(itemName) == null) return TradeMenuMessages.INVALID_ITEM_NAME;
         if(itemAmount <= 0) return TradeMenuMessages.INVALID_AMOUNT;
         if(price < 0) return TradeMenuMessages.INVALID_PRICE;
+
+        item = Item.getAvailableItems(itemName);
         if(item == null || item.getNumber() < itemAmount) return TradeMenuMessages.INSUFFICIENT_ITEM_AMOUNT;
 
-        Item.ItemType itemType = Item.getItemType(itemTypeName);
+        Item.ItemType itemType = Item.getItemType(itemName);
         TradeRequest tradeRequest = new TradeRequest(Database.getLoggedInUser(),
                 itemType, itemAmount, price, message);
 
@@ -36,7 +38,7 @@ public class TradeMenuController {
         int amount = request.getItemAmount();
         double price = request.getPrice();
 
-        switch (getItemByName(itemName)) {
+        switch (Item.getItemByName(itemName)) {
             case RESOURCE:
                 receiverEmpire.getResourceByName(itemName).changeNumber(-amount);
                 senderEmpire.getResourceByName(itemName).changeNumber(amount);
@@ -122,24 +124,5 @@ public class TradeMenuController {
         return "id " + request.getId() + " | resource type: " +
                 request.getItemType() + " | amount: " + request.getItemAmount() +
                 " | price: " + request.getPrice() + " | message: " + request.getSentMessage() + "\n";
-    }
-
-    public ItemTypes getItemByName(String name) {
-        Empire empire = Database.getStayLoggedInUser().getEmpire();
-
-        if(empire.getFoodByName(name) != null) {
-            item = empire.getFoodByName(name);
-            return ItemTypes.FOOD;
-        }
-        else if(empire.getWeaponByName(name) != null) {
-            item = empire.getWeaponByName(name);
-            return ItemTypes.WEAPON;
-        }
-        else if(empire.getResourceByName(name) != null) {
-            item = empire.getResourceByName(name);
-            return ItemTypes.RESOURCE;
-        }
-            item = null;
-            return null;
     }
 }

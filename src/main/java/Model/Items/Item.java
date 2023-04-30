@@ -1,10 +1,13 @@
 package Model.Items;
 
+import Model.Database;
+import Model.Empire;
 import Model.User;
 
 public class Item {
 
     public enum ItemType {
+        //TODO: cost is just coins
         WHEAT("wheat", 0),
         FLOUR("flour", 0),
         HOPS("hops", 0),
@@ -79,4 +82,33 @@ public class Item {
         }
         return null;
     }
+
+    public static ItemTypes getItemByName(String name) {
+        Empire empire = Database.getLoggedInUser().getEmpire();
+
+        if(empire.getFoodByName(name) != null) {
+            return ItemTypes.FOOD;
+        }
+        else if(empire.getWeaponByName(name) != null) {
+            return ItemTypes.WEAPON;
+        }
+        else if(empire.getResourceByName(name) != null) {
+            return ItemTypes.RESOURCE;
+        }
+        return null;
+    }
+
+    public static Item getAvailableItems(String itemName) {
+        Empire empire = Database.getLoggedInUser().getEmpire();
+        switch (getItemByName(itemName)) {
+            case RESOURCE:
+                return empire.getResourceByName(itemName);
+            case FOOD:
+                return empire.getFoodByName(itemName);
+            case WEAPON:
+                return empire.getWeaponByName(itemName);
+        }
+        return null;
+    }
+
 }
