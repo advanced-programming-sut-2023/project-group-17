@@ -19,15 +19,14 @@ public class ShopMenuController {
     public ShopMenuMessages buyItem(String itemName, Integer amount) {
         if(TradableItems.getTradableItemType(itemName) == null) return ShopMenuMessages.INVALID_ITEM_NAME;
         if(amount <= 0) return ShopMenuMessages.INVALID_ITEM_AMOUNT;
-        //TODO: storage capacity must be added
+        if(Database.getLoggedInUser().getEmpire().getCoins() < TradableItems.getTradableItemType(itemName).getCost() * amount) return ShopMenuMessages.NOT_ENOUGH_COIN;
 
         Empire empire = Database.getLoggedInUser().getEmpire();
         TradableItems.TradableItemType tradableItemType = TradableItems.getTradableItemType(itemName);
 
         empire.changeCoins(-tradableItemType.getCost());
-        //TODO: item must be added to the storage
-
-        return null;
+        empire.getTradableItemByName(itemName).changeNumber(amount);
+        return ShopMenuMessages.SUCCESS;
     }
 
     public ShopMenuMessages sellItem(String itemName, Integer amount) {
@@ -38,9 +37,8 @@ public class ShopMenuController {
         Empire empire = Database.getLoggedInUser().getEmpire();
         TradableItems.TradableItemType tradableItemType = TradableItems.getTradableItemType(itemName);
 
-        empire.changeCoins(0.9 * tradableItemType.getCost());
-        //TODO: remove item from storage;
-
-        return null;
+        empire.changeCoins(0.8 * tradableItemType.getCost());
+        empire.getTradableItemByName(itemName).changeNumber(-amount);
+        return ShopMenuMessages.SUCCESS;
     }
 }

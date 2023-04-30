@@ -15,6 +15,7 @@ public class ShopMenu extends Menu{
 
     @Override
     public void run(Scanner scanner) {
+        System.out.println("entered shop menu successfully");
         Matcher matcher;
         String command;
 
@@ -51,12 +52,6 @@ public class ShopMenu extends Menu{
                 break;
             case NOT_ENOUGH_COIN:
                 System.out.println("buy item failed : not enough coin");
-                break;
-            case ITEM_DOES_NOT_EXISTS:
-                System.out.println("buy item failed : this item is not in the shop currently");
-                break;
-            case NOT_ENOUGH_SPACE:
-                System.out.println("buy item failed : there is not enough space to buy this item");
                 break;
             case INVALID_ITEM_NAME:
                 System.out.println("buy item failed : invalid item name");

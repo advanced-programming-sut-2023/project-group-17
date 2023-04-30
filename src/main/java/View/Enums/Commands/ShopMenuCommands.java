@@ -5,8 +5,8 @@ import java.util.regex.Pattern;
 
 public enum ShopMenuCommands {
     SHOW_PRICE_LIST("\\s*show\\s+price\\s+list\\s*"),
-    BUY_ITEM("\\s*buy\\s+(?:(-n\\s*)(?<name>\".+\"|\\S+)?(\\s*)()|(-a\\s*)(?<amount>\\d+)?(\\s*)()){2}\\4\\8"),
-    SELL_ITEM("\\s*sell\\s+(?:(-n\\s*)(?<name>\".+\"|\\S+)?(\\s*)()|(-a\\s*)(?<amount>\\d+)?(\\s*)()){2}\\4\\8"),
+    BUY_ITEM("\\s*buy\\s+(?:(-n\\s*)(?<name>\".+\"|\\S+)?(\\s*)()|(-i\\s*)(?<amount>\\d+)?(\\s*)()){2}\\4\\8"),
+    SELL_ITEM("\\s*sell\\s+(?:(-n\\s*)(?<name>\".+\"|\\S+)?(\\s*)()|(-i\\s*)(?<amount>\\d+)?(\\s*)()){2}\\4\\8"),
     BACK("\\s*back\\s*")
     ;
 
