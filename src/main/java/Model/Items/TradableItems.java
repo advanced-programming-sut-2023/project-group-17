@@ -3,7 +3,7 @@ package Model.Items;
 import Model.User;
 
 public class TradableItems extends Item{
-    public enum tradableItemType {
+    public enum TradableItemType {
         //TODO: tradableItems cost must be added
         MEAT("meat", 0),
         CHEESE("cheese", 0),
@@ -22,26 +22,29 @@ public class TradableItems extends Item{
         private final String name;
         private final Double cost;
 
-        tradableItemType(String name, double cost) {
+        TradableItemType(String name, double cost) {
             this.name = name;
             this.cost = cost;
         }
         public String getName() {
             return this.name;
         }
+        public double getCost() {
+            return this.cost;
+        }
     }
-    public TradableItems(tradableItemType tradableItemType, User owner) {
+    public TradableItems(TradableItemType tradableItemType, User owner) {
         super(tradableItemType.name, tradableItemType.cost, owner);
     }
-    public static tradableItemType getTradableItemType(String tradableItemName) {
-        for (tradableItemType tradableItemType : tradableItemType.values()) {
+    public static TradableItemType getTradableItemType(String tradableItemName) {
+        for (TradableItemType tradableItemType : TradableItemType.values()) {
             if(tradableItemType.name.equals(tradableItemName)) return tradableItemType;
         }
         return null;
     }
 
     public static double getCostByName(String name) {
-        for (tradableItemType tradableItemType : tradableItemType.values()) {
+        for (TradableItemType tradableItemType : TradableItemType.values()) {
             if(tradableItemType.name.equals(name)) return tradableItemType.cost;
         }
         return -1;

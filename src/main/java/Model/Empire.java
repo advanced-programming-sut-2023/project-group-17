@@ -63,11 +63,18 @@ public class Empire {
         return tradableItems;
     }
 
-    public TradableItems getTradableItemsByName(String name) {
+    public TradableItems getTradableItemByName(String name) {
         for (TradableItems tradableItem : tradableItems) {
             if(tradableItem.getItemName().equals(name)) return tradableItem;
         }
         return null;
+    }
+
+    public int getTradableItemAmount(String name) {
+        for (TradableItems tradableItem : tradableItems) {
+            if(tradableItem.getItemName().equals(name)) return tradableItem.getNumber();
+        }
+        return -1;
     }
 
     public Resource getResourceByName(String name) {
@@ -149,7 +156,7 @@ public class Empire {
         this.resources.add(resource);
     }
 
-    public void addTradableItems(TradableItems tradableItems) {
+    public void addTradableItem(TradableItems tradableItems) {
         this.tradableItems.add(tradableItems);
     }
 

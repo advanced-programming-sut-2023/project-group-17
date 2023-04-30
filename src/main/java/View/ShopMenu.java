@@ -35,7 +35,7 @@ public class ShopMenu extends Menu{
     }
 
     private void showPriceList() {
-        System.out.println(controller.showPriceList());
+        System.out.print(controller.showPriceList());
     }
 
     private void buyItem(Matcher matcher) {

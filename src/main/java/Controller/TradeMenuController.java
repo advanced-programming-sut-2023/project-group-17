@@ -13,11 +13,11 @@ public class TradeMenuController {
         if(itemAmount <= 0) return TradeMenuMessages.INVALID_AMOUNT;
         if(price < 0) return TradeMenuMessages.INVALID_PRICE;
 
-        TradableItems tradableItems = Database.getLoggedInUser().getEmpire().getTradableItemsByName(itemTypeName);
+        TradableItems tradableItems = Database.getLoggedInUser().getEmpire().getTradableItemByName(itemTypeName);
         if(tradableItems == null || tradableItems.getNumber() < itemAmount)
             return TradeMenuMessages.INSUFFICIENT_ITEM_AMOUNT;
 
-        TradableItems.tradableItemType itemType = TradableItems.getTradableItemType(itemTypeName);
+        TradableItems.TradableItemType itemType = TradableItems.getTradableItemType(itemTypeName);
         TradeRequest tradeRequest = new TradeRequest(Database.getLoggedInUser(),
                 itemType, itemAmount, price, message);
 
@@ -38,8 +38,8 @@ public class TradeMenuController {
         int amount = request.getResourceAmount();
         double price = request.getPrice();
 
-        receiverEmpire.getTradableItemsByName(itemName).changeNumber(-amount);
-        senderEmpire.getTradableItemsByName(itemName).changeNumber(amount);
+        receiverEmpire.getTradableItemByName(itemName).changeNumber(-amount);
+        senderEmpire.getTradableItemByName(itemName).changeNumber(amount);
         senderEmpire.changeCoins(-price);
         receiverEmpire.changeCoins(price);
         receiverEmpire.getReceivedRequestById(id).setAcceptMessage(message);

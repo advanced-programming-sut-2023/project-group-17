@@ -4,13 +4,10 @@ import Model.Database;
 import Model.Direction;
 import Model.People.Person;
 import Model.People.Soldier;
-import Model.People.Worker;
 import Model.People.UnitAttributes.Status;
 import View.Enums.Messages.UnitMenuMessages;
-import View.UnitMenu;
 
 import java.util.ArrayList;
-import java.util.regex.Matcher;
 
 public class UnitMenuController {
     private ArrayList<Person> selectedUnit;
@@ -19,7 +16,7 @@ public class UnitMenuController {
         if(!Utils.CheckMapCell.validationOfY(y)) return UnitMenuMessages.Y_OUT_OF_BOUNDS;
 
         for (Person person : selectedUnit = Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getPeople()) {
-            if((person instanceof Soldier || person instanceof Worker) && person.getOwner().equals(Database.getLoggedInUser())) {
+            if((person instanceof Soldier) && person.getOwner().equals(Database.getLoggedInUser())) {
                 selectedUnit.add(person);
             }
         }
