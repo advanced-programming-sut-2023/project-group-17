@@ -37,6 +37,51 @@ public class Empire {
         this.religionRate = 0;
         this.popularityRate = 0;
         this.coins = 0;
+        addFoods();
+        addResources();
+        addWeapons();
+        addAnimals();
+    }
+
+    private void addAnimals() {
+        User loggedInUser = Database.getLoggedInUser();
+        animals.add(new Animal(Animal.animalNames.COW, loggedInUser, 0));
+        animals.add(new Animal(Animal.animalNames.DOG, loggedInUser, 0));
+        animals.add(new Animal(Animal.animalNames.HORSE, loggedInUser, 0));
+
+    }
+
+    private void addWeapons() {
+        User loggedInUser = Database.getLoggedInUser();
+        weapons.add(new ArmorAndWeapon(ArmorAndWeapon.WeaponAndArmor.METAL_ARMOR, loggedInUser, 0));
+        weapons.add(new ArmorAndWeapon(ArmorAndWeapon.WeaponAndArmor.LEATHER_ARMOR, loggedInUser, 0));
+        weapons.add(new ArmorAndWeapon(ArmorAndWeapon.WeaponAndArmor.BOW, loggedInUser, 0));
+        weapons.add(new ArmorAndWeapon(ArmorAndWeapon.WeaponAndArmor.MACE, loggedInUser, 0));
+        weapons.add(new ArmorAndWeapon(ArmorAndWeapon.WeaponAndArmor.PIKE, loggedInUser, 0));
+        weapons.add(new ArmorAndWeapon(ArmorAndWeapon.WeaponAndArmor.CROSSBOW, loggedInUser, 0));
+        weapons.add(new ArmorAndWeapon(ArmorAndWeapon.WeaponAndArmor.SPEAR, loggedInUser, 0));
+        weapons.add(new ArmorAndWeapon(ArmorAndWeapon.WeaponAndArmor.SWORDS, loggedInUser, 0));
+    }
+
+    private void addResources() {
+        User loggedInUser = Database.getLoggedInUser();
+        resources.add(new Resource(Resource.resourceType.WOOD, loggedInUser, 100));
+        resources.add(new Resource(Resource.resourceType.IRON, loggedInUser, 0));
+        resources.add(new Resource(Resource.resourceType.STONE, loggedInUser, 48));
+        resources.add(new Resource(Resource.resourceType.ALE, loggedInUser, 0));
+        resources.add(new Resource(Resource.resourceType.FLOUR, loggedInUser, 0));
+        resources.add(new Resource(Resource.resourceType.HOPS, loggedInUser, 0));
+        resources.add(new Resource(Resource.resourceType.PITCH, loggedInUser, 0));
+        resources.add(new Resource(Resource.resourceType.WHEAT, loggedInUser, 0));
+        resources.add(new Resource(Resource.resourceType.GOLD, loggedInUser, 2000));
+    }
+
+    private void addFoods() {
+        User loggedInUser = Database.getLoggedInUser();
+        foods.add(new Food(Food.foodType.CHEESE, loggedInUser, 0));
+        foods.add(new Food(Food.foodType.MEAT, loggedInUser, 0));
+        foods.add(new Food(Food.foodType.APPLE, loggedInUser, 0));
+        foods.add(new Food(Food.foodType.BREAD, loggedInUser, 0));
     }
 
     public ArrayList<Food> getFoods() {
