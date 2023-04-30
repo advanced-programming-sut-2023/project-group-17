@@ -63,9 +63,9 @@ public class Empire {
         return tradableItems;
     }
 
-    public TradableItems getTradableItemByName(String name) {
-        for (TradableItems tradableItem : tradableItems) {
-            if(tradableItem.getItemName().equals(name)) return tradableItem;
+    public TradableItems.TradableItemType getTradableItemByName(String name) {
+        for (TradableItems.TradableItemType tradableItem : TradableItems.TradableItemType.values()) {
+            if(tradableItem.getName().equals(name)) return tradableItem;
         }
         return null;
     }
