@@ -4,7 +4,7 @@ import Model.User;
 
 public class Item {
     private User owner;
-    private int number;
+    private double number;
     private String itemName;
     private double cost;
     public Item(String itemName, double cost, User owner) {
@@ -17,7 +17,7 @@ public class Item {
         return owner;
     }
 
-    public int getNumber() {
+    public double getNumber() {
         return number;
     }
 
@@ -29,7 +29,7 @@ public class Item {
         return cost;
     }
 
-    public void changeNumber(int number) {
+    public void changeNumber(double number) {
         this.number += number;
     }
 }

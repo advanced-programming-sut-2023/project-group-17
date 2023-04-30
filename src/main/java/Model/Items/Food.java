@@ -3,6 +3,7 @@ package Model.Items;
 import Model.User;
 
 public class Food extends Item{
+    //TODO: default numbers
     public enum foodType {
         MEAT("meat", 0),
         CHEESE("cheese", 0),

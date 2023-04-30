@@ -70,7 +70,7 @@ public class Empire {
         return null;
     }
 
-    public int getTradableItemAmount(String name) {
+    public double getTradableItemAmount(String name) {
         for (TradableItems tradableItem : tradableItems) {
             if(tradableItem.getItemName().equals(name)) return tradableItem.getNumber();
         }
@@ -148,6 +148,10 @@ public class Empire {
         this.popularityRate = popularityRate;
     }
 
+    public void changePopularityRate(int popularityRate) {
+        this.popularityRate += popularityRate;
+    }
+
     public void addFood(Food food) {
         this.foods.add(food);
     }
@@ -188,6 +192,36 @@ public class Empire {
             if (person instanceof NormalPeople) normalPeople.add((NormalPeople) person);
         }
         return normalPeople;
+    }
+
+    public int getFoodDiversity() {
+        int diversity = 0;
+        for (Food food : this.foods) {
+            if(food.getNumber() != 0) diversity++;
+        }
+        return diversity;
+    }
+
+    public double getFoodNumbers() {
+        int number = 0;
+        for (Food food : this.foods) {
+            number += food.getNumber();
+        }
+        return number;
+    }
+
+    public int getPopulation() {
+        return people.size();
+    }
+
+    public void changeFoodNumber(double amount) {
+        while (amount != 0) {
+            for (Food food : foods) {
+                if (amount == 0) break;
+                if (food.getNumber() > 0) food.changeNumber(-0.5);
+                amount -= 0.5;
+            }
+        }
     }
 
     @Override
