@@ -1,25 +1,23 @@
 package Model;
 
-import Model.Items.Resource;
-import Model.Items.TradableResources;
-import View.TradeMenu;
+import Model.Items.TradableItems;
 
 public class TradeRequest {
     private final User senderUser;
     private static int idCount = 1;
     private final int id;
-    private final TradableResources resourceType;
-    private final int resourceAmount;
+    private final TradableItems.tradableItemType itemType;
+    private final int itemAmount;
     private final int price;
     private final String sentMessage;
     private String acceptMessage;
     boolean isAccepted = false;
     boolean isSeen = false;
 
-    public TradeRequest(User senderUser, TradableResources resourceType, int resourceAmount, int price, String sentMessage) {
+    public TradeRequest(User senderUser, TradableItems.tradableItemType itemType, int itemAmount, int price, String sentMessage) {
         this.senderUser = senderUser;
-        this.resourceType = resourceType;
-        this.resourceAmount = resourceAmount;
+        this.itemType = itemType;
+        this.itemAmount = itemAmount;
         this.price = price;
         this.sentMessage = sentMessage;
         this.id = idCount;
@@ -42,12 +40,12 @@ public class TradeRequest {
         return id;
     }
 
-    public TradableResources getResourceType() {
-        return resourceType;
+    public TradableItems.tradableItemType getItemType() {
+        return itemType;
     }
 
     public int getResourceAmount() {
-        return resourceAmount;
+        return itemAmount;
     }
 
     public int getPrice() {

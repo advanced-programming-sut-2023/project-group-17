@@ -1,9 +1,6 @@
 package Model;
 
-import Model.Items.Animal;
-import Model.Items.ArmorAndWeapon;
-import Model.Items.Food;
-import Model.Items.Resource;
+import Model.Items.*;
 import Model.People.NormalPeople;
 import Model.People.Person;
 import Model.People.Soldier;
@@ -13,6 +10,7 @@ import java.util.ArrayList;
 public class Empire {
     private ArrayList<Food> foods;
     private ArrayList<Resource> resources;
+    private ArrayList<TradableItems> tradableItems;
     private ArrayList<Person> people;
     private ArrayList<ArmorAndWeapon> weapons;
     private ArrayList<Animal> animals;
@@ -27,6 +25,7 @@ public class Empire {
     public Empire() {
         this.foods = new ArrayList<Food>();
         this.resources = new ArrayList<Resource>();
+        this.tradableItems = new ArrayList<TradableItems>();
         this.people = new ArrayList<Person>();
         this.weapons = new ArrayList<ArmorAndWeapon>();
         this.animals = new ArrayList<Animal>();
@@ -60,6 +59,17 @@ public class Empire {
         return animals;
     }
 
+    public ArrayList<TradableItems> getTradableItems() {
+        return tradableItems;
+    }
+
+    public TradableItems getTradableItemsByName(String name) {
+        for (TradableItems tradableItem : tradableItems) {
+            if(tradableItem.getItemName().equals(name)) return tradableItem;
+        }
+        return null;
+    }
+
     public Resource getResourceByName(String name) {
         for (Resource resource : resources) {
             if(resource.getItemName().equals(name)) return resource;
@@ -80,7 +90,7 @@ public class Empire {
         this.sentTradeRequests.add(tradeRequest);
     }
 
-    public TradeRequest getRecievedRequestById(int id) {
+    public TradeRequest getReceivedRequestById(int id) {
         for (TradeRequest request : receivedTradeRequests) {
             if(request.getId() == id) return request;
         }
@@ -137,6 +147,10 @@ public class Empire {
 
     public void addResource(Resource resource) {
         this.resources.add(resource);
+    }
+
+    public void addTradableItems(TradableItems tradableItems) {
+        this.tradableItems.add(tradableItems);
     }
 
     public void addPopulation(Person person) {

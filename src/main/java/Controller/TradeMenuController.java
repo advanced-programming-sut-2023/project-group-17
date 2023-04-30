@@ -2,25 +2,24 @@ package Controller;
 
 import Model.Database;
 import Model.Empire;
-import Model.Items.Resource;
-import Model.Items.TradableResources;
+import Model.Items.TradableItems;
 import Model.TradeRequest;
 import Model.User;
 import View.Enums.Messages.TradeMenuMessages;
 
 public class TradeMenuController {
-    public TradeMenuMessages tradeRequest(String resourceTypeName, int resourceAmount, int price, String message) {
-        if(Resource.getResourceType(resourceTypeName) == null) return TradeMenuMessages.INVALID_RESOURCE_TYPE;
-        if(resourceAmount <= 0) return TradeMenuMessages.INVALID_AMOUNT;
+    public TradeMenuMessages tradeRequest(String itemTypeName, int itemAmount, int price, String message) {
+        if(TradableItems.getTradableItemType(itemTypeName) == null) return TradeMenuMessages.INVALID_ITEM_TYPE;
+        if(itemAmount <= 0) return TradeMenuMessages.INVALID_AMOUNT;
         if(price < 0) return TradeMenuMessages.INVALID_PRICE;
 
-        Resource resource = Database.getLoggedInUser().getEmpire().getResourceByName(resourceTypeName);
-        if(resource == null || resource.getNumber() < resourceAmount)
-            return TradeMenuMessages.INSUFFICIENT_RESOURCE_AMOUNT;
+        TradableItems tradableItems = Database.getLoggedInUser().getEmpire().getTradableItemsByName(itemTypeName);
+        if(tradableItems == null || tradableItems.getNumber() < itemAmount)
+            return TradeMenuMessages.INSUFFICIENT_ITEM_AMOUNT;
 
-        TradableResources resourceType = TradableResources.getResourceType(resourceTypeName);
+        TradableItems.tradableItemType itemType = TradableItems.getTradableItemType(itemTypeName);
         TradeRequest tradeRequest = new TradeRequest(Database.getLoggedInUser(),
-                resourceType, resourceAmount, price, message);
+                itemType, itemAmount, price, message);
 
         Database.getLoggedInUser().getEmpire().addSentTradeRequests(tradeRequest);
         for (User user : Database.getUsers()) {
@@ -31,20 +30,20 @@ public class TradeMenuController {
 
     public TradeMenuMessages acceptTrade(int id, String message) {
         Empire receiverEmpire = Database.getLoggedInUser().getEmpire();
-        if(receiverEmpire.getRecievedRequestById(id) == null) return TradeMenuMessages.ID_DOES_NOT_EXISTS;
+        if(receiverEmpire.getReceivedRequestById(id) == null) return TradeMenuMessages.ID_DOES_NOT_EXISTS;
 
-        TradeRequest request = receiverEmpire.getRecievedRequestById(id);
+        TradeRequest request = receiverEmpire.getReceivedRequestById(id);
         Empire senderEmpire = request.getSenderUser().getEmpire();
-        String resourceName = request.getResourceType().getName();
+        String itemName = request.getItemType().getName();
         int amount = request.getResourceAmount();
         double price = request.getPrice();
 
-        receiverEmpire.getResourceByName(resourceName).changeNumber(-amount);
-        senderEmpire.getResourceByName(resourceName).changeNumber(amount);
+        receiverEmpire.getTradableItemsByName(itemName).changeNumber(-amount);
+        senderEmpire.getTradableItemsByName(itemName).changeNumber(amount);
         senderEmpire.changeCoins(-price);
         receiverEmpire.changeCoins(price);
-        receiverEmpire.getRecievedRequestById(id).setAcceptMessage(message);
-        receiverEmpire.getRecievedRequestById(id).setAccepted();
+        receiverEmpire.getReceivedRequestById(id).setAcceptMessage(message);
+        receiverEmpire.getReceivedRequestById(id).setAccepted();
         return TradeMenuMessages.SUCCESS;
     }
 
@@ -104,13 +103,13 @@ public class TradeMenuController {
 
     public String receivedTradeToString(TradeRequest request){
         return "id " + request.getId() + ") from " + request.getSenderUser() + " | resource type: " +
-                request.getResourceType() + " | amount: " + request.getResourceAmount() +
+                request.getItemType() + " | amount: " + request.getResourceAmount() +
                 " | price: " + request.getPrice() + " | message: " + request.getSentMessage() + "\n";
     }
 
     public String sentTradeToString(TradeRequest request){
         return "id " + request.getId() + " | resource type: " +
-                request.getResourceType() + " | amount: " + request.getResourceAmount() +
+                request.getItemType() + " | amount: " + request.getResourceAmount() +
                 " | price: " + request.getPrice() + " | message: " + request.getSentMessage() + "\n";
     }
 }
