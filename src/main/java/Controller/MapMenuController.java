@@ -46,7 +46,9 @@ public class MapMenuController {
                     data += "|";
                 else {
                     MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(xMap - 2 + j / 4, yMap - 2 + i / 4);
-                    if (mapCell.getMaterialMap().getColor().equals(Color.ANSI_BLACK_BACKGROUND))
+                    if (xMap - 2 + j / 4 == x && yMap - 2 + i / 4 == y)
+                        data += mapCell.getMaterialMap().getColor() + Color.ANSI_RED;
+                    else if (mapCell.getMaterialMap().getColor().equals(Color.ANSI_BLACK_BACKGROUND))
                         data += mapCell.getMaterialMap().getColor() + Color.ANSI_BLACK;
                     else data += mapCell.getMaterialMap().getColor() + Color.ANSI_WHITE;
                     data += mapCell.objectInCell();
@@ -145,10 +147,10 @@ public class MapMenuController {
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
 
         mapCell.setBuilding(null);
-        mapCell.setMapCellItems(null);
-        mapCell.setItems(null);
-        mapCell.setAttackToolsAndMethods(null);
-        mapCell.setPeople(null);
+        mapCell.getMapCellItems().clear();
+        mapCell.getItems().clear();
+        mapCell.getAttackToolsAndMethods().clear();
+        mapCell.getPeople().clear();
         mapCell.setMaterialMap(MaterialMap.getTextureMap("land"));
 
         return MapMenuMessages.SUCCESS;

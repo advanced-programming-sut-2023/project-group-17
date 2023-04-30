@@ -18,5 +18,6 @@ public class Color {
     public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
     public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
     public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+
 }
 // https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
