@@ -8,6 +8,7 @@ import Model.People.Soldier;
 import Utils.CheckMapCell;
 import View.Enums.Messages.MapMenuMessages;
 import View.MapMenu;
+import View.Menu;
 
 public class MapMenuController {
     private int xMap;
@@ -61,15 +62,20 @@ public class MapMenuController {
     }
 
     public String moveMap(int[] directions) {
+        for (int direction : directions) {
+            System.out.println(direction);
+        }
         int transversalMove = directions[1] - directions[3];
         int longitudinalMove = directions[0] - directions[2];
+        System.out.println("==========");
+        System.out.println(longitudinalMove);
         MapMenu.print(isSafeToMove(transversalMove, longitudinalMove));
         showMap(xMap, yMap);
         return "";
     }
     public String isSafeToMove(int transversalMove, int longitudinalMove) {
         int width = xMap + transversalMove;
-        int length = yMap + longitudinalMove;
+        int length = yMap - longitudinalMove;
         boolean widthOutOfMap = width < 0 || width > Database.getCurrentMapGame().getWidth();
         boolean lengthOutOfMap = length < 0 || length > Database.getCurrentMapGame().getLength();
         if (widthOutOfMap && lengthOutOfMap) return "Both coordinates out of map";
@@ -91,9 +97,7 @@ public class MapMenuController {
 
     public MapMenuMessages showDetails(int x, int y) {
         String details = "";
-
         if (!CheckMapCell.validationOfX(x)) return MapMenuMessages.X_OUT_OF_BOUNDS;
-
         if (!CheckMapCell.validationOfY(y)) return MapMenuMessages.Y_OUT_OF_BOUNDS;
 
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
@@ -108,6 +112,7 @@ public class MapMenuController {
         else if (mapCell.getRock() != null) details += "have rock\n" ;
         details += "Number of people in this cell : " + mapCell.getSoldier().size();
         //TODO complete soldiers
+        Menu.print(details);
         return MapMenuMessages.SUCCESS;
     }
 

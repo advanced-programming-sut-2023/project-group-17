@@ -79,6 +79,7 @@ public class MapMenu extends Menu{
         switch (controller.showDetails(x, y)) {
             case SUCCESS:
                 //TODO showing details
+                break;
             case X_OUT_OF_BOUNDS:
                 System.out.println("Show details failed : Coordinate of x is out of bounds");
                 break;
