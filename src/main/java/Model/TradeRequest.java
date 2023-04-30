@@ -1,12 +1,12 @@
 package Model;
 
-import Model.Items.TradableItems;
+import Model.Items.Item;
 
 public class TradeRequest {
     private final User senderUser;
     private static int idCount = 1;
     private final int id;
-    private final TradableItems.TradableItemType itemType;
+    private final Item.ItemType itemType;
     private final int itemAmount;
     private final int price;
     private final String sentMessage;
@@ -14,7 +14,7 @@ public class TradeRequest {
     boolean isAccepted = false;
     boolean isSeen = false;
 
-    public TradeRequest(User senderUser, TradableItems.TradableItemType itemType, int itemAmount, int price, String sentMessage) {
+    public TradeRequest(User senderUser, Item.ItemType itemType, int itemAmount, int price, String sentMessage) {
         this.senderUser = senderUser;
         this.itemType = itemType;
         this.itemAmount = itemAmount;
@@ -40,11 +40,11 @@ public class TradeRequest {
         return id;
     }
 
-    public TradableItems.TradableItemType getItemType() {
+    public Item.ItemType getItemType() {
         return itemType;
     }
 
-    public int getResourceAmount() {
+    public int getItemAmount() {
         return itemAmount;
     }
 

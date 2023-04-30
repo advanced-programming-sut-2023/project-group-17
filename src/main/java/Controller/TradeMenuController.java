@@ -2,22 +2,20 @@ package Controller;
 
 import Model.Database;
 import Model.Empire;
-import Model.Items.TradableItems;
+import Model.Items.*;
 import Model.TradeRequest;
 import Model.User;
 import View.Enums.Messages.TradeMenuMessages;
 
 public class TradeMenuController {
+    Item item;
     public TradeMenuMessages tradeRequest(String itemTypeName, int itemAmount, int price, String message) {
-        if(TradableItems.getTradableItemType(itemTypeName) == null) return TradeMenuMessages.INVALID_ITEM_TYPE;
+        if(getItemByName(itemTypeName) == null) return TradeMenuMessages.INVALID_ITEM_NAME;
         if(itemAmount <= 0) return TradeMenuMessages.INVALID_AMOUNT;
         if(price < 0) return TradeMenuMessages.INVALID_PRICE;
+        if(item == null || item.getNumber() < itemAmount) return TradeMenuMessages.INSUFFICIENT_ITEM_AMOUNT;
 
-        TradableItems tradableItems = Database.getLoggedInUser().getEmpire().getTradableItemByName(itemTypeName);
-        if(tradableItems == null || tradableItems.getNumber() < itemAmount)
-            return TradeMenuMessages.INSUFFICIENT_ITEM_AMOUNT;
-
-        TradableItems.TradableItemType itemType = TradableItems.getTradableItemType(itemTypeName);
+        Item.ItemType itemType = Item.getItemType(itemTypeName);
         TradeRequest tradeRequest = new TradeRequest(Database.getLoggedInUser(),
                 itemType, itemAmount, price, message);
 
@@ -35,11 +33,24 @@ public class TradeMenuController {
         TradeRequest request = receiverEmpire.getReceivedRequestById(id);
         Empire senderEmpire = request.getSenderUser().getEmpire();
         String itemName = request.getItemType().getName();
-        int amount = request.getResourceAmount();
+        int amount = request.getItemAmount();
         double price = request.getPrice();
 
-        receiverEmpire.getTradableItemByName(itemName).changeNumber(-amount);
-        senderEmpire.getTradableItemByName(itemName).changeNumber(amount);
+        switch (getItemByName(itemName)) {
+            case RESOURCE:
+                receiverEmpire.getResourceByName(itemName).changeNumber(-amount);
+                senderEmpire.getResourceByName(itemName).changeNumber(amount);
+                break;
+            case FOOD:
+                receiverEmpire.getFoodByName(itemName).changeNumber(-amount);
+                senderEmpire.getFoodByName(itemName).changeNumber(amount);
+                break;
+            case WEAPON:
+                receiverEmpire.getWeaponByName(itemName).changeNumber(-amount);
+                senderEmpire.getWeaponByName(itemName).changeNumber(amount);
+                break;
+        }
+
         senderEmpire.changeCoins(-price);
         receiverEmpire.changeCoins(price);
         receiverEmpire.getReceivedRequestById(id).setAcceptMessage(message);
@@ -88,9 +99,6 @@ public class TradeMenuController {
     }
 
     public String showRequestsNotification() {
-//        if(Database.getLoggedInUser().getEmpire() == null)
-//            return "";
-
         String result = "";
 
         for (TradeRequest request : Database.getLoggedInUser().getEmpire().getReceivedTradeRequests()) {
@@ -106,13 +114,32 @@ public class TradeMenuController {
 
     public String receivedTradeToString(TradeRequest request){
         return "id " + request.getId() + ") from " + request.getSenderUser() + " | resource type: " +
-                request.getItemType() + " | amount: " + request.getResourceAmount() +
+                request.getItemType() + " | amount: " + request.getItemAmount() +
                 " | price: " + request.getPrice() + " | message: " + request.getSentMessage() + "\n";
     }
 
     public String sentTradeToString(TradeRequest request){
         return "id " + request.getId() + " | resource type: " +
-                request.getItemType() + " | amount: " + request.getResourceAmount() +
+                request.getItemType() + " | amount: " + request.getItemAmount() +
                 " | price: " + request.getPrice() + " | message: " + request.getSentMessage() + "\n";
+    }
+
+    public ItemTypes getItemByName(String name) {
+        Empire empire = Database.getStayLoggedInUser().getEmpire();
+
+        if(empire.getFoodByName(name) != null) {
+            item = empire.getFoodByName(name);
+            return ItemTypes.FOOD;
+        }
+        else if(empire.getWeaponByName(name) != null) {
+            item = empire.getWeaponByName(name);
+            return ItemTypes.WEAPON;
+        }
+        else if(empire.getResourceByName(name) != null) {
+            item = empire.getResourceByName(name);
+            return ItemTypes.RESOURCE;
+        }
+            item = null;
+            return null;
     }
 }

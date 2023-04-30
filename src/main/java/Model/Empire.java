@@ -79,6 +79,7 @@ public class Empire {
     }
 
     private void addFoods() {
+        //TODO: add foods when new game starts
         User loggedInUser = Database.getLoggedInUser();
         foods.add(new Food(Food.foodType.CHEESE, loggedInUser, 0));
         foods.add(new Food(Food.foodType.MEAT, loggedInUser, 0));
@@ -122,13 +123,6 @@ public class Empire {
             if(tradableItem.getItemName().equals(name)) return tradableItem.getNumber();
         }
         return -1;
-    }
-
-    public Resource getResourceByName(String name) {
-        for (Resource resource : resources) {
-            if(resource.getItemName().equals(name)) return resource;
-        }
-        return null;
     }
 
     public ArrayList<TradeRequest> getReceivedTradeRequests() {
@@ -276,10 +270,10 @@ public class Empire {
             if (food.getItemName().equals(name)) return food;
         return null;
     }
-
-    public Resource getRecourseByName(String name) {
-        for (Resource resource : resources)
-            if (resource.getItemName().equals(name)) return resource;
+    public Resource getResourceByName(String name) {
+        for (Resource resource : resources) {
+            if(resource.getItemName().equals(name)) return resource;
+        }
         return null;
     }
 
