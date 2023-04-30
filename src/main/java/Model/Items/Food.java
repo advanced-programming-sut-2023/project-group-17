@@ -16,8 +16,8 @@ public class Food extends Item{
             this.cost = cost;
         }
     }
-    public Food(foodType foodType, User owner) {
-        super(foodType.name, foodType.cost, owner);
+    public Food(foodType foodType, User owner, double number) {
+        super(foodType.name, foodType.cost, owner, number);
     }
     public static boolean contains(String foodName) {
         for (Food.foodType nameValue : Food.foodType.values()) {

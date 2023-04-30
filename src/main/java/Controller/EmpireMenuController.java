@@ -21,6 +21,7 @@ public class EmpireMenuController {
 
     public String showFoodList() {
         String result = "";
+        if (user.getEmpire().getFoods() == null) return result;
         for (Food food : user.getEmpire().getFoods()) {
             result += food.toString() + "\n";
         }

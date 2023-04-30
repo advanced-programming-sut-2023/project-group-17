@@ -33,8 +33,8 @@ public class TradableItems extends Item{
             return this.cost;
         }
     }
-    public TradableItems(TradableItemType tradableItemType, User owner) {
-        super(tradableItemType.name, tradableItemType.cost, owner);
+    public TradableItems(TradableItemType tradableItemType, User owner, double number) {
+        super(tradableItemType.name, tradableItemType.cost, owner, number);
     }
     public static TradableItemType getTradableItemType(String tradableItemName) {
         for (TradableItemType tradableItemType : TradableItemType.values()) {

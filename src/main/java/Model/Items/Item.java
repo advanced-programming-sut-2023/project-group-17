@@ -7,11 +7,11 @@ public class Item {
     private double number;
     private String itemName;
     private double cost;
-    public Item(String itemName, double cost, User owner) {
+    public Item(String itemName, double cost, User owner, double number) {
         this.itemName = itemName;
         this.cost = cost;
         this.owner = owner;
-        this.number = 1;
+        this.number = number;
     }
     public User getOwner() {
         return owner;

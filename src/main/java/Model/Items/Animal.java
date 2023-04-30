@@ -20,8 +20,8 @@ public class Animal extends Item{
     private String name;
     private int health;
     private int damage;
-    public Animal(animalNames animalName, User owner) {
-        super(animalName.name, 0, owner);
+    public Animal(animalNames animalName, User owner, double number) {
+        super(animalName.name, 0, owner, number);
         this.name = animalName.name;
         this.health = animalName.health;
         this.damage = animalName.damage;

@@ -9,14 +9,14 @@ import static Model.Database.getBuildingDataByName;
 public class ArmorAndWeapon extends Item{
 
     public enum WeaponAndArmor {
-        BOW("bow", getBuildingDataByName("fletcher"), new Resource(Resource.resourceType.WOOD, null), 2),
-        CROSSBOW("crossbow", getBuildingDataByName("fletcher"), new Resource(Resource.resourceType.WOOD, null), 3),
-        SPEAR("spear", getBuildingDataByName("poleturner"), new Resource(Resource.resourceType.WOOD, null), 1),
-        PIKE("pike", getBuildingDataByName("poleturner"), new Resource(Resource.resourceType.WOOD, null), 2),
-        MACE("mace", getBuildingDataByName("blacksmith"), new Resource(Resource.resourceType.IRON, null), 1),
-        SWORDS("swords", getBuildingDataByName("blacksmith"), new Resource(Resource.resourceType.IRON, null), 1),
-        LEATHER_ARMOR("leather armor", getBuildingDataByName("dairy farmer"), new Animal(Animal.animalNames.COW, null), 1),
-        METAL_ARMOR("metal armor", getBuildingDataByName("armorer"), new Resource(Resource.resourceType.IRON, null), 1);
+        BOW("bow", getBuildingDataByName("fletcher"), new Resource(Resource.resourceType.WOOD, null, 1), 2),
+        CROSSBOW("crossbow", getBuildingDataByName("fletcher"), new Resource(Resource.resourceType.WOOD, null, 1), 3),
+        SPEAR("spear", getBuildingDataByName("poleturner"), new Resource(Resource.resourceType.WOOD, null, 1), 1),
+        PIKE("pike", getBuildingDataByName("poleturner"), new Resource(Resource.resourceType.WOOD, null, 1), 2),
+        MACE("mace", getBuildingDataByName("blacksmith"), new Resource(Resource.resourceType.IRON, null, 1), 1),
+        SWORDS("swords", getBuildingDataByName("blacksmith"), new Resource(Resource.resourceType.IRON, null, 1), 1),
+        LEATHER_ARMOR("leather armor", getBuildingDataByName("dairy farmer"), new Animal(Animal.animalNames.COW, null, 1), 1),
+        METAL_ARMOR("metal armor", getBuildingDataByName("armorer"), new Resource(Resource.resourceType.IRON, null, 1), 1);
         private String name;
         private Building producedIn;
         private Item itemType;
@@ -30,8 +30,8 @@ public class ArmorAndWeapon extends Item{
     }
     private Building producedIn;
     private Item itemType;
-    public ArmorAndWeapon(WeaponAndArmor weaponAndArmor, User owner) {
-        super(weaponAndArmor.name, weaponAndArmor.cost, owner);
+    public ArmorAndWeapon(WeaponAndArmor weaponAndArmor, User owner, double number) {
+        super(weaponAndArmor.name, weaponAndArmor.cost, owner, number);
         this.itemType = weaponAndArmor.itemType;
         this.producedIn = weaponAndArmor.producedIn;
     }

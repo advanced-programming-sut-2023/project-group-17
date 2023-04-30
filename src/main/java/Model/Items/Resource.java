@@ -28,8 +28,8 @@ public class Resource extends Item {
     }
 
     //TODO: set costs and numbers?
-    public Resource(resourceType resourceType, User owner){
-        super(resourceType.name, resourceType.cost, owner);
+    public Resource(resourceType resourceType, User owner, double number){
+        super(resourceType.name, resourceType.cost, owner, number);
     }
 
     public static resourceType getResourceType(String resourceName) {

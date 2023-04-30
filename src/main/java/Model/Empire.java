@@ -224,6 +224,24 @@ public class Empire {
         }
     }
 
+    public Food getFoodByName(String name) {
+        for (Food food : foods)
+            if (food.getItemName().equals(name)) return food;
+        return null;
+    }
+
+    public Resource getRecourseByName(String name) {
+        for (Resource resource : resources)
+            if (resource.getItemName().equals(name)) return resource;
+        return null;
+    }
+
+    public ArmorAndWeapon getWeaponByName(String name) {
+        for (ArmorAndWeapon weapon : weapons)
+            if (weapon.getItemName().equals(name)) return weapon;
+        return null;
+    }
+
     @Override
     public String toString() {
         return "1.Food : " + getFoodRate() + "\n" +
