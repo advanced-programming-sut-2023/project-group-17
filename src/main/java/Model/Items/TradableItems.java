@@ -49,6 +49,4 @@ public class TradableItems extends Item{
         }
         return -1;
     }
-
-
 }

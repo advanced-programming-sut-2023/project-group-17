@@ -3,14 +3,13 @@ package Controller;
 import Model.Database;
 import Model.Empire;
 import Model.Map;
+import Model.People.Soldier;
 import Utils.CheckMapCell;
 import View.Enums.Messages.GameMenuMessages;
 import View.Enums.Messages.MapMenuMessages;
 import View.Menu;
 
 public class GameMenuController {
-    private final Empire currentEmpire = Database.getLoggedInUser().getEmpire();
-
     public GameMenuMessages chooseMapGame(int id) {
         if(id > Database.getAllMaps().size() || id < 1) return GameMenuMessages.INVALID_MAP_NUMBER;
         Map map = Database.getAllMaps().get(id-1);
@@ -47,18 +46,44 @@ public class GameMenuController {
 
     }
 
-    public void changePopularity() {
+    public void changePopularity(Empire empire) {
         //TODO: set religion rate yadet nare
-        //TODO: set fear rate effect
         int changeAmount = 0;
-        changeAmount += currentEmpire.getFoodDiversity()-1 + foodRateEffect() + taxRateEffect() +
-                currentEmpire.getReligionRate();
+        changeAmount += empire.getFoodDiversity()-1 + foodRateEffect(empire) + taxRateEffect(empire) +
+                empire.getReligionRate() + fearRateEffect(empire);
 
-        currentEmpire.changePopularityRate(changeAmount);
+        empire.changePopularityRate(changeAmount);
     }
 
-    private int taxRateEffect() {
-        switch (currentEmpire.getTaxRate()) {
+    private int fearRateEffect(Empire empire) {
+        switch (empire.getFearRate()) {
+            case -5:
+                return -5;
+            case -4:
+                return -4;
+            case -3:
+                return -3;
+            case -2:
+                return -2;
+            case -1:
+                return -1;
+            case 1:
+                return 1;
+            case 2:
+                return 2;
+            case 3:
+                return 3;
+            case 4:
+                return 4;
+            case 5:
+                return 5;
+            default:
+                return 0;
+        }
+    }
+
+    private int taxRateEffect(Empire empire) {
+        switch (empire.getTaxRate()) {
             case -3:
                 return 7;
             case -2:
@@ -88,8 +113,8 @@ public class GameMenuController {
         }
     }
 
-    private int foodRateEffect() {
-        switch (currentEmpire.getFoodRate()) {
+    private int foodRateEffect(Empire empire) {
+        switch (empire.getFoodRate()) {
             case -2:
                 return -8;
             case -1:
@@ -107,25 +132,25 @@ public class GameMenuController {
 
     }
 
-    public void giveFood() {
-        double number = getNumberOfGivenFoods();;
+    public void giveFood(Empire empire) {
+        double number = getNumberOfGivenFoods(empire);;
 
-        if(currentEmpire.getFoodNumbers() < number * currentEmpire.getPopulation()) {
-            double ratio = currentEmpire.getFoodNumbers() / currentEmpire.getPopulation();
-            if (ratio > 2)  currentEmpire.setFoodRate(2);
-            else if (ratio > 1.5) currentEmpire.setFoodRate(1);
-            else if (ratio > 1) currentEmpire.setFoodRate(0);
-            else if (ratio > 0.5) currentEmpire.setFoodRate(-1);
-            else currentEmpire.setFoodRate(-2);
+        if(empire.getFoodNumbers() < number * empire.getPopulation()) {
+            double ratio = empire.getFoodNumbers() / empire.getPopulation();
+            if (ratio > 2)  empire.setFoodRate(2);
+            else if (ratio > 1.5) empire.setFoodRate(1);
+            else if (ratio > 1) empire.setFoodRate(0);
+            else if (ratio > 0.5) empire.setFoodRate(-1);
+            else empire.setFoodRate(-2);
         }
 
-        number = getNumberOfGivenFoods();
-        currentEmpire.changeFoodNumber(-number * currentEmpire.getPopulation());
+        number = getNumberOfGivenFoods(empire);
+        empire.changeFoodNumber(-number * empire.getPopulation());
     }
 
-    private double getNumberOfGivenFoods() {
+    private double getNumberOfGivenFoods(Empire empire) {
         double number = 0;
-        switch (currentEmpire.getFoodRate()) {
+        switch (empire.getFoodRate()) {
             case -2:
                 number = 0;
                 break;
@@ -145,9 +170,9 @@ public class GameMenuController {
         return number;
     }
 
-    private double getNumberOfTakenCoins() {
+    private double getNumberOfTakenCoins(Empire empire) {
         double number = 0;
-        switch (currentEmpire.getTaxRate()) {
+        switch (empire.getTaxRate()) {
             case -3:
                 number = -1;
                 break;
@@ -188,20 +213,20 @@ public class GameMenuController {
         return number;
     }
 
-    public void getTax() {
-        double coinNumber = getNumberOfTakenCoins();
+    public void getTax(Empire empire) {
+        double coinNumber = getNumberOfTakenCoins(empire);
 
         if (coinNumber < 0) {
-            if (currentEmpire.getCoins() < -coinNumber * currentEmpire.getPopulation()) {
-                double ratio = currentEmpire.getCoins() / currentEmpire.getPopulation();
-                if (ratio > 1)  currentEmpire.setTaxRate(-3);
-                else if (ratio > 0.8) currentEmpire.setTaxRate(-2);
-                else currentEmpire.setTaxRate(-1);
+            if (empire.getCoins() < -coinNumber * empire.getPopulation()) {
+                double ratio = empire.getCoins() / empire.getPopulation();
+                if (ratio > 1)  empire.setTaxRate(-3);
+                else if (ratio > 0.8) empire.setTaxRate(-2);
+                else empire.setTaxRate(-1);
             }
         }
 
-        coinNumber = getNumberOfTakenCoins();
-        currentEmpire.changeCoins(coinNumber * currentEmpire.getPopulation());
+        coinNumber = getNumberOfTakenCoins(empire);
+        empire.changeCoins(coinNumber * empire.getPopulation());
     }
 
     public void changeResources() {
@@ -216,12 +241,15 @@ public class GameMenuController {
 
     }
 
-    public int showTaxRate() {
-        return 0;
-    }
-
     public void buildingsFight() {
 
+    }
+
+    public void handleFearRate(Empire empire) {
+        empire.changeEfficiency(empire.getFearRate() * -0.1);
+        for (Soldier soldier : empire.getSoldiers()) {
+            soldier.changeDamage(empire.getFearRate() * 0.05);
+        }
     }
 
     public String chooseMap() {

@@ -84,4 +84,8 @@ public class Soldier extends Person {
     public double getCost() {
         return cost;
     }
+
+    public void changeDamage(double amount) {
+        this.attackRating *= amount;
+    }
 }

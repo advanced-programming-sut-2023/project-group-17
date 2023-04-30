@@ -22,6 +22,7 @@ public class Empire {
     private double religionRate;
     private int popularityRate;
     private double coins;
+    private double efficiency;
     public Empire() {
         this.foods = new ArrayList<Food>();
         this.resources = new ArrayList<Resource>();
@@ -37,6 +38,7 @@ public class Empire {
         this.religionRate = 0;
         this.popularityRate = 0;
         this.coins = 0;
+        this.efficiency = 1;
     }
 
     public ArrayList<Food> getFoods() {
@@ -242,6 +244,13 @@ public class Empire {
         return null;
     }
 
+    public double getEfficiency() {
+        return efficiency;
+    }
+
+    public void changeEfficiency(double amount) {
+        this.efficiency += amount;
+    }
     @Override
     public String toString() {
         return "1.Food : " + getFoodRate() + "\n" +
