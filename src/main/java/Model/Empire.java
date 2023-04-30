@@ -22,6 +22,7 @@ public class Empire {
     private double religionRate;
     private int popularityRate;
     private double coins;
+    private double efficiency;
     public Empire() {
         this.foods = new ArrayList<Food>();
         this.resources = new ArrayList<Resource>();
@@ -37,6 +38,7 @@ public class Empire {
         this.religionRate = 0;
         this.popularityRate = 0;
         this.coins = 0;
+        this.efficiency = 1;
         addFoods();
         addResources();
         addWeapons();
@@ -293,5 +295,9 @@ public class Empire {
                 "2.Tax : " + getTaxRate() + "\n" +
                 "3.Religion : " + getReligionRate() + "\n" +
                 "4.Fear : " + getFearRate() ;
+    }
+
+    public void changeEfficiency(double amount) {
+        this.efficiency += amount;
     }
 }
