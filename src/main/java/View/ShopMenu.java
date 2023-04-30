@@ -27,8 +27,10 @@ public class ShopMenu extends Menu{
                 buyItem(matcher);
             else if((matcher = ShopMenuCommands.getMatcher(command, ShopMenuCommands.SELL_ITEM)) != null)
                 sellItem(matcher);
-            else if((matcher = ShopMenuCommands.getMatcher(command, ShopMenuCommands.BACK)) != null)
+            else if((matcher = ShopMenuCommands.getMatcher(command, ShopMenuCommands.BACK)) != null) {
+                System.out.println("entered game menu successfully");
                 return;
+            }
             else System.out.println("Invalid Command");
 
         }

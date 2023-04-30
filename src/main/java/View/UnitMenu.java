@@ -15,6 +15,7 @@ public class UnitMenu extends Menu {
 
     @Override
     public void run(Scanner scanner) {
+        System.out.println("entered unit menu successfully");
         Matcher matcher;
         String command;
 
@@ -46,8 +47,10 @@ public class UnitMenu extends Menu {
                 burnOil();
             else if((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.FILL_MOAT)) != null)
                 fillMoat(matcher);
-            else if((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.BACK)) != null)
+            else if((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.BACK)) != null) {
+                System.out.println("entered game menu successfully");
                 return;
+            }
             else System.out.println("Invalid Command");
         }
     }

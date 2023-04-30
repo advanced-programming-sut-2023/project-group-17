@@ -15,6 +15,7 @@ public class TradeMenu extends Menu {
 
     @Override
     public void run(Scanner scanner) {
+        System.out.println("entered trade menu successfully");
         showRequestsNotifications();
         showUsersInTheGame();
         String command = null;
@@ -30,8 +31,10 @@ public class TradeMenu extends Menu {
                 tradeRequest(matcher);
             else if (TradeMenuCommands.getMatcher(command, TradeMenuCommands.TRADE_LIST) != null)
                 tradeList();
-            else if (TradeMenuCommands.getMatcher(command, TradeMenuCommands.BACK) != null)
+            else if (TradeMenuCommands.getMatcher(command, TradeMenuCommands.BACK) != null) {
+                System.out.println("entered game menu successfully");
                 return;
+            }
             else System.out.println("Invalid Command");
         }
     }

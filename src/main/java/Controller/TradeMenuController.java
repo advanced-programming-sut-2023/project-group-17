@@ -88,6 +88,9 @@ public class TradeMenuController {
     }
 
     public String showRequestsNotification() {
+//        if(Database.getLoggedInUser().getEmpire() == null)
+//            return "";
+
         String result = "";
 
         for (TradeRequest request : Database.getLoggedInUser().getEmpire().getReceivedTradeRequests()) {

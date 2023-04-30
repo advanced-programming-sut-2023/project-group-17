@@ -17,6 +17,7 @@ public class GameMenu extends Menu {
     }
     @Override
     public void run(Scanner scanner) {
+//        System.out.println("entered game menu successfully");
         String command = null;
         Matcher matcher;
         chooseMapGame();

@@ -13,6 +13,7 @@ public class BuildingMenu extends Menu{
         controller = new BuildingMenuController();
     }
     void run(Scanner scanner) {
+        System.out.println("entered building menu successfully");
         Matcher matcher;
         String command;
         while (true) {
@@ -30,8 +31,10 @@ public class BuildingMenu extends Menu{
             else if ((matcher = BuildingMenuCommands.getMatcher(command, BuildingMenuCommands.REPAIR)) != null)
                 repair();
 
-            else if ((matcher = BuildingMenuCommands.getMatcher(command, BuildingMenuCommands.BACK)) != null)
+            else if ((matcher = BuildingMenuCommands.getMatcher(command, BuildingMenuCommands.BACK)) != null) {
+                System.out.println("entered game menu successfully");
                 return;
+            }
 
             else System.out.println("Invalid Command");
         }

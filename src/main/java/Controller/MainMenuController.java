@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Database;
+import Model.Empire;
 import Model.User;
 import View.Enums.Messages.MainMenuMessages;
 import View.Menu;
@@ -19,6 +20,9 @@ public class MainMenuController {
         }
         for (String username : user) {
             Database.getUsersInTheGame().add(Database.getUserByUsername(username));
+        }
+        for (User username : Database.getUsersInTheGame()) {
+            username.setEmpire(new Empire());
         }
         Database.setTotalTurns(turnsCount * user.length);
         return MainMenuMessages.SUCCESS;
