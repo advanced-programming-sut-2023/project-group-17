@@ -211,6 +211,7 @@ public class BuildingMenuController {
     }
 
     public static void handleProductionBuildings(Building building) {
+
     }
 
     public static void handleSiegeTent(Building building) {

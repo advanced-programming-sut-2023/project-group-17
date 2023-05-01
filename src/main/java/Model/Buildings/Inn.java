@@ -9,4 +9,12 @@ public class Inn extends Building{
     public Inn(User owner, int number, Building building, int x, int y) {
         super(owner, building, x, y);
     }
+
+    public int getWineUsage() {
+        return wineUsage;
+    }
+
+    public int getPopularityRate() {
+        return popularityRate;
+    }
 }
