@@ -17,7 +17,7 @@ public class Soldier extends Person {
     private int attackRange;
     private double cost;
     public Soldier(User owner, Soldier soldier) {
-        super(owner);
+        super(owner, soldier.getHp());
         this.name = soldier.name;
         this.speed = soldier.speed;
         this.attackRating = soldier.attackRating;

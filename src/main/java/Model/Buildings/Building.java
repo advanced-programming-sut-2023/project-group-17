@@ -1,9 +1,7 @@
 package Model.Buildings;
 
-import Model.Items.Item;
 import Model.Items.Resource;
 import Model.People.PeopleType;
-import Model.People.Person;
 import Model.User;
 
 import java.util.HashMap;
