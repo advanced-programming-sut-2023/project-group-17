@@ -28,7 +28,8 @@ public class Item {
         MACE("mace", 0),
         SWORDS("swords", 0),
         LEATHER_ARMOR("leather armor", 0),
-        METAL_ARMOR("metal armor", 0);
+        METAL_ARMOR("metal armor", 0),
+        COW("cow", 0);
 
         //TODO: number ham ezafe beshe?
 
