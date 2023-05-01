@@ -46,10 +46,10 @@ public class Building {
     public HashMap<PeopleType, Integer> getNumberOfWorkers() {
         return numberOfWorkers;
     }
-
     public String getCategory() {
         return category;
     }
+
     public void changeBuildingHp(int hp) {
         this.buildingHp += hp;
     }

@@ -1,6 +1,8 @@
 package Controller;
 
 import Model.Buildings.Building;
+import Model.Buildings.GateHouse;
+import Model.Buildings.OtherBuilding;
 import Model.Database;
 import Model.Items.ArmorAndWeapon;
 import Model.Items.Resource;
@@ -10,7 +12,9 @@ import Model.People.Person;
 import Model.People.Soldier;
 import Model.User;
 import Utils.CheckMapCell;
+import View.EmpireMenu;
 import View.Enums.Messages.BuildingMenuMessages;
+import View.ShopMenu;
 
 public class BuildingMenuController {
     public Building selectedBuilding = null;
@@ -42,7 +46,7 @@ public class BuildingMenuController {
             }
         }
 
-        Building newBuilding = new Building(currentUser, buildingSample);
+        Building newBuilding = new Building(currentUser, buildingSample, x, y);
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
         mapCell.addBuilding(newBuilding);
 
@@ -67,6 +71,7 @@ public class BuildingMenuController {
                 break;
         }
 
+        BuildingsHandler.handleBuildingFunction(selectedBuilding);
         return BuildingMenuMessages.SUCCESS;
     }
 
@@ -140,5 +145,83 @@ public class BuildingMenuController {
         selectedBuilding = null;
         x = 0;
         y = 0;
+    }
+
+
+
+    public static void handleGateHouse(Building building) {
+        new EmpireMenu().run();
+    }
+
+    public static void handleDrawBridge(Building building) {
+        for(int i = building.getX()-1; i <= building.getX()+1; i++) {
+            for(int j = building.getY()-1; j <= building.getY()+1; j++) {
+                if(Utils.CheckMapCell.validationOfX(i) && Utils.CheckMapCell.validationOfY(j)) {
+                    for (Soldier soldier : Database.getCurrentMapGame().
+                            getMapCellByCoordinates(i, j).getSoldier()) {
+                        if (!soldier.getOwner().equals(Database.getLoggedInUser())) {
+                            soldier.changeSpeed(-1);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public static void handleInn(Building building) {
+        Database.getLoggedInUser().getEmpire().changePopularityRate(5);
+    }
+
+    public static void handleOilSmelter(Building building) {
+        //TODO
+    }
+
+    public static void handleReligiousBuildings(Building building) {
+        Database.getLoggedInUser().getEmpire().changePopularityRate(2);
+
+        if(building.getBuildingName().equals("Cathedral")) Database.getLoggedInUser().getEmpire().changePopularityRate(2);
+
+        //TODO: handle راهبان مبارز in constructor
+    }
+
+    public static void handleHovel(Building building) {
+        for(int i = 0; i < 8; i++) {
+            Database.getLoggedInUser().getEmpire().addPopulation(new Person(Database.getLoggedInUser(), 10));
+        }
+        //TODO: add person ha be dakhele khoone
+    }
+
+    public static void handleOxTether(Building building) {
+    }
+
+    public static void handleIronMine(Building building) {
+        //TODO
+    }
+
+    public static void handleQuarry(Building building) {
+        //TODO
+    }
+
+    public static void handleMiningBuildings(Building building) {
+        //TODO
+    }
+
+    public static void handleMarket(Building building) {
+        new ShopMenu().run();
+    }
+
+    public static void handleProductionBuildings(Building building) {
+    }
+
+    public static void handleSiegeTent(Building building) {
+    }
+
+    public static void handleSoldierProduction(Building building) {
+    }
+
+    public static void handleCagedDogs(Building building) {
+    }
+
+    public static void handleGranary(Building building) {
     }
 }

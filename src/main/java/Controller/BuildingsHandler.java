@@ -1,60 +1,105 @@
 package Controller;
 
 import Model.Buildings.Building;
-import Model.Database;
-import Model.People.Soldier;
-import View.EmpireMenu;
-import View.Menu;
-import jdk.jshell.execution.Util;
 
-class BuildingsHandler {
-    BuildingsHandler next;
-
-//    BuildingsHandler() {
-//        HandlerLargeStoneGateHouse largeStoneGateHouse = new HandlerLargeStoneGateHouse();
-//        HandlerSmallStoneGateHouse smallStoneGateHouse = new HandlerSmallStoneGateHouse();
-//    }
-    public void setNext(BuildingsHandler h) {
-        this.next = h;
-    }
-    public void handle(Building building) {
-        if(next != null) {
-            next.handle(building);
+public class BuildingsHandler {
+    public static void handleBuildingFunction(Building building) {
+        switch (building.getCategory()) {
+            case "gate house":
+                BuildingMenuController.handleGateHouse(building);
+                break;
+            case "other buildings":
+                handleOtherBuildings(building);
+                break;
+            case "defensive":
+                handleDefensiveBuildings(building);
+                break;
+            case "inn":
+                BuildingMenuController.handleInn(building);
+                break;
+            case "mining":
+                handleMiningBuildings(building);
+                break;
+            case "production":
+                BuildingMenuController.handleProductionBuildings(building);
+                break;
+            case "siege tent":
+                BuildingMenuController.handleSiegeTent(building);
+                break;
+            case "soldier production":;
+                BuildingMenuController.handleSoldierProduction(building);
+                break;
+            case "storage":
+                handleStorageBuildings(building);
+                break;
         }
     }
-}
 
-class HandlerStoneGateHouse extends BuildingsHandler {
-    public void handle(Building building) {
-        if(building.getBuildingName().equals("small stone gate house") ||
-                building.getBuildingName().equals("large stone gate house")) {
-            new EmpireMenu().run();
-        }
-        else {
-            super.setNext(new HandlerDrawBridge());
-            super.handle(building);
+    private static void handleStorageBuildings(Building building) {
+        switch (building.getBuildingName()) {
+            case "caged war dogs":
+                BuildingMenuController.handleCagedDogs(building);
+                break;
+            case "granary":
+                BuildingMenuController.handleGranary(building);
+                break;
+            default:
+                break;
         }
     }
-}
 
-class HandlerDrawBridge extends BuildingsHandler {
-    public void handle(Building building) {
-        if(building.getBuildingName().equals("drawbridge")) {
-            for(int i = building.getX()-1; i <= building.getX()+1; i++) {
-                for(int j = building.getY()-1; j <= building.getY()+1; j++) {
-                    if(Utils.CheckMapCell.validationOfX(i) && Utils.CheckMapCell.validationOfY(j)) {
-                        for (Soldier soldier : Database.getCurrentMapGame().
-                                getMapCellByCoordinates(i, j).getSoldier()) {
-                            if (!soldier.getOwner().equals(Database.getLoggedInUser())) {
-                                soldier.changeSpeed(-1);
-                            }
-                        }
-                    }
-                }
-            }
+    private static void handleMiningBuildings(Building building) {
+        switch (building.getBuildingName()) {
+            case "oil smelter":
+                BuildingMenuController.handleOilSmelter(building);
+                break;
+            case "iron mine":
+                BuildingMenuController.handleIronMine(building);
+                break;
+            case "quarry":
+                BuildingMenuController.handleQuarry(building);
+                break;
+            default:
+                BuildingMenuController.handleMiningBuildings(building);
+                break;
+                //apple orchard - dairy farmer - hops farmer - hunter post
+                //- wheat farmer - pitch rig - woodcutter
         }
-        else {
-            super.handle(building);
+    }
+
+    private static void handleDefensiveBuildings(Building building) {
+        switch (building.getBuildingName()) {
+            //TODO
+            case "lookout tower":
+                break;
+            case "perimeter tower":
+                break;
+            case "defence turret":
+                break;
+            case "square tower":
+                break;
+            case "round tower":
+                break;
+        }
+    }
+
+    public static void handleOtherBuildings(Building building) {
+        switch (building.getBuildingName()) {
+            case "drawbridge":
+                BuildingMenuController.handleDrawBridge(building);
+                break;
+            case "market":
+                BuildingMenuController.handleMarket(building);
+                break;
+            case "ox tether":
+                BuildingMenuController.handleOxTether(building);
+                break;
+            case "hovel":
+                BuildingMenuController.handleHovel(building);
+                break;
+            default:
+                BuildingMenuController.handleReligiousBuildings(building);
+                break;
         }
     }
 }
