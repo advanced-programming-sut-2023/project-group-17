@@ -13,7 +13,7 @@ public class LoginMenu extends Menu {
          this.controller = new LoginMenuController();
     }
 
-    public void run(Scanner scanner){
+    public void run(){
         String command;
         Matcher matcher = null;
 
@@ -108,12 +108,12 @@ public class LoginMenu extends Menu {
 
     private void enterSignupMenu() {
         System.out.println("entered signup menu successfully");
-        new SignupMenu().run(scanner);
+        new SignupMenu().run();
     }
 
     private void enterMainMenu() {
         System.out.println("entered main menu successfully");
-        new MainMenu().run(scanner);
+        new MainMenu().run();
     }
 
 }

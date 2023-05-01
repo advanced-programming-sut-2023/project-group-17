@@ -14,7 +14,7 @@ public class TradeMenu extends Menu {
     }
 
     @Override
-    public void run(Scanner scanner) {
+    public void run() {
         System.out.println("entered trade menu successfully");
         showRequestsNotifications();
         showUsersInTheGame();

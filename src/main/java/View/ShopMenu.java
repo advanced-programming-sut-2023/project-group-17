@@ -14,7 +14,7 @@ public class ShopMenu extends Menu{
     }
 
     @Override
-    public void run(Scanner scanner) {
+    public void run() {
         System.out.println("entered shop menu successfully");
         Matcher matcher;
         String command;

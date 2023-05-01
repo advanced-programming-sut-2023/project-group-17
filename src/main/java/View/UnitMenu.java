@@ -14,7 +14,7 @@ public class UnitMenu extends Menu {
     }
 
     @Override
-    public void run(Scanner scanner) {
+    public void run() {
         System.out.println("entered unit menu successfully");
         Matcher matcher;
         String command;

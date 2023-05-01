@@ -15,7 +15,7 @@ public class ProfileMenu extends Menu {
     }
 
     @Override
-    public void run(Scanner scanner) {
+    public void run() {
         Matcher matcher;
         String command;
 

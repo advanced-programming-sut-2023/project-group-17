@@ -13,7 +13,7 @@ public class EmpireMenu extends Menu {
         this.controller = new EmpireMenuController();
     }
     @Override
-    public void run(Scanner scanner) {
+    public void run() {
         Matcher matcher;
         String command;
 

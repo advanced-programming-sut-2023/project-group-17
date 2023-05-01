@@ -14,7 +14,7 @@ public class MapMenu extends Menu{
         this.controller = new MapMenuController();
     }
     @Override
-    public void run(Scanner scanner) {
+    public void run() {
         Matcher matcher;
         String command;
 

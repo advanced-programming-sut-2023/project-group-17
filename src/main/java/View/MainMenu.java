@@ -15,7 +15,7 @@ public class MainMenu extends Menu {
         this.controller = new MainMenuController();
     }
 
-    public void run(Scanner scanner) {
+    public void run() {
         System.out.println("entered main menu successfully");
         Matcher matcher;
         String command;
@@ -23,10 +23,10 @@ public class MainMenu extends Menu {
         while (true) {
             command = scanner.nextLine();
             if ((matcher = MainMenuCommands.getMatcher(command, MainMenuCommands.ENTER_PROFILE_MENU)) != null)
-                enterProfileMenu(scanner);
+                enterProfileMenu();
 
             else if ((matcher = MainMenuCommands.getMatcher(command, MainMenuCommands.LOGOUT)) != null) {
-                if (logout(scanner))
+                if (logout())
                     return;
             }
 
@@ -37,13 +37,13 @@ public class MainMenu extends Menu {
     }
 
 
-    private void enterProfileMenu(Scanner scanner) {
+    private void enterProfileMenu() {
         System.out.println("entered profile menu successfully");
-        new ProfileMenu().run(scanner);
+        new ProfileMenu().run();
         System.out.println("entered main menu successfully");
     }
 
-    private boolean logout(Scanner scanner) {
+    private boolean logout() {
         System.out.println("Are you sure you want to logout?");
         String answer = scanner.nextLine().trim();
         if (answer.matches("yes")) {
@@ -63,7 +63,7 @@ public class MainMenu extends Menu {
         switch (controller.startNewGame(users, turnsNumber)) {
             case SUCCESS:
                 System.out.println("Entered new game");
-                new GameMenu().run(scanner);
+                new GameMenu().run();
                 break;
             case USERNAME_DOES_NOT_EXIST:
                 System.out.println("Start new game failed : Username does not exist");

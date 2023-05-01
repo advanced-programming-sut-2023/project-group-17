@@ -16,7 +16,7 @@ public class SignupMenu extends Menu{
     }
 
     @Override
-    public void run(Scanner scanner) {
+    public void run() {
         Matcher matcher;
         String command;
 

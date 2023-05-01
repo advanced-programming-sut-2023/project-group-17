@@ -16,7 +16,7 @@ public class GameMenu extends Menu {
         mapMenu = new MapMenu();
     }
     @Override
-    public void run(Scanner scanner) {
+    public void run() {
 //        System.out.println("entered game menu successfully");
         String command = null;
         Matcher matcher;
@@ -72,7 +72,7 @@ public class GameMenu extends Menu {
                 break;
             case SUCCESS:
                 mapMenu.showMap(x, y);
-                mapMenu.run(scanner);
+                mapMenu.run();
                 break;
         }
     }

@@ -11,18 +11,20 @@ public class Building {
     private final String category;
     private int buildingHp;
     private final String buildingName;
-    //TODO: emun beshe
     private final HashMap<Resource.resourceType, Integer> buildingCost;
     private final HashMap<PeopleType, Integer> numberOfWorkers;
-    //TODO: nesfeshoon aslan worker nemikhan
+    private final int x;
+    private final int y;
 
-    public Building(User owner, Building building) {
+    public Building(User owner, Building building, int x, int y) {
         this.owner = owner;
         this.buildingHp = building.getBuildingHp();
         this.buildingCost = building.getBuildingCost();
         this.buildingName = building.getBuildingName();
         this.numberOfWorkers = building.numberOfWorkers;
         this.category = building.getCategory();
+        this.x = x;
+        this.y = y;
     }
 
     public User getOwner() {
@@ -50,5 +52,13 @@ public class Building {
     }
     public void changeBuildingHp(int hp) {
         this.buildingHp += hp;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }

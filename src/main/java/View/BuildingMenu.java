@@ -12,7 +12,7 @@ public class BuildingMenu extends Menu{
     public BuildingMenu() {
         controller = new BuildingMenuController();
     }
-    void run(Scanner scanner) {
+    void run() {
         System.out.println("entered building menu successfully");
         Matcher matcher;
         String command;
