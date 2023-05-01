@@ -10,7 +10,6 @@ import java.util.ArrayList;
 public class Empire {
     private ArrayList<Food> foods;
     private ArrayList<Resource> resources;
-    private ArrayList<TradableItems> tradableItems;
     private ArrayList<Person> people;
     private ArrayList<ArmorAndWeapon> weapons;
     private ArrayList<Animal> animals;
@@ -26,7 +25,6 @@ public class Empire {
     public Empire() {
         this.foods = new ArrayList<Food>();
         this.resources = new ArrayList<Resource>();
-        this.tradableItems = new ArrayList<TradableItems>();
         this.people = new ArrayList<Person>();
         this.weapons = new ArrayList<ArmorAndWeapon>();
         this.animals = new ArrayList<Animal>();
@@ -107,24 +105,6 @@ public class Empire {
         return animals;
     }
 
-    public ArrayList<TradableItems> getTradableItems() {
-        return tradableItems;
-    }
-
-    public TradableItems getTradableItemByName(String name) {
-        for (TradableItems tradableItem : tradableItems) {
-            if(tradableItem.getItemName().equals(name)) return tradableItem;
-        }
-        return null;
-    }
-
-    public double getTradableItemAmount(String name) {
-        for (TradableItems tradableItem : tradableItems) {
-            if(tradableItem.getItemName().equals(name)) return tradableItem.getNumber();
-        }
-        return -1;
-    }
-
     public ArrayList<TradeRequest> getReceivedTradeRequests() {
         return receivedTradeRequests;
     }
@@ -201,9 +181,6 @@ public class Empire {
         this.resources.add(resource);
     }
 
-    public void addTradableItem(TradableItems tradableItems) {
-        this.tradableItems.add(tradableItems);
-    }
 
     public void addPopulation(Person person) {
         this.people.add(person);
