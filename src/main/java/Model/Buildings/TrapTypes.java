@@ -2,14 +2,16 @@ package Model.Buildings;
 
 public class TrapTypes {
     enum Type {
-        DITCH(true, false),
-        KILLING_PIT(false, true)
+        DITCH(true, false, "ditch"),
+        KILLING_PIT(false, true, "killing")
         ;
         private boolean flammable;
         private boolean visible;
-        Type(boolean flammable, boolean visible) {
+        private String name;
+        Type(boolean flammable, boolean visible, String name) {
             this.flammable = flammable;
             this.visible = visible;
+            this.name = name;
         }
 
         public boolean isFlammable() {
