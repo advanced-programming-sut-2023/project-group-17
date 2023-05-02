@@ -21,6 +21,7 @@ import View.ShopMenu;
 
 import javax.management.NotificationEmitter;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class BuildingMenuController {
     public Building selectedBuilding = null;
@@ -219,12 +220,14 @@ public class BuildingMenuController {
     public static void handleProductionBuildings(Building building) {
         Empire empire = Database.getLoggedInUser().getEmpire();
         HashMap<Item.ItemType, Item.ItemType> production = ((ProductionBuilding) building).getProductionItem();
+
         for (Item.ItemType itemType : production.keySet()) {
-            empire.getResourceByName(itemType.getName()).changeNumber(-2);
-            empire.getResourceByName()
-
+            Objects.requireNonNull(Item.getAvailableItems(itemType.getName())).changeNumber(1);
+            if(((ProductionBuilding) building).getItemByName(itemType.getName()) != null) {
+                ((ProductionBuilding) building).addItemToStorage(Item.getAvailableItems(itemType.getName()));
+            }
+            Objects.requireNonNull(Item.getAvailableItems(production.get(itemType).getName())).changeNumber(-1);
         }
-
     }
 
     public static void handleSiegeTent(Building building) {

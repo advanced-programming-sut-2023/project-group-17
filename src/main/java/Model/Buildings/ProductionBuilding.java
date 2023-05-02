@@ -31,4 +31,11 @@ public class ProductionBuilding extends Building{
         return rate;
     }
 
+    public Item getItemByName(String name) {
+        for (Item item1 : storage) {
+            if(item1.getItemName().equals(name)) return item1;
+        }
+        return null;
+    }
+
 }
