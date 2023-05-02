@@ -3,8 +3,11 @@ package Controller;
 import Model.Buildings.Building;
 import Model.Buildings.GateHouse;
 import Model.Buildings.OtherBuilding;
+import Model.Buildings.ProductionBuilding;
 import Model.Database;
+import Model.Empire;
 import Model.Items.ArmorAndWeapon;
+import Model.Items.Item;
 import Model.Items.Resource;
 import Model.MapCell;
 import Model.People.NormalPeople;
@@ -15,6 +18,9 @@ import Utils.CheckMapCell;
 import View.EmpireMenu;
 import View.Enums.Messages.BuildingMenuMessages;
 import View.ShopMenu;
+
+import javax.management.NotificationEmitter;
+import java.util.HashMap;
 
 public class BuildingMenuController {
     public Building selectedBuilding = null;
@@ -211,6 +217,13 @@ public class BuildingMenuController {
     }
 
     public static void handleProductionBuildings(Building building) {
+        Empire empire = Database.getLoggedInUser().getEmpire();
+        HashMap<Item.ItemType, Item.ItemType> production = ((ProductionBuilding) building).getProductionItem();
+        for (Item.ItemType itemType : production.keySet()) {
+            empire.getResourceByName(itemType.getName()).changeNumber(-2);
+            empire.getResourceByName()
+
+        }
 
     }
 

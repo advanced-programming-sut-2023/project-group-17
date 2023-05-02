@@ -22,4 +22,13 @@ public class ProductionBuilding extends Building{
     public void addItemToStorage(Item item) {
         this.storage.add(item);
     }
+
+    public HashMap<Item.ItemType, Item.ItemType> getProductionItem() {
+        return productionItem;
+    }
+
+    public int getRate() {
+        return rate;
+    }
+
 }
