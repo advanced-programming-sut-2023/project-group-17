@@ -193,9 +193,10 @@ public class BuildingMenuController {
 
     public static void handleHovel(Building building) {
         for(int i = 0; i < 8; i++) {
-            Database.getLoggedInUser().getEmpire().addPopulation(new Person(Database.getLoggedInUser(), 10));
+            Person person = new Person(Database.getLoggedInUser(), 10);
+            Database.getLoggedInUser().getEmpire().addPopulation(person);
+            ((GateHouse) building).addPeople(person);
         }
-        //TODO: add person ha be dakhele khoone
     }
 
     public static void handleOxTether(Building building) {

@@ -11,9 +11,6 @@ public class BuildingsHandler {
             case "other buildings":
                 handleOtherBuildings(building);
                 break;
-            case "defensive":
-                handleDefensiveBuildings(building);
-                break;
             case "inn":
                 BuildingMenuController.handleInn(building);
                 break;
@@ -64,22 +61,6 @@ public class BuildingsHandler {
                 break;
                 //apple orchard - dairy farmer - hops farmer - hunter post
                 //- wheat farmer - pitch rig - woodcutter
-        }
-    }
-
-    private static void handleDefensiveBuildings(Building building) {
-        switch (building.getBuildingName()) {
-            //TODO
-            case "lookout tower":
-                break;
-            case "perimeter tower":
-                break;
-            case "defence turret":
-                break;
-            case "square tower":
-                break;
-            case "round tower":
-                break;
         }
     }
 
