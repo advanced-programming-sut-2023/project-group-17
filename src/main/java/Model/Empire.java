@@ -1,5 +1,6 @@
 package Model;
 
+import Model.Buildings.Building;
 import Model.Items.*;
 import Model.People.NormalPeople;
 import Model.People.Person;
@@ -15,6 +16,7 @@ public class Empire {
     private ArrayList<Animal> animals;
     private ArrayList<TradeRequest> receivedTradeRequests;
     private ArrayList<TradeRequest> sentTradeRequests;
+    private ArrayList<Building> buildings;
     private int fearRate;
     private int taxRate;
     private int foodRate;
@@ -31,6 +33,7 @@ public class Empire {
         this.animals = new ArrayList<Animal>();
         this.receivedTradeRequests = new ArrayList<>();
         this.sentTradeRequests = new ArrayList<>();
+        this.buildings = new ArrayList<Building>();
         this.fearRate = 0;
         this.taxRate = 0;
         this.foodRate = 0;
@@ -206,6 +209,22 @@ public class Empire {
     public void changeCoins(double coins) {
         this.coins += coins;
     }
+
+    public ArrayList<Building> getBuildings() {
+        return buildings;
+    }
+
+    public void addBuilding(Building building) {
+        this.buildings.add(building);
+    }
+
+    public Building getBuildingByName(String name) {
+        for (Building building : buildings) {
+            if (building.getBuildingName().equals(name)) return building;
+        }
+        return null;
+    }
+
     public ArrayList<Soldier> getSoldiers() {
         ArrayList<Soldier> soldiers = new ArrayList<>();
         for (Person person : people) {

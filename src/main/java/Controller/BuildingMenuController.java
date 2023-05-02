@@ -56,6 +56,7 @@ public class BuildingMenuController {
         Building newBuilding = new Building(currentUser, buildingSample, x, y);
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
         mapCell.addBuilding(newBuilding);
+        currentUser.getEmpire().addBuilding(newBuilding);
 
         return BuildingMenuMessages.SUCCESS;
     }
