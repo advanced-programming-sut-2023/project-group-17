@@ -1,6 +1,7 @@
 package Model.Buildings;
 
 import Model.Database;
+import Model.People.Person;
 import Model.People.Soldier;
 import Model.User;
 

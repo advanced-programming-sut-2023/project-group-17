@@ -192,14 +192,6 @@ public class BuildingMenuController {
         //TODO: handle راهبان مبارز in constructor
     }
 
-    public static void handleHovel(Building building) {
-        for(int i = 0; i < 8; i++) {
-            Person person = new Person(Database.getLoggedInUser(), 10);
-            Database.getLoggedInUser().getEmpire().addPopulation(person);
-            ((GateHouse) building).addPeople(person);
-        }
-    }
-
     public static void handleOxTether(Building building) {
     }
 
@@ -224,11 +216,15 @@ public class BuildingMenuController {
         HashMap<Item.ItemType, Item.ItemType> production = ((ProductionBuilding) building).getProductionItem();
 
         for (Item.ItemType itemType : production.keySet()) {
-            Objects.requireNonNull(Item.getAvailableItems(itemType.getName())).changeNumber(1);
-            if(((ProductionBuilding) building).getItemByName(itemType.getName()) != null) {
-                ((ProductionBuilding) building).addItemToStorage(Item.getAvailableItems(itemType.getName()));
+            //TODO: if storage building exists
+            if(Item.getAvailableItems(production.get(itemType).getName()).getNumber() > 0) {
+                Objects.requireNonNull(Item.getAvailableItems(production.get(itemType).getName())).changeNumber(-1);
+                Objects.requireNonNull(Item.getAvailableItems(itemType.getName())).changeNumber(1);
+                //TODO:
+                if(((ProductionBuilding) building).getItemByName(itemType.getName()) != null) {
+                    ((ProductionBuilding) building).addItemToStorage(Item.getAvailableItems(itemType.getName()));
+                }
             }
-            Objects.requireNonNull(Item.getAvailableItems(production.get(itemType).getName())).changeNumber(-1);
         }
     }
 

@@ -22,4 +22,11 @@ public class StorageBuilding extends Building{
     public void addItem(Item item) {
         this.storedItems.add(item);
     }
+
+    public Item getItemByName(String name) {
+        for (Item item1 : storedItems) {
+            if(item1.getItemName().equals(name)) return item1;
+        }
+        return null;
+    }
 }

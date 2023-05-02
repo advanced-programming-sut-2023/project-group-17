@@ -75,9 +75,6 @@ public class BuildingsHandler {
             case "ox tether":
                 BuildingMenuController.handleOxTether(building);
                 break;
-            case "hovel":
-                BuildingMenuController.handleHovel(building);
-                break;
             default:
                 BuildingMenuController.handleReligiousBuildings(building);
                 break;
