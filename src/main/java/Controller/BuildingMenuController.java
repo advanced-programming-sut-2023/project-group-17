@@ -217,13 +217,31 @@ public class BuildingMenuController {
 
         for (Item.ItemType itemType : production.keySet()) {
             if(Objects.requireNonNull(Item.getAvailableItems(production.get(itemType).getName())).getNumber() > 0) {
-                if(empire.getBuildingByName(((ProductionBuilding) building).getRelatedStorageBuildingName()) != null) {
+                if(building.getBuildingName().equals("dairy farmer")) {
                     Objects.requireNonNull(Item.getAvailableItems(production.get(itemType).getName())).changeNumber(-1);
                     Objects.requireNonNull(Item.getAvailableItems(itemType.getName())).changeNumber(1);
-                    if(((StorageBuilding)empire.getBuildingByName(((ProductionBuilding) building).
-                            getRelatedStorageBuildingName())).getItemByName(itemType.getName()) != null) {
-                        ((StorageBuilding) empire.getBuildingByName(((ProductionBuilding) building).
-                                getRelatedStorageBuildingName())).addItem(Item.getAvailableItems(itemType.getName()));
+                    if(itemType.getName().equals("cheese")) {
+                        if (((StorageBuilding) empire.getBuildingByName("granary")).getItemByName(itemType.getName()) != null) {
+                            ((StorageBuilding) empire.getBuildingByName("granary")).addItem(Item.getAvailableItems(itemType.getName()));
+                        }
+                    }
+                    else {
+                        if (((StorageBuilding) empire.getBuildingByName(((ProductionBuilding) building).
+                                getRelatedStorageBuildingName())).getItemByName(itemType.getName()) != null) {
+                            ((StorageBuilding) empire.getBuildingByName(((ProductionBuilding) building).
+                                    getRelatedStorageBuildingName())).addItem(Item.getAvailableItems(itemType.getName()));
+                        }
+                    }
+                }
+                else {
+                    if (empire.getBuildingByName(((ProductionBuilding) building).getRelatedStorageBuildingName()) != null) {
+                        Objects.requireNonNull(Item.getAvailableItems(production.get(itemType).getName())).changeNumber(-1);
+                        Objects.requireNonNull(Item.getAvailableItems(itemType.getName())).changeNumber(1);
+                        if (((StorageBuilding) empire.getBuildingByName(((ProductionBuilding) building).
+                                getRelatedStorageBuildingName())).getItemByName(itemType.getName()) != null) {
+                            ((StorageBuilding) empire.getBuildingByName(((ProductionBuilding) building).
+                                    getRelatedStorageBuildingName())).addItem(Item.getAvailableItems(itemType.getName()));
+                        }
                     }
                 }
             }
