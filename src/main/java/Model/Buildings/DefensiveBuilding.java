@@ -1,11 +1,12 @@
 package Model.Buildings;
 
+import Model.Direction;
 import Model.User;
 
 public class DefensiveBuilding extends Building{
     int fireRange;
     int defenceRange;
-    String direction;
+    Direction direction;
     public DefensiveBuilding(User owner, int number, Building building, int x, int y) {
         super(owner, building, x, y);
     }
@@ -18,7 +19,7 @@ public class DefensiveBuilding extends Building{
         return defenceRange;
     }
 
-    public String getDirection() {
+    public Direction getDirection() {
         return direction;
     }
 }

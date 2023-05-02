@@ -13,7 +13,7 @@ public class ProductionBuildingType {
         BLACKSMITH(new HashMap<>(){{put(Item.ItemType.SWORDS, Item.ItemType.IRON);put(Item.ItemType.MACE, Item.ItemType.IRON);}}, "blacksmith", "armoury"),
         FLETCHER(new HashMap<>(){{put(Item.ItemType.BOW, Item.ItemType.WOOD);}}, "fletcher", "armoury"),
         POLETURNER(new HashMap<>(){{put(Item.ItemType.SPEAR, Item.ItemType.WOOD);put(Item.ItemType.PIKE, Item.ItemType.WOOD);}}, "poleturner", "armoury"),
-        DAIRY(new HashMap<>(){{put(Item.ItemType.CHEESE, Item.ItemType.COW);put(Item.ItemType.LEATHER_ARMOR, Item.ItemType.COW);}}, "dairy", "armoury"),
+        DAIRY(new HashMap<>(){{put(Item.ItemType.CHEESE, Item.ItemType.COW);put(Item.ItemType.LEATHER_ARMOR, Item.ItemType.COW);}}, "dairy farmer", "armoury"),
         BAKERY(new HashMap<>(){{put(Item.ItemType.BREAD, Item.ItemType.FLOUR);}}, "bakery", "granary"),
         BREWER(new HashMap<>(){{put(Item.ItemType.ALE, Item.ItemType.HOPS);}}, "brewer", "inn")
         ;
