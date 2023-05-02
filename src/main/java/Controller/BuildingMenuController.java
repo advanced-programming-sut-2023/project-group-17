@@ -1,9 +1,6 @@
 package Controller;
 
-import Model.Buildings.Building;
-import Model.Buildings.GateHouse;
-import Model.Buildings.OtherBuilding;
-import Model.Buildings.ProductionBuilding;
+import Model.Buildings.*;
 import Model.Database;
 import Model.Empire;
 import Model.Items.ArmorAndWeapon;
@@ -155,8 +152,6 @@ public class BuildingMenuController {
         y = 0;
     }
 
-
-
     public static void handleGateHouse(Building building) {
         new EmpireMenu().run();
     }
@@ -185,9 +180,14 @@ public class BuildingMenuController {
     }
 
     public static void handleReligiousBuildings(Building building) {
-        Database.getLoggedInUser().getEmpire().changePopularityRate(2);
+        Empire empire = Database.getLoggedInUser().getEmpire();
+        empire.changePopularityRate(2);
+        empire.changeReligionRate(2);
 
-        if(building.getBuildingName().equals("Cathedral")) Database.getLoggedInUser().getEmpire().changePopularityRate(2);
+        if(building.getBuildingName().equals("Cathedral")) {
+            empire.changePopularityRate(2);
+            empire.changeReligionRate(2);
+        }
 
         //TODO: handle راهبان مبارز in constructor
     }
@@ -216,13 +216,15 @@ public class BuildingMenuController {
         HashMap<Item.ItemType, Item.ItemType> production = ((ProductionBuilding) building).getProductionItem();
 
         for (Item.ItemType itemType : production.keySet()) {
-            //TODO: if storage building exists
-            if(Item.getAvailableItems(production.get(itemType).getName()).getNumber() > 0) {
-                Objects.requireNonNull(Item.getAvailableItems(production.get(itemType).getName())).changeNumber(-1);
-                Objects.requireNonNull(Item.getAvailableItems(itemType.getName())).changeNumber(1);
-                //TODO:
-                if(((ProductionBuilding) building).getItemByName(itemType.getName()) != null) {
-                    ((ProductionBuilding) building).addItemToStorage(Item.getAvailableItems(itemType.getName()));
+            if(Objects.requireNonNull(Item.getAvailableItems(production.get(itemType).getName())).getNumber() > 0) {
+                if(empire.getBuildingByName(((ProductionBuilding) building).getRelatedStorageBuildingName()) != null) {
+                    Objects.requireNonNull(Item.getAvailableItems(production.get(itemType).getName())).changeNumber(-1);
+                    Objects.requireNonNull(Item.getAvailableItems(itemType.getName())).changeNumber(1);
+                    if(((StorageBuilding)empire.getBuildingByName(((ProductionBuilding) building).
+                            getRelatedStorageBuildingName())).getItemByName(itemType.getName()) != null) {
+                        ((StorageBuilding) empire.getBuildingByName(((ProductionBuilding) building).
+                                getRelatedStorageBuildingName())).addItem(Item.getAvailableItems(itemType.getName()));
+                    }
                 }
             }
         }

@@ -186,6 +186,10 @@ public class Empire {
         this.popularityRate += popularityRate;
     }
 
+    public void changeReligionRate (int amount) {
+        this.religionRate += amount;
+    }
+
     public void addFood(Food food) {
         this.foods.add(food);
     }
