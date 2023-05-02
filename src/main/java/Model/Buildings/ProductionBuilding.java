@@ -28,8 +28,4 @@ public class ProductionBuilding extends Building{
     public String getRelatedStorageBuildingName() {
         return relatedStorageBuildingName;
     }
-
-    public Building getRelatedStorageBuilding() {
-        return relatedStorageBuilding;
-    }
 }
