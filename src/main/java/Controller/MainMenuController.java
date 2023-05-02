@@ -3,6 +3,7 @@ package Controller;
 import Model.Database;
 import Model.Empire;
 import Model.User;
+import Model.empireColors;
 import View.Enums.Messages.MainMenuMessages;
 import View.Menu;
 
@@ -18,11 +19,15 @@ public class MainMenuController {
         for (String username : user) {
             if (Database.getUserByUsername(username) == null) return MainMenuMessages.USERNAME_DOES_NOT_EXIST;
         }
+        empireColors.addColors();
+        Database.setEmpireColors(empireColors.getColors());
+
         for (String username : user) {
             Database.getUsersInTheGame().add(Database.getUserByUsername(username));
         }
-        for (User username : Database.getUsersInTheGame()) {
-            username.setEmpire(new Empire());
+
+        for (int i = 0; i < Database.getUsersInTheGame().size(); i++) {
+            Database.getUsersInTheGame().get(i).setEmpire(new Empire(Database.getEmpireColors().get(i)));
         }
         Database.setTotalTurns(turnsCount * user.length);
         return MainMenuMessages.SUCCESS;

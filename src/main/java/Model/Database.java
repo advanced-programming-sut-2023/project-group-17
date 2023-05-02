@@ -25,6 +25,7 @@ public class Database {
     private static User loggedInUser = null;
     private static int turnsPassed = 0;
     private static int totalTurns = 0;
+    private static ArrayList<empireColors> empireColors;
 
     public static final String[] recoveryQuestions = {
         "What is my father's name?",
@@ -149,6 +150,14 @@ public class Database {
         for (Soldier soldier : allSoldiers)
             if (soldier.getName().equals(name)) return soldier;
         return null;
+    }
+
+    public static ArrayList<Model.empireColors> getEmpireColors() {
+        return empireColors;
+    }
+
+    public static void setEmpireColors(ArrayList<Model.empireColors> empireColors) {
+        Database.empireColors = empireColors;
     }
 
     public static void saveUsers() {

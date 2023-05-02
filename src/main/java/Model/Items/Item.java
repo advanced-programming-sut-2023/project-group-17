@@ -96,6 +96,9 @@ public class Item {
         else if(empire.getResourceByName(name) != null) {
             return ItemTypes.RESOURCE;
         }
+        else if (name.equals("cow")) {
+            return ItemTypes.ANIMAL;
+        }
         return null;
     }
 
@@ -108,6 +111,8 @@ public class Item {
                 return empire.getFoodByName(itemName);
             case WEAPON:
                 return empire.getWeaponByName(itemName);
+            case ANIMAL:
+                return empire.getAnimalByName(itemName);
         }
         return null;
     }

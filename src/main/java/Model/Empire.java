@@ -21,8 +21,9 @@ public class Empire {
     private double religionRate;
     private int popularityRate;
     private double coins;
+    private empireColors empireColor;
     private double efficiency;
-    public Empire() {
+    public Empire(empireColors empireColor) {
         this.foods = new ArrayList<Food>();
         this.resources = new ArrayList<Resource>();
         this.people = new ArrayList<Person>();
@@ -41,6 +42,15 @@ public class Empire {
         addResources();
         addWeapons();
         addAnimals();
+        this.empireColor = empireColor;
+    }
+
+    public empireColors getEmpireColor() {
+        return empireColor;
+    }
+
+    public double getEfficiency() {
+        return efficiency;
     }
 
     private void addAnimals() {
@@ -257,6 +267,12 @@ public class Empire {
     public ArmorAndWeapon getWeaponByName(String name) {
         for (ArmorAndWeapon weapon : weapons)
             if (weapon.getItemName().equals(name)) return weapon;
+        return null;
+    }
+
+    public Animal getAnimalByName(String name) {
+        for (Animal animal : animals)
+            if (animal.getItemName().equals(name)) return animal;
         return null;
     }
 
