@@ -1,8 +1,6 @@
 package Model.People;
 
 public class UnitAttributes {
-
-    //TODO: addada
     public enum AttackRating {
         VERY_HIGH(140),
         HIGH(90),

@@ -231,6 +231,7 @@ public class BuildingMenuController {
     }
 
     public static void handleSiegeTent(Building building) {
+        //TODO وسایل دفاع ساخته بشن
     }
 
     public static void handleSoldierProduction(Building building) {
