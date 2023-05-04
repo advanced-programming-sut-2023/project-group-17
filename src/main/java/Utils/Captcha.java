@@ -54,11 +54,10 @@ public class Captcha {
     }
 
     public static int generateRandomNumber() {
-        return ((int)(Math.random()*9000) + 1000);
+        return (int) (((int)(Math.random()*9000) +1000) * Math.pow(10, random.nextInt(4)) + random.nextInt(10));
     }
 
     public static void printTextArt(int verifyingNumber) {
-//        int verifyingNumber = generateRandomNumber();
         printTextArt(Integer.toString(verifyingNumber), ART_SIZE, ASCIIArtFont.ART_FONT_DIALOG);
     }
 
