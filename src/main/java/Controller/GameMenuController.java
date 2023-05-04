@@ -1,6 +1,8 @@
 package Controller;
 
 import Model.*;
+import Model.Buildings.Building;
+import Model.Buildings.DefensiveBuilding;
 import Model.People.Person;
 import Model.People.Soldier;
 import Utils.CheckMapCell;
@@ -74,7 +76,44 @@ public class GameMenuController {
         return -1;
     }
 
+    public void applyDamageToBuildings() {
+        int startX, startY;
+        for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
+            for (Soldier soldier : mapCell.getSoldier()) {
+                startX = mapCell.getX();
+                startY = mapCell.getY();
+                if(mapCell.getBuilding()!= null && !soldier.getOwner().equals(mapCell.getBuilding().getOwner())) {
+                    if(mapCell.getBuilding() instanceof DefensiveBuilding &&
+                       soldier.getAttackRange() > ((DefensiveBuilding) mapCell.getBuilding()).getDefenceRange())
+                            mapIteration(startX, startY, ((DefensiveBuilding) mapCell.getBuilding()).getDefenceRange(), soldier, mapCell.getBuilding());
+                    else
+                        mapIteration(startX, startY, soldier.getAttackRange(), soldier, mapCell.getBuilding());
+                }
+            }
+        }
+    }
 
+
+    public void mapIteration(int startX, int startY, int range, Soldier soldier, Building building) {
+        for (int x = startX - range; x < startX + range + 1; x++) {
+            for (int y = startY - range; y < startY + range + 1; y++) {
+                if (x < 1 || y < 1 || y > Database.getCurrentMapGame().getLength() || x > Database.getCurrentMapGame().getWidth())
+                    continue;
+
+                building.changeBuildingHp(-soldier.getAttackRating());
+            }
+        }
+    }
+
+    public int removeDestroyedBuildings() {
+        for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
+            if(mapCell.getBuilding().getBuildingHp() <= 0) {
+                mapCell.setBuilding(null);
+                return removeDestroyedBuildings();
+            }
+        }
+        return -1;
+    }
 
     public void changePopularity(Empire empire) {
         //TODO: set religion rate yadet nare
@@ -271,9 +310,6 @@ public class GameMenuController {
 
     }
 
-    public void buildingsFight() {
-
-    }
 
     public void handleFearRate(Empire empire) {
         empire.changeEfficiency(empire.getFearRate() * -0.1);
