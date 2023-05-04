@@ -301,7 +301,7 @@ public class Database {
         loadMiningBuilding();
         loadOtherBuilding();
         loadProductionBuilding();
-//        loadSoldierBuilding();
+        loadSoldierBuilding();
         try {
             String json = new String(Files.readAllBytes(Paths.get("src/main/resources/BuildingDatabase.json")));
 //            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/BuildingDatabase.json")));

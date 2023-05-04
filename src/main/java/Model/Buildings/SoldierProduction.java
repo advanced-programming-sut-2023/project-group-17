@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 public class SoldierProduction extends Building{
     private ArrayList<Soldier> storedSoldiers;
-    private HashMap<Soldier, Integer> soldiersTrained;
+    private HashMap<String, Integer> soldiersTrained;
     public SoldierProduction(User owner, int x , int y, SoldierProduction soldierProduction) {
         super(owner, soldierProduction, x, y);
         this.storedSoldiers = new ArrayList<>();
@@ -19,7 +19,7 @@ public class SoldierProduction extends Building{
         return storedSoldiers;
     }
 
-    public HashMap<Soldier, Integer> getSoldiersTrained() {
+    public HashMap<String, Integer> getSoldiersTrained() {
         return soldiersTrained;
     }
 }
