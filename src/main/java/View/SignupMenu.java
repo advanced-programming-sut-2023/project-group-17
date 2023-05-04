@@ -4,7 +4,6 @@ import Controller.SignupMenuController;
 import View.Enums.Commands.SignupMenuCommands;
 
 import java.util.Random;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class SignupMenu extends Menu{
@@ -46,6 +45,22 @@ public class SignupMenu extends Menu{
         }
     }
 
+    public void mustEnterCaptcha(){
+        Matcher matcher;
+        String input;
+        while(true) {
+            controller.GenerateCaptcha();
+            input = scanner.nextLine();
+            if((matcher = SignupMenuCommands.getMatcher(input, SignupMenuCommands.PICK_CAPTCHA)) != null) {
+                if(controller.validateCaptcha(Integer.parseInt(input))) {
+                    System.out.println("user created successfully");
+                    break;
+                }
+            }
+            else System.out.println("signup failed : please enter the captcha again");
+        }
+    }
+
     private void enterLoginMenu() {
         System.out.println("entered login menu successfully");
     }
@@ -54,7 +69,7 @@ public class SignupMenu extends Menu{
         if(checkBlankField(matcher.group("username")) || checkBlankField(matcher.group("password")) ||
             (!checkBlankField(matcher.group("confirmationDash")) && checkBlankField(matcher.group("confirmation"))) ||
                 checkBlankField(matcher.group("email")) ||
-           checkBlankField(matcher.group("nickname")) ||
+                checkBlankField(matcher.group("nickname")) ||
                 (!checkBlankField(matcher.group("sloganDash")) && checkBlankField(matcher.group("slogan")))) {
             System.out.println("signup failed : blank field");
             return;
@@ -136,7 +151,8 @@ public class SignupMenu extends Menu{
         switch (controller.pickQuestion(questionNumber, answer, confirmationAnswer)) {
             case SUCCESS:
                 System.out.print("question number " + questionNumber + " picked successfully" + '\n' +
-                                 "user created successfully" + '\n');
+                                "enter the number below to complete your registration\n");
+                mustEnterCaptcha();
                 break;
             case WRONG_NUMBER:
                 System.out.println("pick question failed : invalid question number");

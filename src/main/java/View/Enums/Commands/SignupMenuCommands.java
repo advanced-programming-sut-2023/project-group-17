@@ -1,7 +1,5 @@
 package View.Enums.Commands;
 
-import View.SignupMenu;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,6 +11,8 @@ public enum SignupMenuCommands {
     PICK_QUESTION("\\s*question\\s+pick\\s+(?:(-q\\s*)(?<questionNumber>\\d+)?(\\s*)()|" +
                     "(-a\\s*)(?<answer>\".+\"|\\S+)?(\\s*)()|" +
                     "(-c\\s*)(?<confirmation>\".+\"|\\S+)?(\\s*)()){3}\\4\\8\\12"),
+    PICK_CAPTCHA("\\s*[0-9]+\\s*"),
+
     ENTER_LOGIN_MENU("\\s*enter\\s+login\\s+menu\\s*")
     ;
 

@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Database;
 import Model.User;
+import Utils.Captcha;
 import Utils.CheckValidation;
 import Utils.Randoms;
 import View.Enums.Messages.SignupMenuMessages;
@@ -11,6 +12,7 @@ import static Model.Database.*;
 
 public class SignupMenuController {
     User tmpUser;
+    int verifyingNumber;
     public SignupMenuMessages createUser(String username, String password, String confirmationPassword,
                                          String email, String nickname, String slogan) {
         Database.loadUsers();
@@ -87,5 +89,14 @@ public class SignupMenuController {
         for (int i = 0; i < recoveryQuestions.length; i++)
             questions += (i + 1) + ". " + recoveryQuestions[i] + "\n";
         return questions;
+    }
+
+    public void GenerateCaptcha() {
+        verifyingNumber = Captcha.generateRandomNumber();
+        Captcha.printTextArt(verifyingNumber);
+    }
+
+    public boolean validateCaptcha(int input) {
+        return verifyingNumber == input;
     }
 }
