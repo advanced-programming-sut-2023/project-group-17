@@ -20,9 +20,6 @@ public class BuildingsHandler {
             case "production":
                 BuildingMenuController.handleProductionBuildings(building);
                 break;
-            case "siege tent":
-                BuildingMenuController.handleSiegeTent(building);
-                break;
             case "storage":
                 handleStorageBuildings(building);
                 break;

@@ -62,13 +62,15 @@ public class SignupMenuControllerTest {
 
     @Test
     public void randomPasswordCheck() {
-        Assertions.assertEquals(RANDOM_PASSWORD, controller.createUser("shamimRahimi", "random", null,
+        Assertions.assertEquals(RANDOM_PASSWORD, controller.createUser("shamimRahimi",
+                "random", null,
                 "shamim@gmail.com", "sham", "noSlogan"));
     }
 
     @Test
     public void randomSloganCheck() {
-        Assertions.assertEquals(RANDOM_SLOGAN, controller.createUser("KasraAhmadi", "kkkKKK123@", "kkkKKK123@",
+        Assertions.assertEquals(RANDOM_SLOGAN, controller.createUser("KasraAhmadi",
+                "kkkKKK123@", "kkkKKK123@",
                 "kas@gmail.com", "kas", "random"));
     }
 
