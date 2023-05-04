@@ -120,10 +120,11 @@ public class Empire {
     }
     public void makeHeadquarter(int x, int y, User user) {
         setHeadquarter(Database.getCurrentMapGame().getMapCellByCoordinates(x, y), user);
-        makeStockpile(x, y, user);
+        makeStockpile(x, y, user, "stockpile");
+        makeStockpile(x, y, user, "granary");
     }
 
-    private void makeStockpile(int x, int y, User user) {
+    private void makeStockpile(int x, int y, User user, String name) {
 
         for (int z = -1; z < 2; z++) {
             for (int j = -1; j < 2; j++) {
@@ -133,7 +134,7 @@ public class Empire {
                     MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x + z, y + j);
                     if (mapCell.canDropItems()) {
                         StorageBuilding stockpile = new StorageBuilding(user, x + z, y + j,
-                                Database.getStorageBuildingDataByName("stockpile"));
+                                Database.getStorageBuildingDataByName(name));
                         mapCell.addBuilding(stockpile);
                         user.getEmpire().addBuilding(stockpile);
                         return;
@@ -149,7 +150,7 @@ public class Empire {
                     MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x + z, y + j);
                     mapCell.clear();
                     StorageBuilding stockpile = new StorageBuilding(user, x + z, y + j,
-                            Database.getStorageBuildingDataByName("stockpile"));
+                            Database.getStorageBuildingDataByName(name));
                     mapCell.addBuilding(stockpile);
                     user.getEmpire().addBuilding(stockpile);
                     return;
