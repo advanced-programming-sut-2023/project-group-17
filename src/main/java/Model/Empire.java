@@ -78,6 +78,7 @@ public class Empire {
         weapons.add(new ArmorAndWeapon(ArmorAndWeapon.WeaponAndArmor.CROSSBOW, loggedInUser, 0));
         weapons.add(new ArmorAndWeapon(ArmorAndWeapon.WeaponAndArmor.SPEAR, loggedInUser, 0));
         weapons.add(new ArmorAndWeapon(ArmorAndWeapon.WeaponAndArmor.SWORDS, loggedInUser, 0));
+        weapons.add(new ArmorAndWeapon(ArmorAndWeapon.WeaponAndArmor.OIL, loggedInUser, 0));
     }
 
     private void addResources() {
