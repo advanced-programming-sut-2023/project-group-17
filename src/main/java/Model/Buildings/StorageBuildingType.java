@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class StorageBuildingType {
-    enum StorageType {
+    public enum StorageType {
         ARMORY("armory", new ArrayList<Item.ItemType>(Arrays.asList(Item.ItemType.SPEAR, Item.ItemType.SWORDS, Item.ItemType.MACE,
             Item.ItemType.METAL_ARMOR, Item.ItemType.LEATHER_ARMOR, Item.ItemType.BOW, Item.ItemType.CROSSBOW,
             Item.ItemType.PIKE))),
@@ -20,10 +20,18 @@ public class StorageBuildingType {
             Item.ItemType.PITCH, Item.ItemType.GOLD)))
         ;
         String name;
-        private ArrayList<Item.ItemType> storedItems;
-        StorageType(String name, ArrayList<Item.ItemType> storedItems) {
+        private ArrayList<Item.ItemType> storedItemsTypes;
+        StorageType(String name, ArrayList<Item.ItemType> storedItemsTypes) {
             this.name = name;
-            this.storedItems = storedItems;
+            this.storedItemsTypes = storedItemsTypes;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public ArrayList<Item.ItemType> getStoredItemsTypes() {
+            return storedItemsTypes;
         }
     }
 }

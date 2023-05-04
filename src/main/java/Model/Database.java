@@ -1,6 +1,6 @@
 package Model;
 
-import Model.Buildings.Building;
+import Model.Buildings.*;
 import Model.People.Soldier;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -11,13 +11,20 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-//
 
+import static Model.Buildings.GateHouseType.Type.*;
 
 
 public class Database {
     private static ArrayList<User> users = new ArrayList<>();
     private static ArrayList<Building> buildings = new ArrayList<>();
+    private static ArrayList<DefensiveBuilding> defensiveBuildings = new ArrayList<>();
+    private static ArrayList<GateHouse> gateHouses = new ArrayList<>();
+    private static ArrayList<MiningBuilding> miningBuildings = new ArrayList<>();
+    private static ArrayList<OtherBuilding> otherBuildings = new ArrayList<>();
+    private static ArrayList<ProductionBuilding> productionBuildings = new ArrayList<>();
+    private static ArrayList<SoldierProduction> soldierProductions = new ArrayList<>();
+    private static ArrayList<StorageBuilding> storageBuildings = new ArrayList<>();
     private static Map currentMapGame;
     private static ArrayList<Soldier> allSoldiers = new ArrayList<>();
     private static final ArrayList<User> usersInTheGame = new ArrayList<>();
@@ -160,6 +167,62 @@ public class Database {
         Database.empireColors = empireColors;
     }
 
+    public static ArrayList<DefensiveBuilding> getDefensiveBuildings() {
+        return defensiveBuildings;
+    }
+
+    public static void setDefensiveBuildings(ArrayList<DefensiveBuilding> defensiveBuildings) {
+        Database.defensiveBuildings = defensiveBuildings;
+    }
+
+    public static ArrayList<GateHouse> getGateHouses() {
+        return gateHouses;
+    }
+
+    public static void setGateHouses(ArrayList<GateHouse> gateHouses) {
+        Database.gateHouses = gateHouses;
+    }
+
+    public static ArrayList<MiningBuilding> getMiningBuildings() {
+        return miningBuildings;
+    }
+
+    public static void setMiningBuildings(ArrayList<MiningBuilding> miningBuildings) {
+        Database.miningBuildings = miningBuildings;
+    }
+
+    public static ArrayList<OtherBuilding> getOtherBuildings() {
+        return otherBuildings;
+    }
+
+    public static void setOtherBuildings(ArrayList<OtherBuilding> otherBuildings) {
+        Database.otherBuildings = otherBuildings;
+    }
+
+    public static ArrayList<ProductionBuilding> getProductionBuildings() {
+        return productionBuildings;
+    }
+
+    public static void setProductionBuildings(ArrayList<ProductionBuilding> productionBuildings) {
+        Database.productionBuildings = productionBuildings;
+    }
+
+    public static ArrayList<SoldierProduction> getSoldierProductions() {
+        return soldierProductions;
+    }
+
+    public static void setSoldierProductions(ArrayList<SoldierProduction> soldierProductions) {
+        Database.soldierProductions = soldierProductions;
+    }
+
+    public static ArrayList<StorageBuilding> getStorageBuildings() {
+        return storageBuildings;
+    }
+
+    public static void setStorageBuildings(ArrayList<StorageBuilding> storageBuildings) {
+        Database.storageBuildings = storageBuildings;
+    }
+
     public static void saveUsers() {
         try {
             FileWriter fileWriter = new FileWriter("src/main/resources/UserDatabase.json");
@@ -239,6 +302,121 @@ public class Database {
             ArrayList<Soldier> savedSoldiers;
             savedSoldiers = new Gson().fromJson(json, new TypeToken<List<Soldier>>() {}.getType());
             if (savedSoldiers != null) setAllSoldiers(savedSoldiers);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveBuildingsTypes() {
+        defensiveBuildings.add(new DefensiveBuilding(null, Direction.directions.NORTH, Database.getBuildingDataByName("lookout tower"), 0, 0, DefensiveBuildingType.DefensiveType.LOOKOUT_TOWER));
+        defensiveBuildings.add(new DefensiveBuilding(null, Direction.directions.NORTH, Database.getBuildingDataByName("perimeter tower"), 0, 0, DefensiveBuildingType.DefensiveType.PERIMETER_TOWER));
+        defensiveBuildings.add(new DefensiveBuilding(null, Direction.directions.NORTH, Database.getBuildingDataByName("defence turret"), 0, 0, DefensiveBuildingType.DefensiveType.DEFENSE_TURRET));
+        defensiveBuildings.add(new DefensiveBuilding(null, Direction.directions.NORTH, Database.getBuildingDataByName("square tower"), 0, 0, DefensiveBuildingType.DefensiveType.SQUARE_TOWER));
+        defensiveBuildings.add(new DefensiveBuilding(null, Direction.directions.NORTH, Database.getBuildingDataByName("round tower"), 0, 0, DefensiveBuildingType.DefensiveType.ROUND_TOWER));
+        gateHouses.add(new GateHouse(null, Database.getBuildingDataByName("small stone gatehouse"), 0, 0, SMALL_STONE_GATE_HOUSE));
+        gateHouses.add(new GateHouse(null, Database.getBuildingDataByName("large stone gatehouse"), 0, 0, LARGE_STONE_GATE_HOUSE));
+        gateHouses.add(new GateHouse(null, Database.getBuildingDataByName("hovel"), 0, 0, HOVEL));
+        miningBuildings.add(new MiningBuilding(null, Database.getBuildingDataByName("oil smelter"), 0, 0, MiningBuildingType.MiningType.OIL_SMELTER));
+        miningBuildings.add(new MiningBuilding(null, Database.getBuildingDataByName("apple orchard"), 0, 0, MiningBuildingType.MiningType.APPLE_ORCHARD));
+        miningBuildings.add(new MiningBuilding(null, Database.getBuildingDataByName("hops farmer"), 0, 0, MiningBuildingType.MiningType.HOPS_FARMER));
+        miningBuildings.add(new MiningBuilding(null, Database.getBuildingDataByName("hunter post"), 0, 0, MiningBuildingType.MiningType.HUNTER_POST));
+        miningBuildings.add(new MiningBuilding(null, Database.getBuildingDataByName("wheat farmer"), 0, 0, MiningBuildingType.MiningType.WHEAT_FARMER));
+        miningBuildings.add(new MiningBuilding(null, Database.getBuildingDataByName("iron mine"), 0, 0, MiningBuildingType.MiningType.IRON_MINE));
+        miningBuildings.add(new MiningBuilding(null, Database.getBuildingDataByName("pitch rig"), 0, 0, MiningBuildingType.MiningType.PITCH_RIG));
+        miningBuildings.add(new MiningBuilding(null, Database.getBuildingDataByName("quarry"), 0, 0, MiningBuildingType.MiningType.QUARRY));
+        miningBuildings.add(new MiningBuilding(null, Database.getBuildingDataByName("woodcutter"), 0, 0, MiningBuildingType.MiningType.WOODCUTTER));
+        otherBuildings.add(new OtherBuilding(null, Database.getBuildingDataByName("cathedral"), 0, 0, OtherBuildingType.OtherType.CATHEDRAL));
+        otherBuildings.add(new OtherBuilding(null, Database.getBuildingDataByName("church"), 0, 0, OtherBuildingType.OtherType.CHURCH));
+        otherBuildings.add(new OtherBuilding(null, Database.getBuildingDataByName("ox tether"), 0, 0, OtherBuildingType.OtherType.OX_THEATER));
+        otherBuildings.add(new OtherBuilding(null, Database.getBuildingDataByName("market"), 0, 0, OtherBuildingType.OtherType.MARKET));
+        otherBuildings.add(new OtherBuilding(null, Database.getBuildingDataByName("drawbridge"), 0, 0, OtherBuildingType.OtherType.DRAWBRIDGE));
+        productionBuildings.add(new ProductionBuilding(null, Database.getBuildingDataByName("bakery"), 0, 0, ProductionBuildingType.ProductionType.BAKERY));
+        productionBuildings.add(new ProductionBuilding(null, Database.getBuildingDataByName("brewer"), 0, 0, ProductionBuildingType.ProductionType.BREWER));
+        productionBuildings.add(new ProductionBuilding(null, Database.getBuildingDataByName("mill"), 0, 0, ProductionBuildingType.ProductionType.MILL));
+        productionBuildings.add(new ProductionBuilding(null, Database.getBuildingDataByName("armourer"), 0, 0, ProductionBuildingType.ProductionType.ARMOURER));
+        productionBuildings.add(new ProductionBuilding(null, Database.getBuildingDataByName("blacksmith"), 0, 0, ProductionBuildingType.ProductionType.BLACKSMITH));
+        productionBuildings.add(new ProductionBuilding(null, Database.getBuildingDataByName("fletcher"), 0, 0, ProductionBuildingType.ProductionType.FLETCHER));
+        productionBuildings.add(new ProductionBuilding(null, Database.getBuildingDataByName("poleturner"), 0, 0, ProductionBuildingType.ProductionType.POLETURNER));
+        soldierProductions.add(new SoldierProduction(null, Database.getBuildingDataByName("barracks"), 0, 0, SoldierProductionType.SoldierType.BARRACKS));
+        soldierProductions.add(new SoldierProduction(null, Database.getBuildingDataByName("mercenary post"), 0, 0, SoldierProductionType.SoldierType.MERCENARY_POST));
+        soldierProductions.add(new SoldierProduction(null, Database.getBuildingDataByName("engineer guild"), 0, 0, SoldierProductionType.SoldierType.ENGINEER_GUILD));
+        storageBuildings.add(new StorageBuilding(null, Database.getBuildingDataByName("armory"), 0, 0, StorageBuildingType.StorageType.ARMORY));
+        storageBuildings.add(new StorageBuilding(null, Database.getBuildingDataByName("caged war dogs"), 0, 0, StorageBuildingType.StorageType.CAGED_WAR_DOGS));
+        storageBuildings.add(new StorageBuilding(null, Database.getBuildingDataByName("granary"), 0, 0, StorageBuildingType.StorageType.GRANARY));
+        storageBuildings.add(new StorageBuilding(null, Database.getBuildingDataByName("stockpile"), 0, 0, StorageBuildingType.StorageType.STOCKPILE));
+    }
+    public static void addDefensiveBuilding() {
+        try {
+            FileWriter fileWriter = new FileWriter("src/main/resources/DefensiveBuildings.json");
+            String gson = new Gson().toJson(getDefensiveBuildings());
+            fileWriter.write(gson);
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void addGatehouseBuilding() {
+        try {
+            FileWriter fileWriter = new FileWriter("src/main/resources/GatehouseBuildings.json");
+            String gson = new Gson().toJson(getGateHouses());
+            fileWriter.write(gson);
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void addMiningBuilding() {
+        try {
+            FileWriter fileWriter = new FileWriter("src/main/resources/MiningBuildings.json");
+            String gson = new Gson().toJson(getMiningBuildings());
+            fileWriter.write(gson);
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void addOtherBuilding() {
+        try {
+            FileWriter fileWriter = new FileWriter("src/main/resources/OtherBuildings.json");
+            String gson = new Gson().toJson(getOtherBuildings());
+            fileWriter.write(gson);
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void addProductionBuilding() {
+        try {
+            FileWriter fileWriter = new FileWriter("src/main/resources/ProductionBuildings.json");
+            String gson = new Gson().toJson(getProductionBuildings());
+            fileWriter.write(gson);
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void addSoldierBuilding() {
+        try {
+            FileWriter fileWriter = new FileWriter("src/main/resources/SoldierBuildings.json");
+            String gson = new Gson().toJson(getSoldierProductions());
+            fileWriter.write(gson);
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void addStorageBuilding() {
+        try {
+            FileWriter fileWriter = new FileWriter("src/main/resources/DefensiveBuildings.json");
+            String gson = new Gson().toJson(getStorageBuildings());
+            fileWriter.write(gson);
+            fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
