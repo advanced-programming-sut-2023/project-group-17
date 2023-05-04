@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.*;
+import Model.People.Person;
 import Model.People.Soldier;
 import Utils.CheckMapCell;
 import View.Enums.Messages.GameMenuMessages;
@@ -47,15 +48,32 @@ public class GameMenuController {
     }
 
     public void mapIteration(int startX, int startY, Soldier soldier) {
-        for(int x = startX; x < startX + soldier.getAttackRange(); x++) {
-            for(int y = startY; y < startY + soldier.getAttackRange(); y++) {
-                for (Soldier opponentSoldier : Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getSoldier()) {
-                    if(!soldier.getOwner().equals(opponentSoldier.getOwner()))
-                        opponentSoldier.changeHp(-soldier.getAttackRating());
+        int range = soldier.getAttackRange();
+        for(int x = startX - range; x < startX + range + 1; x++) {
+            for(int y = startY - range; y < startY + range + 1; y++) {
+                if(x < 1 || y < 1 || y > Database.getCurrentMapGame().getLength() || x > Database.getCurrentMapGame().getWidth())
+                    continue;
+
+                for (Person person : Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getPeople()) {
+                    if(!soldier.getOwner().equals(person.getOwner()))
+                        person.changeHp(-soldier.getAttackRating());
                 }
             }
         }
     }
+
+    public int removeDeadBodies() {
+        for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
+            for (Person person : mapCell.getPeople()) {
+                if(person.getHp() <= 0) {
+                    mapCell.removePerson(person);
+                    return removeDeadBodies();
+                }
+            }
+        }
+        return -1;
+    }
+
 
 
     public void changePopularity(Empire empire) {

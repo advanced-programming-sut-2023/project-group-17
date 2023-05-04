@@ -150,6 +150,15 @@ public class MapCell {
         }
         return soldiers;
     }
+
+    public void removePerson(Person normalPerson) {
+        for (Person person : people) {
+            if(person.equals(normalPerson)) {
+                people.remove(person);
+                break;
+            }
+        }
+    }
     public boolean canDropItems() {
         return !haveMapCellItem() && !haveBuilding() && !haveAttackTools();
     }
