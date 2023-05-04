@@ -6,6 +6,8 @@ import View.Enums.Commands.LoginMenuCommands;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
+import static java.lang.System.currentTimeMillis;
+
 public class LoginMenu extends Menu {
     private LoginMenuController controller;
 
@@ -13,7 +15,7 @@ public class LoginMenu extends Menu {
          this.controller = new LoginMenuController();
     }
 
-    public void run(){
+    public void run() {
         String command;
         Matcher matcher = null;
 
@@ -48,10 +50,35 @@ public class LoginMenu extends Menu {
                 break;
             case WRONG_PASSWORD:
                 System.out.println("login failed : password is not correct");
+                wrongPassword(password, username);
                 break;
             case USERNAME_DOES_NOT_EXISTS:
                 System.out.println("login failed : username does not exist");
                 break;
+        }
+    }
+
+    private void wrongPassword(String password, String username) {
+        int attempts = 1;
+        while (true) {
+            if(!controller.checkPassword(username, password)) {
+                System.out.println("try again in " + attempts * 5 + " seconds");
+                long time = currentTimeMillis();
+                password = scanner.nextLine();
+
+                while (currentTimeMillis() - time < attempts * 5000L) {
+                    long timeLeft = attempts * 5000L - currentTimeMillis() + time;
+                    System.out.println("please wait " + timeLeft/1000 + " more seconds.");
+                    password = scanner.nextLine();
+                }
+                attempts++;
+            }
+            else {
+                System.out.println(username + " logged in successfully");
+                controller.setLoggedInUserInController(username);
+                enterMainMenu();
+                break;
+            }
         }
     }
 

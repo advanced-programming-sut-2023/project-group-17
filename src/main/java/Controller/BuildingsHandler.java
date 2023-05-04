@@ -27,12 +27,8 @@ public class BuildingsHandler {
     }
 
     private static void handleStorageBuildings(Building building) {
-        switch (building.getBuildingName()) {
-            case "caged war dogs":
-                BuildingMenuController.handleCagedDogs(building);
-                break;
-            default:
-                break;
+        if (building.getBuildingName().equals("caged war dogs")) {
+            BuildingMenuController.handleCagedDogs(building);
         }
     }
 

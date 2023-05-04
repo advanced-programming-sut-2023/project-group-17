@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public abstract class Menu {
     public static Scanner scanner = new Scanner(System.in);
-    abstract void run();
+    abstract void run() throws InterruptedException;
 
     public static String handleDoubleQuote(String matcherGroup) {
         if(matcherGroup == null)

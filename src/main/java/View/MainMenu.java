@@ -16,7 +16,6 @@ public class MainMenu extends Menu {
     }
 
     public void run() {
-        System.out.println("entered main menu successfully");
         Matcher matcher;
         String command;
 

@@ -204,6 +204,7 @@ public class BuildingMenuController {
     }
 
     public static void handleQuarry(Building building) {
+        Objects.requireNonNull(Item.getAvailableItems("stone")).changeNumber(5);
         //TODO
     }
 

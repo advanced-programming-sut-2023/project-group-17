@@ -75,4 +75,15 @@ public class LoginMenuController {
         }
         return false;
     }
+
+    public boolean checkPassword(String username, String password) {
+        return Database.getUserByUsername(username).getPassword().equals(User.SHA256Code(password));
+    }
+
+    public void setLoggedInUserInController(String username) {
+        User user = Database.getUserByUsername(username);
+        setLoggedInUser(user);
+        Database.loadUnits();
+        Database.loadBuildings();
+    }
 }
