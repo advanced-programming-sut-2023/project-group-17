@@ -1,6 +1,6 @@
 package Model;
 
-import Model.Buildings.Building;
+import Model.Buildings.*;
 import Model.People.Soldier;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -11,13 +11,20 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-//
 
+import static Model.Buildings.GateHouseType.Type.*;
 
 
 public class Database {
     private static ArrayList<User> users = new ArrayList<>();
     private static ArrayList<Building> buildings = new ArrayList<>();
+    private static ArrayList<DefensiveBuilding> defensiveBuildings = new ArrayList<>();
+    private static ArrayList<GateHouse> gateHouses = new ArrayList<>();
+    private static ArrayList<MiningBuilding> miningBuildings = new ArrayList<>();
+    private static ArrayList<OtherBuilding> otherBuildings = new ArrayList<>();
+    private static ArrayList<ProductionBuilding> productionBuildings = new ArrayList<>();
+    private static ArrayList<SoldierProduction> soldierProductions = new ArrayList<>();
+    private static ArrayList<StorageBuilding> storageBuildings = new ArrayList<>();
     private static Map currentMapGame;
     private static ArrayList<Soldier> allSoldiers = new ArrayList<>();
     private static final ArrayList<User> usersInTheGame = new ArrayList<>();
@@ -160,6 +167,62 @@ public class Database {
         Database.empireColors = empireColors;
     }
 
+    public static ArrayList<DefensiveBuilding> getDefensiveBuildings() {
+        return defensiveBuildings;
+    }
+
+    public static void setDefensiveBuildings(ArrayList<DefensiveBuilding> defensiveBuildings) {
+        Database.defensiveBuildings = defensiveBuildings;
+    }
+
+    public static ArrayList<GateHouse> getGateHouses() {
+        return gateHouses;
+    }
+
+    public static void setGateHouses(ArrayList<GateHouse> gateHouses) {
+        Database.gateHouses = gateHouses;
+    }
+
+    public static ArrayList<MiningBuilding> getMiningBuildings() {
+        return miningBuildings;
+    }
+
+    public static void setMiningBuildings(ArrayList<MiningBuilding> miningBuildings) {
+        Database.miningBuildings = miningBuildings;
+    }
+
+    public static ArrayList<OtherBuilding> getOtherBuildings() {
+        return otherBuildings;
+    }
+
+    public static void setOtherBuildings(ArrayList<OtherBuilding> otherBuildings) {
+        Database.otherBuildings = otherBuildings;
+    }
+
+    public static ArrayList<ProductionBuilding> getProductionBuildings() {
+        return productionBuildings;
+    }
+
+    public static void setProductionBuildings(ArrayList<ProductionBuilding> productionBuildings) {
+        Database.productionBuildings = productionBuildings;
+    }
+
+    public static ArrayList<SoldierProduction> getSoldierProductions() {
+        return soldierProductions;
+    }
+
+    public static void setSoldierProductions(ArrayList<SoldierProduction> soldierProductions) {
+        Database.soldierProductions = soldierProductions;
+    }
+
+    public static ArrayList<StorageBuilding> getStorageBuildings() {
+        return storageBuildings;
+    }
+
+    public static void setStorageBuildings(ArrayList<StorageBuilding> storageBuildings) {
+        Database.storageBuildings = storageBuildings;
+    }
+
     public static void saveUsers() {
         try {
             FileWriter fileWriter = new FileWriter("src/main/resources/UserDatabase.json");
@@ -185,6 +248,13 @@ public class Database {
         }
     }
     public static void loadBuildings() {
+        loadStorageBuilding();
+        loadSoldierBuilding();
+        loadDefensiveBuilding();
+        loadGatehouseBuilding();
+        loadMiningBuilding();
+        loadOtherBuilding();
+        loadProductionBuilding();
         try {
             String json = new String(Files.readAllBytes(Paths.get("src/main/resources/BuildingDatabase.json")));
 //            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/BuildingDatabase.json")));
@@ -239,6 +309,90 @@ public class Database {
             ArrayList<Soldier> savedSoldiers;
             savedSoldiers = new Gson().fromJson(json, new TypeToken<List<Soldier>>() {}.getType());
             if (savedSoldiers != null) setAllSoldiers(savedSoldiers);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadDefensiveBuilding() {
+        try {
+            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/DefensiveDatabase.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/BuildingDatabase.json")));
+            ArrayList<DefensiveBuilding> savedBuildings;
+            savedBuildings = new Gson().fromJson(json, new TypeToken<List<DefensiveBuilding>>() {}.getType());
+            if (savedBuildings != null) setDefensiveBuildings(savedBuildings);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadGatehouseBuilding() {
+        try {
+            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/GatehouseBuildings.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/BuildingDatabase.json")));
+            ArrayList<GateHouse> savedBuildings;
+            savedBuildings = new Gson().fromJson(json, new TypeToken<List<GateHouse>>() {}.getType());
+            if (savedBuildings != null) setGateHouses(savedBuildings);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadMiningBuilding() {
+        try {
+            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/MiningBuildings.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/BuildingDatabase.json")));
+            ArrayList<MiningBuilding> savedBuildings;
+            savedBuildings = new Gson().fromJson(json, new TypeToken<List<MiningBuilding>>() {}.getType());
+            if (savedBuildings != null) setMiningBuildings(savedBuildings);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadOtherBuilding() {
+        try {
+            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/OtherBuildings.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/BuildingDatabase.json")));
+            ArrayList<OtherBuilding> savedBuildings;
+            savedBuildings = new Gson().fromJson(json, new TypeToken<List<OtherBuilding>>() {}.getType());
+            if (savedBuildings != null) setOtherBuildings(savedBuildings);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadProductionBuilding() {
+        try {
+            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/ProductionBuildings.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/BuildingDatabase.json")));
+            ArrayList<ProductionBuilding> savedBuildings;
+            savedBuildings = new Gson().fromJson(json, new TypeToken<List<ProductionBuilding>>() {}.getType());
+            if (savedBuildings != null) setProductionBuildings(savedBuildings);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadSoldierBuilding() {
+        try {
+            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/SoldierBuildings.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/BuildingDatabase.json")));
+            ArrayList<SoldierProduction> savedBuildings;
+            savedBuildings = new Gson().fromJson(json, new TypeToken<List<SoldierProduction>>() {}.getType());
+            if (savedBuildings != null) setSoldierProductions(savedBuildings);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadStorageBuilding() {
+        try {
+            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/StorageBuildings.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/BuildingDatabase.json")));
+            ArrayList<StorageBuilding> savedBuildings;
+            savedBuildings = new Gson().fromJson(json, new TypeToken<List<StorageBuilding>>() {}.getType());
+            if (savedBuildings != null) setStorageBuildings(savedBuildings);
         } catch (IOException e) {
             e.printStackTrace();
         }

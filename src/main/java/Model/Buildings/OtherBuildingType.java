@@ -1,7 +1,7 @@
 package Model.Buildings;
 
 public class OtherBuildingType {
-    enum OtherType {
+    public enum OtherType {
         CHURCH("church", true, 0),
         CATHEDRAL("cathedral", true, 0),
         DRAWBRIDGE("drawbridge", false, 0),

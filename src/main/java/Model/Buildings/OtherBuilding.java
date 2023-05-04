@@ -12,9 +12,11 @@ import java.util.Objects;
 public class OtherBuilding extends Building{
     boolean religiousBuilding;
     int capacity;
-    public OtherBuilding(User owner, int number, Building building, int x, int y) {
+    public OtherBuilding(User owner, Building building, int x, int y, OtherBuildingType.OtherType otherBuilding) {
         super(owner, building, x, y);
-        if(building.getBuildingName().equals("cathedral")) makeBlankMonk(x, y);
+        this.religiousBuilding = otherBuilding.religiousBuilding;
+        this.capacity = otherBuilding.capacity;
+        if(building.getBuildingName().equals("cathedral") && Database.getLoggedInUser() != null) makeBlankMonk(x, y);
     }
 
     private void makeBlankMonk(int x, int y) {

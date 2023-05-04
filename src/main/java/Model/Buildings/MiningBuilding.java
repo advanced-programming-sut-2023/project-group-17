@@ -9,7 +9,7 @@ public class MiningBuilding extends Building{
     private Item.ItemType production;
     private int rate;
     ArrayList<Item> storage;
-    public MiningBuilding(User owner, int number, Building building, int x, int y, MiningBuildingType.MiningType miningType) {
+    public MiningBuilding(User owner, Building building, int x, int y, MiningBuildingType.MiningType miningType) {
         super(owner, building, x, y);
         this.storage = new ArrayList<>();
         this.production = miningType.getProduction();

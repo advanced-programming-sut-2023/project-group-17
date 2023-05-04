@@ -29,6 +29,7 @@ public class Item {
         SWORDS("swords", 0),
         LEATHER_ARMOR("leather armor", 0),
         METAL_ARMOR("metal armor", 0),
+        OIL("oil", 0),
         COW("cow", 0),
         DOG("dog", 0),
         HORSE("horse", 0)

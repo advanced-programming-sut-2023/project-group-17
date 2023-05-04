@@ -6,7 +6,7 @@ public class Inn extends Building{
     private int wineUsage;
     private int popularityRate;
 
-    public Inn(User owner, int number, Building building, int x, int y) {
+    public Inn(User owner, Building building, int x, int y) {
         super(owner, building, x, y);
     }
 

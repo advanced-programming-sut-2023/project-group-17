@@ -205,7 +205,7 @@ public class MapMenuController {
         if (Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getMaterialMap().isWaterZone())
             return MapMenuMessages.INAPPROPRIATE_TEXTURE;
 
-        Building building = new Building(Database.getLoggedInUser(), Database.getBuildingDataByName(type));
+        Building building = new Building(Database.getLoggedInUser(), Database.getBuildingDataByName(type), x, y);
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
 
         mapCell.addBuilding(building);

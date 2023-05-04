@@ -11,9 +11,11 @@ import java.util.Iterator;
 
 public class StorageBuilding extends Building{
     private ArrayList<Item> storedItems;
-    public StorageBuilding(User owner, int number, Building building, int x, int y) {
+    private ArrayList<Item.ItemType> storedItemTypes;
+    public StorageBuilding(User owner, Building building, int x, int y, StorageBuildingType.StorageType storageType) {
         super(owner, building, x, y);
         this.storedItems = new ArrayList<>();
+        this.storedItemTypes = storageType.getStoredItemsTypes();
         if(building.getBuildingName().equals("stable")) createHorses(x, y);
     }
 
