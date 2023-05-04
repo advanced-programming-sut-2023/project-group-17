@@ -89,6 +89,7 @@ public class GameMenuController {
                     else
                         mapIteration(startX, startY, soldier.getAttackRange(), soldier, mapCell.getBuilding());
                 }
+
             }
         }
     }
