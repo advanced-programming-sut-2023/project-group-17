@@ -72,4 +72,8 @@ public class UnitMenuController {
     public UnitMenuMessages burnOil() {
         return null;
     }
+
+    private void ifDefensiveBuildingExists() {
+        //TODO
+    }
 }

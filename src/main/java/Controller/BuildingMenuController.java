@@ -1,16 +1,14 @@
 package Controller;
 
+import Model.*;
 import Model.Buildings.*;
-import Model.Database;
-import Model.Empire;
+import Model.Items.Animal;
 import Model.Items.ArmorAndWeapon;
 import Model.Items.Item;
 import Model.Items.Resource;
-import Model.MapCell;
 import Model.People.NormalPeople;
 import Model.People.Person;
 import Model.People.Soldier;
-import Model.User;
 import Utils.CheckMapCell;
 import View.EmpireMenu;
 import View.Enums.Messages.BuildingMenuMessages;
@@ -93,7 +91,8 @@ public class BuildingMenuController {
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
 
         if (!selectedBuilding.getBuildingName().equals("barracks") &&
-        !selectedBuilding.getBuildingName().equals("mercenary post") && !selectedBuilding.getBuildingName().equals("engineer guild"))
+        !selectedBuilding.getBuildingName().equals("mercenary post") &&
+                !selectedBuilding.getBuildingName().equals("engineer guild"))
             return BuildingMenuMessages.INVALID_TYPE_BUILDING;
 
         if (currentUser.getEmpire().getNormalPeople().size() < count) return BuildingMenuMessages.NOT_ENOUGH_CROWD;
@@ -107,6 +106,7 @@ public class BuildingMenuController {
             }
         }
 
+        //TODO: shartre type sarbaza
         int counterToSoldier = 0;
         for (NormalPeople normalPeople : currentUser.getEmpire().getNormalPeople()) {
             //TODO remove normal people from map around fire
@@ -204,7 +204,11 @@ public class BuildingMenuController {
     }
 
     public static void handleMiningBuildings(Building building) {
-        //TODO
+        Empire empire = Database.getLoggedInUser().getEmpire();
+        Item.ItemType itemType = ((MiningBuilding) building).getProduction();
+        Item item = Item.getAvailableItems(itemType.getName());
+        assert item != null;
+        item.changeNumber(5);
     }
 
     public static void handleMarket(Building building) {
@@ -222,7 +226,8 @@ public class BuildingMenuController {
                     Objects.requireNonNull(Item.getAvailableItems(itemType.getName())).changeNumber(1);
                     if(itemType.getName().equals("cheese")) {
                         if (((StorageBuilding) empire.getBuildingByName("granary")).getItemByName(itemType.getName()) != null) {
-                            ((StorageBuilding) empire.getBuildingByName("granary")).addItem(Item.getAvailableItems(itemType.getName()));
+                            ((StorageBuilding) empire.getBuildingByName("granary")).
+                                    addItem(Item.getAvailableItems(itemType.getName()));
                         }
                     }
                     else {
@@ -252,12 +257,12 @@ public class BuildingMenuController {
         //TODO وسایل دفاع ساخته بشن
     }
 
-    public static void handleSoldierProduction(Building building) {
-    }
-
     public static void handleCagedDogs(Building building) {
-    }
+        int x = building.getX();
+        int y = building.getY();
+        Map currentMap = Database.getCurrentMapGame();
+        MapCell mapCell = currentMap.getMapCellByCoordinates(x, y);
 
-    public static void handleGranary(Building building) {
+        mapCell.addItems(new Animal(Animal.animalNames.DOG, Database.getLoggedInUser(), 3));
     }
 }

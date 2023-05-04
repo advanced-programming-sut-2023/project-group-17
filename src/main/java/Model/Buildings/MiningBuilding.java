@@ -16,7 +16,7 @@ public class MiningBuilding extends Building{
     }
 
     public Item.ItemType getProduction() {
-        return production;
+        return this.production;
     }
 
     public int getRate() {

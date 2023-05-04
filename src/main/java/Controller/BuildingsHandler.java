@@ -23,9 +23,6 @@ public class BuildingsHandler {
             case "siege tent":
                 BuildingMenuController.handleSiegeTent(building);
                 break;
-            case "soldier production":;
-                BuildingMenuController.handleSoldierProduction(building);
-                break;
             case "storage":
                 handleStorageBuildings(building);
                 break;
@@ -36,9 +33,6 @@ public class BuildingsHandler {
         switch (building.getBuildingName()) {
             case "caged war dogs":
                 BuildingMenuController.handleCagedDogs(building);
-                break;
-            case "granary":
-                BuildingMenuController.handleGranary(building);
                 break;
             default:
                 break;
@@ -59,7 +53,7 @@ public class BuildingsHandler {
             default:
                 BuildingMenuController.handleMiningBuildings(building);
                 break;
-                //apple orchard - dairy farmer - hops farmer - hunter post
+                //apple orchard - hops farmer - hunter post
                 //- wheat farmer - pitch rig - woodcutter
         }
     }
