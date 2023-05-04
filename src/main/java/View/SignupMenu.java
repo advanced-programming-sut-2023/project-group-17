@@ -97,7 +97,7 @@ public class SignupMenu extends Menu{
                 break;
             case USERNAME_EXISTS:
                 System.out.print("signup failed : user " + username + " already exists" + '\n' +
-                        "suggested username: " + username + random.nextInt(10) + random.nextInt(10) + '\n');
+                            "suggested username: " + username + random.nextInt(10) + random.nextInt(10) + '\n');
                 break;
             case RANDOM_SLOGAN:
                 System.out.println(("your slogan is \"" + (slogan = controller.getRandomSlogan()) + "\""));
@@ -151,7 +151,7 @@ public class SignupMenu extends Menu{
         switch (controller.pickQuestion(questionNumber, answer, confirmationAnswer)) {
             case SUCCESS:
                 System.out.print("question number " + questionNumber + " picked successfully" + '\n' +
-                                "enter the number below to complete your registration\n");
+                                "please enter the captcha to complete your registration\n");
                 mustEnterCaptcha();
                 break;
             case WRONG_NUMBER:

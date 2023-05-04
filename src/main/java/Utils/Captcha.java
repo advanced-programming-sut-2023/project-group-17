@@ -7,8 +7,6 @@ import java.util.Random;
 public class Captcha {
     static Random random = new Random();
     public static final int ART_SIZE = 18;
-    public static String artSymbols = "@#$*";
-    private static final String DEFAULT_ART_SYMBOL = String.valueOf(artSymbols.charAt(random.nextInt(4)));
 
     public enum ASCIIArtFont {
         ART_FONT_DIALOG("Dialog");
@@ -24,7 +22,9 @@ public class Captcha {
         }
     }
 
-    public static void printTextArt(String artText, int textHeight, ASCIIArtFont fontType, String artSymbol) {
+    public static void printTextArt(String artText, int textHeight, ASCIIArtFont fontType) {
+        String artsSymbols = "@#$*";
+        String currentArtSymbol = String.valueOf(artsSymbols.charAt(random.nextInt(4)));
         String fontName = fontType.getValue();
         int imageWidth = findImageWidth(textHeight, artText, fontName);
 
@@ -44,7 +44,7 @@ public class Captcha {
                     sb.append(".");
                     continue;
                 }
-                sb.append(image.getRGB(x, y) == Color.WHITE.getRGB() ? artSymbol : " ");
+                sb.append(image.getRGB(x, y) == Color.WHITE.getRGB() ? currentArtSymbol : " ");
             }
             if (sb.toString().trim().isEmpty())
                 continue;
@@ -59,7 +59,7 @@ public class Captcha {
 
     public static void printTextArt(int verifyingNumber) {
 //        int verifyingNumber = generateRandomNumber();
-        printTextArt(Integer.toString(verifyingNumber), ART_SIZE, ASCIIArtFont.ART_FONT_DIALOG, DEFAULT_ART_SYMBOL);
+        printTextArt(Integer.toString(verifyingNumber), ART_SIZE, ASCIIArtFont.ART_FONT_DIALOG);
     }
 
     private static int findImageWidth(int textHeight, String artText, String fontName) {

@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Database;
 import Model.User;
+import Utils.Captcha;
 import Utils.CheckValidation;
 import View.Enums.Messages.LoginMenuMessages;
 import View.Enums.Messages.UtilsMessages;
@@ -10,6 +11,7 @@ import static Model.Database.getUserByUsername;
 import static Model.Database.setLoggedInUser;
 
 public class LoginMenuController {
+    int verifyingNumber;
 
     public LoginMenuMessages loginUser(String username, String password, boolean stayLoggedIn) {
         Database.loadUsers();
@@ -74,5 +76,14 @@ public class LoginMenuController {
             return true;
         }
         return false;
+    }
+
+    public void GenerateCaptcha() {
+        verifyingNumber = Captcha.generateRandomNumber();
+        Captcha.printTextArt(verifyingNumber);
+    }
+
+    public boolean validateCaptcha(int input) {
+        return verifyingNumber == input;
     }
 }
