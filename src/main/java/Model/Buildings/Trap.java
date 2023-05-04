@@ -7,6 +7,8 @@ public class Trap extends Building{
     private boolean visible;
     public Trap(User owner, Building building, int x, int y) {
         super(owner, building, x, y);
+        flammable = false;
+        visible = false;
     }
 
     public boolean isFlammable() {

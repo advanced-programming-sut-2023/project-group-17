@@ -53,7 +53,7 @@ public class BuildingMenuController {
         }
 
         //TODO تابع بزن برای نوعشون
-        Building newBuilding = new Building(currentUser, buildingSample, x, y);
+        Building newBuilding = getTypeBuildings(currentUser, buildingSample, x, y);
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
         mapCell.addBuilding(newBuilding);
         currentUser.getEmpire().addBuilding(newBuilding);
@@ -67,6 +67,39 @@ public class BuildingMenuController {
         }
 
         return BuildingMenuMessages.SUCCESS;
+    }
+
+    private Building getTypeBuildings(User currentUser, Building buildingSample, int x, int y) {
+        switch (buildingSample.getCategory()) {
+            case "storage":
+                return new StorageBuilding(currentUser, x, y,
+                Database.getStorageBuildingDataByName(buildingSample.getBuildingName()));
+            case "production":
+                return new ProductionBuilding(currentUser, x, y,
+                Database.getProductionBuildingDataByName(buildingSample.getBuildingName()));
+            case "mining":
+                return new MiningBuilding(currentUser, x, y,
+                Database.getMiningBuildingDataByName(buildingSample.getBuildingName()));
+            case "soldier production":
+                return new SoldierProduction(currentUser, x, y,
+                Database.getSoldierProductionDataByName(buildingSample.getBuildingName()));
+            case "defensive":
+                return new DefensiveBuilding(currentUser, Direction.directions.NORTH, x, y,
+                Database.getDefensiveBuildingDataByName(buildingSample.getBuildingName()));
+            case "gate house":
+                return new GateHouse(currentUser, x, y,
+                Database.getGatehouseBuildingDataByName(buildingSample.getBuildingName()));
+            case "other buildings":
+                return new OtherBuilding(currentUser, x, y,
+                Database.getOtherBuildingDataByName(buildingSample.getBuildingName()));
+            case "inn":
+                return new Inn(currentUser, Database.getBuildingDataByName(buildingSample.getBuildingName()), x, y);
+            case "trap":
+                return new Trap(currentUser, Database.getBuildingDataByName(buildingSample.getBuildingName()), x, y);
+            case "siege tent":
+                return new SiegeTent(currentUser, Database.getBuildingDataByName(buildingSample.getBuildingName()), x, y);
+        }
+        return null;
     }
 
     private void makeWorkerAndEngineers(User currentUser, MapCell mapCell, int numberOfWorkers, Building building, PeopleType type) {
