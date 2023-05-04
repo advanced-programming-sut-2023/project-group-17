@@ -11,12 +11,14 @@ import Model.Items.Resource;
 import Model.People.NormalPeople;
 import Model.People.Person;
 import Model.People.Soldier;
+import Model.People.UnitAttributes;
 import Utils.CheckMapCell;
 import View.EmpireMenu;
 import View.Enums.Messages.BuildingMenuMessages;
 import View.ShopMenu;
 
 import javax.management.NotificationEmitter;
+import javax.xml.crypto.Data;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -179,6 +181,7 @@ public class BuildingMenuController {
     }
 
     public static void handleOilSmelter(Building building) {
+        Objects.requireNonNull(Item.getAvailableItems("oil")).changeNumber(1);
         //TODO
     }
 
@@ -197,7 +200,7 @@ public class BuildingMenuController {
     }
 
     public static void handleIronMine(Building building) {
-        //TODO
+        Objects.requireNonNull(Item.getAvailableItems("iron")).changeNumber(5);
     }
 
     public static void handleQuarry(Building building) {
