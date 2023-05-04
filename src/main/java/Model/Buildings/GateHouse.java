@@ -12,11 +12,11 @@ public class GateHouse extends Building{
     private ArrayList<Person> livingPeople;
     boolean house;
 
-    public GateHouse(User owner, Building building, int x, int y, GateHouseType.Type gateHouseType) {
-        super(owner, building, x, y);
+    public GateHouse(User owner, int x, int y, GateHouse gateHouse) {
+        super(owner, gateHouse, x, y);
         this.livingPeople = new ArrayList<>();
-        this.maximumCapacity = gateHouseType.getMaximumCapacity();
-        this.house = gateHouseType.isHouse();
+        this.maximumCapacity = gateHouse.getMaximumCapacity();
+        this.house = gateHouse.isHouse();
         if (Database.getLoggedInUser() != null)
             handleLivingPeople();
     }

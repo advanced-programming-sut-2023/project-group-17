@@ -9,10 +9,10 @@ import java.util.HashMap;
 public class SoldierProduction extends Building{
     private ArrayList<Soldier> storedSoldiers;
     private HashMap<Soldier, Integer> soldiersTrained;
-    public SoldierProduction(User owner, Building building, int x , int y, SoldierProductionType.SoldierType soldierProductionType) {
-        super(owner, building, x, y);
+    public SoldierProduction(User owner, int x , int y, SoldierProduction soldierProduction) {
+        super(owner, soldierProduction, x, y);
         this.storedSoldiers = new ArrayList<>();
-        this.soldiersTrained = soldierProductionType.getSoldiersTrained();
+        this.soldiersTrained = soldierProduction.getSoldiersTrained();
     }
 
     public ArrayList<Soldier> getStoredSoldiers() {

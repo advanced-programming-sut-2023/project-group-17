@@ -10,11 +10,11 @@ public class ProductionBuilding extends Building{
     private HashMap<Item.ItemType, Item.ItemType> productionItem;
     private String relatedStorageBuildingName;
     int rate;
-    public ProductionBuilding(User owner, Building building, int x, int y, ProductionBuildingType.ProductionType productionType) {
+    public ProductionBuilding(User owner, int x, int y, ProductionBuilding productionBuilding) {
         //TODO: constructor hameye buildinga
-        super(owner, building, x, y);
-        this.productionItem = productionType.getProductionItem();
-        this.relatedStorageBuildingName = productionType.getRelatedStorageBuildingName();
+        super(owner, productionBuilding, x, y);
+        this.productionItem = productionBuilding.getProductionItem();
+        this.relatedStorageBuildingName = productionBuilding.getRelatedStorageBuildingName();
     }
 
     public HashMap<Item.ItemType, Item.ItemType> getProductionItem() {

@@ -221,6 +221,55 @@ public class Database {
         Database.storageBuildings = storageBuildings;
     }
 
+    public static DefensiveBuilding getDefensiveBuildingDataByName(String name) {
+        for (DefensiveBuilding defensiveBuilding : defensiveBuildings) {
+            if (defensiveBuilding.getBuildingName().equals(name)) return defensiveBuilding;
+        }
+        return null;
+    }
+
+    public static GateHouse getGatehouseBuildingDataByName(String name) {
+        for (GateHouse gateHouse : gateHouses) {
+            if (gateHouse.getBuildingName().equals(name)) return gateHouse;
+        }
+        return null;
+    }
+
+    public static MiningBuilding getMiningBuildingDataByName(String name) {
+        for (MiningBuilding miningBuilding : miningBuildings) {
+            if (miningBuilding.getBuildingName().equals(name)) return miningBuilding;
+        }
+        return null;
+    }
+
+    public static OtherBuilding getOtherBuildingDataByName(String name) {
+        for (OtherBuilding otherBuilding : otherBuildings) {
+            if (otherBuilding.getBuildingName().equals(name)) return otherBuilding;
+        }
+        return null;
+    }
+
+    public static ProductionBuilding getProductionBuildingDataByName(String name) {
+        for (ProductionBuilding productionBuilding : productionBuildings) {
+            if (productionBuilding.getBuildingName().equals(name)) return productionBuilding;
+        }
+        return null;
+    }
+
+    public static SoldierProduction getSoldierProductionDataByName(String name) {
+        for (SoldierProduction soldierProduction : soldierProductions) {
+            if (soldierProduction.getBuildingName().equals(name)) return soldierProduction;
+        }
+        return null;
+    }
+
+    public static StorageBuilding getStorageBuildingDataByName(String name) {
+        for (StorageBuilding storageBuilding : storageBuildings) {
+            if (storageBuilding.getBuildingName().equals(name)) return storageBuilding;
+        }
+        return null;
+    }
+
     public static void saveUsers() {
         try {
             FileWriter fileWriter = new FileWriter("src/main/resources/UserDatabase.json");
