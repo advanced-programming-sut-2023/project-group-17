@@ -62,6 +62,7 @@ public class MainMenu extends Menu {
         String users = matcher.group("users");
         switch (controller.startNewGame(users, turnsNumber)) {
             case SUCCESS:
+                setHeadquarters();
                 System.out.println("Entered new game");
                 new GameMenu().run();
                 break;
@@ -71,6 +72,43 @@ public class MainMenu extends Menu {
             case INVALID_NUMBER:
                 System.out.println("Start new game failed : Invalid number");
                 break;
+        }
+    }
+
+    private void setHeadquarters() {
+
+        for (int i = 0; i < controller.getNumberOfPlayers(); i++) {
+        outer : while (true) {
+                System.out.println(controller.getPlayerName(i) + " enter coordinate x and y for your headquarter");
+                String input = scanner.nextLine();
+                Matcher matcher;
+
+                if ((matcher = MainMenuCommands.getMatcher(input, MainMenuCommands.SELECT_COORDINATES_HEADQUARTERS)) != null) {
+
+                    if (Menu.checkBlankField(matcher.group("x")) || Menu.checkBlankField(matcher.group("y"))) {
+                        System.out.println("Show details failed : Blanked field");
+                        return;
+                    }
+
+                    int x = Integer.parseInt(matcher.group("x"));
+                    int y = Integer.parseInt(matcher.group("y"));
+
+                    switch (controller.setHeadquarters(i, x, y)) {
+                        case X_OUT_OF_BOUNDS:
+                            System.out.println("Set coordinate failed : Coordinate of x is out of bounds");
+                            break;
+                        case Y_OUT_OF_BOUNDS:
+                            System.out.println("Set coordinate failed : Coordinate of y is out of bounds");
+                            break;
+                        case INAPPROPRIATE_TEXTURE:
+                            System.out.println("Set coordinate failed : Inappropriate texture");
+                            break;
+                        case SUCCESS:
+                            System.out.println("Successfully set");
+                            break outer;
+                    }
+                } else System.out.println("Invalid Command");
+            }
         }
     }
 }

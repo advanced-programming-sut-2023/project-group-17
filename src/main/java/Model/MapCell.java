@@ -32,6 +32,14 @@ public class MapCell {
         attackToolsAndMethods = new ArrayList<AttackToolsAndMethods>();
         this.color = materialMap.getColor();
     }
+    public void clear() {
+        setBuilding(null);
+        getMapCellItems().clear();
+        getItems().clear();
+        getAttackToolsAndMethods().clear();
+        getPeople().clear();
+        setMaterialMap(MaterialMap.getTextureMap("land"));
+    }
 
     public int getX() {
         return x;

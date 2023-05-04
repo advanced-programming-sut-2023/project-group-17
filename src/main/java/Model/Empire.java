@@ -2,6 +2,8 @@ package Model;
 
 import Model.AttackToolsAndMethods.AttackToolsAndMethods;
 import Model.Buildings.Building;
+import Model.Buildings.GateHouse;
+import Model.Buildings.StorageBuilding;
 import Model.Items.*;
 import Model.People.Engineer;
 import Model.People.NormalPeople;
@@ -9,6 +11,7 @@ import Model.People.Person;
 import Model.People.Soldier;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Empire {
     private ArrayList<Food> foods;
@@ -28,6 +31,7 @@ public class Empire {
     private double coins;
     private empireColors empireColor;
     private double efficiency;
+    private MapCell headquarter;
     public Empire(empireColors empireColor) {
         this.foods = new ArrayList<Food>();
         this.resources = new ArrayList<Resource>();
@@ -101,6 +105,58 @@ public class Empire {
         foods.add(new Food(Food.foodType.MEAT, loggedInUser, 0));
         foods.add(new Food(Food.foodType.APPLE, loggedInUser, 0));
         foods.add(new Food(Food.foodType.BREAD, loggedInUser, 0));
+    }
+
+    public MapCell getHeadquarter() {
+        return headquarter;
+    }
+
+    public void setHeadquarter(MapCell headquarter, User user) {
+        GateHouse gateHouse = new GateHouse(user, headquarter.getX(), headquarter.getY(),
+            Database.getGatehouseBuildingDataByName("small stone gatehouse"));
+        addBuilding(gateHouse);
+        headquarter.addBuilding(gateHouse);
+        this.headquarter = headquarter;
+    }
+    public void makeHeadquarter(int x, int y, User user) {
+        setHeadquarter(Database.getCurrentMapGame().getMapCellByCoordinates(x, y), user);
+        makeStockpile(x, y, user);
+    }
+
+    private void makeStockpile(int x, int y, User user) {
+
+        for (int z = -1; z < 2; z++) {
+            for (int j = -1; j < 2; j++) {
+                if ((z != 0 && j != 0) && Utils.CheckMapCell.validationOfY(y + j)
+                    && Utils.CheckMapCell.validationOfX(x + z)) {
+
+                    MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x + z, y + j);
+                    if (mapCell.canDropItems()) {
+//                        StorageBuilding stockpile = new StorageBuilding(user, x + z, y + j,
+//                                Database.getStorageBuildingDataByName("stockpile"));
+//                        mapCell.addBuilding(stockpile);
+//                        user.getEmpire().addBuilding(stockpile);
+                        return;
+                    }
+                }
+            }
+        }
+
+        for (int z = -1; z < 2; z++) {
+            for (int j = -1; j < 2; j++) {
+                if ((z != 0 && j != 0) && Utils.CheckMapCell.validationOfY(y + j)
+                        && Utils.CheckMapCell.validationOfX(x + z)) {
+                    MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x + z, y + j);
+                    mapCell.clear();
+//                    StorageBuilding stockpile = new StorageBuilding(user, x + z, y + j,
+//                            Database.getStorageBuildingDataByName("stockpile"));
+//                    mapCell.addBuilding(stockpile);
+//                    user.getEmpire().addBuilding(stockpile);
+                    return;
+                }
+            }
+        }
+
     }
 
     public ArrayList<Food> getFoods() {

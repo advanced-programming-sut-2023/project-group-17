@@ -296,12 +296,12 @@ public class Database {
     }
     public static void loadBuildings() {
         loadStorageBuilding();
-        loadSoldierBuilding();
         loadDefensiveBuilding();
         loadGatehouseBuilding();
         loadMiningBuilding();
         loadOtherBuilding();
         loadProductionBuilding();
+//        loadSoldierBuilding();
         try {
             String json = new String(Files.readAllBytes(Paths.get("src/main/resources/BuildingDatabase.json")));
 //            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/BuildingDatabase.json")));
@@ -363,7 +363,7 @@ public class Database {
 
     public static void loadDefensiveBuilding() {
         try {
-            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/DefensiveDatabase.json")));
+            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/DefensiveBuildings.json")));
 //            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/BuildingDatabase.json")));
             ArrayList<DefensiveBuilding> savedBuildings;
             savedBuildings = new Gson().fromJson(json, new TypeToken<List<DefensiveBuilding>>() {}.getType());
