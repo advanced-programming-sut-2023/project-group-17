@@ -2,23 +2,17 @@ package Controller;
 
 import Model.*;
 import Model.AttackToolsAndMethods.AttackToolsAndMethods;
-import Model.AttackToolsAndMethods.AttackToolsAndMethodsType;
 import Model.Buildings.*;
 import Model.Items.Animal;
 import Model.Items.ArmorAndWeapon;
 import Model.Items.Item;
 import Model.Items.Resource;
-import Model.People.NormalPeople;
-import Model.People.Person;
-import Model.People.Soldier;
-import Model.People.UnitAttributes;
+import Model.People.*;
 import Utils.CheckMapCell;
 import View.EmpireMenu;
 import View.Enums.Messages.BuildingMenuMessages;
 import View.ShopMenu;
 
-import javax.management.NotificationEmitter;
-import javax.xml.crypto.Data;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -40,7 +34,12 @@ public class BuildingMenuController {
         Building buildingSample = Database.getBuildingDataByName(type);
         User currentUser = Database.getLoggedInUser();
 
-        assert buildingSample != null;
+        int numberOfWorkers = 0;
+        for (PeopleType peopleType : buildingSample.getNumberOfWorkers().keySet()) {
+            numberOfWorkers += buildingSample.getNumberOfWorkers().get(peopleType);
+        }
+        if (currentUser.getEmpire().getNormalPeople().size() < numberOfWorkers) return BuildingMenuMessages.NOT_ENOUGH_CROWD;
+
         for (Resource.resourceType recourseRequired : buildingSample.getBuildingCost().keySet()) {
             for (Resource currentResource : currentUser.getEmpire().getResources()) {
                 if (recourseRequired.getName().equals(currentResource.getItemName())) {
@@ -59,7 +58,35 @@ public class BuildingMenuController {
         mapCell.addBuilding(newBuilding);
         currentUser.getEmpire().addBuilding(newBuilding);
 
+        int counterToWorker = 0;
+        for (PeopleType peopleType : buildingSample.getNumberOfWorkers().keySet()) {
+
+            numberOfWorkers = buildingSample.getNumberOfWorkers().get(peopleType);
+
+            makeWorkerAndEngineers(currentUser, mapCell, numberOfWorkers, newBuilding, peopleType);
+        }
+
         return BuildingMenuMessages.SUCCESS;
+    }
+
+    private void makeWorkerAndEngineers(User currentUser, MapCell mapCell, int numberOfWorkers, Building building, PeopleType type) {
+
+        int counterToWorker = 0;
+
+        for (NormalPeople normalPeople : currentUser.getEmpire().getNormalPeople()) {
+            for (MapCell cell : Database.getCurrentMapGame().getMapCells()) {
+                cell.getPeople().remove(normalPeople);
+            }
+            currentUser.getEmpire().getNormalPeople().remove(normalPeople);
+            Person person;
+            if (type.equals(PeopleType.ENGINEER))
+                person = new Engineer(normalPeople.getOwner());
+            else
+                person = new Worker(normalPeople.getOwner(), building);
+            mapCell.addPeople(person);
+            counterToWorker++;
+            if (counterToWorker == numberOfWorkers) break;
+        }
     }
 
     public BuildingMenuMessages selectBuilding(int x, int y) {
@@ -115,7 +142,9 @@ public class BuildingMenuController {
         //TODO: shartre type sarbaza
         int counterToSoldier = 0;
         for (NormalPeople normalPeople : currentUser.getEmpire().getNormalPeople()) {
-            //TODO remove normal people from map around fire
+            for (MapCell cell : Database.getCurrentMapGame().getMapCells()) {
+                cell.getPeople().remove(normalPeople);
+            }
             Soldier soldier = new Soldier(normalPeople.getOwner(), sampleSoldier);
             currentUser.getEmpire().getNormalPeople().remove(normalPeople);
             mapCell.addPeople(soldier);
