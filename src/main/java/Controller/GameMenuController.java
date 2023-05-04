@@ -1,15 +1,9 @@
 package Controller;
 
-import Model.Database;
-import Model.Empire;
-import Model.Map;
+import Model.*;
 import Model.People.Soldier;
-import Model.User;
 import Utils.CheckMapCell;
 import View.Enums.Messages.GameMenuMessages;
-import View.Enums.Messages.MapMenuMessages;
-import View.GameMenu;
-import View.Menu;
 
 public class GameMenuController {
     public GameMenuMessages chooseMapGame(int id) {
@@ -45,8 +39,24 @@ public class GameMenuController {
     }
 
     public void applyDamages() {
-
+        for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
+            for (Soldier soldier : mapCell.getSoldier()) {
+                mapIteration(mapCell.getX(), mapCell.getY(), soldier);
+            }
+        }
     }
+
+    public void mapIteration(int startX, int startY, Soldier soldier) {
+        for(int x = startX; x < startX + soldier.getAttackRange(); x++) {
+            for(int y = startY; y < startY + soldier.getAttackRange(); y++) {
+                for (Soldier opponentSoldier : Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getSoldier()) {
+                    if(!soldier.getOwner().equals(opponentSoldier.getOwner()))
+                        opponentSoldier.changeHp(-soldier.getAttackRating());
+                }
+            }
+        }
+    }
+
 
     public void changePopularity(Empire empire) {
         //TODO: set religion rate yadet nare

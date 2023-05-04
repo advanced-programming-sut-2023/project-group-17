@@ -17,4 +17,7 @@ public class Person {
     public int getHp() {
         return hp;
     }
+    public void changeHp(int hp) {
+        this.hp += hp;
+    }
 }
