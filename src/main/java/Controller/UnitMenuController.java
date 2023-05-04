@@ -1,10 +1,8 @@
 package Controller;
 
 import Model.Database;
-import Model.Direction;
 import Model.People.Person;
 import Model.People.Soldier;
-import Model.People.UnitAttributes.Status;
 import View.Enums.Messages.UnitMenuMessages;
 
 import java.util.ArrayList;
@@ -25,7 +23,7 @@ public class UnitMenuController {
         return UnitMenuMessages.SUCCESS;
     }
 
-    public UnitMenuMessages moveUnit(int x, int y) {
+    public UnitMenuMessages moveUnitTo(int x, int y) {
         return null;
     }
 
@@ -33,7 +31,7 @@ public class UnitMenuController {
         return null;
     }
 
-    public UnitMenuMessages setUnitMood(int x, int y, Status status) {
+    public UnitMenuMessages setUnitMood(int x, int y, String status) {
         return null;
     }
 
@@ -45,7 +43,7 @@ public class UnitMenuController {
         return null;
     }
 
-    public UnitMenuMessages pourOil(Direction direction) {
+    public UnitMenuMessages pourOil(String direction) {
         return null;
     }
 
