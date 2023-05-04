@@ -1,15 +1,14 @@
 package View;
 
-import  Controller.LoginMenuController;
+import Controller.LoginMenuController;
 import View.Enums.Commands.LoginMenuCommands;
 
-import java.util.Scanner;
 import java.util.regex.Matcher;
 
 import static java.lang.System.currentTimeMillis;
 
 public class LoginMenu extends Menu {
-    private LoginMenuController controller;
+    private final LoginMenuController controller;
 
     public LoginMenu(){
          this.controller = new LoginMenuController();
@@ -33,6 +32,22 @@ public class LoginMenu extends Menu {
         }
     }
 
+    public void mustEnterCaptcha(){
+        Matcher matcher;
+        String input;
+        while(true) {
+            controller.GenerateCaptcha();
+            input = scanner.nextLine();
+            if((matcher = LoginMenuCommands.getMatcher(input, LoginMenuCommands.PICK_CAPTCHA)) != null) {
+                if(controller.validateCaptcha(Integer.parseInt(input))) {
+                    System.out.println("user logged in successfully");
+                    break;
+                }
+            }
+            else System.out.println("login failed : please enter the captcha again");
+        }
+    }
+
     private void loginUser(Matcher matcher) {
         if(checkBlankField(matcher.group("username")) || checkBlankField(matcher.group("password"))) {
             System.out.println("login failed : blank field");
@@ -45,7 +60,9 @@ public class LoginMenu extends Menu {
 
         switch (controller.loginUser(username , password , stayLoggedIn)){
             case SUCCESS:
-                System.out.println(username + " logged in successfully");
+                System.out.println("please enter the captcha to login");
+                mustEnterCaptcha();
+//                System.out.println(username + " logged in successfully");
                 enterMainMenu();
                 break;
             case WRONG_PASSWORD:
@@ -139,7 +156,7 @@ public class LoginMenu extends Menu {
     }
 
     private void enterMainMenu() {
-        System.out.println("entered main menu successfully");
+//        System.out.println("entered main menu successfully");
         new MainMenu().run();
     }
 

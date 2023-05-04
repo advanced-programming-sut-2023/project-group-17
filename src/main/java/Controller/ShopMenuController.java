@@ -17,7 +17,7 @@ public class ShopMenuController {
         return result;
     }
 
-    public ShopMenuMessages buyItem(String itemName, Integer amount) {
+    public ShopMenuMessages buyItem(String itemName, int amount) {
         if(Item.getItemByName(itemName) == null) return ShopMenuMessages.INVALID_ITEM_NAME;
         if(amount <= 0) return ShopMenuMessages.INVALID_ITEM_AMOUNT;
         if(Database.getLoggedInUser().getEmpire().getCoins() < Item.getItemType(itemName).getCost() * amount) return ShopMenuMessages.NOT_ENOUGH_COIN;
@@ -40,7 +40,7 @@ public class ShopMenuController {
         return ShopMenuMessages.SUCCESS;
     }
 
-    public ShopMenuMessages sellItem(String itemName, Integer amount) {
+    public ShopMenuMessages sellItem(String itemName, int amount) {
         if(Item.getItemByName(itemName) == null) return ShopMenuMessages.INVALID_ITEM_NAME;
         if(amount <= 0) return ShopMenuMessages.INVALID_ITEM_AMOUNT;
 

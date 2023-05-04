@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class UnitMenuController {
     private ArrayList<Person> selectedUnit;
-    public UnitMenuMessages selectUnit(Integer x, Integer y) {
+    public UnitMenuMessages selectUnit(int x, int y) {
         if(!Utils.CheckMapCell.validationOfX(x)) return UnitMenuMessages.X_OUT_OF_BOUNDS;
         if(!Utils.CheckMapCell.validationOfY(y)) return UnitMenuMessages.Y_OUT_OF_BOUNDS;
 
@@ -25,23 +25,23 @@ public class UnitMenuController {
         return UnitMenuMessages.SUCCESS;
     }
 
-    public UnitMenuMessages moveUnit(Integer x, Integer y) {
+    public UnitMenuMessages moveUnit(int x, int y) {
         return null;
     }
 
-    public UnitMenuMessages patrolUnit(Integer x1, Integer y1, Integer x2, Integer y2) {
+    public UnitMenuMessages patrolUnit(int x1, int y1, int x2, int y2) {
         return null;
     }
 
-    public UnitMenuMessages setUnitMood(Integer x, Integer y, Status status) {
+    public UnitMenuMessages setUnitMood(int x, int y, Status status) {
         return null;
     }
 
-    public UnitMenuMessages attackEnemy(Integer x, Integer y) {
+    public UnitMenuMessages attackEnemy(int x, int y) {
         return null;
     }
 
-    public UnitMenuMessages airAttack(Integer x, Integer y) {
+    public UnitMenuMessages airAttack(int x, int y) {
         return null;
     }
 
@@ -49,7 +49,7 @@ public class UnitMenuController {
         return null;
     }
 
-    public UnitMenuMessages digTunnel(Integer x, Integer y) {
+    public UnitMenuMessages digTunnel(int x, int y) {
         return null;
     }
 
@@ -61,11 +61,11 @@ public class UnitMenuController {
         return null;
     }
 
-    public UnitMenuMessages digMoat(Integer x, Integer y) {
+    public UnitMenuMessages digMoat(int x, int y) {
         return null;
     }
 
-    public UnitMenuMessages fillMoat(Integer x, Integer y) {
+    public UnitMenuMessages fillMoat(int x, int y) {
         return null;
     }
 
