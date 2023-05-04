@@ -17,6 +17,7 @@ public class StorageBuilding extends Building{
         this.storedItems = new ArrayList<>();
         this.storedItemTypes = storageBuilding.getStoredItemTypes();
         if(storageBuilding.getBuildingName().equals("stable")) createHorses(x, y);
+        addStoredItems();
     }
 
     private void createHorses(int x, int y) {
@@ -44,5 +45,10 @@ public class StorageBuilding extends Building{
 
     public ArrayList<Item.ItemType> getStoredItemTypes() {
         return storedItemTypes;
+    }
+
+    public void addStoredItems() {
+        for (Item.ItemType itemType : storedItemTypes)
+            this.storedItems.add(Item.getAvailableItems(itemType.getName()));
     }
 }

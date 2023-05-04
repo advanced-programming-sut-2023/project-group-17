@@ -92,4 +92,9 @@ public class Soldier extends Person {
     public void changeSpeed(int amount) {
         this.speed += amount;
     }
+
+    @Override
+    public String toString() {
+        return "soldier name : " + this.name + " , cost : " + cost + " and owner : " + getOwner() + "\n";
+    }
 }
