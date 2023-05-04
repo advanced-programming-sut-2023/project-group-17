@@ -248,6 +248,13 @@ public class Database {
         }
     }
     public static void loadBuildings() {
+        loadStorageBuilding();
+        loadSoldierBuilding();
+        loadDefensiveBuilding();
+        loadGatehouseBuilding();
+        loadMiningBuilding();
+        loadOtherBuilding();
+        loadProductionBuilding();
         try {
             String json = new String(Files.readAllBytes(Paths.get("src/main/resources/BuildingDatabase.json")));
 //            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/BuildingDatabase.json")));
@@ -307,116 +314,85 @@ public class Database {
         }
     }
 
-    public static void saveBuildingsTypes() {
-        defensiveBuildings.add(new DefensiveBuilding(null, Direction.directions.NORTH, Database.getBuildingDataByName("lookout tower"), 0, 0, DefensiveBuildingType.DefensiveType.LOOKOUT_TOWER));
-        defensiveBuildings.add(new DefensiveBuilding(null, Direction.directions.NORTH, Database.getBuildingDataByName("perimeter tower"), 0, 0, DefensiveBuildingType.DefensiveType.PERIMETER_TOWER));
-        defensiveBuildings.add(new DefensiveBuilding(null, Direction.directions.NORTH, Database.getBuildingDataByName("defence turret"), 0, 0, DefensiveBuildingType.DefensiveType.DEFENSE_TURRET));
-        defensiveBuildings.add(new DefensiveBuilding(null, Direction.directions.NORTH, Database.getBuildingDataByName("square tower"), 0, 0, DefensiveBuildingType.DefensiveType.SQUARE_TOWER));
-        defensiveBuildings.add(new DefensiveBuilding(null, Direction.directions.NORTH, Database.getBuildingDataByName("round tower"), 0, 0, DefensiveBuildingType.DefensiveType.ROUND_TOWER));
-        gateHouses.add(new GateHouse(null, Database.getBuildingDataByName("small stone gatehouse"), 0, 0, SMALL_STONE_GATE_HOUSE));
-        gateHouses.add(new GateHouse(null, Database.getBuildingDataByName("large stone gatehouse"), 0, 0, LARGE_STONE_GATE_HOUSE));
-        gateHouses.add(new GateHouse(null, Database.getBuildingDataByName("hovel"), 0, 0, HOVEL));
-        miningBuildings.add(new MiningBuilding(null, Database.getBuildingDataByName("oil smelter"), 0, 0, MiningBuildingType.MiningType.OIL_SMELTER));
-        miningBuildings.add(new MiningBuilding(null, Database.getBuildingDataByName("apple orchard"), 0, 0, MiningBuildingType.MiningType.APPLE_ORCHARD));
-        miningBuildings.add(new MiningBuilding(null, Database.getBuildingDataByName("hops farmer"), 0, 0, MiningBuildingType.MiningType.HOPS_FARMER));
-        miningBuildings.add(new MiningBuilding(null, Database.getBuildingDataByName("hunter post"), 0, 0, MiningBuildingType.MiningType.HUNTER_POST));
-        miningBuildings.add(new MiningBuilding(null, Database.getBuildingDataByName("wheat farmer"), 0, 0, MiningBuildingType.MiningType.WHEAT_FARMER));
-        miningBuildings.add(new MiningBuilding(null, Database.getBuildingDataByName("iron mine"), 0, 0, MiningBuildingType.MiningType.IRON_MINE));
-        miningBuildings.add(new MiningBuilding(null, Database.getBuildingDataByName("pitch rig"), 0, 0, MiningBuildingType.MiningType.PITCH_RIG));
-        miningBuildings.add(new MiningBuilding(null, Database.getBuildingDataByName("quarry"), 0, 0, MiningBuildingType.MiningType.QUARRY));
-        miningBuildings.add(new MiningBuilding(null, Database.getBuildingDataByName("woodcutter"), 0, 0, MiningBuildingType.MiningType.WOODCUTTER));
-        otherBuildings.add(new OtherBuilding(null, Database.getBuildingDataByName("cathedral"), 0, 0, OtherBuildingType.OtherType.CATHEDRAL));
-        otherBuildings.add(new OtherBuilding(null, Database.getBuildingDataByName("church"), 0, 0, OtherBuildingType.OtherType.CHURCH));
-        otherBuildings.add(new OtherBuilding(null, Database.getBuildingDataByName("ox tether"), 0, 0, OtherBuildingType.OtherType.OX_THEATER));
-        otherBuildings.add(new OtherBuilding(null, Database.getBuildingDataByName("market"), 0, 0, OtherBuildingType.OtherType.MARKET));
-        otherBuildings.add(new OtherBuilding(null, Database.getBuildingDataByName("drawbridge"), 0, 0, OtherBuildingType.OtherType.DRAWBRIDGE));
-        productionBuildings.add(new ProductionBuilding(null, Database.getBuildingDataByName("bakery"), 0, 0, ProductionBuildingType.ProductionType.BAKERY));
-        productionBuildings.add(new ProductionBuilding(null, Database.getBuildingDataByName("brewer"), 0, 0, ProductionBuildingType.ProductionType.BREWER));
-        productionBuildings.add(new ProductionBuilding(null, Database.getBuildingDataByName("mill"), 0, 0, ProductionBuildingType.ProductionType.MILL));
-        productionBuildings.add(new ProductionBuilding(null, Database.getBuildingDataByName("armourer"), 0, 0, ProductionBuildingType.ProductionType.ARMOURER));
-        productionBuildings.add(new ProductionBuilding(null, Database.getBuildingDataByName("blacksmith"), 0, 0, ProductionBuildingType.ProductionType.BLACKSMITH));
-        productionBuildings.add(new ProductionBuilding(null, Database.getBuildingDataByName("fletcher"), 0, 0, ProductionBuildingType.ProductionType.FLETCHER));
-        productionBuildings.add(new ProductionBuilding(null, Database.getBuildingDataByName("poleturner"), 0, 0, ProductionBuildingType.ProductionType.POLETURNER));
-        soldierProductions.add(new SoldierProduction(null, Database.getBuildingDataByName("barracks"), 0, 0, SoldierProductionType.SoldierType.BARRACKS));
-        soldierProductions.add(new SoldierProduction(null, Database.getBuildingDataByName("mercenary post"), 0, 0, SoldierProductionType.SoldierType.MERCENARY_POST));
-        soldierProductions.add(new SoldierProduction(null, Database.getBuildingDataByName("engineer guild"), 0, 0, SoldierProductionType.SoldierType.ENGINEER_GUILD));
-        storageBuildings.add(new StorageBuilding(null, Database.getBuildingDataByName("armory"), 0, 0, StorageBuildingType.StorageType.ARMORY));
-        storageBuildings.add(new StorageBuilding(null, Database.getBuildingDataByName("caged war dogs"), 0, 0, StorageBuildingType.StorageType.CAGED_WAR_DOGS));
-        storageBuildings.add(new StorageBuilding(null, Database.getBuildingDataByName("granary"), 0, 0, StorageBuildingType.StorageType.GRANARY));
-        storageBuildings.add(new StorageBuilding(null, Database.getBuildingDataByName("stockpile"), 0, 0, StorageBuildingType.StorageType.STOCKPILE));
-    }
-    public static void addDefensiveBuilding() {
+    public static void loadDefensiveBuilding() {
         try {
-            FileWriter fileWriter = new FileWriter("src/main/resources/DefensiveBuildings.json");
-            String gson = new Gson().toJson(getDefensiveBuildings());
-            fileWriter.write(gson);
-            fileWriter.close();
+            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/DefensiveDatabase.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/BuildingDatabase.json")));
+            ArrayList<DefensiveBuilding> savedBuildings;
+            savedBuildings = new Gson().fromJson(json, new TypeToken<List<DefensiveBuilding>>() {}.getType());
+            if (savedBuildings != null) setDefensiveBuildings(savedBuildings);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static void addGatehouseBuilding() {
+    public static void loadGatehouseBuilding() {
         try {
-            FileWriter fileWriter = new FileWriter("src/main/resources/GatehouseBuildings.json");
-            String gson = new Gson().toJson(getGateHouses());
-            fileWriter.write(gson);
-            fileWriter.close();
+            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/GatehouseBuildings.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/BuildingDatabase.json")));
+            ArrayList<GateHouse> savedBuildings;
+            savedBuildings = new Gson().fromJson(json, new TypeToken<List<GateHouse>>() {}.getType());
+            if (savedBuildings != null) setGateHouses(savedBuildings);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static void addMiningBuilding() {
+    public static void loadMiningBuilding() {
         try {
-            FileWriter fileWriter = new FileWriter("src/main/resources/MiningBuildings.json");
-            String gson = new Gson().toJson(getMiningBuildings());
-            fileWriter.write(gson);
-            fileWriter.close();
+            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/MiningBuildings.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/BuildingDatabase.json")));
+            ArrayList<MiningBuilding> savedBuildings;
+            savedBuildings = new Gson().fromJson(json, new TypeToken<List<MiningBuilding>>() {}.getType());
+            if (savedBuildings != null) setMiningBuildings(savedBuildings);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static void addOtherBuilding() {
+    public static void loadOtherBuilding() {
         try {
-            FileWriter fileWriter = new FileWriter("src/main/resources/OtherBuildings.json");
-            String gson = new Gson().toJson(getOtherBuildings());
-            fileWriter.write(gson);
-            fileWriter.close();
+            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/OtherBuildings.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/BuildingDatabase.json")));
+            ArrayList<OtherBuilding> savedBuildings;
+            savedBuildings = new Gson().fromJson(json, new TypeToken<List<OtherBuilding>>() {}.getType());
+            if (savedBuildings != null) setOtherBuildings(savedBuildings);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static void addProductionBuilding() {
+    public static void loadProductionBuilding() {
         try {
-            FileWriter fileWriter = new FileWriter("src/main/resources/ProductionBuildings.json");
-            String gson = new Gson().toJson(getProductionBuildings());
-            fileWriter.write(gson);
-            fileWriter.close();
+            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/ProductionBuildings.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/BuildingDatabase.json")));
+            ArrayList<ProductionBuilding> savedBuildings;
+            savedBuildings = new Gson().fromJson(json, new TypeToken<List<ProductionBuilding>>() {}.getType());
+            if (savedBuildings != null) setProductionBuildings(savedBuildings);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static void addSoldierBuilding() {
+    public static void loadSoldierBuilding() {
         try {
-            FileWriter fileWriter = new FileWriter("src/main/resources/SoldierBuildings.json");
-            String gson = new Gson().toJson(getSoldierProductions());
-            fileWriter.write(gson);
-            fileWriter.close();
+            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/SoldierBuildings.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/BuildingDatabase.json")));
+            ArrayList<SoldierProduction> savedBuildings;
+            savedBuildings = new Gson().fromJson(json, new TypeToken<List<SoldierProduction>>() {}.getType());
+            if (savedBuildings != null) setSoldierProductions(savedBuildings);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static void addStorageBuilding() {
+    public static void loadStorageBuilding() {
         try {
-            FileWriter fileWriter = new FileWriter("src/main/resources/DefensiveBuildings.json");
-            String gson = new Gson().toJson(getStorageBuildings());
-            fileWriter.write(gson);
-            fileWriter.close();
+            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/StorageBuildings.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/BuildingDatabase.json")));
+            ArrayList<StorageBuilding> savedBuildings;
+            savedBuildings = new Gson().fromJson(json, new TypeToken<List<StorageBuilding>>() {}.getType());
+            if (savedBuildings != null) setStorageBuildings(savedBuildings);
         } catch (IOException e) {
             e.printStackTrace();
         }
