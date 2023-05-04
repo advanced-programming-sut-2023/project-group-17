@@ -2,6 +2,7 @@ package View;
 
 import Controller.GameMenuController;
 import View.Enums.Commands.GameMenuCommands;
+import View.Enums.Commands.MainMenuCommands;
 
 import java.util.regex.Matcher;
 
@@ -99,6 +100,7 @@ public class GameMenu extends Menu {
                     System.out.println("map created successfully");
                     break;
             }
+            setHeadquarters();
             return;
         }
 
@@ -109,6 +111,42 @@ public class GameMenu extends Menu {
             case SUCCESS:
                 System.out.println("map chose successfully");
                 break;
+        }
+    }
+    private void setHeadquarters() {
+
+        for (int i = 0; i < controller.getNumberOfPlayers(); i++) {
+            outer : while (true) {
+                System.out.println(controller.getPlayerName(i) + " enter coordinate x and y for your headquarter");
+                String input = scanner.nextLine();
+                Matcher matcher;
+
+                if ((matcher = MainMenuCommands.getMatcher(input, MainMenuCommands.SELECT_COORDINATES_HEADQUARTERS)) != null) {
+
+                    if (Menu.checkBlankField(matcher.group("x")) || Menu.checkBlankField(matcher.group("y"))) {
+                        System.out.println("Show details failed : Blanked field");
+                        return;
+                    }
+
+                    int x = Integer.parseInt(matcher.group("x"));
+                    int y = Integer.parseInt(matcher.group("y"));
+
+                    switch (controller.setHeadquarters(i, x, y)) {
+                        case X_OUT_OF_BOUNDS:
+                            System.out.println("Set coordinate failed : Coordinate of x is out of bounds");
+                            break;
+                        case Y_OUT_OF_BOUNDS:
+                            System.out.println("Set coordinate failed : Coordinate of y is out of bounds");
+                            break;
+                        case INAPPROPRIATE_TEXTURE:
+                            System.out.println("Set coordinate failed : Inappropriate texture");
+                            break;
+                        case SUCCESS:
+                            System.out.println("Successfully set");
+                            break outer;
+                    }
+                } else System.out.println("Invalid Command");
+            }
         }
     }
 

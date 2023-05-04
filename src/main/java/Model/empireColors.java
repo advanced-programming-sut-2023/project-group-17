@@ -12,7 +12,7 @@ public enum empireColors {
     WHITE,
     PURPLE,
     BROWN;
-    private static ArrayList<empireColors> colors;
+    private static ArrayList<empireColors> colors = new ArrayList<>();
 
     public static ArrayList<empireColors> getColors() {
         return colors;

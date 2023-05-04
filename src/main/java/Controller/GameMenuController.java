@@ -4,9 +4,11 @@ import Model.Database;
 import Model.Empire;
 import Model.Map;
 import Model.People.Soldier;
+import Model.User;
 import Utils.CheckMapCell;
 import View.Enums.Messages.GameMenuMessages;
 import View.Enums.Messages.MapMenuMessages;
+import View.GameMenu;
 import View.Menu;
 
 public class GameMenuController {
@@ -256,5 +258,28 @@ public class GameMenuController {
         return "Choose your map by id:\n" +
         "Give an id between 1 and " + Database.getAllMaps().size() + "\n" +
         "If you want to create custom map enter 0";
+    }
+
+    public int getNumberOfPlayers() {
+        return Database.getUsersInTheGame().size();
+    }
+
+    public String getPlayerName(int i) {
+        return Database.getUsersInTheGame().get(i).getUsername();
+    }
+
+    public GameMenuMessages setHeadquarters(int i, int x, int y) {
+
+        if (!CheckMapCell.validationOfX(x)) return GameMenuMessages.X_OUT_OF_BOUNDS;
+        if (!CheckMapCell.validationOfY(y)) return GameMenuMessages.Y_OUT_OF_BOUNDS;
+        if (!CheckMapCell.mapCellEmptyByCoordinates(x, y)) return GameMenuMessages.CELL_IS_FULL;
+
+        if (Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getMaterialMap().isWaterZone())
+            return GameMenuMessages.INAPPROPRIATE_TEXTURE;
+
+        User user = Database.getUsersInTheGame().get(i);
+        Empire empire = Database.getUsersInTheGame().get(i).getEmpire();
+        empire.makeHeadquarter(x, y, user);
+        return GameMenuMessages.SUCCESS;
     }
 }

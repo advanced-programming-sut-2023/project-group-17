@@ -39,26 +39,4 @@ public class MainMenuController {
         if (Database.getStayLoggedInUser() != null) Database.clearStayLoggedIn();
     }
 
-    public int getNumberOfPlayers() {
-        return Database.getUsersInTheGame().size();
-    }
-
-    public String getPlayerName(int i) {
-        return Database.getUsersInTheGame().get(i).getUsername();
-    }
-
-    public MapMenuMessages setHeadquarters(int i, int x, int y) {
-
-        if (!CheckMapCell.validationOfX(x)) return MapMenuMessages.X_OUT_OF_BOUNDS;
-        if (!CheckMapCell.validationOfY(y)) return MapMenuMessages.Y_OUT_OF_BOUNDS;
-        if (!CheckMapCell.mapCellEmptyByCoordinates(x, y)) return MapMenuMessages.CELL_IS_FULL;
-
-        if (Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getMaterialMap().isWaterZone())
-            return MapMenuMessages.INAPPROPRIATE_TEXTURE;
-
-        User user = Database.getUsersInTheGame().get(i);
-        Empire empire = Database.getUsersInTheGame().get(i).getEmpire();
-        empire.makeHeadquarter(x, y, user);
-        return MapMenuMessages.SUCCESS;
-    }
 }

@@ -127,15 +127,15 @@ public class Empire {
 
         for (int z = -1; z < 2; z++) {
             for (int j = -1; j < 2; j++) {
-                if ((z != 0 && j != 0) && Utils.CheckMapCell.validationOfY(y + j)
-                    && Utils.CheckMapCell.validationOfX(x + z)) {
+                if (Utils.CheckMapCell.validationOfY(y + j) && Utils.CheckMapCell.validationOfX(x + z) &&
+                        !Database.getCurrentMapGame().getMapCellByCoordinates(x + z, y + j).haveBuilding()) {
 
                     MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x + z, y + j);
                     if (mapCell.canDropItems()) {
-//                        StorageBuilding stockpile = new StorageBuilding(user, x + z, y + j,
-//                                Database.getStorageBuildingDataByName("stockpile"));
-//                        mapCell.addBuilding(stockpile);
-//                        user.getEmpire().addBuilding(stockpile);
+                        StorageBuilding stockpile = new StorageBuilding(user, x + z, y + j,
+                                Database.getStorageBuildingDataByName("stockpile"));
+                        mapCell.addBuilding(stockpile);
+                        user.getEmpire().addBuilding(stockpile);
                         return;
                     }
                 }
@@ -144,14 +144,14 @@ public class Empire {
 
         for (int z = -1; z < 2; z++) {
             for (int j = -1; j < 2; j++) {
-                if ((z != 0 && j != 0) && Utils.CheckMapCell.validationOfY(y + j)
-                        && Utils.CheckMapCell.validationOfX(x + z)) {
+                if (Utils.CheckMapCell.validationOfY(y + j) && Utils.CheckMapCell.validationOfX(x + z) &&
+                        !Database.getCurrentMapGame().getMapCellByCoordinates(x + z, y + j).haveBuilding()) {
                     MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x + z, y + j);
                     mapCell.clear();
-//                    StorageBuilding stockpile = new StorageBuilding(user, x + z, y + j,
-//                            Database.getStorageBuildingDataByName("stockpile"));
-//                    mapCell.addBuilding(stockpile);
-//                    user.getEmpire().addBuilding(stockpile);
+                    StorageBuilding stockpile = new StorageBuilding(user, x + z, y + j,
+                            Database.getStorageBuildingDataByName("stockpile"));
+                    mapCell.addBuilding(stockpile);
+                    user.getEmpire().addBuilding(stockpile);
                     return;
                 }
             }
