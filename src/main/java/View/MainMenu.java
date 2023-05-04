@@ -72,6 +72,4 @@ public class MainMenu extends Menu {
                 break;
         }
     }
-
-
 }

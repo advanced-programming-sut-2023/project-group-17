@@ -53,6 +53,7 @@ public class BuildingMenuController {
             }
         }
 
+        //TODO تابع بزن برای نوعشون
         Building newBuilding = new Building(currentUser, buildingSample, x, y);
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
         mapCell.addBuilding(newBuilding);
@@ -289,6 +290,7 @@ public class BuildingMenuController {
         int golds = AttackToolsAndMethods.getCostByName(type);
         if(empire.getCoins() < golds) return BuildingMenuMessages.INSUFFICIENT_GOLD;
 
+        //TODO تابع بزن برای نوعشون
         AttackToolsAndMethods attackToolsAndMethods = new AttackToolsAndMethods(Database.getLoggedInUser(),
                 Objects.requireNonNull(AttackToolsAndMethods.getAttackToolsAndMethodsTypeByName(type)));
 

@@ -1,7 +1,6 @@
 package Model.AttackToolsAndMethods;
 
 public enum AttackToolsAndMethodsType {
-    //TODO
     TREBUCHETS("trebuchets", 3, false, 150, 15, 140, 0, 0),
     PORTABLE_SHIELDS("portable shield", 1, true, 100, 0, 0, 10, 10),
     BATTERING_RAM("battering ram", 4, true, 200, -1, 140, 3, 200),
