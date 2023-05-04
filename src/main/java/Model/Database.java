@@ -12,8 +12,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import static Model.Buildings.GateHouseType.Type.*;
-
 
 public class Database {
     private static ArrayList<User> users = new ArrayList<>();
