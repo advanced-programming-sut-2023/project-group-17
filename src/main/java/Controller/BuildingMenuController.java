@@ -255,10 +255,6 @@ public class BuildingMenuController {
         }
     }
 
-    public static void handleSiegeTent(Building building) {
-        //TODO وسایل دفاع ساخته بشن
-    }
-
     public static void handleCagedDogs(Building building) {
         int x = building.getX();
         int y = building.getY();
