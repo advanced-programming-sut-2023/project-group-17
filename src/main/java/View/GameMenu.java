@@ -3,7 +3,6 @@ package View;
 import Controller.GameMenuController;
 import View.Enums.Commands.GameMenuCommands;
 
-import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class GameMenu extends Menu {
@@ -31,22 +30,22 @@ public class GameMenu extends Menu {
                 nextTurn();
 
             else if(GameMenuCommands.getMatcher(command, GameMenuCommands.ENTER_EMPIRE_MENU) != null)
-                new EmpireMenu().run(scanner);
+                new EmpireMenu().run();
 
             else if(GameMenuCommands.getMatcher(command, GameMenuCommands.ENTER_BUILDING_MENU) != null)
-                new BuildingMenu().run(scanner);
+                new BuildingMenu().run();
 
             else if(GameMenuCommands.getMatcher(command, GameMenuCommands.ENTER_UNIT_MENU) != null)
-                new UnitMenu().run(scanner);
+                new UnitMenu().run();
 
             else if(GameMenuCommands.getMatcher(command, GameMenuCommands.ENTER_TRADE_MENU) != null)
-                new TradeMenu().run(scanner);
+                new TradeMenu().run();
 
             else if(GameMenuCommands.getMatcher(command, GameMenuCommands.ENTER_SHOP_MENU) != null)
-                new ShopMenu().run(scanner);
+                new ShopMenu().run();
 
             else if(GameMenuCommands.getMatcher(command, GameMenuCommands.ENTER_MAP_MENU) != null)
-                mapMenu.run(scanner);
+                mapMenu.run();
 
             else System.out.println("Invalid Command");
         }
