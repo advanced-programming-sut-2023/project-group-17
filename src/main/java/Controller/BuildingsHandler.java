@@ -53,8 +53,6 @@ public class BuildingsHandler {
             default:
                 BuildingMenuController.handleMiningBuildings(building);
                 break;
-                //apple orchard - hops farmer - hunter post
-                //- wheat farmer - pitch rig - woodcutter
         }
     }
 

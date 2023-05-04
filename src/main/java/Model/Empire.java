@@ -1,7 +1,9 @@
 package Model;
 
+import Model.AttackToolsAndMethods.AttackToolsAndMethods;
 import Model.Buildings.Building;
 import Model.Items.*;
+import Model.People.Engineer;
 import Model.People.NormalPeople;
 import Model.People.Person;
 import Model.People.Soldier;
@@ -17,6 +19,7 @@ public class Empire {
     private ArrayList<TradeRequest> receivedTradeRequests;
     private ArrayList<TradeRequest> sentTradeRequests;
     private ArrayList<Building> buildings;
+    private ArrayList<AttackToolsAndMethods> attackToolsAndMethods;
     private int fearRate;
     private int taxRate;
     private int foodRate;
@@ -31,6 +34,7 @@ public class Empire {
         this.people = new ArrayList<Person>();
         this.weapons = new ArrayList<ArmorAndWeapon>();
         this.animals = new ArrayList<Animal>();
+        this.attackToolsAndMethods = new ArrayList<>();
         this.receivedTradeRequests = new ArrayList<>();
         this.sentTradeRequests = new ArrayList<>();
         this.buildings = new ArrayList<Building>();
@@ -309,5 +313,21 @@ public class Empire {
 
     public void changeEfficiency(double amount) {
         this.efficiency += amount;
+    }
+
+    public ArrayList<Engineer> getEngineers() {
+        ArrayList<Engineer> engineers = new ArrayList<>();
+        for (Person person : people) {
+            if(person instanceof Engineer) engineers.add((Engineer) person);
+        }
+        return engineers;
+    }
+
+    public void addAttackToolsAndMethods(AttackToolsAndMethods attackToolsAndMethods) {
+        this.attackToolsAndMethods.add(attackToolsAndMethods);
+    }
+
+    public ArrayList<AttackToolsAndMethods> getAttackToolsAndMethods() {
+        return attackToolsAndMethods;
     }
 }

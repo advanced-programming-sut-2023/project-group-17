@@ -63,4 +63,25 @@ public class AttackToolsAndMethods {
     public void changeHp(int hp) {
         this.hp += hp;
     }
+
+    public static int getNumberOfEngineersByName(String name) {
+        for (AttackToolsAndMethodsType value : AttackToolsAndMethodsType.values()) {
+            if(value.getName().equals(name)) return value.getNumberOfEngineers();
+        }
+        return -1;
+    }
+
+    public static int getCostByName(String name) {
+        for (AttackToolsAndMethodsType value : AttackToolsAndMethodsType.values()) {
+            if(value.getName().equals(name)) return value.getCost();
+        }
+        return -1;
+    }
+
+    public static AttackToolsAndMethodsType getAttackToolsAndMethodsTypeByName(String name) {
+        for (AttackToolsAndMethodsType value : AttackToolsAndMethodsType.values()) {
+            if(value.getName().equals(name)) return value;
+        }
+        return null;
+    }
 }

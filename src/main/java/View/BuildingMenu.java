@@ -31,12 +31,55 @@ public class BuildingMenu extends Menu{
             else if ((matcher = BuildingMenuCommands.getMatcher(command, BuildingMenuCommands.REPAIR)) != null)
                 repair();
 
+            else if ((matcher = BuildingMenuCommands.getMatcher(command, BuildingMenuCommands.CREATE_ATTACK_TOOL)) != null)
+                createAttackTool(matcher);
+
             else if ((matcher = BuildingMenuCommands.getMatcher(command, BuildingMenuCommands.BACK)) != null) {
                 System.out.println("entered game menu successfully");
                 return;
             }
 
             else System.out.println("Invalid Command");
+        }
+    }
+
+    private void createAttackTool(Matcher matcher) {
+        if (Menu.checkBlankField(matcher.group("x")) || Menu.checkBlankField(matcher.group("y")) ||
+                Menu.checkBlankField(matcher.group("type"))) {
+            System.out.println("create attack tool : blank field");
+            return;
+        }
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        String type = Menu.handleDoubleQuote(matcher.group("type"));
+        switch (controller.createAttackTool(x, y, type)) {
+            case SUCCESS:
+                System.out.println("The tool built successfully");
+                break;
+            case X_OUT_OF_BOUNDS:
+                System.out.println("build tool failed : Coordinate of x is out of bounds");
+                break;
+            case Y_OUT_OF_BOUNDS:
+                System.out.println("build tool failed : Coordinate of y is out of bounds");
+                break;
+            case INVALID_TYPE:
+                System.out.println("build tool failed : Type of tool is invalid");
+                break;
+            case INVALID_TYPE_BUILDING:
+                System.out.println("build tool failed : Invalid building type for creating this tool");
+                break;
+            case BUILDING_IS_NOT_SELECTED:
+                System.out.println("build tool failed : Siege tent is not selected");
+                break;
+            case CELL_IS_FULL:
+                System.out.println("build tool failed : cell is full");
+                break;
+            case INSUFFICIENT_ENGINEER:
+                System.out.println("build tool failed : not enough engineers available");
+                break;
+            case INSUFFICIENT_GOLD:
+                System.out.println("build tool failed : not enough gold");
+                break;
         }
     }
 

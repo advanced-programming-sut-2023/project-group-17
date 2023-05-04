@@ -1,6 +1,8 @@
 package Controller;
 
 import Model.*;
+import Model.AttackToolsAndMethods.AttackToolsAndMethods;
+import Model.AttackToolsAndMethods.AttackToolsAndMethodsType;
 import Model.Buildings.*;
 import Model.Items.Animal;
 import Model.Items.ArmorAndWeapon;
@@ -36,6 +38,7 @@ public class BuildingMenuController {
         Building buildingSample = Database.getBuildingDataByName(type);
         User currentUser = Database.getLoggedInUser();
 
+        assert buildingSample != null;
         for (Resource.resourceType recourseRequired : buildingSample.getBuildingCost().keySet()) {
             for (Resource currentResource : currentUser.getEmpire().getResources()) {
                 if (recourseRequired.getName().equals(currentResource.getItemName())) {
@@ -188,8 +191,6 @@ public class BuildingMenuController {
             empire.changePopularityRate(2);
             empire.changeReligionRate(2);
         }
-
-        //TODO: handle راهبان مبارز in constructor
     }
 
     public static void handleOxTether(Building building) {
@@ -225,7 +226,8 @@ public class BuildingMenuController {
                     Objects.requireNonNull(Item.getAvailableItems(production.get(itemType).getName())).changeNumber(-1);
                     Objects.requireNonNull(Item.getAvailableItems(itemType.getName())).changeNumber(1);
                     if(itemType.getName().equals("cheese")) {
-                        if (((StorageBuilding) empire.getBuildingByName("granary")).getItemByName(itemType.getName()) != null) {
+                        if (((StorageBuilding) empire.getBuildingByName("granary"))
+                                .getItemByName(itemType.getName()) != null) {
                             ((StorageBuilding) empire.getBuildingByName("granary")).
                                     addItem(Item.getAvailableItems(itemType.getName()));
                         }
@@ -260,9 +262,38 @@ public class BuildingMenuController {
     public static void handleCagedDogs(Building building) {
         int x = building.getX();
         int y = building.getY();
-        Map currentMap = Database.getCurrentMapGame();
-        MapCell mapCell = currentMap.getMapCellByCoordinates(x, y);
+        MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
+        Animal dogs = (new Animal(Animal.animalNames.DOG, Database.getLoggedInUser(), 3));
+        mapCell.addItems(dogs);
+        Database.getLoggedInUser().getEmpire().addAnimal(dogs);
+    }
 
-        mapCell.addItems(new Animal(Animal.animalNames.DOG, Database.getLoggedInUser(), 3));
+    public BuildingMenuMessages createAttackTool(int x, int y, String type) {
+        if (!CheckMapCell.validationOfX(x)) return BuildingMenuMessages.X_OUT_OF_BOUNDS;
+        if (!CheckMapCell.validationOfY(y)) return BuildingMenuMessages.Y_OUT_OF_BOUNDS;
+        if(!type.equals("trebuchets") && !type.equals("portable shield") && !type.equals("battering ram")
+                && !type.equals("fire ballista") && !type.equals("siege tower") && !type.equals("catapult")) {
+            return BuildingMenuMessages.INVALID_TYPE;
+        }
+        if(!selectedBuilding.getBuildingName().equals("siege tent")) return BuildingMenuMessages.INVALID_TYPE_BUILDING;
+        if(selectedBuilding == null) return BuildingMenuMessages.BUILDING_IS_NOT_SELECTED;
+
+        MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
+        if(mapCell.haveBuilding() || mapCell.haveAttackTools() || mapCell.haveMapCellItem())
+            return BuildingMenuMessages.CELL_IS_FULL;
+
+        Empire empire = Database.getLoggedInUser().getEmpire();
+        int numberOfEngineers = AttackToolsAndMethods.getNumberOfEngineersByName(type);
+        if(empire.getEngineers().size() < numberOfEngineers) return BuildingMenuMessages.INSUFFICIENT_ENGINEER;
+
+        int golds = AttackToolsAndMethods.getCostByName(type);
+        if(empire.getCoins() < golds) return BuildingMenuMessages.INSUFFICIENT_GOLD;
+
+        AttackToolsAndMethods attackToolsAndMethods = new AttackToolsAndMethods(Database.getLoggedInUser(),
+                Objects.requireNonNull(AttackToolsAndMethods.getAttackToolsAndMethodsTypeByName(type)));
+
+        empire.addAttackToolsAndMethods(attackToolsAndMethods);
+        mapCell.addAttackToolsAndMethods(attackToolsAndMethods);
+        return BuildingMenuMessages.SUCCESS;
     }
 }

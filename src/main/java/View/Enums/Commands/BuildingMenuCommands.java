@@ -10,8 +10,9 @@ public enum BuildingMenuCommands {
             "(-y\\s*)(?<y>\\d+)?(\\s*)()){2}\\4\\8"),
     CREATE_UNIT("\\s*createunit\\s+(?:(-t\\s*)(?<type>\".+\"|\\S+)?(\\s*)()|(-c\\s*)(?<count>\\d+)?(\\s*)()){2}\\4\\8"),
     REPAIR("\\s*repair\\s*"),
-    BACK("\\s*back\\s*")
-    ;
+    BACK("\\s*back\\s*"),
+    CREATE_ATTACK_TOOL("\\s*create\\s+attack\\s+tool\\s+(?:(-t\\s*)(?<type>\".+\"|\\S+)?(\\s*)()|" +
+            "(-x\\s*)(?<x>\\d+)?(\\s*)()|(-y\\s*)(?<y>\\d+)?(\\s*)()){3}\\4\\8\\12");
     final String regex;
     private BuildingMenuCommands(String regex) {this.regex = regex;}
 
