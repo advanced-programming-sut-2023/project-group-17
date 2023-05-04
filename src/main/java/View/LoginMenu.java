@@ -33,6 +33,7 @@ public class LoginMenu extends Menu {
     }
 
     public void mustEnterCaptcha(){
+        System.out.println("please enter the captcha to login");
         Matcher matcher;
         String input;
         while(true) {
@@ -60,9 +61,7 @@ public class LoginMenu extends Menu {
 
         switch (controller.loginUser(username , password , stayLoggedIn)){
             case SUCCESS:
-                System.out.println("please enter the captcha to login");
                 mustEnterCaptcha();
-//                System.out.println(username + " logged in successfully");
                 enterMainMenu();
                 break;
             case WRONG_PASSWORD:
@@ -91,7 +90,7 @@ public class LoginMenu extends Menu {
                 attempts++;
             }
             else {
-                System.out.println(username + " logged in successfully");
+                mustEnterCaptcha();
                 controller.setLoggedInUserInController(username);
                 enterMainMenu();
                 break;
