@@ -1,9 +1,10 @@
 package Model.AttackToolsAndMethods;
 
+import Model.Database;
 import Model.User;
 
 public class BatteringRam extends AttackToolsAndMethods{
     public BatteringRam(User owner){
-        super(owner, AttackToolsAndMethodsType.BATTERING_RAM);
+        super(owner, Database.getAttackToolsDataByName("battering ram"));
     }
 }

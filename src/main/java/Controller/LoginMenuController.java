@@ -27,6 +27,7 @@ public class LoginMenuController {
         setLoggedInUser(user);
         Database.loadUnits();
         Database.loadBuildings();
+        Database.loadAttackToolsAndMethods();
         return LoginMenuMessages.SUCCESS;
     }
 

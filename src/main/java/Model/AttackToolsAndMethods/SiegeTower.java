@@ -1,9 +1,10 @@
 package Model.AttackToolsAndMethods;
 
+import Model.Database;
 import Model.User;
 
 public class SiegeTower extends AttackToolsAndMethods{
     public SiegeTower(User owner){
-        super(owner, AttackToolsAndMethodsType.SIEGE_TOWER);
+        super(owner, Database.getAttackToolsDataByName("siege tower"));
     }
 }
