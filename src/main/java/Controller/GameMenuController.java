@@ -51,7 +51,7 @@ public class GameMenuController {
         int range = soldier.getAttackRange();
         for(int x = startX - range; x < startX + range + 1; x++) {
             for(int y = startY - range; y < startY + range + 1; y++) {
-                if(x < 1 || y < 1 || y > Database.getCurrentMapGame().getLength() || x > Database.getCurrentMapGame().getWidth())
+                if(!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y))
                     continue;
 
                 for (Person person : Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getPeople()) {
@@ -62,16 +62,15 @@ public class GameMenuController {
         }
     }
 
-    public int removeDeadBodies() {
+    public void removeDeadBodies() {
         for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
             for (Person person : mapCell.getPeople()) {
                 if(person.getHp() <= 0) {
                     mapCell.removePerson(person);
-                    return removeDeadBodies();
+                    person.getOwner().getEmpire().removePerson(person);
                 }
             }
         }
-        return -1;
     }
 
 //    public void applyDamageToBuildings() {

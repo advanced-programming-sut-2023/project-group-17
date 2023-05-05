@@ -388,4 +388,8 @@ public class Empire {
     public ArrayList<AttackToolsAndMethods> getAttackToolsAndMethods() {
         return attackToolsAndMethods;
     }
+
+    public void removePerson(Person person) {
+        people.remove(person);
+    }
 }
