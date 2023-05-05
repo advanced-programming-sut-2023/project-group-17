@@ -11,58 +11,58 @@ public class BuildingsHandler {
             case "other buildings":
                 handleOtherBuildings(building);
                 break;
-            case "inn":
-                BuildingMenuController.handleInn(building);
-                break;
+//            case "inn":
+//                BuildingMenuController.handleInn(building);
+//                break;
             case "mining":
                 handleMiningBuildings(building);
                 break;
-            case "production":
-                BuildingMenuController.handleProductionBuildings(building);
-                break;
-            case "storage":
-                handleStorageBuildings(building);
-                break;
+//            case "production":
+//                BuildingMenuController.handleProductionBuildings(building);
+//                break;
+//            case "storage":
+//                handleStorageBuildings(building);
+//                break;
         }
     }
 
-    private static void handleStorageBuildings(Building building) {
-        if (building.getBuildingName().equals("caged war dogs")) {
-            BuildingMenuController.handleCagedDogs(building);
-        }
-    }
+//    private static void handleStorageBuildings(Building building) {
+//        if (building.getBuildingName().equals("caged war dogs")) {
+//            BuildingMenuController.handleCagedDogs(building);
+//        }
+//    }
 
     private static void handleMiningBuildings(Building building) {
         switch (building.getBuildingName()) {
             case "oil smelter":
                 BuildingMenuController.handleOilSmelter(building);
                 break;
-            case "iron mine":
-                BuildingMenuController.handleIronMine(building);
-                break;
-            case "quarry":
-                BuildingMenuController.handleQuarry(building);
-                break;
-            default:
-                BuildingMenuController.handleMiningBuildings(building);
-                break;
+//            case "iron mine":
+//                BuildingMenuController.handleIronMine(building);
+//                break;
+//            case "quarry":
+//                BuildingMenuController.handleQuarry(building);
+//                break;
+//            default:
+//                BuildingMenuController.handleMiningBuildings(building);
+//                break;
         }
     }
 
     public static void handleOtherBuildings(Building building) {
         switch (building.getBuildingName()) {
-            case "drawbridge":
-                BuildingMenuController.handleDrawBridge(building);
-                break;
+//            case "drawbridge":
+//                BuildingMenuController.handleDrawBridge(building);
+//                break;
             case "market":
                 BuildingMenuController.handleMarket(building);
                 break;
             case "ox tether":
                 BuildingMenuController.handleOxTether(building);
                 break;
-            default:
-                BuildingMenuController.handleReligiousBuildings(building);
-                break;
+//            default:
+//                BuildingMenuController.handleReligiousBuildings(building);
+//                break;
         }
     }
 }

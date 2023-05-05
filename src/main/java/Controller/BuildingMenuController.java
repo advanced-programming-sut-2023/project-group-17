@@ -1,7 +1,7 @@
 package Controller;
 
 import Model.*;
-import Model.AttackToolsAndMethods.AttackToolsAndMethods;
+import Model.AttackToolsAndMethods.*;
 import Model.Buildings.*;
 import Model.Items.Animal;
 import Model.Items.ArmorAndWeapon;
@@ -13,6 +13,7 @@ import View.EmpireMenu;
 import View.Enums.Messages.BuildingMenuMessages;
 import View.ShopMenu;
 
+import javax.xml.crypto.Data;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -52,7 +53,6 @@ public class BuildingMenuController {
             }
         }
 
-        //TODO تابع بزن برای نوعشون
         Building newBuilding = getTypeBuildings(currentUser, buildingSample, x, y);
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
         mapCell.addBuilding(newBuilding);
@@ -217,111 +217,16 @@ public class BuildingMenuController {
         new EmpireMenu().run();
     }
 
-    public static void handleDrawBridge(Building building) {
-        for(int i = building.getX()-1; i <= building.getX()+1; i++) {
-            for(int j = building.getY()-1; j <= building.getY()+1; j++) {
-                if(Utils.CheckMapCell.validationOfX(i) && Utils.CheckMapCell.validationOfY(j)) {
-                    for (Soldier soldier : Database.getCurrentMapGame().
-                            getMapCellByCoordinates(i, j).getSoldier()) {
-                        if (!soldier.getOwner().equals(Database.getLoggedInUser())) {
-                            soldier.changeSpeed(-1);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    public static void handleInn(Building building) {
-        Database.getLoggedInUser().getEmpire().changePopularityRate(5);
-    }
-
     public static void handleOilSmelter(Building building) {
         Objects.requireNonNull(Item.getAvailableItems("oil")).changeNumber(1);
         //TODO
     }
 
-    public static void handleReligiousBuildings(Building building) {
-        Empire empire = Database.getLoggedInUser().getEmpire();
-        empire.changePopularityRate(2);
-        empire.changeReligionRate(2);
-
-        if(building.getBuildingName().equals("Cathedral")) {
-            empire.changePopularityRate(2);
-            empire.changeReligionRate(2);
-        }
-    }
-
     public static void handleOxTether(Building building) {
-    }
-
-    public static void handleIronMine(Building building) {
-        Objects.requireNonNull(Item.getAvailableItems("iron")).changeNumber(5);
-    }
-
-    public static void handleQuarry(Building building) {
-        Objects.requireNonNull(Item.getAvailableItems("stone")).changeNumber(5);
-        //TODO
-    }
-
-    public static void handleMiningBuildings(Building building) {
-        Empire empire = Database.getLoggedInUser().getEmpire();
-        Item.ItemType itemType = ((MiningBuilding) building).getProduction();
-        Item item = Item.getAvailableItems(itemType.getName());
-        assert item != null;
-        item.changeNumber(5);
     }
 
     public static void handleMarket(Building building) {
         new ShopMenu().run();
-    }
-
-    public static void handleProductionBuildings(Building building) {
-        Empire empire = Database.getLoggedInUser().getEmpire();
-        HashMap<Item.ItemType, Item.ItemType> production = ((ProductionBuilding) building).getProductionItem();
-
-        for (Item.ItemType itemType : production.keySet()) {
-            if(Objects.requireNonNull(Item.getAvailableItems(production.get(itemType).getName())).getNumber() > 0) {
-                if(building.getBuildingName().equals("dairy farmer")) {
-                    Objects.requireNonNull(Item.getAvailableItems(production.get(itemType).getName())).changeNumber(-1);
-                    Objects.requireNonNull(Item.getAvailableItems(itemType.getName())).changeNumber(1);
-                    if(itemType.getName().equals("cheese")) {
-                        if (((StorageBuilding) empire.getBuildingByName("granary"))
-                                .getItemByName(itemType.getName()) != null) {
-                            ((StorageBuilding) empire.getBuildingByName("granary")).
-                                    addItem(Item.getAvailableItems(itemType.getName()));
-                        }
-                    }
-                    else {
-                        if (((StorageBuilding) empire.getBuildingByName(((ProductionBuilding) building).
-                                getRelatedStorageBuildingName())).getItemByName(itemType.getName()) != null) {
-                            ((StorageBuilding) empire.getBuildingByName(((ProductionBuilding) building).
-                                    getRelatedStorageBuildingName())).addItem(Item.getAvailableItems(itemType.getName()));
-                        }
-                    }
-                }
-                else {
-                    if (empire.getBuildingByName(((ProductionBuilding) building).getRelatedStorageBuildingName()) != null) {
-                        Objects.requireNonNull(Item.getAvailableItems(production.get(itemType).getName())).changeNumber(-1);
-                        Objects.requireNonNull(Item.getAvailableItems(itemType.getName())).changeNumber(1);
-                        if (((StorageBuilding) empire.getBuildingByName(((ProductionBuilding) building).
-                                getRelatedStorageBuildingName())).getItemByName(itemType.getName()) != null) {
-                            ((StorageBuilding) empire.getBuildingByName(((ProductionBuilding) building).
-                                    getRelatedStorageBuildingName())).addItem(Item.getAvailableItems(itemType.getName()));
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    public static void handleCagedDogs(Building building) {
-        int x = building.getX();
-        int y = building.getY();
-        MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
-        Animal dogs = (new Animal(Animal.animalNames.DOG, Database.getLoggedInUser(), 3));
-        mapCell.addItems(dogs);
-        Database.getLoggedInUser().getEmpire().addAnimal(dogs);
     }
 
     public BuildingMenuMessages createAttackTool(int x, int y, String type) {
@@ -346,15 +251,11 @@ public class BuildingMenuController {
         int golds = sampleAttackToolsAndMethods.getCost();
         if(empire.getCoins() < golds) return BuildingMenuMessages.INSUFFICIENT_GOLD;
 
-        //TODO تابع بزن برای نوعشون
-        AttackToolsAndMethods attackToolsAndMethods = getTypeAttackToolsAndMethods();
+        AttackToolsAndMethods sample = Database.getAttackToolsDataByName(type);
+        AttackToolsAndMethods attackToolsAndMethods = new AttackToolsAndMethods(Database.getLoggedInUser(), sample);
 
         empire.addAttackToolsAndMethods(attackToolsAndMethods);
         mapCell.addAttackToolsAndMethods(attackToolsAndMethods);
         return BuildingMenuMessages.SUCCESS;
-    }
-
-    public AttackToolsAndMethods getTypeAttackToolsAndMethods() {
-        return null;
     }
 }

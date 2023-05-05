@@ -1,10 +1,19 @@
 package Controller;
 
 import Model.*;
+import Model.Buildings.Building;
+import Model.Buildings.MiningBuilding;
+import Model.Buildings.ProductionBuilding;
+import Model.Buildings.StorageBuilding;
+import Model.Items.Animal;
+import Model.Items.Item;
 import Model.People.Person;
 import Model.People.Soldier;
 import Utils.CheckMapCell;
 import View.Enums.Messages.GameMenuMessages;
+
+import java.util.HashMap;
+import java.util.Objects;
 
 public class GameMenuController {
     public GameMenuMessages chooseMapGame(int id) {
@@ -133,7 +142,6 @@ public class GameMenuController {
     }
 
     public void changePopularity(Empire empire) {
-        //TODO: set religion rate yadet nare
         int changeAmount = 0;
         changeAmount += empire.getFoodDiversity()-1 + foodRateEffect(empire) + taxRateEffect(empire) +
                 empire.getReligionRate() + fearRateEffect(empire);
@@ -362,5 +370,100 @@ public class GameMenuController {
         Empire empire = Database.getUsersInTheGame().get(i).getEmpire();
         empire.makeHeadquarter(x, y, user);
         return GameMenuMessages.SUCCESS;
+    }
+
+    public static void handleCagedDogs(Building building) {
+        int x = building.getX();
+        int y = building.getY();
+        MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
+        Animal dogs = (new Animal(Animal.animalNames.DOG, Database.getLoggedInUser(), 3));
+        mapCell.addItems(dogs);
+        Database.getLoggedInUser().getEmpire().addAnimal(dogs);
+    }
+
+    public static void handleProductionBuildings(Building building) {
+        Empire empire = Database.getLoggedInUser().getEmpire();
+        HashMap<Item.ItemType, Item.ItemType> production = ((ProductionBuilding) building).getProductionItem();
+
+        for (Item.ItemType itemType : production.keySet()) {
+            if(Objects.requireNonNull(Item.getAvailableItems(production.get(itemType).getName())).getNumber() > 0) {
+                if(building.getBuildingName().equals("dairy farmer")) {
+                    Objects.requireNonNull(Item.getAvailableItems(production.get(itemType).getName())).changeNumber(-1);
+                    Objects.requireNonNull(Item.getAvailableItems(itemType.getName())).changeNumber(1);
+                    if(itemType.getName().equals("cheese")) {
+                        if (((StorageBuilding) empire.getBuildingByName("granary"))
+                                .getItemByName(itemType.getName()) != null) {
+                            ((StorageBuilding) empire.getBuildingByName("granary")).
+                                    addItem(Item.getAvailableItems(itemType.getName()));
+                        }
+                    }
+                    else {
+                        if (((StorageBuilding) empire.getBuildingByName(((ProductionBuilding) building).
+                                getRelatedStorageBuildingName())).getItemByName(itemType.getName()) != null) {
+                            ((StorageBuilding) empire.getBuildingByName(((ProductionBuilding) building).
+                                    getRelatedStorageBuildingName())).addItem(Item.getAvailableItems(itemType.getName()));
+                        }
+                    }
+                }
+                else {
+                    if (empire.getBuildingByName(((ProductionBuilding) building).getRelatedStorageBuildingName()) != null) {
+                        Objects.requireNonNull(Item.getAvailableItems(production.get(itemType).getName())).changeNumber(-1);
+                        Objects.requireNonNull(Item.getAvailableItems(itemType.getName())).changeNumber(1);
+                        if (((StorageBuilding) empire.getBuildingByName(((ProductionBuilding) building).
+                                getRelatedStorageBuildingName())).getItemByName(itemType.getName()) != null) {
+                            ((StorageBuilding) empire.getBuildingByName(((ProductionBuilding) building).
+                                    getRelatedStorageBuildingName())).addItem(Item.getAvailableItems(itemType.getName()));
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public static void handleMiningBuildings(Building building) {
+        Empire empire = Database.getLoggedInUser().getEmpire();
+        Item.ItemType itemType = ((MiningBuilding) building).getProduction();
+        Item item = Item.getAvailableItems(itemType.getName());
+        assert item != null;
+        item.changeNumber(5);
+    }
+
+    public static void handleReligiousBuildings(Building building) {
+        Empire empire = Database.getLoggedInUser().getEmpire();
+        empire.changePopularityRate(2);
+        empire.changeReligionRate(2);
+
+        if(building.getBuildingName().equals("Cathedral")) {
+            empire.changePopularityRate(2);
+            empire.changeReligionRate(2);
+        }
+    }
+
+    public static void handleDrawBridge(Building building) {
+        for(int i = building.getX()-1; i <= building.getX()+1; i++) {
+            for(int j = building.getY()-1; j <= building.getY()+1; j++) {
+                if(Utils.CheckMapCell.validationOfX(i) && Utils.CheckMapCell.validationOfY(j)) {
+                    for (Soldier soldier : Database.getCurrentMapGame().
+                            getMapCellByCoordinates(i, j).getSoldier()) {
+                        if (!soldier.getOwner().equals(Database.getLoggedInUser())) {
+                            soldier.changeSpeed(-1);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public static void handleInn(Building building) {
+        Database.getLoggedInUser().getEmpire().changePopularityRate(5);
+    }
+
+    public static void handleIronMine(Building building) {
+        Objects.requireNonNull(Item.getAvailableItems("iron")).changeNumber(5);
+    }
+
+    public static void handleQuarry(Building building) {
+        Objects.requireNonNull(Item.getAvailableItems("stone")).changeNumber(5);
+        //TODO
     }
 }
