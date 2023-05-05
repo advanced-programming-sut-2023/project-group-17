@@ -95,6 +95,6 @@ public class Soldier extends Person {
 
     @Override
     public String toString() {
-        return "soldier name : " + this.name + " , cost : " + cost + " and owner : " + getOwner() + "\n";
+        return "soldier name : " + this.name + " , cost : " + cost + " and owner : " + getOwner().getUsername() + "\n";
     }
 }
