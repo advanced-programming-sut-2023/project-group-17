@@ -197,9 +197,9 @@ public class BuildingMenuController {
 
         for (Resource resource : currentUser.getEmpire().getResources()) {
             if (resource.getItemName().equals("stone")) {
-                if (resource.getNumber() < damaged) return BuildingMenuMessages.INSUFFICIENT_STONE;
+                if (resource.getNumber() < damaged * 0.2) return BuildingMenuMessages.INSUFFICIENT_STONE;
                 else {
-                    resource.changeNumber(-damaged);
+                    resource.changeNumber(-damaged * 0.2);
                 }
             }
         }
@@ -327,30 +327,34 @@ public class BuildingMenuController {
     public BuildingMenuMessages createAttackTool(int x, int y, String type) {
         if (!CheckMapCell.validationOfX(x)) return BuildingMenuMessages.X_OUT_OF_BOUNDS;
         if (!CheckMapCell.validationOfY(y)) return BuildingMenuMessages.Y_OUT_OF_BOUNDS;
-        if(!type.equals("trebuchets") && !type.equals("portable shield") && !type.equals("battering ram")
-                && !type.equals("fire ballista") && !type.equals("siege tower") && !type.equals("catapult")) {
-            return BuildingMenuMessages.INVALID_TYPE;
-        }
-        if(!selectedBuilding.getBuildingName().equals("siege tent")) return BuildingMenuMessages.INVALID_TYPE_BUILDING;
+
+        AttackToolsAndMethods sampleAttackToolsAndMethods = Database.getAttackToolsDataByName(type);
+        if (sampleAttackToolsAndMethods == null) return BuildingMenuMessages.INVALID_TYPE;
+
         if(selectedBuilding == null) return BuildingMenuMessages.BUILDING_IS_NOT_SELECTED;
 
+        if(!selectedBuilding.getBuildingName().equals("siege tent")) return BuildingMenuMessages.INVALID_TYPE_BUILDING;
+
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
-        if(mapCell.haveBuilding() || mapCell.haveAttackTools() || mapCell.haveMapCellItem())
+        if(!Utils.CheckMapCell.mapCellEmptyByCoordinates(x, y))
             return BuildingMenuMessages.CELL_IS_FULL;
 
         Empire empire = Database.getLoggedInUser().getEmpire();
-        int numberOfEngineers = AttackToolsAndMethods.getNumberOfEngineersByName(type);
-        if(empire.getEngineers().size() < numberOfEngineers) return BuildingMenuMessages.INSUFFICIENT_ENGINEER;
+        if(empire.getEngineers().size() < sampleAttackToolsAndMethods.getNumberOfEngineers())
+            return BuildingMenuMessages.INSUFFICIENT_ENGINEER;
 
-        int golds = AttackToolsAndMethods.getCostByName(type);
+        int golds = sampleAttackToolsAndMethods.getCost();
         if(empire.getCoins() < golds) return BuildingMenuMessages.INSUFFICIENT_GOLD;
 
         //TODO تابع بزن برای نوعشون
-        AttackToolsAndMethods attackToolsAndMethods = new AttackToolsAndMethods(Database.getLoggedInUser(),
-                Objects.requireNonNull(AttackToolsAndMethods.getAttackToolsAndMethodsTypeByName(type)));
+        AttackToolsAndMethods attackToolsAndMethods = getTypeAttackToolsAndMethods();
 
         empire.addAttackToolsAndMethods(attackToolsAndMethods);
         mapCell.addAttackToolsAndMethods(attackToolsAndMethods);
         return BuildingMenuMessages.SUCCESS;
+    }
+
+    public AttackToolsAndMethods getTypeAttackToolsAndMethods() {
+        return null;
     }
 }

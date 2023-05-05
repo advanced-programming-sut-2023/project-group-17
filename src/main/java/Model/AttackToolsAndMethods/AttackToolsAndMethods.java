@@ -12,7 +12,7 @@ public class AttackToolsAndMethods {
     private final int damage;
     private final int speed;
     private final int cost;
-    public AttackToolsAndMethods(User owner, AttackToolsAndMethodsType type) {
+    public AttackToolsAndMethods(User owner, AttackToolsAndMethods type) {
         this.owner = owner;
         this.name = type.getName();
         this.numberOfEngineers = type.getNumberOfEngineers();
@@ -64,24 +64,4 @@ public class AttackToolsAndMethods {
         this.hp += hp;
     }
 
-    public static int getNumberOfEngineersByName(String name) {
-        for (AttackToolsAndMethodsType value : AttackToolsAndMethodsType.values()) {
-            if(value.getName().equals(name)) return value.getNumberOfEngineers();
-        }
-        return -1;
-    }
-
-    public static int getCostByName(String name) {
-        for (AttackToolsAndMethodsType value : AttackToolsAndMethodsType.values()) {
-            if(value.getName().equals(name)) return value.getCost();
-        }
-        return -1;
-    }
-
-    public static AttackToolsAndMethodsType getAttackToolsAndMethodsTypeByName(String name) {
-        for (AttackToolsAndMethodsType value : AttackToolsAndMethodsType.values()) {
-            if(value.getName().equals(name)) return value;
-        }
-        return null;
-    }
 }

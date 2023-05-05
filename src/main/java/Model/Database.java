@@ -1,5 +1,6 @@
 package Model;
 
+import Model.AttackToolsAndMethods.AttackToolsAndMethods;
 import Model.Buildings.*;
 import Model.People.Soldier;
 import com.google.gson.Gson;
@@ -23,6 +24,7 @@ public class Database {
     private static ArrayList<ProductionBuilding> productionBuildings = new ArrayList<>();
     private static ArrayList<SoldierProduction> soldierProductions = new ArrayList<>();
     private static ArrayList<StorageBuilding> storageBuildings = new ArrayList<>();
+    private static ArrayList<AttackToolsAndMethods> attackToolsAndMethods = new ArrayList<>();
     private static Map currentMapGame;
     private static ArrayList<Soldier> allSoldiers = new ArrayList<>();
     private static final ArrayList<User> usersInTheGame = new ArrayList<>();
@@ -270,6 +272,21 @@ public class Database {
         return null;
     }
 
+    public static ArrayList<AttackToolsAndMethods> getAttackToolsAndMethods() {
+        return attackToolsAndMethods;
+    }
+
+    public static void setAttackToolsAndMethods(ArrayList<AttackToolsAndMethods> attackToolsAndMethods) {
+        Database.attackToolsAndMethods = attackToolsAndMethods;
+    }
+
+    public static AttackToolsAndMethods getAttackToolsDataByName(String name) {
+        for (AttackToolsAndMethods attackToolsAndMethod : attackToolsAndMethods) {
+            if (attackToolsAndMethod.getName().equals(name)) return attackToolsAndMethod;
+        }
+        return null;
+    }
+
     public static void saveUsers() {
         try {
             FileWriter fileWriter = new FileWriter("src/main/resources/UserDatabase.json");
@@ -440,6 +457,18 @@ public class Database {
             ArrayList<StorageBuilding> savedBuildings;
             savedBuildings = new Gson().fromJson(json, new TypeToken<List<StorageBuilding>>() {}.getType());
             if (savedBuildings != null) setStorageBuildings(savedBuildings);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadAttackToolsAndMethods() {
+        try {
+            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/AttackToolsAndMethodsBuildings.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/BuildingDatabase.json")));
+            ArrayList<AttackToolsAndMethods> savedBuildings;
+            savedBuildings = new Gson().fromJson(json, new TypeToken<List<AttackToolsAndMethods>>() {}.getType());
+            if (savedBuildings != null) setAttackToolsAndMethods(savedBuildings);
         } catch (IOException e) {
             e.printStackTrace();
         }
