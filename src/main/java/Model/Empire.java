@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class Empire {
+    private final User owner;
     private ArrayList<Food> foods;
     private ArrayList<Resource> resources;
     private ArrayList<Person> people;
@@ -32,7 +33,8 @@ public class Empire {
     private empireColors empireColor;
     private double efficiency;
     private MapCell headquarter;
-    public Empire(empireColors empireColor) {
+    public Empire(User owner, empireColors empireColor) {
+        this.owner = owner;
         this.foods = new ArrayList<Food>();
         this.resources = new ArrayList<Resource>();
         this.people = new ArrayList<Person>();
@@ -65,46 +67,42 @@ public class Empire {
     }
 
     private void addAnimals() {
-        User loggedInUser = Database.getLoggedInUser();
-        animals.add(new Animal(Animal.animalNames.COW, loggedInUser, 0));
-        animals.add(new Animal(Animal.animalNames.DOG, loggedInUser, 0));
-        animals.add(new Animal(Animal.animalNames.HORSE, loggedInUser, 0));
+        animals.add(new Animal(Animal.animalNames.COW, owner, 0));
+        animals.add(new Animal(Animal.animalNames.DOG, owner, 0));
+        animals.add(new Animal(Animal.animalNames.HORSE, owner, 0));
 
     }
 
     private void addWeapons() {
-        User loggedInUser = Database.getLoggedInUser();
-        weapons.add(new ArmorAndWeapon(ArmorAndWeapon.WeaponAndArmor.METAL_ARMOR, loggedInUser, 0));
-        weapons.add(new ArmorAndWeapon(ArmorAndWeapon.WeaponAndArmor.LEATHER_ARMOR, loggedInUser, 0));
-        weapons.add(new ArmorAndWeapon(ArmorAndWeapon.WeaponAndArmor.BOW, loggedInUser, 0));
-        weapons.add(new ArmorAndWeapon(ArmorAndWeapon.WeaponAndArmor.MACE, loggedInUser, 0));
-        weapons.add(new ArmorAndWeapon(ArmorAndWeapon.WeaponAndArmor.PIKE, loggedInUser, 0));
-        weapons.add(new ArmorAndWeapon(ArmorAndWeapon.WeaponAndArmor.CROSSBOW, loggedInUser, 0));
-        weapons.add(new ArmorAndWeapon(ArmorAndWeapon.WeaponAndArmor.SPEAR, loggedInUser, 0));
-        weapons.add(new ArmorAndWeapon(ArmorAndWeapon.WeaponAndArmor.SWORDS, loggedInUser, 0));
-        weapons.add(new ArmorAndWeapon(ArmorAndWeapon.WeaponAndArmor.OIL, loggedInUser, 0));
+        weapons.add(new ArmorAndWeapon(ArmorAndWeapon.WeaponAndArmor.METAL_ARMOR, owner, 0));
+        weapons.add(new ArmorAndWeapon(ArmorAndWeapon.WeaponAndArmor.LEATHER_ARMOR, owner, 0));
+        weapons.add(new ArmorAndWeapon(ArmorAndWeapon.WeaponAndArmor.BOW, owner, 0));
+        weapons.add(new ArmorAndWeapon(ArmorAndWeapon.WeaponAndArmor.MACE, owner, 0));
+        weapons.add(new ArmorAndWeapon(ArmorAndWeapon.WeaponAndArmor.PIKE, owner, 0));
+        weapons.add(new ArmorAndWeapon(ArmorAndWeapon.WeaponAndArmor.CROSSBOW, owner, 0));
+        weapons.add(new ArmorAndWeapon(ArmorAndWeapon.WeaponAndArmor.SPEAR, owner, 0));
+        weapons.add(new ArmorAndWeapon(ArmorAndWeapon.WeaponAndArmor.SWORDS, owner, 0));
+        weapons.add(new ArmorAndWeapon(ArmorAndWeapon.WeaponAndArmor.OIL, owner, 0));
     }
 
     private void addResources() {
-        User loggedInUser = Database.getLoggedInUser();
-        resources.add(new Resource(Resource.resourceType.WOOD, loggedInUser, 100));
-        resources.add(new Resource(Resource.resourceType.IRON, loggedInUser, 0));
-        resources.add(new Resource(Resource.resourceType.STONE, loggedInUser, 48));
-        resources.add(new Resource(Resource.resourceType.ALE, loggedInUser, 0));
-        resources.add(new Resource(Resource.resourceType.FLOUR, loggedInUser, 0));
-        resources.add(new Resource(Resource.resourceType.HOPS, loggedInUser, 0));
-        resources.add(new Resource(Resource.resourceType.PITCH, loggedInUser, 0));
-        resources.add(new Resource(Resource.resourceType.WHEAT, loggedInUser, 0));
-        resources.add(new Resource(Resource.resourceType.GOLD, loggedInUser, 2000));
+        resources.add(new Resource(Resource.resourceType.WOOD, owner, 100));
+        resources.add(new Resource(Resource.resourceType.IRON, owner, 0));
+        resources.add(new Resource(Resource.resourceType.STONE, owner, 48));
+        resources.add(new Resource(Resource.resourceType.ALE, owner, 0));
+        resources.add(new Resource(Resource.resourceType.FLOUR, owner, 0));
+        resources.add(new Resource(Resource.resourceType.HOPS, owner, 0));
+        resources.add(new Resource(Resource.resourceType.PITCH, owner, 0));
+        resources.add(new Resource(Resource.resourceType.WHEAT, owner, 0));
+        resources.add(new Resource(Resource.resourceType.GOLD, owner, 2000));
     }
 
     private void addFoods() {
         //TODO: add foods when new game starts
-        User loggedInUser = Database.getLoggedInUser();
-        foods.add(new Food(Food.foodType.CHEESE, loggedInUser, 0));
-        foods.add(new Food(Food.foodType.MEAT, loggedInUser, 0));
-        foods.add(new Food(Food.foodType.APPLE, loggedInUser, 0));
-        foods.add(new Food(Food.foodType.BREAD, loggedInUser, 0));
+        foods.add(new Food(Food.foodType.CHEESE, owner, 0));
+        foods.add(new Food(Food.foodType.MEAT, owner, 0));
+        foods.add(new Food(Food.foodType.APPLE, owner, 0));
+        foods.add(new Food(Food.foodType.BREAD, owner, 0));
     }
 
     public MapCell getHeadquarter() {
@@ -158,6 +156,10 @@ public class Empire {
             }
         }
 
+    }
+
+    public User getOwner() {
+        return owner;
     }
 
     public ArrayList<Food> getFoods() {

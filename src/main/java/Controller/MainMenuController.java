@@ -29,7 +29,8 @@ public class MainMenuController {
         }
 
         for (int i = 0; i < Database.getUsersInTheGame().size(); i++) {
-            Database.getUsersInTheGame().get(i).setEmpire(new Empire(Database.getEmpireColors().get(i)));
+            Database.getUsersInTheGame().get(i).setEmpire(
+                new Empire(Database.getUsersInTheGame().get(i), Database.getEmpireColors().get(i)));
         }
         Database.setTotalTurns(turnsCount * user.length);
         return MainMenuMessages.SUCCESS;
