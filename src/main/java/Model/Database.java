@@ -464,7 +464,7 @@ public class Database {
 
     public static void loadAttackToolsAndMethods() {
         try {
-            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/AttackToolsAndMethodsBuildings.json")));
+            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/AttackToolsAndMethodsDatabase.json")));
 //            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/BuildingDatabase.json")));
             ArrayList<AttackToolsAndMethods> savedBuildings;
             savedBuildings = new Gson().fromJson(json, new TypeToken<List<AttackToolsAndMethods>>() {}.getType());

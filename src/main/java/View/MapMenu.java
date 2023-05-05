@@ -111,6 +111,9 @@ public class MapMenu extends Menu{
             case INVALID_TYPE:
                 System.out.println("Set texture failed : Invalid type");
                 break;
+            case CELL_IS_FULL:
+                System.out.println("Set texture failed : Cell is full");
+                break;
         }
     }
 
