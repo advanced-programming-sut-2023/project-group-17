@@ -4,14 +4,16 @@ import Model.AttackToolsAndMethods.AttackToolsAndMethods;
 import Model.Buildings.Building;
 import Model.Buildings.GateHouse;
 import Model.Buildings.StorageBuilding;
-import Model.Items.*;
+import Model.Items.Animal;
+import Model.Items.ArmorAndWeapon;
+import Model.Items.Food;
+import Model.Items.Resource;
 import Model.People.Engineer;
 import Model.People.NormalPeople;
 import Model.People.Person;
 import Model.People.Soldier;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 public class Empire {
     private final User owner;
@@ -120,6 +122,15 @@ public class Empire {
         setHeadquarter(Database.getCurrentMapGame().getMapCellByCoordinates(x, y), user);
         makeStockpile(x, y, user, "stockpile");
         makeStockpile(x, y, user, "granary");
+    }
+
+    public void removeBuilding(Building currentBuilding) {
+        for (Building building : buildings) {
+            if(building.equals(currentBuilding)) {
+                buildings.remove(building);
+                break;
+            }
+        }
     }
 
     private void makeStockpile(int x, int y, User user, String name) {

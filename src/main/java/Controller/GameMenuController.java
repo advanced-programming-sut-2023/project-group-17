@@ -62,15 +62,17 @@ public class GameMenuController {
         }
     }
 
-    public void removeDeadBodies() {
+    public int removeDeadBodies() {
         for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
             for (Person person : mapCell.getPeople()) {
                 if(person.getHp() <= 0) {
                     mapCell.removePerson(person);
                     person.getOwner().getEmpire().removePerson(person);
+                    return removeDeadBodies();
                 }
             }
         }
+        return -1;
     }
 
 //    public void applyDamageToBuildings() {
@@ -122,6 +124,7 @@ public class GameMenuController {
     public int removeDestroyedBuildings() {
         for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
             if(mapCell.getBuilding().getBuildingHp() <= 0) {
+                mapCell.getBuilding().getOwner().getEmpire().removeBuilding(mapCell.getBuilding());
                 mapCell.setBuilding(null);
                 return removeDestroyedBuildings();
             }

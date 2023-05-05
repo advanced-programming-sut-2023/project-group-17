@@ -159,6 +159,7 @@ public class MapCell {
             }
         }
     }
+
     public boolean canDropItems() {
         return !haveMapCellItem() && !haveBuilding() && !haveAttackTools();
     }
