@@ -17,7 +17,7 @@ public class Soldier extends Person {
     private int attackRange;
     private double cost;
     public Soldier(User owner, Soldier soldier) {
-        super(owner, soldier.getHp());
+        super(owner, soldier.getHealth());
         this.name = soldier.name;
         this.speed = soldier.speed;
         this.attackRating = soldier.attackRating;
@@ -95,6 +95,7 @@ public class Soldier extends Person {
 
     @Override
     public String toString() {
-        return "soldier name : " + this.name + " , cost : " + cost + " and owner : " + getOwner().getUsername() + "\n";
+        return "soldier name : " + this.name + " , cost : " + cost + " , owner : " + getOwner().getUsername()
+                + " and hp : " + getHealth() + "\n";
     }
 }
