@@ -63,7 +63,7 @@ public class BuildingMenuController {
 
             numberOfWorkers = buildingSample.getNumberOfWorkers().get(peopleType);
 
-            makeWorkerAndEngineers(currentUser, mapCell, numberOfWorkers, newBuilding, peopleType);
+            makeUnits(currentUser, mapCell, numberOfWorkers, newBuilding, peopleType, null);
         }
 
         return BuildingMenuMessages.SUCCESS;
@@ -102,7 +102,7 @@ public class BuildingMenuController {
         return null;
     }
 
-    private void makeWorkerAndEngineers(User currentUser, MapCell mapCell, int numberOfWorkers, Building building, PeopleType type) {
+    private void makeUnits(User currentUser, MapCell mapCell, int numberOfWorkers, Building building, PeopleType type, Soldier soldier) {
 
         int counterToWorker = 0;
 
@@ -114,6 +114,8 @@ public class BuildingMenuController {
             Person person;
             if (type.equals(PeopleType.ENGINEER))
                 person = new Engineer(normalPeople.getOwner());
+            else if (type.equals(PeopleType.SOLDIER))
+                person = new Soldier(normalPeople.getOwner(), soldier);
             else
                 person = new Worker(normalPeople.getOwner(), building);
             mapCell.addPeople(person);
@@ -156,9 +158,7 @@ public class BuildingMenuController {
         if (selectedBuilding == null) return BuildingMenuMessages.BUILDING_IS_NOT_SELECTED;
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
 
-        if (!selectedBuilding.getBuildingName().equals("barracks") &&
-        !selectedBuilding.getBuildingName().equals("mercenary post") &&
-                !selectedBuilding.getBuildingName().equals("engineer guild"))
+        if (!selectedBuilding.getCategory().equals("soldier production"))
             return BuildingMenuMessages.INVALID_TYPE_BUILDING;
 
         if (currentUser.getEmpire().getNormalPeople().size() < count) return BuildingMenuMessages.NOT_ENOUGH_CROWD;
@@ -172,18 +172,11 @@ public class BuildingMenuController {
             }
         }
 
-        //TODO: shartre type sarbaza
-        int counterToSoldier = 0;
-        for (NormalPeople normalPeople : currentUser.getEmpire().getNormalPeople()) {
-            for (MapCell cell : Database.getCurrentMapGame().getMapCells()) {
-                cell.getPeople().remove(normalPeople);
-            }
-            Soldier soldier = new Soldier(normalPeople.getOwner(), sampleSoldier);
-            currentUser.getEmpire().getNormalPeople().remove(normalPeople);
-            mapCell.addPeople(soldier);
-            counterToSoldier++;
-            if (counterToSoldier == count) break;
+        if (!((SoldierProduction) selectedBuilding).getSoldiersTrained().containsKey(type)) {
+            return BuildingMenuMessages.INVALID_TYPE_BUILDING;
         }
+        //TODO: shartre type sarbaza
+        makeUnits(currentUser, mapCell, count, selectedBuilding, PeopleType.SOLDIER, sampleSoldier);
 
         return BuildingMenuMessages.SUCCESS;
     }
