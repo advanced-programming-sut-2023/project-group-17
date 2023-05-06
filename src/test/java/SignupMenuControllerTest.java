@@ -2,6 +2,9 @@ import Controller.SignupMenuController;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 import static View.Enums.Messages.SignupMenuMessages.*;
 
 public class SignupMenuControllerTest {
@@ -79,5 +82,36 @@ public class SignupMenuControllerTest {
         Assertions.assertEquals(PASSWORD_DOES_NOT_MATCH, controller.createUser("ShamimTariverdi",
                 "shamimM123$%%%", "shamim123$%%%",
                 "shamimtar@gmail.com", "sham", "noSlogan"));
+    }
+
+    @Test
+    public void pickQuestionCheck() {
+        Assertions.assertEquals(WRONG_NUMBER ,
+                controller.pickQuestion(4, "answer", "answer"));
+
+        Assertions.assertEquals(ANSWER_DOES_NOT_MATCH,
+                controller.pickQuestion(1, "answer", "answerkhkhkh"));
+
+        controller.createUser("ShamimRahimi", "shamimM123$%%%", "shamimM123$%%%",
+                "shamimrahimi2833@gmail.com", "sham", "noSlogan");
+        Assertions.assertEquals(SUCCESS,
+                controller.pickQuestion(1, "answer", "answer"));
+    }
+
+    @Test
+    public void getSecurityQuestionsCheck() {
+        Assertions.assertEquals("pick your question : \n" +
+                "1. What is my father's name?\n" +
+                "2. What was my first pet's name?\n" +
+                "3. What is my mother's last name?" + "\n", controller.getSecurityQuestions());
+    }
+
+    @Test
+    public void isRandomPasswordMatches() {
+        Assertions.assertEquals(false ,
+                controller.isRandomPasswordsMatches("hiii", "hii"));
+
+        Assertions.assertEquals(true ,
+                controller.isRandomPasswordsMatches("hiii", "hiii"));
     }
 }
