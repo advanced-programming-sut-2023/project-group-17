@@ -34,6 +34,7 @@ public class Database {
     private static int turnsPassed = 0;
     private static int totalTurns = 0;
     private static ArrayList<empireColors> empireColors;
+    private static User saveUser;
 
     public static final String[] recoveryQuestions = {
         "What is my father's name?",
@@ -294,6 +295,14 @@ public class Database {
 
     public static void setMapId(ArrayList<String> mapId) {
         Database.mapId = mapId;
+    }
+
+    public static User getSaveUser() {
+        return saveUser;
+    }
+
+    public static void setSaveUser(User saveUser) {
+        Database.saveUser = saveUser;
     }
 
     public static void saveUsers() {

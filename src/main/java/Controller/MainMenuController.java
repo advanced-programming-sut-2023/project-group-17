@@ -38,6 +38,7 @@ public class MainMenuController {
 
     public void logout() {
         if (Database.getStayLoggedInUser() != null) Database.clearStayLoggedIn();
+        Database.setSaveUser(null);
     }
 
 }

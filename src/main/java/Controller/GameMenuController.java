@@ -401,7 +401,9 @@ public class GameMenuController {
 
         User user = Database.getUsersInTheGame().get(i);
         Empire empire = Database.getUsersInTheGame().get(i).getEmpire();
+        Database.setLoggedInUser(user);
         empire.makeHeadquarter(x, y, user);
+        Database.setLoggedInUser(Database.getSaveUser());
         return GameMenuMessages.SUCCESS;
     }
 
