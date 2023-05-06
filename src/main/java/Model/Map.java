@@ -1,18 +1,21 @@
 package Model;
 
+import Model.MapCell;
+import Model.MaterialMap;
+
 import java.util.ArrayList;
 
 public class Map {
     private final ArrayList<MapCell> mapCells;
     private final int length;
     private final int width;
-    private final int id;
+    private final String id;
     private static int idCount = 1;
 
     public Map(int length, int width) {
         this.length = length;
         this.width = width;
-        this.id = idCount;
+        this.id = String.valueOf(idCount);
         idCount++;
         mapCells = new ArrayList<>();
         for(int i=1; i<=width; i++) {
@@ -34,7 +37,7 @@ public class Map {
         return width;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 

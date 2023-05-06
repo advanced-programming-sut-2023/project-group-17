@@ -15,6 +15,7 @@ import java.util.List;
 
 
 public class Database {
+    private static ArrayList<String> mapId = new ArrayList<>();
     private static ArrayList<User> users = new ArrayList<>();
     private static ArrayList<Building> buildings = new ArrayList<>();
     private static ArrayList<DefensiveBuilding> defensiveBuildings = new ArrayList<>();
@@ -285,6 +286,14 @@ public class Database {
             if (attackToolsAndMethod.getName().equals(name)) return attackToolsAndMethod;
         }
         return null;
+    }
+
+    public static ArrayList<String> getMapId() {
+        return mapId;
+    }
+
+    public static void setMapId(ArrayList<String> mapId) {
+        Database.mapId = mapId;
     }
 
     public static void saveUsers() {

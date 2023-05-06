@@ -5,7 +5,7 @@ import Model.Buildings.Building;
 import Model.Buildings.MiningBuilding;
 import Model.Buildings.ProductionBuilding;
 import Model.Buildings.StorageBuilding;
-import Model.Items.Animal;
+import Model.Map;
 import Model.Items.Item;
 import Model.People.Person;
 import Model.People.Soldier;
