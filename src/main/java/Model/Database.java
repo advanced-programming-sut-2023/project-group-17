@@ -390,7 +390,7 @@ public class Database {
     public static void loadDefensiveBuilding() {
         try {
             String json = new String(Files.readAllBytes(Paths.get("src/main/resources/DefensiveBuildings.json")));
-//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/BuildingDatabase.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/DefensiveBuildings.json")));
             ArrayList<DefensiveBuilding> savedBuildings;
             savedBuildings = new Gson().fromJson(json, new TypeToken<List<DefensiveBuilding>>() {}.getType());
             if (savedBuildings != null) setDefensiveBuildings(savedBuildings);
@@ -402,7 +402,7 @@ public class Database {
     public static void loadGatehouseBuilding() {
         try {
             String json = new String(Files.readAllBytes(Paths.get("src/main/resources/GatehouseBuildings.json")));
-//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/BuildingDatabase.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/GatehouseBuildings.json")));
             ArrayList<GateHouse> savedBuildings;
             savedBuildings = new Gson().fromJson(json, new TypeToken<List<GateHouse>>() {}.getType());
             if (savedBuildings != null) setGateHouses(savedBuildings);
@@ -414,7 +414,7 @@ public class Database {
     public static void loadMiningBuilding() {
         try {
             String json = new String(Files.readAllBytes(Paths.get("src/main/resources/MiningBuildings.json")));
-//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/BuildingDatabase.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/MiningBuildings.json")));
             ArrayList<MiningBuilding> savedBuildings;
             savedBuildings = new Gson().fromJson(json, new TypeToken<List<MiningBuilding>>() {}.getType());
             if (savedBuildings != null) setMiningBuildings(savedBuildings);
@@ -426,7 +426,7 @@ public class Database {
     public static void loadOtherBuilding() {
         try {
             String json = new String(Files.readAllBytes(Paths.get("src/main/resources/OtherBuildings.json")));
-//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/BuildingDatabase.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/OtherBuildings.json")));
             ArrayList<OtherBuilding> savedBuildings;
             savedBuildings = new Gson().fromJson(json, new TypeToken<List<OtherBuilding>>() {}.getType());
             if (savedBuildings != null) setOtherBuildings(savedBuildings);
@@ -438,7 +438,7 @@ public class Database {
     public static void loadProductionBuilding() {
         try {
             String json = new String(Files.readAllBytes(Paths.get("src/main/resources/ProductionBuildings.json")));
-//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/BuildingDatabase.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/ProductionBuildings.json")));
             ArrayList<ProductionBuilding> savedBuildings;
             savedBuildings = new Gson().fromJson(json, new TypeToken<List<ProductionBuilding>>() {}.getType());
             if (savedBuildings != null) setProductionBuildings(savedBuildings);
@@ -450,7 +450,7 @@ public class Database {
     public static void loadSoldierBuilding() {
         try {
             String json = new String(Files.readAllBytes(Paths.get("src/main/resources/SoldierBuildings.json")));
-//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/BuildingDatabase.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/SoldierBuildings.json")));
             ArrayList<SoldierProduction> savedBuildings;
             savedBuildings = new Gson().fromJson(json, new TypeToken<List<SoldierProduction>>() {}.getType());
             if (savedBuildings != null) setSoldierProductions(savedBuildings);
@@ -462,7 +462,7 @@ public class Database {
     public static void loadStorageBuilding() {
         try {
             String json = new String(Files.readAllBytes(Paths.get("src/main/resources/StorageBuildings.json")));
-//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/BuildingDatabase.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/StorageBuildings.json")));
             ArrayList<StorageBuilding> savedBuildings;
             savedBuildings = new Gson().fromJson(json, new TypeToken<List<StorageBuilding>>() {}.getType());
             if (savedBuildings != null) setStorageBuildings(savedBuildings);
@@ -474,7 +474,7 @@ public class Database {
     public static void loadAttackToolsAndMethods() {
         try {
             String json = new String(Files.readAllBytes(Paths.get("src/main/resources/AttackToolsAndMethodsDatabase.json")));
-//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/BuildingDatabase.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/AttackToolsAndMethodsDatabase.json")));
             ArrayList<AttackToolsAndMethods> savedBuildings;
             savedBuildings = new Gson().fromJson(json, new TypeToken<List<AttackToolsAndMethods>>() {}.getType());
             if (savedBuildings != null) setAttackToolsAndMethods(savedBuildings);
