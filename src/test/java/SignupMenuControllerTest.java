@@ -1,14 +1,22 @@
 import Controller.SignupMenuController;
+import Model.Database;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.exceptions.base.MockitoException;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static View.Enums.Messages.SignupMenuMessages.*;
 
+@ExtendWith(MockitoExtension.class)
 public class SignupMenuControllerTest {
-    SignupMenuController controller = new SignupMenuController();
+    @Mock
+    Database database;
+    @InjectMocks
+    SignupMenuController controller;
     @Test
     public void passwordValidationTest() {
         Assertions.assertEquals(PASSWORD_DOES_NOT_CONTAIN_UPPERCASE, controller.createUser("Shamim",
