@@ -140,7 +140,7 @@ public class GameMenuController {
         return -1;
     }
 
-    //TODO: apply damage by attack tools
+    //TODO: apply damage to buildings and soldiers by attack tools
 
     public void applyDamageToAttackToolsAndMethods() {
         for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
