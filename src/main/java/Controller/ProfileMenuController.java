@@ -89,8 +89,6 @@ public class ProfileMenuController {
     }
 
     public ProfileMenuMessages changeSlogan (String slogan){
-        //TODO: random slogan has bug
-        if(getLoggedInUser().getSlogan().equals(slogan)) return ProfileMenuMessages.SAME_SLOGAN;
         if(slogan.equals("random")) return ProfileMenuMessages.RANDOM_SLOGAN;
 
         getLoggedInUser().setSlogan(slogan);

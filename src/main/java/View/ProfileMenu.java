@@ -114,17 +114,29 @@ public class ProfileMenu extends Menu {
             System.out.println("slogan change failed : blank field");
 
         String slogan = handleDoubleQuote(matcher.group("slogan"));
+        changeSloganErrors(slogan);
+//
+//        switch (controller.changeSlogan(slogan)) {
+//            case SUCCESS:
+//                System.out.println("slogan changed successfully");
+//                break;
+//            case RANDOM_SLOGAN:
+//                System.out.println("your slogan is \"" + (slogan = controller.getRandomSlogan()) + "\"");
+//                controller.changeSlogan(slogan);
+////            case SAME_SLOGAN:
+////                System.out.println("slogan change failed : your new slogan cannot be the same as your current slogan");
+////                break;
+//        }
+    }
 
+    private void changeSloganErrors(String slogan) {
         switch (controller.changeSlogan(slogan)) {
             case SUCCESS:
                 System.out.println("slogan changed successfully");
                 break;
-//            case RANDOM_SLOGAN:
-//                System.out.println(("your slogan is \"" + (slogan = controller.getRandomSlogan()) + "\""));
-//                controller.changeSlogan(slogan);
-            case SAME_SLOGAN:
-                System.out.println("slogan change failed : your new slogan cannot be the same as your current slogan");
-                break;
+            case RANDOM_SLOGAN:
+                System.out.println("your slogan is \"" + (slogan = controller.getRandomSlogan()) + "\"");
+                changeSloganErrors(slogan);
         }
     }
 
@@ -134,7 +146,7 @@ public class ProfileMenu extends Menu {
                 System.out.println("slogan removed successfully");
                 break;
             case EMPTY_SLOGAN:
-                System.out.println("slogan change failed : there is no slogan to remove");
+                System.out.println("slogan remove failed : there is no slogan to remove");
                 break;
         }
     }
