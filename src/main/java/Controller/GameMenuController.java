@@ -1,11 +1,7 @@
 package Controller;
 
+import Model.Buildings.*;
 import Model.*;
-import Model.Buildings.Building;
-import Model.Buildings.MiningBuilding;
-import Model.Buildings.ProductionBuilding;
-import Model.Buildings.StorageBuilding;
-import Model.Items.Animal;
 import Model.Items.Item;
 import Model.People.Person;
 import Model.People.Soldier;
@@ -48,28 +44,31 @@ public class GameMenuController {
         buildingsFunctionsEachTurn();
     }
 
-    public void applyDamages() {
+    public void applyDamageToSoldiers() {
         for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
             for (Soldier soldier : mapCell.getSoldier()) {
-                mapIteration(mapCell.getX(), mapCell.getY(), soldier);
+                mapIterationOnSoldiers(mapCell.getX(), mapCell.getY(), soldier);
             }
         }
     }
 
-    public void mapIteration(int startX, int startY, Soldier soldier) {
+    public void mapIterationOnSoldiers(int startX, int startY, Soldier soldier) {
         int range = soldier.getAttackRange();
+        outerLoop:
         for(int x = startX - range; x < startX + range + 1; x++) {
             for(int y = startY - range; y < startY + range + 1; y++) {
-                if(!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y))
-                    continue;
+                if(!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y)) continue;
 
                 for (Person person : Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getPeople()) {
-                    if(!soldier.getOwner().equals(person.getOwner()))
+                    if(!soldier.getOwner().equals(person.getOwner())) {
                         person.changeHp(-soldier.getAttackRating());
+                        break outerLoop;
+                    }
                 }
             }
         }
     }
+
 
     public int removeDeadBodies() {
         for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
@@ -84,51 +83,50 @@ public class GameMenuController {
         return -1;
     }
 
-//    public void applyDamageToBuildings() {
-//        int startX, startY, range;
-//        for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
-////            for (Soldier soldier : mapCell.getSoldier()) {
-//                startX = mapCell.getX();
-//                startY = mapCell.getY();
-//                if(mapCell.getBuilding() instanceof DefensiveBuilding)
-//                    range = ((DefensiveBuilding) mapCell.getBuilding()).getDefenceRange();
-//                else
-//                    range =
-//                for (int x = startX - range; x < startX + range + 1; x++) {
-//                for (int y = startY - range; y < startY + range + 1; y++) {
-//                    if (x < 1 || y < 1 || y > Database.getCurrentMapGame().getLength() || x > Database.getCurrentMapGame().getWidth())
-//                        continue;
-//
-//                    }
-//                }
-//
-//
-//
-//
-//
-//                if(mapCell.getBuilding()!= null && !soldier.getOwner().equals(mapCell.getBuilding().getOwner())) {
-//                    if(mapCell.getBuilding() instanceof DefensiveBuilding &&
-//                       soldier.getAttackRange() > ((DefensiveBuilding) mapCell.getBuilding()).getDefenceRange())
-//                            mapIteration(startX, startY, ((DefensiveBuilding) mapCell.getBuilding()).getDefenceRange(), soldier, mapCell.getBuilding());
-//                    else
-//                        mapIteration(startX, startY, soldier.getAttackRange(), soldier, mapCell.getBuilding());
-//                }
-//
-////            }
-//        }
-//    }
-//
-//
-//    public void mapIteration(int startX, int startY, int range, Soldier soldier, Building building) {
-//        for (int x = startX - range; x < startX + range + 1; x++) {
-//            for (int y = startY - range; y < startY + range + 1; y++) {
-//                if (x < 1 || y < 1 || y > Database.getCurrentMapGame().getLength() || x > Database.getCurrentMapGame().getWidth())
-//                    continue;
-//
-//                building.changeBuildingHp(-soldier.getAttackRating());
-//            }
-//        }
-//    }
+    public void applyDamageToBuildings() {
+        int startX, startY;
+        for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
+            if(mapCell.getBuilding() != null) {
+                startX = mapCell.getX();
+                startY = mapCell.getY();
+                if(mapCell.getBuilding() instanceof DefensiveBuilding) applyDamageDefensiveBuildings(startX, startY, mapCell, ((DefensiveBuilding) mapCell.getBuilding()).getDefenceRange());
+                else applyDamageOtherBuildings(startX, startY, mapCell);
+            }
+        }
+    }
+
+    public void applyDamageDefensiveBuildings(int startX, int startY, MapCell mapCell, int range) {
+        int distance;
+        for(int x = startX - range; x < startX + range + 1; x++) {
+            for(int y = startY - range; y < startY + range + 1; y++) {
+                if(!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y)) continue;
+
+                distance = ((int)Math.sqrt(Math.pow(startX - x, 2) + Math.pow(startY - y, 2)));
+                for (Soldier soldier : Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getSoldier()) {
+                    if(!soldier.getOwner().equals(mapCell.getBuilding().getOwner()) && soldier.getAttackRange() >= distance)
+                        mapCell.getBuilding().changeBuildingHp(-soldier.getAttackRating());
+                }
+            }
+        }
+    }
+
+    public void applyDamageOtherBuildings(int startX, int startY, MapCell mapCell) {
+        int range;
+        for (Soldier soldier : mapCell.getSoldier()) {
+            range = soldier.getAttackRange();
+            for(int x = startX - range; x < startX + range + 1; x++) {
+                for(int y = startY - range; y < startY + range + 1; y++) {
+                    if(!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y)) continue;
+
+                    Building building = Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getBuilding();
+                        if(building != null && !soldier.getOwner().equals(building.getOwner()))
+                            building.changeBuildingHp(-soldier.getAttackRating());
+                }
+            }
+        }
+    }
+
+
 
     public int removeDestroyedBuildings() {
         for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
@@ -140,6 +138,8 @@ public class GameMenuController {
         }
         return -1;
     }
+
+    //TODO: apply damage attack tools and remove destroyed ones
 
     public void changePopularity(Empire empire) {
         int changeAmount = 0;
