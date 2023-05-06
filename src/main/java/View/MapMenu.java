@@ -44,16 +44,7 @@ public class MapMenu extends Menu{
     }
 
     public void showMap(int x, int y) {
-        switch (controller.showMap(x, y)) {
-            case X_OUT_OF_BOUNDS:
-                System.out.println("Show map failed : X out of bounds");
-                break;
-            case Y_OUT_OF_BOUNDS:
-                System.out.println("Show map failed : Y out of bounds");
-                break;
-            case SUCCESS:
-                break;
-        }
+        System.out.println(controller.showMap(x, y));
     }
     private void moveMap(Matcher matcher) {
         int[] directions = new int[4];
@@ -76,17 +67,7 @@ public class MapMenu extends Menu{
         }
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
-        switch (controller.showDetails(x, y)) {
-            case SUCCESS:
-                //TODO showing details
-                break;
-            case X_OUT_OF_BOUNDS:
-                System.out.println("Show details failed : Coordinate of x is out of bounds");
-                break;
-            case Y_OUT_OF_BOUNDS:
-                System.out.println("Show details failed : Coordinate of y is out of bounds");
-                break;
-        }
+        System.out.println(controller.showDetails(x, y));
     }
 
     private void setTextureOneBlock(Matcher matcher) {

@@ -15,18 +15,16 @@ public class MapMenuController {
     private int yCell;
     private int xMap;
     private int yMap;
-    public MapMenuMessages showMap(int x, int y) {
+    public String showMap(int x, int y) {
         String map ;
-        if (!CheckMapCell.validationOfX(x)) return MapMenuMessages.X_OUT_OF_BOUNDS;
-        if (!CheckMapCell.validationOfY(y)) return MapMenuMessages.Y_OUT_OF_BOUNDS;
+        if (!CheckMapCell.validationOfX(x)) return "Show details failed : Coordinate of x is out of bounds";
+        if (!CheckMapCell.validationOfY(y)) return "Show details failed : Coordinate of y is out of bounds";
         xCell = x;
         yCell = y;
         xMap = getAppropriateX(x);
         yMap = getAppropriateY(y);
         map = showMapCells(x, y);
-        //TODO complete how to print map
-        MapMenu.print(map);
-        return MapMenuMessages.SUCCESS;
+        return map;
     }
 
     private int getAppropriateX(int x) {
@@ -66,11 +64,11 @@ public class MapMenuController {
     }
 
     public String moveMap(int[] directions) {
+        String output = "";
         int transversalMove = directions[1] - directions[3];
         int longitudinalMove = directions[0] - directions[2];
-        MapMenu.print(isSafeToMove(transversalMove, longitudinalMove));
-        showMap(xCell, yCell);
-        return "";
+        output += isSafeToMove(transversalMove, longitudinalMove) + "\n";
+        return output += showMap(xCell, yCell);
     }
     public String isSafeToMove(int transversalMove, int longitudinalMove) {
         int width = xCell + transversalMove;
@@ -94,10 +92,10 @@ public class MapMenuController {
                 "y : " + yCell;
     }
 
-    public MapMenuMessages showDetails(int x, int y) {
+    public String showDetails(int x, int y) {
         String details = "";
-        if (!CheckMapCell.validationOfX(x)) return MapMenuMessages.X_OUT_OF_BOUNDS;
-        if (!CheckMapCell.validationOfY(y)) return MapMenuMessages.Y_OUT_OF_BOUNDS;
+        if (!CheckMapCell.validationOfX(x)) return "Show details failed : Coordinate of x is out of bounds";
+        if (!CheckMapCell.validationOfY(y)) return "Show details failed : Coordinate of y is out of bounds";
 
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
         details += "MapCell with coordinates of x : " + x + " and y : " + y + "\n"
@@ -113,9 +111,7 @@ public class MapMenuController {
         for (Soldier soldier : mapCell.getSoldier()) {
             details += soldier.toString();
         }
-        //TODO complete soldiers
-        Menu.print(details);
-        return MapMenuMessages.SUCCESS;
+        return details;
     }
 
     public MapMenuMessages setTextureOfOneBlock(int x, int y, String type) {
