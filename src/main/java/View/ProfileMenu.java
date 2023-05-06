@@ -3,7 +3,6 @@ package View;
 import Controller.ProfileMenuController;
 import View.Enums.Commands.ProfileMenuCommands;
 
-import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class ProfileMenu extends Menu {
@@ -120,6 +119,9 @@ public class ProfileMenu extends Menu {
             case SUCCESS:
                 System.out.println("slogan changed successfully");
                 break;
+//            case RANDOM_SLOGAN:
+//                System.out.println(("your slogan is \"" + (slogan = controller.getRandomSlogan()) + "\""));
+//                controller.changeSlogan(slogan);
             case SAME_SLOGAN:
                 System.out.println("slogan change failed : your new slogan cannot be the same as your current slogan");
                 break;

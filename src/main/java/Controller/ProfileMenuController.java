@@ -8,7 +8,6 @@ import View.Enums.Messages.ProfileMenuMessages;
 import View.Enums.Messages.UtilsMessages;
 
 import static Model.Database.*;
-import static View.Menu.print;
 
 public class ProfileMenuController {
     public ProfileMenuMessages changeUsername(String username) {
@@ -90,19 +89,14 @@ public class ProfileMenuController {
     }
 
     public ProfileMenuMessages changeSlogan (String slogan){
-        if(getLoggedInUser().getSlogan() != null && getLoggedInUser().getSlogan().equals(slogan))
-                return ProfileMenuMessages.SAME_SLOGAN;
-
-        if(slogan.equals("random")) {
-            slogan = Randoms.generateRandomSlogan();
-            print("your slogan is \"" + slogan + "\"");
-        }
+        //TODO: random slogan has bug
+        if(getLoggedInUser().getSlogan().equals(slogan)) return ProfileMenuMessages.SAME_SLOGAN;
+        if(slogan.equals("random")) return ProfileMenuMessages.RANDOM_SLOGAN;
 
         getLoggedInUser().setSlogan(slogan);
         Database.saveUsers();
         return ProfileMenuMessages.SUCCESS;
     }
-
 
     public ProfileMenuMessages removeSlogan() {
         if(getLoggedInUser().getSlogan() == null)
@@ -144,5 +138,7 @@ public class ProfileMenuController {
         return Randoms.generateRandomPassword();
     }
 
-
+    public String getRandomSlogan() {
+        return Randoms.generateRandomSlogan();
+    }
 }
