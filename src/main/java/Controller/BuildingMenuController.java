@@ -197,13 +197,12 @@ public class BuildingMenuController {
 
         for (Resource resource : currentUser.getEmpire().getResources()) {
             if (resource.getItemName().equals("stone")) {
-                if (resource.getNumber() < damaged * 0.2) return BuildingMenuMessages.INSUFFICIENT_STONE;
+                if (resource.getNumber() < Math.ceil(damaged * 0.1)) return BuildingMenuMessages.INSUFFICIENT_STONE;
                 else {
-                    resource.changeNumber(-damaged * 0.2);
+                    resource.changeNumber(-Math.ceil(damaged * 0.1));
                 }
             }
         }
-        //TODO stone for each damaged
         return BuildingMenuMessages.SUCCESS;
     }
 
