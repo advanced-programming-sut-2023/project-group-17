@@ -133,6 +133,15 @@ public class Empire {
         }
     }
 
+    public void removeAttackToolsAndMethods(AttackToolsAndMethods currentAttackToolsAndMethods) {
+        for (AttackToolsAndMethods attackToolsAndMethod : attackToolsAndMethods) {
+            if(attackToolsAndMethod.equals(currentAttackToolsAndMethods)) {
+                attackToolsAndMethods.remove(attackToolsAndMethod);
+                break;
+            }
+        }
+    }
+
     private void makeStockpile(int x, int y, User user, String name) {
 
         for (int z = -1; z < 2; z++) {
@@ -405,4 +414,5 @@ public class Empire {
     public void removePerson(Person person) {
         people.remove(person);
     }
+
 }

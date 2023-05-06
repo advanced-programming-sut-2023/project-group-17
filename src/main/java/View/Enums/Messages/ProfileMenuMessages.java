@@ -24,6 +24,7 @@ public enum ProfileMenuMessages {
     SAME_EMAIL,
     //message for slogan
     SAME_SLOGAN,
+    RANDOM_SLOGAN,
     EMPTY_SLOGAN,
     RANDOM_PASSWORD, ENTER_PASSWORD_AGAIN;
 }

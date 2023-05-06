@@ -1,14 +1,12 @@
 package Controller;
 
-import Model.*;
 import Model.Buildings.Building;
+import Model.*;
 import Model.MapCellItems.Rock;
 import Model.MapCellItems.Tree;
 import Model.People.Soldier;
 import Utils.CheckMapCell;
 import View.Enums.Messages.MapMenuMessages;
-import View.MapMenu;
-import View.Menu;
 
 public class MapMenuController {
     private int xCell;
@@ -101,9 +99,9 @@ public class MapMenuController {
         details += "MapCell with coordinates of x : " + x + " and y : " + y + "\n"
                 + "Texture : " + mapCell.getMaterialMap().getMaterial() + "\n";
 
-        if(mapCell.haveBuilding()) details += "Building : " + mapCell.getBuilding().getBuildingName() + "\n";
+        if(mapCell.haveBuilding()) details += "Building : " + mapCell.getBuilding().toString() + "\n";
         else if (mapCell.haveAttackTools()) details += "AttackTool : "
-                + mapCell.getAttackToolsAndMethods().get(0).getName() + "\n";
+                + mapCell.getAttackToolsAndMethods().getName() + "\n";
         else if (mapCell.getWall() != null) details += "have wall\n" ;
         else if (mapCell.getTree() != null) details += "Tree : " + mapCell.getTree().getTypeOfTree().getType() + "\n";
         else if (mapCell.getRock() != null) details += "have rock\n" ;
@@ -153,7 +151,7 @@ public class MapMenuController {
         mapCell.setBuilding(null);
         mapCell.getMapCellItems().clear();
         mapCell.getItems().clear();
-        mapCell.getAttackToolsAndMethods().clear();
+        mapCell.setAttackToolsAndMethods(null);
         mapCell.getPeople().clear();
         mapCell.setMaterialMap(MaterialMap.getTextureMap("land"));
 

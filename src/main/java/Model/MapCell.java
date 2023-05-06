@@ -20,7 +20,7 @@ public class MapCell {
     private ArrayList<Person> people;
     private ArrayList<Item> items;
     private ArrayList<MapCellItems> mapCellItems;
-    private ArrayList<AttackToolsAndMethods> attackToolsAndMethods;
+    private AttackToolsAndMethods attackToolsAndMethods;
     private String color;
     public MapCell(int x, int y, MaterialMap.textureMap materialMap) {
         this.x = x;
@@ -29,14 +29,13 @@ public class MapCell {
         people = new ArrayList<Person>();
         items = new ArrayList<Item>();
         mapCellItems = new ArrayList<MapCellItems>();
-        attackToolsAndMethods = new ArrayList<AttackToolsAndMethods>();
         this.color = materialMap.getColor();
     }
     public void clear() {
         setBuilding(null);
         getMapCellItems().clear();
         getItems().clear();
-        getAttackToolsAndMethods().clear();
+        setAttackToolsAndMethods(null);
         getPeople().clear();
         setMaterialMap(MaterialMap.getTextureMap("land"));
     }
@@ -69,7 +68,7 @@ public class MapCell {
         return mapCellItems;
     }
 
-    public ArrayList<AttackToolsAndMethods> getAttackToolsAndMethods() {
+    public AttackToolsAndMethods getAttackToolsAndMethods() {
         return attackToolsAndMethods;
     }
 
@@ -93,7 +92,7 @@ public class MapCell {
         this.mapCellItems = mapCellItems;
     }
 
-    public void setAttackToolsAndMethods(ArrayList<AttackToolsAndMethods> attackToolsAndMethods) {
+    public void setAttackToolsAndMethods(AttackToolsAndMethods attackToolsAndMethods) {
         this.attackToolsAndMethods = attackToolsAndMethods;
     }
 
@@ -114,7 +113,7 @@ public class MapCell {
     }
 
     public void addAttackToolsAndMethods(AttackToolsAndMethods attackToolsAndMethod) {
-        this.attackToolsAndMethods.add(attackToolsAndMethod);
+        this.attackToolsAndMethods = (attackToolsAndMethod);
     }
     public boolean haveBuilding() {
         return building != null;
@@ -123,7 +122,7 @@ public class MapCell {
         return mapCellItems.size() != 0;
     }
     public boolean haveAttackTools() {
-        return attackToolsAndMethods.size() != 0;
+        return attackToolsAndMethods != null;
     }
     public Wall getWall() {
         for (MapCellItems mapCellItem : mapCellItems) {

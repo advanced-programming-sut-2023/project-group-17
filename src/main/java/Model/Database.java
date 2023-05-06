@@ -34,6 +34,7 @@ public class Database {
     private static int turnsPassed = 0;
     private static int totalTurns = 0;
     private static ArrayList<empireColors> empireColors;
+    private static User saveUser;
 
     public static final String[] recoveryQuestions = {
         "What is my father's name?",
@@ -296,6 +297,14 @@ public class Database {
         Database.mapId = mapId;
     }
 
+    public static User getSaveUser() {
+        return saveUser;
+    }
+
+    public static void setSaveUser(User saveUser) {
+        Database.saveUser = saveUser;
+    }
+
     public static void saveUsers() {
         try {
             FileWriter fileWriter = new FileWriter("src/main/resources/UserDatabase.json");
@@ -362,14 +371,14 @@ public class Database {
         }
     }
 
-    public static User getStayLoggedInUser() {
+    public static String getStayLoggedInUser() {
         try {
             String json = new String(Files.readAllBytes(Paths.get("src/main/resources/StayLoggedInUser.json")));
 //            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/StayLoggedInUser.json")));
 
             User stayLoggedInUser;
             stayLoggedInUser = new Gson().fromJson(json, new TypeToken<User>() {}.getType());
-            if (stayLoggedInUser != null) return stayLoggedInUser;
+            if (stayLoggedInUser != null) return stayLoggedInUser.getUsername();
         } catch (IOException e) {
             e.printStackTrace();
         }

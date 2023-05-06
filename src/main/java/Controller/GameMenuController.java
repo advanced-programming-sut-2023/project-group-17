@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.AttackToolsAndMethods.AttackToolsAndMethods;
 import Model.Buildings.*;
 import Model.*;
 import Model.Items.Item;
@@ -70,13 +71,13 @@ public class GameMenuController {
     }
 
 
-    public int removeDeadBodies() {
+    public int removeDeadSoldiers() {
         for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
             for (Person person : mapCell.getPeople()) {
                 if(person.getHp() <= 0) {
                     mapCell.removePerson(person);
                     person.getOwner().getEmpire().removePerson(person);
-                    return removeDeadBodies();
+                    return removeDeadSoldiers();
                 }
             }
         }
@@ -130,7 +131,7 @@ public class GameMenuController {
 
     public int removeDestroyedBuildings() {
         for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
-            if(mapCell.getBuilding().getBuildingHp() <= 0) {
+            if(mapCell.getBuilding() != null && mapCell.getBuilding().getBuildingHp() <= 0) {
                 mapCell.getBuilding().getOwner().getEmpire().removeBuilding(mapCell.getBuilding());
                 mapCell.setBuilding(null);
                 return removeDestroyedBuildings();
@@ -139,7 +140,39 @@ public class GameMenuController {
         return -1;
     }
 
-    //TODO: apply damage attack tools and remove destroyed ones
+    //TODO: apply damage to buildings and soldiers by attack tools
+
+    public void applyDamageToAttackToolsAndMethods() {
+        for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
+            for (Soldier soldier : mapCell.getSoldier()) {
+                mapIterationOnAttackTools(mapCell.getX(), mapCell.getY(), soldier);
+            }
+        }
+    }
+
+    public void mapIterationOnAttackTools(int startX, int startY, Soldier soldier) {
+        int range = soldier.getAttackRange();
+        for(int x = startX - range; x < startX + range + 1; x++) {
+            for(int y = startY - range; y < startY + range + 1; y++) {
+                if(!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y)) continue;
+
+                AttackToolsAndMethods attackTool = Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getAttackToolsAndMethods();
+                if(attackTool != null && !soldier.getOwner().equals(attackTool.getOwner()))
+                    attackTool.changeHp(-soldier.getAttackRating());
+            }
+        }
+    }
+
+    public int removeDestroyedAttackToolsAndMethods() {
+        for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
+            if(mapCell.getAttackToolsAndMethods() != null && mapCell.getAttackToolsAndMethods().getHp() <= 0) {
+                mapCell.getAttackToolsAndMethods().getOwner().getEmpire().removeAttackToolsAndMethods(mapCell.getAttackToolsAndMethods());
+                mapCell.setAttackToolsAndMethods(null);
+                return removeDestroyedAttackToolsAndMethods();
+            }
+        }
+        return -1;
+    }
 
     public void changePopularity(Empire empire) {
         int changeAmount = 0;
@@ -368,7 +401,9 @@ public class GameMenuController {
 
         User user = Database.getUsersInTheGame().get(i);
         Empire empire = Database.getUsersInTheGame().get(i).getEmpire();
+        Database.setLoggedInUser(user);
         empire.makeHeadquarter(x, y, user);
+        Database.setLoggedInUser(Database.getSaveUser());
         return GameMenuMessages.SUCCESS;
     }
 

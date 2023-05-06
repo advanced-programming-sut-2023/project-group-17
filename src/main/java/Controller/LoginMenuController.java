@@ -28,6 +28,7 @@ public class LoginMenuController {
         Database.loadUnits();
         Database.loadBuildings();
         Database.loadAttackToolsAndMethods();
+        Database.setSaveUser(Database.getLoggedInUser());
         return LoginMenuMessages.SUCCESS;
     }
 
@@ -73,11 +74,12 @@ public class LoginMenuController {
 
     public boolean checkStayLoggedIn() {
         if (Database.getStayLoggedInUser() != null) {
-            Database.setLoggedInUser(Database.getStayLoggedInUser());
             Database.loadUsers();
             Database.loadUnits();
             Database.loadBuildings();
             Database.loadAttackToolsAndMethods();
+            Database.setLoggedInUser(Database.getUserByUsername(Database.getStayLoggedInUser()));
+            Database.setSaveUser(Database.getLoggedInUser());
             return true;
         }
         return false;
