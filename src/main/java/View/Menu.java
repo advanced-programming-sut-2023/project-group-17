@@ -17,11 +17,4 @@ public abstract class Menu {
         return matcherGroup==null;
     }
 
-    public static void print(String string){
-        System.out.println(string);
-    }
-
-    public static String scan(){
-        return scanner.nextLine();
-    }
 }
