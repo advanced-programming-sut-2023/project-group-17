@@ -99,7 +99,7 @@ public class MapMenuController {
         details += "MapCell with coordinates of x : " + x + " and y : " + y + "\n"
                 + "Texture : " + mapCell.getMaterialMap().getMaterial() + "\n";
 
-        if(mapCell.haveBuilding()) details += "Building : " + mapCell.getBuilding().getBuildingName() + "\n";
+        if(mapCell.haveBuilding()) details += "Building : " + mapCell.getBuilding().toString() + "\n";
         else if (mapCell.haveAttackTools()) details += "AttackTool : "
                 + mapCell.getAttackToolsAndMethods().getName() + "\n";
         else if (mapCell.getWall() != null) details += "have wall\n" ;

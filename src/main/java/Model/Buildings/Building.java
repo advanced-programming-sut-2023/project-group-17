@@ -61,4 +61,10 @@ public class Building {
     public int getY() {
         return y;
     }
+
+    @Override
+    public String toString() {
+        return buildingName + " is located\n" +
+                "The owner is : " + owner.getUsername() + ", and the hp is : " + buildingHp;
+    }
 }
