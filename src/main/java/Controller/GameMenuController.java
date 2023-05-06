@@ -45,7 +45,7 @@ public class GameMenuController {
     }
 
     public void nextTurn() {
-
+        buildingsFunctionsEachTurn();
     }
 
     public void applyDamages() {
@@ -372,15 +372,6 @@ public class GameMenuController {
         return GameMenuMessages.SUCCESS;
     }
 
-    public static void handleCagedDogs(Building building) {
-        int x = building.getX();
-        int y = building.getY();
-        MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
-        Animal dogs = (new Animal(Animal.animalNames.DOG, Database.getLoggedInUser(), 3));
-        mapCell.addItems(dogs);
-        Database.getLoggedInUser().getEmpire().addAnimal(dogs);
-    }
-
     public static void handleProductionBuildings(Building building) {
         Empire empire = Database.getLoggedInUser().getEmpire();
         HashMap<Item.ItemType, Item.ItemType> production = ((ProductionBuilding) building).getProductionItem();
@@ -433,13 +424,14 @@ public class GameMenuController {
         empire.changePopularityRate(2);
         empire.changeReligionRate(2);
 
-        if(building.getBuildingName().equals("Cathedral")) {
+        if(building.getBuildingName().equals("cathedral")) {
             empire.changePopularityRate(2);
             empire.changeReligionRate(2);
         }
     }
 
     public static void handleDrawBridge(Building building) {
+        //TODO handle when attacking
         for(int i = building.getX()-1; i <= building.getX()+1; i++) {
             for(int j = building.getY()-1; j <= building.getY()+1; j++) {
                 if(Utils.CheckMapCell.validationOfX(i) && Utils.CheckMapCell.validationOfY(j)) {
@@ -465,5 +457,23 @@ public class GameMenuController {
     public static void handleQuarry(Building building) {
         Objects.requireNonNull(Item.getAvailableItems("stone")).changeNumber(5);
         //TODO
+    }
+
+    public static void handleOilSmelter(Building building) {
+        Objects.requireNonNull(Item.getAvailableItems("oil")).changeNumber(1);
+        //TODO
+    }
+
+    private void buildingsFunctionsEachTurn() {
+        for (Building building : Database.getLoggedInUser().getEmpire().getBuildings()) {
+            if(building.getCategory().equals("production")) handleProductionBuildings(building);
+            else if(building.getCategory().equals("mining")) handleMiningBuildings(building);
+            else if(building.getBuildingName().equals("church") || building.getBuildingName().equals("cathedral"))
+                handleReligiousBuildings(building);
+            else if(building.getCategory().equals("inn")) handleInn(building);
+            else if(building.getBuildingName().equals("iron mine")) handleIronMine(building);
+            else if(building.getBuildingName().equals("quarry")) handleQuarry(building);
+            else if(building.getBuildingName().equals("oil smelter")) handleOilSmelter(building);
+        }
     }
 }

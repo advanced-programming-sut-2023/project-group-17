@@ -26,17 +26,17 @@ public class BuildingsHandler {
         }
     }
 
-//    private static void handleStorageBuildings(Building building) {
-//        if (building.getBuildingName().equals("caged war dogs")) {
-//            BuildingMenuController.handleCagedDogs(building);
-//        }
-//    }
+    private static void handleStorageBuildings(Building building) {
+        if (building.getBuildingName().equals("caged war dogs")) {
+            BuildingMenuController.handleCagedDogs(building);
+        }
+    }
 
     private static void handleMiningBuildings(Building building) {
         switch (building.getBuildingName()) {
-            case "oil smelter":
-                BuildingMenuController.handleOilSmelter(building);
-                break;
+//            case "oil smelter":
+//                BuildingMenuController.handleOilSmelter(building);
+//                break;
 //            case "iron mine":
 //                BuildingMenuController.handleIronMine(building);
 //                break;

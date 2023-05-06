@@ -217,12 +217,8 @@ public class BuildingMenuController {
         new EmpireMenu().run();
     }
 
-    public static void handleOilSmelter(Building building) {
-        Objects.requireNonNull(Item.getAvailableItems("oil")).changeNumber(1);
-        //TODO
-    }
-
     public static void handleOxTether(Building building) {
+        //TODO
     }
 
     public static void handleMarket(Building building) {
@@ -257,5 +253,14 @@ public class BuildingMenuController {
         empire.addAttackToolsAndMethods(attackToolsAndMethods);
         mapCell.addAttackToolsAndMethods(attackToolsAndMethods);
         return BuildingMenuMessages.SUCCESS;
+    }
+
+    public static void handleCagedDogs(Building building) {
+        int x = building.getX();
+        int y = building.getY();
+        MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
+        Animal dogs = (new Animal(Animal.animalNames.DOG, Database.getLoggedInUser(), 3));
+        mapCell.addItems(dogs);
+        Database.getLoggedInUser().getEmpire().addAnimal(dogs);
     }
 }
