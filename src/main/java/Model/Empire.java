@@ -100,11 +100,10 @@ public class Empire {
     }
 
     private void addFoods() {
-        //TODO: add foods when new game starts
-        foods.add(new Food(Food.foodType.CHEESE, owner, 0));
-        foods.add(new Food(Food.foodType.MEAT, owner, 0));
-        foods.add(new Food(Food.foodType.APPLE, owner, 0));
-        foods.add(new Food(Food.foodType.BREAD, owner, 0));
+        foods.add(new Food(Food.foodType.CHEESE, owner, 20));
+        foods.add(new Food(Food.foodType.MEAT, owner, 10));
+        foods.add(new Food(Food.foodType.APPLE, owner, 30));
+        foods.add(new Food(Food.foodType.BREAD, owner, 40));
     }
 
     public MapCell getHeadquarter() {
