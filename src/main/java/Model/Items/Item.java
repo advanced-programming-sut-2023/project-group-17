@@ -35,8 +35,6 @@ public class Item {
         HORSE("horse", 0)
         ;
 
-        //TODO: number ham ezafe beshe?
-
         private final String name;
         private final Double cost;
         ItemType(String name, double cost) {

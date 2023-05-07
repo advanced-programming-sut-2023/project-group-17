@@ -70,7 +70,6 @@ public class GameMenuController {
         }
     }
 
-
     public int removeDeadSoldiers() {
         for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
             for (Person person : mapCell.getPeople()) {
@@ -126,8 +125,6 @@ public class GameMenuController {
             }
         }
     }
-
-
 
     public int removeDestroyedBuildings() {
         for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
@@ -255,10 +252,6 @@ public class GameMenuController {
         }
     }
 
-    public void changePopulation() {
-
-    }
-
     public void giveFood(Empire empire) {
         double number = getNumberOfGivenFoods(empire);;
 
@@ -356,18 +349,9 @@ public class GameMenuController {
         empire.changeCoins(coinNumber * empire.getPopulation());
     }
 
-    public void changeResources() {
-
-    }
-
     public void handleUnemployedPopulation() {
 
     }
-
-    public void soldiersFight() {
-
-    }
-
 
     public void handleFearRate(Empire empire) {
         empire.changeEfficiency(empire.getFearRate() * -0.1);

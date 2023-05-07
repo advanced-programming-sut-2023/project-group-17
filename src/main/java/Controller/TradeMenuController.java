@@ -22,7 +22,7 @@ public class TradeMenuController {
                 itemType, itemAmount, price, message);
 
         Database.getLoggedInUser().getEmpire().addSentTradeRequests(tradeRequest);
-        for (User user : Database.getUsers()) {
+        for (User user : Database.getUsersInTheGame()) {
             user.getEmpire().addReceivedTradeRequests(tradeRequest);
         }
         return TradeMenuMessages.SUCCESS;
@@ -115,7 +115,7 @@ public class TradeMenuController {
     }
 
     public String receivedTradeToString(TradeRequest request){
-        return "id " + request.getId() + ") from " + request.getSenderUser() + " | resource type: " +
+        return "id " + request.getId() + ") from " + request.getSenderUser().getUsername() + " | resource type: " +
                 request.getItemType() + " | amount: " + request.getItemAmount() +
                 " | price: " + request.getPrice() + " | message: " + request.getSentMessage() + "\n";
     }

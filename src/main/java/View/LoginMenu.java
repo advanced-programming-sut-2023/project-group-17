@@ -88,6 +88,8 @@ public class LoginMenu extends Menu {
                     long timeLeft = attempts * 5000L - currentTimeMillis() + time;
                     System.out.println("please wait " + timeLeft/1000 + " more seconds.");
                     password = scanner.nextLine();
+                    if(LoginMenuCommands.getMatcher(password, LoginMenuCommands.FORGET_PASSWORD) != null)
+                        forgetPassword(LoginMenuCommands.getMatcher(password, LoginMenuCommands.FORGET_PASSWORD));
                 }
                 attempts++;
             }

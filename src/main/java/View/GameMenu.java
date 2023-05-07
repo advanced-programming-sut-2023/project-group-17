@@ -18,12 +18,11 @@ public class GameMenu extends Menu {
     @Override
     public void run() {
 //        System.out.println("entered game menu successfully");
+        chooseMapGame();
         String command = null;
         Matcher matcher;
 
-
         while (true) {
-            chooseMapGame();
             command = scanner.nextLine();
             if((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.SHOW_MAP)) != null)
                 showMap(matcher);

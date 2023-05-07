@@ -40,5 +40,4 @@ public class MainMenuController {
         if (Database.getStayLoggedInUser() != null) Database.clearStayLoggedIn();
         Database.setSaveUser(null);
     }
-
 }

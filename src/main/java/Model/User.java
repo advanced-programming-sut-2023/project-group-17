@@ -96,7 +96,7 @@ public class User {
     }
 
     public Empire getEmpire() {
-        return empire;
+        return this.empire;
     }
 
     public void setEmpire(Empire empire) {
