@@ -8,10 +8,7 @@ import Model.Items.Animal;
 import Model.Items.ArmorAndWeapon;
 import Model.Items.Food;
 import Model.Items.Resource;
-import Model.People.Engineer;
-import Model.People.NormalPeople;
-import Model.People.Person;
-import Model.People.Soldier;
+import Model.People.*;
 
 import java.util.ArrayList;
 
@@ -20,6 +17,7 @@ public class Empire {
     private ArrayList<Food> foods;
     private ArrayList<Resource> resources;
     private ArrayList<Person> people;
+    private King king;
     private ArrayList<ArmorAndWeapon> weapons;
     private ArrayList<Animal> animals;
     private ArrayList<TradeRequest> receivedTradeRequests;
@@ -35,6 +33,7 @@ public class Empire {
     private empireColors empireColor;
     private double efficiency;
     private MapCell headquarter;
+    private double score;
     public Empire(User owner, empireColors empireColor) {
         this.owner = owner;
         this.foods = new ArrayList<Food>();
@@ -46,6 +45,7 @@ public class Empire {
         this.receivedTradeRequests = new ArrayList<>();
         this.sentTradeRequests = new ArrayList<>();
         this.buildings = new ArrayList<Building>();
+        this.king = new King(owner);
         this.fearRate = 0;
         this.taxRate = 0;
         this.foodRate = 0;
@@ -53,6 +53,7 @@ public class Empire {
         this.popularityRate = 0;
         this.coins = 0;
         this.efficiency = 1;
+        this.score = 0;
         addFoods();
         addResources();
         addWeapons();
@@ -115,6 +116,8 @@ public class Empire {
             Database.getGatehouseBuildingDataByName("small stone gatehouse"));
         addBuilding(gateHouse);
         headquarter.addBuilding(gateHouse);
+        gateHouse.addPerson(king);
+        addPopulation(king);
         this.headquarter = headquarter;
     }
     public void makeHeadquarter(int x, int y, User user) {
@@ -414,4 +417,15 @@ public class Empire {
         people.remove(person);
     }
 
+    public double getScore() {
+        return this.score;
+    }
+
+    public void changeScore(double amount) {
+        this.score += amount;
+    }
+
+    public King getKing() {
+        return king;
+    }
 }

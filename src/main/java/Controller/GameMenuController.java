@@ -511,4 +511,13 @@ public class GameMenuController {
             else if(building.getBuildingName().equals("oil smelter")) handleOilSmelter(building);
         }
     }
+
+    private boolean gameIsFinished() {
+        //TODO shartaye etmame bazi
+        return false;
+    }
+
+    private void setScores() {
+        //TODO
+    }
 }
