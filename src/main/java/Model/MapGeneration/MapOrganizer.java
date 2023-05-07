@@ -35,8 +35,8 @@ public class MapOrganizer {
 
     public static void loadMap(String id) {
         try {
-            String json = new String(Files.readAllBytes(Paths.get(pathGenerator(id))));
-//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/BuildingDatabase.json")));
+//            String json = new String(Files.readAllBytes(Paths.get(pathGenerator(id))));
+            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/Maps/" + id + ".json")));
             Map savedMap;
             savedMap = new Gson().fromJson(json, new TypeToken<Map>() {}.getType());
             if (savedMap != null) Database.setCurrentMapGame(savedMap);
@@ -47,7 +47,8 @@ public class MapOrganizer {
 
     public static void getMapId() {
         ArrayList<String> list = new ArrayList<>();
-        File path = new File("src/main/resources/Maps");
+//        File path = new File("src/main/resources/Maps");
+        File path = new File("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/Maps");
         Pattern pattern = Pattern.compile("(?<mapId>\\d+).json");
         for (String fileName : Objects.requireNonNull(path.list())) {
             Matcher matcher = pattern.matcher(fileName);
