@@ -34,6 +34,6 @@ public class Food extends Item{
 
     @Override
     public String toString() {
-        return getItemName() + " costs : " + getCost();
+        return getItemName() + " costs : " + getCost() + " number: " + getNumber();
     }
 }

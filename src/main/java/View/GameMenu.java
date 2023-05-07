@@ -20,9 +20,10 @@ public class GameMenu extends Menu {
 //        System.out.println("entered game menu successfully");
         String command = null;
         Matcher matcher;
-        chooseMapGame();
+
 
         while (true) {
+            chooseMapGame();
             command = scanner.nextLine();
             if((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.SHOW_MAP)) != null)
                 showMap(matcher);
@@ -64,11 +65,9 @@ public class GameMenu extends Menu {
         switch (controller.showMap(x , y)) {
             case X_OUT_OF_BOUNDS:
                 System.out.println("show map failed : x out of bounds");
-                chooseMapGame();
                 break;
             case Y_OUT_OF_BOUNDS:
                 System.out.println("show map failed : y out of bounds");
-                chooseMapGame();
                 break;
             case SUCCESS:
                 mapMenu.showMap(x, y);

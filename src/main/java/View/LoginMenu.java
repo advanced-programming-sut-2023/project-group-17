@@ -79,8 +79,10 @@ public class LoginMenu extends Menu {
         while (true) {
             if(!controller.checkPassword(username, password)) {
                 System.out.println("try again in " + attempts * 5 + " seconds");
-                long time = currentTimeMillis();
                 password = scanner.nextLine();
+                if(LoginMenuCommands.getMatcher(password, LoginMenuCommands.FORGET_PASSWORD) != null)
+                    forgetPassword(LoginMenuCommands.getMatcher(password, LoginMenuCommands.FORGET_PASSWORD));
+                long time = currentTimeMillis();
 
                 while (currentTimeMillis() - time < attempts * 5000L) {
                     long timeLeft = attempts * 5000L - currentTimeMillis() + time;

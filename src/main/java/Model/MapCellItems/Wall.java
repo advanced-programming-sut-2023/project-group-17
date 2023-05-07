@@ -7,9 +7,9 @@ public class Wall extends MapCellItems {
     private Wall.thicknesses thickness;
     private int hp;
     public enum heights {
-        TALL("tall", 0),
-        MEDIUM("medium", 0),
-        SHORT("short", 0)
+        TALL("tall", 5),
+        MEDIUM("medium", 4),
+        SHORT("short", 3)
         ;
         public String height;
         public int hpRateHeight;
@@ -19,8 +19,8 @@ public class Wall extends MapCellItems {
         }
     }
     public enum thicknesses {
-        THICK("thick", 0),
-        THIN("thin", 0)
+        THICK("thick", 2),
+        THIN("thin", 1)
         ;
         public String thickness;
         public int hpRateThickness;
