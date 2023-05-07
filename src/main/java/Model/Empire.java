@@ -33,7 +33,6 @@ public class Empire {
     private empireColors empireColor;
     private double efficiency;
     private MapCell headquarter;
-    private double score;
     public Empire(User owner, empireColors empireColor) {
         this.owner = owner;
         this.foods = new ArrayList<Food>();
@@ -53,7 +52,6 @@ public class Empire {
         this.popularityRate = 0;
         this.coins = 0;
         this.efficiency = 1;
-        this.score = 0;
         addFoods();
         addResources();
         addWeapons();
@@ -417,15 +415,9 @@ public class Empire {
         people.remove(person);
     }
 
-    public double getScore() {
-        return this.score;
-    }
-
-    public void changeScore(double amount) {
-        this.score += amount;
-    }
-
     public King getKing() {
         return king;
     }
+
+    //TODO: set Highscore
 }
