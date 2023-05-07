@@ -1,6 +1,7 @@
 package Model;
 
 import Model.MapCell;
+import Model.MapGeneration.MapOrganizer;
 import Model.MaterialMap;
 
 import java.util.ArrayList;
@@ -9,13 +10,14 @@ public class Map {
     private final ArrayList<MapCell> mapCells;
     private final int length;
     private final int width;
-    private final String id;
+    private final int id;
     private static int idCount = 1;
 
     public Map(int length, int width) {
         this.length = length;
         this.width = width;
-        this.id = String.valueOf(idCount);
+        MapOrganizer.getMapId();
+        this.id = Database.getMapId().size() + 1;
         idCount++;
         mapCells = new ArrayList<>();
         for(int i=1; i<=width; i++) {
@@ -37,7 +39,7 @@ public class Map {
         return width;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
