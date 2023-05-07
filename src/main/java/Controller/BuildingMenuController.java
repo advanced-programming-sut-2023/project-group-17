@@ -39,6 +39,8 @@ public class BuildingMenuController {
         for (PeopleType peopleType : buildingSample.getNumberOfWorkers().keySet()) {
             numberOfWorkers += buildingSample.getNumberOfWorkers().get(peopleType);
         }
+
+        //TODO az hashmap bayad
         if (currentUser.getEmpire().getNormalPeople().size() < numberOfWorkers) return BuildingMenuMessages.NOT_ENOUGH_CROWD;
 
         for (Resource.resourceType recourseRequired : buildingSample.getBuildingCost().keySet()) {
@@ -175,7 +177,7 @@ public class BuildingMenuController {
         if (!((SoldierProduction) selectedBuilding).getSoldiersTrained().containsKey(type)) {
             return BuildingMenuMessages.INVALID_TYPE_BUILDING;
         }
-        //TODO: shartre type sarbaza
+
         makeUnits(currentUser, mapCell, count, selectedBuilding, PeopleType.SOLDIER, sampleSoldier);
 
         return BuildingMenuMessages.SUCCESS;

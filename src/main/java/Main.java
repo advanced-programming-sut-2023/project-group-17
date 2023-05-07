@@ -1,4 +1,3 @@
-import Model.Database;
 import View.LoginMenu;
 
 import static View.Menu.scanner;

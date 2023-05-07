@@ -4,6 +4,7 @@ import Model.AttackToolsAndMethods.AttackToolsAndMethods;
 import Model.Buildings.*;
 import Model.*;
 import Model.Items.Item;
+import Model.MapGeneration.MapOrganizer;
 import Model.People.Person;
 import Model.People.Soldier;
 import Utils.CheckMapCell;
@@ -14,9 +15,8 @@ import java.util.Objects;
 
 public class GameMenuController {
     public GameMenuMessages chooseMapGame(int id) {
-        if(id > Database.getAllMaps().size() || id < 1) return GameMenuMessages.INVALID_MAP_NUMBER;
-        Map map = Database.getAllMaps().get(id-1);
-        Database.setCurrentMapGame(map);
+        if(id > Database.getMapId().size() || id < 1) return GameMenuMessages.INVALID_MAP_NUMBER;
+        MapOrganizer.loadMap(String.valueOf(id));
         return GameMenuMessages.SUCCESS;
     }
 
@@ -377,8 +377,9 @@ public class GameMenuController {
     }
 
     public String chooseMap() {
+        MapOrganizer.getMapId();
         return "Choose your map by id:\n" +
-        "Give an id between 1 and " + Database.getAllMaps().size() + "\n" +
+        "Give an id between 1 and " + Database.getMapId().size() + "\n" +
         "If you want to create custom map enter 0";
     }
 
