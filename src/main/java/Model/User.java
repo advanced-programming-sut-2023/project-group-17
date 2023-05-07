@@ -11,6 +11,7 @@ public class User {
     private String slogan;
     private String passwordRecoveryQuestion;
     private String passwordRecoveryAnswer;
+    private int highScore;
     private Empire empire;
 
     public User(String username, String password, String nickname, String email, String slogan, String passwordRecoveryQuestion, String passwordRecoveryAnswer) {
@@ -59,6 +60,10 @@ public class User {
         return nickname;
     }
 
+    public Integer getHighScore() {
+        return highScore;
+    }
+
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
@@ -79,6 +84,10 @@ public class User {
         this.slogan = slogan;
     }
 
+    public void setHighScore(int highScore) {
+        this.highScore = highScore;
+    }
+
     public String getPasswordRecoveryQuestion() {
         return passwordRecoveryQuestion;
     }
@@ -96,7 +105,7 @@ public class User {
     }
 
     public Empire getEmpire() {
-        return this.empire;
+        return empire;
     }
 
     public void setEmpire(Empire empire) {

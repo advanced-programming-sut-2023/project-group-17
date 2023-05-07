@@ -7,6 +7,10 @@ import Utils.Randoms;
 import View.Enums.Messages.ProfileMenuMessages;
 import View.Enums.Messages.UtilsMessages;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.stream.Collectors;
+
 import static Model.Database.*;
 
 public class ProfileMenuController {
@@ -111,13 +115,26 @@ public class ProfileMenuController {
             return "your slogan is \"" + slogan + "\"";
         return "there is no slogan to show";
     }
-//TODO: display high score
     public String displayHighScore () {
-        return null;
+        return "your HighScore is : " + Database.getLoggedInUser().getHighScore();
     }
-//TODO: display rank
     public String displayRank () {
-        return null;
+        return "Rank: " + getRankAmongPlayers() + " HighScore: " + Database.getLoggedInUser().getHighScore();
+    }
+
+    public int getRankAmongPlayers() {
+        Comparator<User> highScoreComparator = (user1, user2) -> user1.getHighScore().compareTo(user2.getHighScore());
+        Comparator<User> nameComparator = (user1, user2) -> user1.getUsername().compareTo(user2.getUsername());
+        ArrayList<User> copyUsers = (ArrayList<User>) Database.getUsers().stream().sorted(highScoreComparator.thenComparing(nameComparator)).collect(Collectors.toList());
+
+        int rank = 0;
+        int index = copyUsers.size();
+        for (User currentUser : copyUsers) {
+            if(currentUser.equals(Database.getLoggedInUser()))
+                rank = index;
+            index--;
+        }
+        return rank;
     }
 
     public String displayProfile () {
