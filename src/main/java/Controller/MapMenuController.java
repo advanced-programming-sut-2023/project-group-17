@@ -50,8 +50,8 @@ public class MapMenuController {
                     if (xMap - 2 + j / 4 == x && yMap - 2 + i / 4 == y)
                         data += mapCell.getMaterialMap().getColor() + Color.ANSI_RED;
                     else if (mapCell.getMaterialMap().getColor().equals(Color.ANSI_BLACK_BACKGROUND))
-                        data += mapCell.getMaterialMap().getColor() + Color.ANSI_WHITE;
-                    else data += mapCell.getMaterialMap().getColor() + Color.ANSI_BLACK;
+                        data += mapCell.getMaterialMap().getColor() + Color.ANSI_BLACK;
+                    else data += mapCell.getMaterialMap().getColor() + Color.ANSI_WHITE;
                     data += mapCell.objectInCell();
                     data += Color.ANSI_RESET;
                 }
