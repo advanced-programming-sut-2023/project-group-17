@@ -80,6 +80,7 @@ public class GameMenu extends Menu {
         System.out.println(controller.chooseMap());
 
         int mapId = scanner.nextInt();
+        scanner.nextLine();
 
         if(mapId == 0) {
             System.out.println("enter width and length");
@@ -106,9 +107,11 @@ public class GameMenu extends Menu {
         switch (controller.chooseMapGame(mapId)) {
             case INVALID_MAP_NUMBER:
                 System.out.println("choose map failed : id does not exist");
+                chooseMapGame();
                 break;
             case SUCCESS:
                 System.out.println("map chose successfully");
+                setHeadquarters();
                 break;
         }
     }
