@@ -1,16 +1,21 @@
 package Controller;
 
+import Model.Buildings.Building;
 import Model.Database;
+import Model.Items.Item;
 import Model.Map;
 import Model.MapCell;
+import Model.MapCellItems.MapCellItems;
+import Model.User;
 
+import javax.xml.crypto.Data;
 import java.util.*;
 
 import static java.lang.Math.abs;
 
 public class MoveController {
     static boolean isValid(Map map, int x, int y) {
-        return x >= 1 && x < map.getWidth() && y >= 1 && y < map.getLength();
+        return x >= 1 && x <= map.getWidth() && y >= 1 && y <= map.getLength();
     }
 
     static boolean isUnBlocked(Map map, int x, int y) {
@@ -44,15 +49,8 @@ public class MoveController {
 
         mapCell = map.getMapCellByCoordinates(row, col);
         path.add(mapCell);
-        MapCell p;
-        while (path.size() > 0) {
-            p = path.get(0);
-            path.remove(0);
-
-            if(p.getX() == 2 || p.getX() == 1){
-                System.out.println("-> (" + p.getX() + ", " + (p.getY() - 1) + ")");
-            }
-            else System.out.println("-> (" + p.getX() + ", " + p.getY() + ")");
+        for (MapCell p : path) {
+            System.out.println("-> (" + p.getX() + ", " + p.getY() + ")");
         }
         return;
     }
@@ -144,7 +142,10 @@ public class MoveController {
     public static void main(String[] args) {
         Map map = new Map(10, 10);
         Database.setCurrentMapGame(map);
-        aStarSearch(map, 1, 1, 4, 3);
+        User user = new User("kasra", "shamimM123$%%%", "shamimM123$%%%",
+                "shamimrahimi83@gmail.com", "sham", "noSlogan", null);
+        MapCellItems mapCellItems = new MapCellItems(user);
+        map.getMapCellByCoordinates(1, 3).addMapCellItems(mapCellItems);
+        aStarSearch(map, 1, 4, 1, 2);
     }
-
 }
