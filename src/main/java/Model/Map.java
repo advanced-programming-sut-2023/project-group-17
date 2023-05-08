@@ -19,7 +19,7 @@ public class Map {
         MapOrganizer.getMapId();
         this.id = Database.getMapId().size() + 1;
         idCount++;
-        mapCells = new ArrayList<>();
+        this.mapCells = new ArrayList<>();
         for(int i=1; i<=width; i++) {
             for(int j=1; j<=length; j++) {
                 mapCells.add(new MapCell(i, j, MaterialMap.textureMap.LAND));
