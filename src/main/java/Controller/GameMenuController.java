@@ -4,6 +4,8 @@ import Model.AttackToolsAndMethods.AttackToolsAndMethods;
 import Model.Buildings.*;
 import Model.*;
 import Model.Items.Item;
+import Model.MapCellItems.MapCellItems;
+import Model.MapCellItems.Wall;
 import Model.MapGeneration.MapOrganizer;
 import Model.People.Person;
 import Model.People.Soldier;
@@ -43,6 +45,15 @@ public class GameMenuController {
 
     public void nextTurn() {
         buildingsFunctionsEachTurn();
+
+        //apply damage and remove hp < 0
+        applyDamageToSoldiers();
+        applyDamageToBuildings();
+        applyDamageToAttackToolsAndMethods();
+        applyDamageByAttackToolsAndMethods();
+        removeDeadSoldiers();
+        removeDestroyedBuildings();
+        removeDestroyedAttackToolsAndMethods();
     }
 
     public void applyDamageToSoldiers() {
@@ -137,7 +148,54 @@ public class GameMenuController {
         return -1;
     }
 
-    //TODO: apply damage to buildings and soldiers by attack tools
+    //TODO: Siege Tower and Portable Shield?
+
+    public void applyDamageByAttackToolsAndMethods() {
+        for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
+            if(mapCell.getAttackToolsAndMethods() != null)
+                if(mapCell.getAttackToolsAndMethods().getName().equals("battering ram"))
+                    applyDamageBatteringRam(mapCell.getX(), mapCell.getY(), mapCell.getAttackToolsAndMethods());
+                else
+                    applyDamageByAttackToolsToSoldiersAndBuildings(mapCell.getX(), mapCell.getY(), mapCell.getAttackToolsAndMethods());
+        }
+    }
+
+    public void applyDamageByAttackToolsToSoldiersAndBuildings(int startX, int startY, AttackToolsAndMethods attackToolsAndMethods) {
+        int range = attackToolsAndMethods.getRange();
+        outerLoop:
+        for(int x = startX - range; x < startX + range + 1; x++) {
+            for(int y = startY - range; y < startY + range + 1; y++) {
+                if(!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y)) continue;
+
+                Building building = Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getBuilding();
+                if(building != null && !attackToolsAndMethods.getOwner().equals(building.getOwner())) {
+                    building.changeBuildingHp(-attackToolsAndMethods.getDamage());
+                    break outerLoop;
+                }
+
+                for (Soldier soldier : Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getSoldier()) {
+                    if(!attackToolsAndMethods.getOwner().equals(soldier.getOwner())) {
+                        soldier.changeHp(-attackToolsAndMethods.getDamage());
+                        break outerLoop;
+                    }
+                }
+            }
+        }
+    }
+
+    public void applyDamageBatteringRam(int startX, int startY, AttackToolsAndMethods attackToolsAndMethods) {
+        int range = attackToolsAndMethods.getRange();
+        for(int x = startX - range; x < startX + range + 1; x++) {
+            for(int y = startY - range; y < startY + range + 1; y++) {
+                if(!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y)) continue;
+
+                for (MapCellItems mapCellItem : Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getMapCellItems()) {
+                    if(mapCellItem instanceof Wall && !attackToolsAndMethods.getOwner().equals(mapCellItem.getOwner()))
+                        ((Wall) mapCellItem).changeHp(-attackToolsAndMethods.getDamage());
+                }
+            }
+        }
+    }
 
     public void applyDamageToAttackToolsAndMethods() {
         for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
