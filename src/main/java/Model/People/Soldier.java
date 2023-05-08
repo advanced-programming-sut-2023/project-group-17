@@ -85,6 +85,10 @@ public class Soldier extends Person {
         return cost;
     }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public void changeDamage(double amount) {
         this.attackRating *= amount;
     }

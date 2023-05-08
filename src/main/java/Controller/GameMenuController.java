@@ -44,6 +44,7 @@ public class GameMenuController {
     }
 
     public void nextTurn() {
+        //TODO: deal with whose turn is it
         buildingsFunctionsEachTurn();
 
         //apply damage and remove hp < 0

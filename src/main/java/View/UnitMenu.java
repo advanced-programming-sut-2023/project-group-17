@@ -169,10 +169,9 @@ public class UnitMenu extends Menu {
             case DOES_NOT_INCLUDE_UNIT:
                 System.out.println("set unit mood failed : there is no unit here");
                 break;
-            case INVALID_MOOD:
-                System.out.println("set unit mood failed : invalid unit mood");
+            case OPPONENT_UNIT:
+                System.out.println("set unit mood failed : choose your own soldiers");
                 break;
-
         }
 
     }

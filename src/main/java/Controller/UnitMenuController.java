@@ -3,6 +3,7 @@ package Controller;
 import Model.Database;
 import Model.People.Person;
 import Model.People.Soldier;
+import Utils.CheckMapCell;
 import View.Enums.Messages.UnitMenuMessages;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public class UnitMenuController {
         if(!Utils.CheckMapCell.validationOfY(y)) return UnitMenuMessages.Y_OUT_OF_BOUNDS;
 
         for (Person person : selectedUnit = Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getPeople()) {
-            if((person instanceof Soldier) && person.getOwner().equals(Database.getLoggedInUser())) {
+            if((person instanceof Soldier) && person.getOwner().equals(Database.getWhoseTurn())) {
                 selectedUnit.add(person);
             }
         }
@@ -32,7 +33,18 @@ public class UnitMenuController {
     }
 
     public UnitMenuMessages setUnitMood(int x, int y, String status) {
-        return null;
+        if (!CheckMapCell.validationOfX(x)) return UnitMenuMessages.X_OUT_OF_BOUNDS;
+        if (!CheckMapCell.validationOfY(y)) return UnitMenuMessages.Y_OUT_OF_BOUNDS;
+        if (Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getSoldier() ==  null) return UnitMenuMessages.DOES_NOT_INCLUDE_UNIT;
+
+        for (Soldier soldier : Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getSoldier()) {
+            if(soldier.getOwner().equals(Database.getWhoseTurn())) {
+                soldier.setStatus(status);
+                //TODO: need for save soldier??? bcz of json
+                return UnitMenuMessages.SUCCESS;
+            }
+        }
+        return UnitMenuMessages.OPPONENT_UNIT;
     }
 
     public UnitMenuMessages attackEnemy(int x, int y) {
