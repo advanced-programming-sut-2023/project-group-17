@@ -169,7 +169,7 @@ public class MapMenuController {
 
         if (mapCell.getMaterialMap().isWaterZone()) return MapMenuMessages.INAPPROPRIATE_TEXTURE;
 
-        Rock rock = new Rock(Database.getLoggedInUser(), Direction.getDirection(direction));
+        Rock rock = new Rock(Database.getCurrentUser(), Direction.getDirection(direction));
         mapCell.addMapCellItems(rock);
 
         return MapMenuMessages.SUCCESS;
@@ -186,7 +186,7 @@ public class MapMenuController {
 
         if (mapCell.getMaterialMap().isWaterZone()) return MapMenuMessages.INAPPROPRIATE_TEXTURE;
 
-        Tree tree = new Tree(Database.getLoggedInUser(), Tree.getTreeType(type));
+        Tree tree = new Tree(Database.getCurrentUser(), Tree.getTreeType(type));
 
         mapCell.addMapCellItems(tree);
 
@@ -203,7 +203,7 @@ public class MapMenuController {
         if (Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getMaterialMap().isWaterZone())
             return MapMenuMessages.INAPPROPRIATE_TEXTURE;
 
-        Building building = new Building(Database.getLoggedInUser(), Database.getBuildingDataByName(type), x, y);
+        Building building = new Building(Database.getCurrentUser(), Database.getBuildingDataByName(type), x, y);
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
 
         mapCell.addBuilding(building);
@@ -224,8 +224,8 @@ public class MapMenuController {
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
 
         for (int i = 0; i < count; i++) {
-            Soldier soldier = new Soldier(Database.getLoggedInUser(), Database.getSoldierDataByName(type));
-            Database.getLoggedInUser().getEmpire().addPopulation(soldier);
+            Soldier soldier = new Soldier(Database.getCurrentUser(), Database.getSoldierDataByName(type));
+            Database.getCurrentUser().getEmpire().addPopulation(soldier);
             mapCell.addPeople(soldier);
         }
 

@@ -17,7 +17,7 @@ public class GateHouse extends Building{
         this.livingPeople = new ArrayList<>();
         this.maximumCapacity = gateHouse.getMaximumCapacity();
         this.house = gateHouse.isHouse();
-        if (Database.getLoggedInUser() != null)
+        if (Database.getCurrentUser() != null)
             handleLivingPeople();
     }
 
@@ -31,8 +31,8 @@ public class GateHouse extends Building{
 
     public void handleLivingPeople() {
         for(int i = 0; i < this.getMaximumCapacity(); i++) {
-            NormalPeople normalPeople = new NormalPeople(Database.getLoggedInUser());
-            Database.getLoggedInUser().getEmpire().addPopulation(normalPeople);
+            NormalPeople normalPeople = new NormalPeople(Database.getCurrentUser());
+            Database.getCurrentUser().getEmpire().addPopulation(normalPeople);
             this.addPerson(normalPeople);
             //TODO moshkel dare ke bar asas logged in user sakhte mishe
         }

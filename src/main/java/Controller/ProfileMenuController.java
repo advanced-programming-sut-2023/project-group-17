@@ -21,28 +21,28 @@ public class ProfileMenuController {
         if (getUserByUsername(username) != null)
             return ProfileMenuMessages.USERNAME_EXISTS;
 
-        if (getLoggedInUser().getUsername().equals(username))
+        if (getCurrentUser().getUsername().equals(username))
             return ProfileMenuMessages.SAME_USERNAME;
 
-        getLoggedInUser().setUsername(username);
+        getCurrentUser().setUsername(username);
         Database.saveUsers();
         return ProfileMenuMessages.SUCCESS;
     }
 
     public ProfileMenuMessages changeNickname(String nickname) {
-        if (getLoggedInUser().getNickname().equals(nickname))
+        if (getCurrentUser().getNickname().equals(nickname))
             return ProfileMenuMessages.SAME_NICKNAME;
 
-        getLoggedInUser().setNickname(nickname);
+        getCurrentUser().setNickname(nickname);
         Database.saveUsers();
         return ProfileMenuMessages.SUCCESS;
     }
 
     public ProfileMenuMessages changePassword(String oldPassword, String newPassword) {
-        if (!getLoggedInUser().getPassword().equals(User.SHA256Code(oldPassword)))
+        if (!getCurrentUser().getPassword().equals(User.SHA256Code(oldPassword)))
             return ProfileMenuMessages.INCORRECT_PASSWORD;
 
-        if (getLoggedInUser().getPassword().equals(User.SHA256Code(newPassword)))
+        if (getCurrentUser().getPassword().equals(User.SHA256Code(newPassword)))
             return ProfileMenuMessages.SAME_PASSWORD;
 
         if (newPassword.equals("random"))
@@ -72,7 +72,7 @@ public class ProfileMenuController {
             }
         }
 
-        getLoggedInUser().setPassword(User.SHA256Code(newPassword));
+        getCurrentUser().setPassword(User.SHA256Code(newPassword));
         Database.saveUsers();
         return ProfileMenuMessages.SUCCESS;
     }
@@ -84,10 +84,10 @@ public class ProfileMenuController {
         if(!email.matches("([A-Za-z0-9_.]+@[A-Za-z0-9_.]+\\.[A-Za-z0-9_.]+)"))
             return ProfileMenuMessages.INVALID_EMAIL;
 
-        if(getLoggedInUser().getEmail().equals(email))
+        if(getCurrentUser().getEmail().equals(email))
             return ProfileMenuMessages.SAME_EMAIL;
 
-        getLoggedInUser().setEmail(email);
+        getCurrentUser().setEmail(email);
         Database.saveUsers();
         return ProfileMenuMessages.SUCCESS;
     }
@@ -95,31 +95,31 @@ public class ProfileMenuController {
     public ProfileMenuMessages changeSlogan (String slogan){
         if(slogan.equals("random")) return ProfileMenuMessages.RANDOM_SLOGAN;
 
-        getLoggedInUser().setSlogan(slogan);
+        getCurrentUser().setSlogan(slogan);
         Database.saveUsers();
         return ProfileMenuMessages.SUCCESS;
     }
 
     public ProfileMenuMessages removeSlogan() {
-        if(getLoggedInUser().getSlogan() == null)
+        if(getCurrentUser().getSlogan() == null)
             return ProfileMenuMessages.EMPTY_SLOGAN;
 
-        getLoggedInUser().setSlogan(null);
+        getCurrentUser().setSlogan(null);
         Database.saveUsers();
         return ProfileMenuMessages.SUCCESS;
     }
 
     public String displaySlogan () {
-        String slogan = getLoggedInUser().getSlogan();
+        String slogan = getCurrentUser().getSlogan();
         if(slogan != null)
             return "your slogan is \"" + slogan + "\"";
         return "there is no slogan to show";
     }
     public String displayHighScore () {
-        return "your HighScore is : " + Database.getLoggedInUser().getHighScore();
+        return "your HighScore is : " + Database.getCurrentUser().getHighScore();
     }
     public String displayRank () {
-        return "Rank: " + getRankAmongPlayers() + " HighScore: " + Database.getLoggedInUser().getHighScore();
+        return "Rank: " + getRankAmongPlayers() + " HighScore: " + Database.getCurrentUser().getHighScore();
     }
 
     public int getRankAmongPlayers() {
@@ -130,7 +130,7 @@ public class ProfileMenuController {
         int rank = 0;
         int index = copyUsers.size();
         for (User currentUser : copyUsers) {
-            if(currentUser.equals(Database.getLoggedInUser()))
+            if(currentUser.equals(Database.getCurrentUser()))
                 rank = index;
             index--;
         }
@@ -139,12 +139,12 @@ public class ProfileMenuController {
 
     public String displayProfile () {
         String result = "";
-        String slogan = getLoggedInUser().getSlogan();
+        String slogan = getCurrentUser().getSlogan();
         if(slogan == null)
             slogan = "";
-        result += "username : " + getLoggedInUser().getUsername() + '\n' +
-                  "nickname : " + getLoggedInUser().getNickname() + '\n' +
-                  "email : " + getLoggedInUser().getEmail() + '\n' +
+        result += "username : " + getCurrentUser().getUsername() + '\n' +
+                  "nickname : " + getCurrentUser().getNickname() + '\n' +
+                  "email : " + getCurrentUser().getEmail() + '\n' +
                   "slogan : " + slogan + '\n';
         return result;
     }

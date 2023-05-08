@@ -8,7 +8,7 @@ import View.Enums.Messages.LoginMenuMessages;
 import View.Enums.Messages.UtilsMessages;
 
 import static Model.Database.getUserByUsername;
-import static Model.Database.setLoggedInUser;
+import static Model.Database.setCurrentUser;
 
 public class LoginMenuController {
     int verifyingNumber;
@@ -24,11 +24,11 @@ public class LoginMenuController {
             return LoginMenuMessages.WRONG_PASSWORD;
 
         if (stayLoggedIn) Database.setStayLoggedInUser(user);
-        setLoggedInUser(user);
+        setCurrentUser(user);
         Database.loadUnits();
         Database.loadBuildings();
         Database.loadAttackToolsAndMethods();
-        Database.setSaveUser(Database.getLoggedInUser());
+        Database.setLoggedInUser(Database.getCurrentUser());
         return LoginMenuMessages.SUCCESS;
     }
 
@@ -78,8 +78,8 @@ public class LoginMenuController {
             Database.loadUnits();
             Database.loadBuildings();
             Database.loadAttackToolsAndMethods();
-            Database.setLoggedInUser(Database.getUserByUsername(Database.getStayLoggedInUser()));
-            Database.setSaveUser(Database.getLoggedInUser());
+            Database.setCurrentUser(Database.getUserByUsername(Database.getStayLoggedInUser()));
+            Database.setLoggedInUser(Database.getCurrentUser());
             return true;
         }
         return false;
@@ -100,7 +100,7 @@ public class LoginMenuController {
 
     public void setLoggedInUserInController(String username) {
         User user = Database.getUserByUsername(username);
-        setLoggedInUser(user);
+        setCurrentUser(user);
         Database.loadUnits();
         Database.loadBuildings();
     }

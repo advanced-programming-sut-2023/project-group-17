@@ -4,13 +4,11 @@ import Model.Database;
 import Model.Empire;
 import Model.User;
 import Model.empireColors;
-import Utils.CheckMapCell;
 import View.Enums.Messages.MainMenuMessages;
-import View.Enums.Messages.MapMenuMessages;
 import View.Menu;
 
 public class MainMenuController {
-    User loggedInUser = Database.getLoggedInUser();
+    User loggedInUser = Database.getCurrentUser();
     public MainMenuMessages startNewGame(String users, int turnsCount) {
         if (turnsCount <= 0) return MainMenuMessages.INVALID_NUMBER;
         String[] user = users.split(",");
@@ -38,6 +36,6 @@ public class MainMenuController {
 
     public void logout() {
         if (Database.getStayLoggedInUser() != null) Database.clearStayLoggedIn();
-        Database.setSaveUser(null);
+        Database.setLoggedInUser(null);
     }
 }

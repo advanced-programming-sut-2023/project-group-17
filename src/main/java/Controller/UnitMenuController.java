@@ -15,7 +15,7 @@ public class UnitMenuController {
         if(!Utils.CheckMapCell.validationOfY(y)) return UnitMenuMessages.Y_OUT_OF_BOUNDS;
 
         for (Person person : selectedUnit = Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getPeople()) {
-            if((person instanceof Soldier) && person.getOwner().equals(Database.getWhoseTurn())) {
+            if((person instanceof Soldier) && person.getOwner().equals(Database.getCurrentUser())) {
                 selectedUnit.add(person);
             }
         }
@@ -38,7 +38,7 @@ public class UnitMenuController {
         if (Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getSoldier() ==  null) return UnitMenuMessages.DOES_NOT_INCLUDE_UNIT;
 
         for (Soldier soldier : Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getSoldier()) {
-            if(soldier.getOwner().equals(Database.getWhoseTurn())) {
+            if(soldier.getOwner().equals(Database.getCurrentUser())) {
                 soldier.setStatus(status);
                 //TODO: need for save soldier??? bcz of json
                 return UnitMenuMessages.SUCCESS;

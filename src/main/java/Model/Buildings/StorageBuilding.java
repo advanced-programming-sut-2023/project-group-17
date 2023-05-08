@@ -3,11 +3,8 @@ package Model.Buildings;
 import Model.*;
 import Model.Items.Animal;
 import Model.Items.Item;
-import Model.People.Soldier;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 
 public class StorageBuilding extends Building{
     private ArrayList<Item> storedItems;
@@ -21,9 +18,9 @@ public class StorageBuilding extends Building{
     }
 
     private void createHorses(int x, int y) {
-        Empire empire = Database.getLoggedInUser().getEmpire();
+        Empire empire = Database.getCurrentUser().getEmpire();
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
-        Animal animal = new Animal(Animal.animalNames.HORSE, Database.getLoggedInUser(), 4);
+        Animal animal = new Animal(Animal.animalNames.HORSE, Database.getCurrentUser(), 4);
         mapCell.addItems(animal);
         empire.addAnimal(animal);
     }

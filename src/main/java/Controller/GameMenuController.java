@@ -45,6 +45,7 @@ public class GameMenuController {
 
     public void nextTurn() {
         //TODO: deal with whose turn is it
+        //TODO: set currentUser to loggedInUser
         buildingsFunctionsEachTurn();
 
         //apply damage and remove hp < 0
@@ -445,14 +446,14 @@ public class GameMenuController {
 
         User user = Database.getUsersInTheGame().get(i);
         Empire empire = Database.getUsersInTheGame().get(i).getEmpire();
-        Database.setLoggedInUser(user);
+        Database.setCurrentUser(user);
         empire.makeHeadquarter(x, y, user);
-        Database.setLoggedInUser(Database.getSaveUser());
+        Database.setCurrentUser(Database.getLoggedInUser());
         return GameMenuMessages.SUCCESS;
     }
 
     public static void handleProductionBuildings(Building building) {
-        Empire empire = Database.getLoggedInUser().getEmpire();
+        Empire empire = Database.getCurrentUser().getEmpire();
         HashMap<Item.ItemType, Item.ItemType> production = ((ProductionBuilding) building).getProductionItem();
 
         for (Item.ItemType itemType : production.keySet()) {
@@ -491,7 +492,7 @@ public class GameMenuController {
     }
 
     public static void handleMiningBuildings(Building building) {
-        Empire empire = Database.getLoggedInUser().getEmpire();
+        Empire empire = Database.getCurrentUser().getEmpire();
         Item.ItemType itemType = ((MiningBuilding) building).getProduction();
         Item item = Item.getAvailableItems(itemType.getName());
         assert item != null;
@@ -499,7 +500,7 @@ public class GameMenuController {
     }
 
     public static void handleReligiousBuildings(Building building) {
-        Empire empire = Database.getLoggedInUser().getEmpire();
+        Empire empire = Database.getCurrentUser().getEmpire();
         empire.changePopularityRate(2);
         empire.changeReligionRate(2);
 
@@ -516,7 +517,7 @@ public class GameMenuController {
                 if(Utils.CheckMapCell.validationOfX(i) && Utils.CheckMapCell.validationOfY(j)) {
                     for (Soldier soldier : Database.getCurrentMapGame().
                             getMapCellByCoordinates(i, j).getSoldier()) {
-                        if (!soldier.getOwner().equals(Database.getLoggedInUser())) {
+                        if (!soldier.getOwner().equals(Database.getCurrentUser())) {
                             soldier.changeSpeed(-1);
                         }
                     }
@@ -526,7 +527,7 @@ public class GameMenuController {
     }
 
     public static void handleInn(Building building) {
-        Database.getLoggedInUser().getEmpire().changePopularityRate(5);
+        Database.getCurrentUser().getEmpire().changePopularityRate(5);
     }
 
     public static void handleIronMine(Building building) {
@@ -544,7 +545,7 @@ public class GameMenuController {
     }
 
     private void buildingsFunctionsEachTurn() {
-        for (Building building : Database.getLoggedInUser().getEmpire().getBuildings()) {
+        for (Building building : Database.getCurrentUser().getEmpire().getBuildings()) {
             if(building.getCategory().equals("production")) handleProductionBuildings(building);
             else if(building.getCategory().equals("mining")) handleMiningBuildings(building);
             else if(building.getBuildingName().equals("church") || building.getBuildingName().equals("cathedral"))

@@ -87,7 +87,7 @@ public class Item {
     }
 
     public static ItemTypes getItemByName(String name) {
-        Empire empire = Database.getLoggedInUser().getEmpire();
+        Empire empire = Database.getCurrentUser().getEmpire();
 
         if(empire.getFoodByName(name) != null) {
             return ItemTypes.FOOD;
@@ -105,7 +105,7 @@ public class Item {
     }
 
     public static Item getAvailableItems(String itemName) {
-        Empire empire = Database.getLoggedInUser().getEmpire();
+        Empire empire = Database.getCurrentUser().getEmpire();
         switch (getItemByName(itemName)) {
             case RESOURCE:
                 return empire.getResourceByName(itemName);

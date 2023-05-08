@@ -6,7 +6,6 @@ import Model.MapCell;
 import Model.People.Soldier;
 import Model.User;
 
-import javax.xml.crypto.Data;
 import java.util.Objects;
 
 public class OtherBuilding extends Building{
@@ -16,15 +15,15 @@ public class OtherBuilding extends Building{
         super(owner, otherBuilding, x, y);
         this.religiousBuilding = otherBuilding.religiousBuilding;
         this.capacity = otherBuilding.capacity;
-        if(otherBuilding.getBuildingName().equals("cathedral") && Database.getLoggedInUser() != null) makeBlankMonk(x, y);
+        if(otherBuilding.getBuildingName().equals("cathedral") && Database.getCurrentUser() != null) makeBlankMonk(x, y);
     }
 
     private void makeBlankMonk(int x, int y) {
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
-        Empire empire = Database.getLoggedInUser().getEmpire();
-        Soldier soldier = new Soldier(Database.getLoggedInUser(),
+        Empire empire = Database.getCurrentUser().getEmpire();
+        Soldier soldier = new Soldier(Database.getCurrentUser(),
                 Objects.requireNonNull(Database.getSoldierDataByName("black monk")));
-        empire.addPopulation(new Soldier(Database.getLoggedInUser(), soldier));
+        empire.addPopulation(new Soldier(Database.getCurrentUser(), soldier));
         mapCell.addPeople(soldier);
     }
 

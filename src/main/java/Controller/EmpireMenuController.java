@@ -9,7 +9,7 @@ public class EmpireMenuController {
 
     private User user;
     public EmpireMenuController() {
-        this.user = Database.getLoggedInUser();
+        this.user = Database.getCurrentUser();
     }
     public String showPopularity() {
         return user.getUsername() + "'s popularity rate is : " + user.getEmpire().getPopularityRate();

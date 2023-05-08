@@ -18,10 +18,10 @@ public class TradeMenuController {
         if(item == null || item.getNumber() < itemAmount) return TradeMenuMessages.INSUFFICIENT_ITEM_AMOUNT;
 
         Item.ItemType itemType = Item.getItemType(itemName);
-        TradeRequest tradeRequest = new TradeRequest(Database.getLoggedInUser(),
+        TradeRequest tradeRequest = new TradeRequest(Database.getCurrentUser(),
                 itemType, itemAmount, price, message);
 
-        Database.getLoggedInUser().getEmpire().addSentTradeRequests(tradeRequest);
+        Database.getCurrentUser().getEmpire().addSentTradeRequests(tradeRequest);
         for (User user : Database.getUsersInTheGame()) {
             user.getEmpire().addReceivedTradeRequests(tradeRequest);
         }
@@ -29,7 +29,7 @@ public class TradeMenuController {
     }
 
     public TradeMenuMessages acceptTrade(int id, String message) {
-        Empire receiverEmpire = Database.getLoggedInUser().getEmpire();
+        Empire receiverEmpire = Database.getCurrentUser().getEmpire();
         if(receiverEmpire.getReceivedRequestById(id) == null) return TradeMenuMessages.ID_DOES_NOT_EXISTS;
 
         TradeRequest request = receiverEmpire.getReceivedRequestById(id);
@@ -76,7 +76,7 @@ public class TradeMenuController {
     public String tradeList() {
         String result = "";
 
-        for (TradeRequest request : Database.getLoggedInUser().getEmpire().getReceivedTradeRequests()) {
+        for (TradeRequest request : Database.getCurrentUser().getEmpire().getReceivedTradeRequests()) {
             result += receivedTradeToString(request);
         }
 
@@ -87,13 +87,13 @@ public class TradeMenuController {
         String result = "";
 
         result += "Accepted Requests: " + "\n";
-        for (TradeRequest request : Database.getLoggedInUser().getEmpire().getReceivedTradeRequests()) {
+        for (TradeRequest request : Database.getCurrentUser().getEmpire().getReceivedTradeRequests()) {
             if(request.isAccepted())
                 result += receivedTradeToString(request);
         }
 
         result += "Sent Requests: " + "\n";
-        for (TradeRequest request : Database.getLoggedInUser().getEmpire().getSentTradeRequests()) {
+        for (TradeRequest request : Database.getCurrentUser().getEmpire().getSentTradeRequests()) {
             result += sentTradeToString(request);
         }
 
@@ -103,7 +103,7 @@ public class TradeMenuController {
     public String showRequestsNotification() {
         String result = "";
 
-        for (TradeRequest request : Database.getLoggedInUser().getEmpire().getReceivedTradeRequests()) {
+        for (TradeRequest request : Database.getCurrentUser().getEmpire().getReceivedTradeRequests()) {
             if(!request.isSeen()){
                 result += "id " + request.getId() + ") from " + request.getSenderUser() +
                         " | message: " + request.getSentMessage() + "\n";

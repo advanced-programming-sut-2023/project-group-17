@@ -5,17 +5,12 @@ import Model.AttackToolsAndMethods.*;
 import Model.Buildings.*;
 import Model.Items.Animal;
 import Model.Items.ArmorAndWeapon;
-import Model.Items.Item;
 import Model.Items.Resource;
 import Model.People.*;
 import Utils.CheckMapCell;
 import View.EmpireMenu;
 import View.Enums.Messages.BuildingMenuMessages;
 import View.ShopMenu;
-
-import javax.xml.crypto.Data;
-import java.util.HashMap;
-import java.util.Objects;
 
 public class BuildingMenuController {
     public Building selectedBuilding = null;
@@ -33,7 +28,7 @@ public class BuildingMenuController {
         if (!CheckMapCell.mapCellEmptyByCoordinates(x, y)) return BuildingMenuMessages.CELL_IS_FULL;
 
         Building buildingSample = Database.getBuildingDataByName(type);
-        User currentUser = Database.getLoggedInUser();
+        User currentUser = Database.getCurrentUser();
 
         int numberOfWorkers = 0;
         for (PeopleType peopleType : buildingSample.getNumberOfWorkers().keySet()) {
@@ -132,7 +127,7 @@ public class BuildingMenuController {
 
         if (!CheckMapCell.validationOfY(y)) return BuildingMenuMessages.Y_OUT_OF_BOUNDS;
 
-        switch (CheckMapCell.mapCellHaveBuildingByCoordinates(x, y, Database.getLoggedInUser())) {
+        switch (CheckMapCell.mapCellHaveBuildingByCoordinates(x, y, Database.getCurrentUser())) {
             case NO_BUILDING_IN_THIS_CELL:
                 return BuildingMenuMessages.CELL_IS_EMPTY;
             case OPPONENT_BUILDING:
@@ -150,7 +145,7 @@ public class BuildingMenuController {
 
     public BuildingMenuMessages createUnit(String type, int count) {
 
-        User currentUser = Database.getLoggedInUser();
+        User currentUser = Database.getCurrentUser();
         Soldier sampleSoldier = Database.getSoldierDataByName(type);
 
         if (sampleSoldier == null) return BuildingMenuMessages.INVALID_TYPE;
@@ -187,7 +182,7 @@ public class BuildingMenuController {
         if (selectedBuilding == null) return BuildingMenuMessages.BUILDING_IS_NOT_SELECTED;
 
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
-        User currentUser = Database.getLoggedInUser();
+        User currentUser = Database.getCurrentUser();
 
         int damaged = Database.getBuildingDataByName(selectedBuilding.getBuildingName()).getBuildingHp()
                     - selectedBuilding.getBuildingHp();
@@ -241,7 +236,7 @@ public class BuildingMenuController {
         if(!Utils.CheckMapCell.mapCellEmptyByCoordinates(x, y))
             return BuildingMenuMessages.CELL_IS_FULL;
 
-        Empire empire = Database.getLoggedInUser().getEmpire();
+        Empire empire = Database.getCurrentUser().getEmpire();
         if(empire.getEngineers().size() < sampleAttackToolsAndMethods.getNumberOfEngineers())
             return BuildingMenuMessages.INSUFFICIENT_ENGINEER;
 
@@ -249,7 +244,7 @@ public class BuildingMenuController {
         if(empire.getCoins() < golds) return BuildingMenuMessages.INSUFFICIENT_GOLD;
 
         AttackToolsAndMethods sample = Database.getAttackToolsDataByName(type);
-        AttackToolsAndMethods attackToolsAndMethods = new AttackToolsAndMethods(Database.getLoggedInUser(), sample);
+        AttackToolsAndMethods attackToolsAndMethods = new AttackToolsAndMethods(Database.getCurrentUser(), sample);
 
         empire.addAttackToolsAndMethods(attackToolsAndMethods);
         mapCell.addAttackToolsAndMethods(attackToolsAndMethods);
@@ -260,8 +255,8 @@ public class BuildingMenuController {
         int x = building.getX();
         int y = building.getY();
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
-        Animal dogs = (new Animal(Animal.animalNames.DOG, Database.getLoggedInUser(), 3));
+        Animal dogs = (new Animal(Animal.animalNames.DOG, Database.getCurrentUser(), 3));
         mapCell.addItems(dogs);
-        Database.getLoggedInUser().getEmpire().addAnimal(dogs);
+        Database.getCurrentUser().getEmpire().addAnimal(dogs);
     }
 }
