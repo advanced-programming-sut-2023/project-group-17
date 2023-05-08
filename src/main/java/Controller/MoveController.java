@@ -8,10 +8,7 @@ import Model.MapCell;
 import Model.MapCellItems.MapCellItems;
 import Model.User;
 
-import javax.xml.crypto.Data;
 import java.util.*;
-
-import static java.lang.Math.abs;
 
 public class MoveController {
     static boolean isValid(Map map, int x, int y) {
@@ -117,7 +114,6 @@ public class MoveController {
                     if(isDestination(newX, newY, goalX, goalY)) {
                         newCell.setParentX(x);
                         newCell.setParentY(y);
-                        System.out.println("The destination cell is found\n");
                         tracePath(map, goalX, goalY);
                         foundDest = true;
                         return;
@@ -149,3 +145,5 @@ public class MoveController {
         aStarSearch(map, 1, 4, 1, 2);
     }
 }
+
+//https://www.geeksforgeeks.org/a-search-algorithm/

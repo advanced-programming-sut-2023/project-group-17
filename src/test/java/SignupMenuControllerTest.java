@@ -9,6 +9,9 @@ import org.mockito.Mockito;
 import org.mockito.exceptions.base.MockitoException;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static View.Enums.Messages.SignupMenuMessages.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -121,5 +124,32 @@ public class SignupMenuControllerTest {
 
         Assertions.assertEquals(true ,
                 controller.isRandomPasswordsMatches("hiii", "hiii"));
+    }
+
+    @Test
+    public void randomPasswordValidationCheck() {
+        Assertions.assertTrue(controller.getRandomPassword().matches(".*[A-Z].*"));
+        Assertions.assertTrue(controller.getRandomPassword().matches(".*[a-z].*"));
+        Assertions.assertTrue(controller.getRandomPassword().matches(".*\\d+.*"));
+        Assertions.assertTrue(controller.getRandomPassword().matches(".*[!@#$%^&*_=+\\-/.].*"));
+    }
+
+    @Test
+    public void randomSloganValidationCheck() {
+         String[] Slogans = {
+                "Give up or I will make you give up",
+                "I shall have my revenge, in this life or in next",
+                "Greatest player of all time is playing",
+                "I am the reason of your nightmares",
+                "You will remember me as a legend",
+                "join me or die"
+        };
+        Assertions.assertTrue(Arrays.asList(Slogans).contains(controller.getRandomSlogan()));
+    }
+
+    @Test
+    public void verifyCaptchaCheck() {
+        controller.verifyingNumber = 12;
+        Assertions.assertTrue(controller.validateCaptcha(12));
     }
 }

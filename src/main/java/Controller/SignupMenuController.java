@@ -12,7 +12,7 @@ import static Model.Database.*;
 
 public class SignupMenuController {
     User tmpUser;
-    int verifyingNumber;
+    public int verifyingNumber;
     public SignupMenuMessages createUser(String username, String password, String confirmationPassword,
                                          String email, String nickname, String slogan) {
         Database.loadUsers();
