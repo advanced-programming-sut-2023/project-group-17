@@ -1,6 +1,4 @@
-package Model.AttackToolsAndMethods;
-
-import Model.User;
+package Model;
 
 public class AttackToolsAndMethods {
     private final User owner;
@@ -12,6 +10,7 @@ public class AttackToolsAndMethods {
     private final int damage;
     private final int speed;
     private final int cost;
+    private MapCell destination;
     public AttackToolsAndMethods(User owner, AttackToolsAndMethods type) {
         this.owner = owner;
         this.name = type.getName();
@@ -64,4 +63,11 @@ public class AttackToolsAndMethods {
         this.hp += hp;
     }
 
+    public MapCell getDestination() {
+        return destination;
+    }
+
+    public void setDestination(MapCell destination) {
+        this.destination = destination;
+    }
 }

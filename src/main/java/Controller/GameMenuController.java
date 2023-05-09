@@ -1,6 +1,6 @@
 package Controller;
 
-import Model.AttackToolsAndMethods.AttackToolsAndMethods;
+import Model.AttackToolsAndMethods;
 import Model.Buildings.*;
 import Model.*;
 import Model.Items.Item;
@@ -12,6 +12,8 @@ import Model.People.Soldier;
 import Utils.CheckMapCell;
 import View.Enums.Messages.GameMenuMessages;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -46,9 +48,9 @@ public class GameMenuController {
     public void nextTurn() {
         //TODO: deal with whose turn is it
         //TODO: set currentUser to loggedInUser
-        buildingsFunctionsEachTurn();
 
-        //apply damage and remove hp < 0
+        applyMoves();
+        buildingsFunctionsEachTurn();
         applyDamageToSoldiers();
         applyDamageToBuildings();
         applyDamageToAttackToolsAndMethods();
@@ -56,6 +58,54 @@ public class GameMenuController {
         removeDeadSoldiers();
         removeDestroyedBuildings();
         removeDestroyedAttackToolsAndMethods();
+    }
+
+    private void applyMoves() {
+        Map map = Database.getCurrentMapGame();
+        MapCell mapCell;
+        ArrayList<MapCell> path = null;
+        AttackToolsAndMethods attackToolsAndMethods = null;
+        for (int i = 1; i <= map.getWidth(); i++) {
+            for (int j = 1; j <= map.getLength(); j++) {
+                mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(i, j);
+                for (Person person : mapCell.getPeople()) {
+                    if (person.getDestination() != null) {
+                        path = MoveController.aStarSearch(map, mapCell.getX(),
+                                mapCell.getY(), person.getDestination().getX(), person.getDestination().getY());
+                        movePerson(person, path);
+                    }
+                }
+                if (mapCell.getAttackToolsAndMethods() != null) {
+                    attackToolsAndMethods = mapCell.getAttackToolsAndMethods();
+                    if (attackToolsAndMethods.getDestination() != null) {
+                        path = MoveController.aStarSearch(map, mapCell.getX(),
+                                mapCell.getY(), attackToolsAndMethods.getDestination().getX(),
+                                attackToolsAndMethods.getDestination().getY());
+                        moveAttackToolsAndMethods(mapCell.getAttackToolsAndMethods(), path);
+                    }
+                }
+            }
+        }
+    }
+
+    private void movePerson(Person person, ArrayList<MapCell> path) {
+        int counter = 0;
+        for(int i = path.size() - 1; i >= 0; i--) {
+            path.get(i).removePerson(person);
+            path.get(i-1).addPeople(person);
+            counter++;
+            if (person instanceof Soldier && counter >= ((Soldier) person).getSpeed()) break;
+        }
+    }
+
+    private void moveAttackToolsAndMethods(AttackToolsAndMethods attackToolsAndMethods, ArrayList<MapCell> path) {
+        int counter = 0;
+        for(int i = path.size() - 1; i >= 0; i--) {
+            path.get(i).setAttackToolsAndMethods(null);
+            path.get(i-1).setAttackToolsAndMethods(attackToolsAndMethods);
+            counter++;
+            if (counter >= attackToolsAndMethods.getSpeed()) break;
+        }
     }
 
     public void applyDamageToSoldiers() {

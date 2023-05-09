@@ -1,6 +1,5 @@
 package Model;
 
-import Model.AttackToolsAndMethods.AttackToolsAndMethods;
 import Model.Buildings.Building;
 import Model.Buildings.GateHouse;
 import Model.Buildings.StorageBuilding;

@@ -1,6 +1,5 @@
 package Model;
 
-import Model.AttackToolsAndMethods.AttackToolsAndMethods;
 import Model.Buildings.*;
 import Model.People.Soldier;
 import com.google.gson.Gson;

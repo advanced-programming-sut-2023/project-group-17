@@ -27,9 +27,7 @@ public class MoveController {
         return (Math.sqrt((currentX - goalX) * (currentX - goalX) + (currentY - goalY) * (currentY - goalY)));
     }
 
-    static void tracePath(Map map, int goalX, int goalY) {
-        System.out.println("the path is ");
-        //TODO: ja be ja
+    static ArrayList<MapCell> tracePath(Map map, int goalX, int goalY) {
         int row = goalX;
         int col = goalY;
         MapCell mapCell = map.getMapCellByCoordinates(row, col);;
@@ -46,31 +44,19 @@ public class MoveController {
 
         mapCell = map.getMapCellByCoordinates(row, col);
         path.add(mapCell);
-        for (MapCell p : path) {
-            System.out.println("-> (" + p.getX() + ", " + p.getY() + ")");
-        }
-        return;
+//        for (MapCell p : path) {
+//            System.out.println("-> (" + p.getX() + ", " + p.getY() + ")");
+//        }
+        return path;
     }
 
-    public static void aStarSearch(Map map, int currentX, int currentY, int goalX, int goalY) {
-        if (!isValid(map, currentX, currentY)) {
-            System.out.println("start cell is invalid\n");
-            return;
-        }
-
-        if (!isValid(map, goalX, goalY)) {
-            System.out.println("destination cell is invalid\n");
-            return;
-        }
-
+    public static ArrayList<MapCell> aStarSearch(Map map, int currentX, int currentY, int goalX, int goalY) {
         if (!isUnBlocked(map, currentX, currentY) || !isUnBlocked(map, goalX, goalY)) {
-            System.out.println("the start cell or the destination cell is blocked\n");
-            return;
+            return null;
         }
 
         if (isDestination(currentX, currentY, goalX, goalY)) {
-            System.out.println("We are already at the destination\n");
-            return;
+            return null;
         }
 
         boolean[][] closedList = new boolean[map.getWidth()][map.getLength()];
@@ -97,7 +83,7 @@ public class MoveController {
             openList.remove(tmpCell);
             int x = tmpCell.getX();
             int y = tmpCell.getY();
-            closedList[x][y] = true;
+            closedList[x-1][y-1] = true;
 
             int gNew, fNew;
             double hNew;
@@ -109,16 +95,15 @@ public class MoveController {
             for(int i = 0 ; i < 7; i++) {
                 int newX = x+xMove[i];
                 int newY = y+yMove[i];
-                newCell = map.getMapCellByCoordinates(newX, newY);
                 if(isValid(map, newX, newY)){
+                    newCell = map.getMapCellByCoordinates(newX, newY);
                     if(isDestination(newX, newY, goalX, goalY)) {
                         newCell.setParentX(x);
                         newCell.setParentY(y);
-                        tracePath(map, goalX, goalY);
                         foundDest = true;
-                        return;
+                        return tracePath(map, goalX, goalY);
                     }
-                    else if(!closedList[newX][newY] && isUnBlocked(map, newX, newY)) {
+                    else if(!closedList[newX-1][newY-1] && isUnBlocked(map, newX, newY)) {
                         gNew = map.getMapCellByCoordinates(x, y).getgValue() + 1;
                         hNew = calculateHValue(newX, newY, goalX, goalY);
                         fNew = (int) (gNew + hNew);
@@ -134,7 +119,9 @@ public class MoveController {
                 }
             }
         }
+        return null;
     }
+
     public static void main(String[] args) {
         Map map = new Map(10, 10);
         Database.setCurrentMapGame(map);
@@ -142,7 +129,10 @@ public class MoveController {
                 "shamimrahimi83@gmail.com", "sham", "noSlogan", null);
         MapCellItems mapCellItems = new MapCellItems(user);
         map.getMapCellByCoordinates(1, 3).addMapCellItems(mapCellItems);
-        aStarSearch(map, 1, 4, 1, 2);
+        ArrayList<MapCell> path = aStarSearch(map, 1, 4, 1, 2);
+        for (MapCell mapCell : path) {
+            System.out.println(mapCell.getX() + " " + mapCell.getY());
+        }
     }
 }
 
