@@ -5,10 +5,10 @@ import Model.User;
 public class Food extends Item{
     //TODO: default numbers
     public enum foodType {
-        MEAT("meat", 0),
-        CHEESE("cheese", 0),
-        BREAD("bread", 0),
-        APPLE("apple", 0);
+        MEAT("meat", 8),
+        CHEESE("cheese", 8),
+        BREAD("bread", 8),
+        APPLE("apple", 8);
         private final String name;
         private final double cost;
         foodType(String name, double cost) {

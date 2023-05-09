@@ -4,15 +4,16 @@ import Model.User;
 
 public class Resource extends Item {
     public enum resourceType {
-        WHEAT("wheat", 0),
-        FLOUR("flour", 0),
-        HOPS("hops", 0),
-        ALE("ale", 0),
-        STONE("stone", 0),
-        IRON("iron", 0),
-        WOOD("wood", 0),
-        PITCH("pitch", 0),
-        GOLD("gold", 0);
+        WHEAT("wheat", 23),
+        FLOUR("flour", 32),
+        HOPS("hops", 15),
+        ALE("ale", 20),
+        STONE("stone", 14),
+        IRON("iron", 45),
+        WOOD("wood", 4),
+        PITCH("pitch", 100),
+        GOLD("gold", 0)
+        ;
         private final String name;
         private final Double cost;
         resourceType(String name, double cost) {
@@ -24,7 +25,6 @@ public class Resource extends Item {
         }
     }
 
-    //TODO: set costs and numbers?
     public Resource(resourceType resourceType, User owner, double number){
         super(resourceType.name, resourceType.cost, owner, number);
     }
