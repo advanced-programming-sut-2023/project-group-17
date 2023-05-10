@@ -2,8 +2,10 @@ package Controller;
 
 import Model.Database;
 import Model.MapCell;
+import Model.MaterialMap;
 import Model.People.Person;
 import Model.People.Soldier;
+import Model.People.Tunneler;
 import Utils.CheckMapCell;
 import View.Enums.Messages.UnitMenuMessages;
 
@@ -143,8 +145,9 @@ public class UnitMenuController {
             int distance = ((int)Math.sqrt(Math.pow(person.getX() - x, 2) + Math.pow(person.getY() - y, 2)));
             if(((Soldier)person).getAttackRange() > 1) {
                 isCorrectSoldier = true;
-                if(((Soldier)person).getAttackRange() >= distance)
+                if (((Soldier) person).getAttackRange() >= distance) {
                     isReachable = true;
+                }
             }
         }
 
@@ -165,7 +168,27 @@ public class UnitMenuController {
     }
 
     public UnitMenuMessages digTunnel(int x, int y) {
-        return null;
+        if(!Utils.CheckMapCell.validationOfX(x)) return UnitMenuMessages.X_OUT_OF_BOUNDS;
+        if(!Utils.CheckMapCell.validationOfY(y)) return UnitMenuMessages.Y_OUT_OF_BOUNDS;
+        if(selectedUnit == null) return UnitMenuMessages.NO_UNIT_SELECTED;
+
+        MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
+        if(!mapCell.getMaterialMap().equals(MaterialMap.textureMap.LAND) &&
+           !mapCell.getMaterialMap().equals(MaterialMap.textureMap.GRASS) &&
+           !mapCell.getMaterialMap().equals(MaterialMap.textureMap.MEADOW))
+            return UnitMenuMessages.INAPPROPRIATE_TEXTURE;
+
+        for (Person person : selectedUnit) {
+            if (person instanceof Tunneler) {
+                //TODO: dig tunnel/ make it invisible/ find the nearest wall
+
+
+                selectedUnit.subList(0, selectedUnit.size()).clear();
+                return UnitMenuMessages.SUCCESS;
+            }
+        }
+
+        return UnitMenuMessages.INVALID_TYPE_OF_SELECTED_UNIT;
     }
 
     public UnitMenuMessages buildSurroundingEquipment(String buildingName) {
@@ -173,15 +196,61 @@ public class UnitMenuController {
     }
 
     public UnitMenuMessages disbandUnit() {
-        return null;
+        if(selectedUnit == null) return UnitMenuMessages.NO_UNIT_SELECTED;
+
+        int x = Database.getCurrentUser().getEmpire().getHeadquarter().getX() - 1;
+        int y = Database.getCurrentUser().getEmpire().getHeadquarter().getY() - 1;
+
+        for (Person person : selectedUnit) {
+            person.setDestination(Database.getCurrentMapGame().getMapCellByCoordinates(x, y));
+        }
+
+        if (selectedUnit.size() > 0) {
+            selectedUnit.subList(0, selectedUnit.size()).clear();
+        }
+        return UnitMenuMessages.SUCCESS;
     }
 
     public UnitMenuMessages digMoat(int x, int y) {
-        return null;
+        if(!Utils.CheckMapCell.validationOfX(x)) return UnitMenuMessages.X_OUT_OF_BOUNDS;
+        if(!Utils.CheckMapCell.validationOfY(y)) return UnitMenuMessages.Y_OUT_OF_BOUNDS;
+        if(selectedUnit == null) return UnitMenuMessages.NO_UNIT_SELECTED;
+
+        MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
+        if(!mapCell.getMaterialMap().equals(MaterialMap.textureMap.LAND) &&
+           !mapCell.getMaterialMap().equals(MaterialMap.textureMap.MEADOW) &&
+           !mapCell.getMaterialMap().equals(MaterialMap.textureMap.GRASS))
+            return UnitMenuMessages.INAPPROPRIATE_TEXTURE;
+
+        for (Person person : selectedUnit) {
+            if(((Soldier)person).canDigMoat()) {
+                mapCell.setMaterialMap(MaterialMap.textureMap.MOAT);
+                //TODO:  save map when texture is changed??
+                selectedUnit.subList(0, selectedUnit.size()).clear();
+                return UnitMenuMessages.SUCCESS;
+            }
+        }
+        return UnitMenuMessages.INVALID_TYPE_OF_SELECTED_UNIT;
     }
 
     public UnitMenuMessages fillMoat(int x, int y) {
-        return null;
+        if(!Utils.CheckMapCell.validationOfX(x)) return UnitMenuMessages.X_OUT_OF_BOUNDS;
+        if(!Utils.CheckMapCell.validationOfY(y)) return UnitMenuMessages.Y_OUT_OF_BOUNDS;
+        if(selectedUnit == null) return UnitMenuMessages.NO_UNIT_SELECTED;
+
+        MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
+        if(!mapCell.getMaterialMap().equals(MaterialMap.textureMap.MOAT)) return UnitMenuMessages.NO_MOAT;
+
+        for (Person person : selectedUnit) {
+            if(((Soldier)person).canDigMoat()) {
+                mapCell.setMaterialMap(MaterialMap.textureMap.LAND);
+                //TODO: save map when texture is change??
+                selectedUnit.subList(0, selectedUnit.size()).clear();
+                return UnitMenuMessages.SUCCESS;
+            }
+        }
+
+        return UnitMenuMessages.INVALID_TYPE_OF_SELECTED_UNIT;
     }
 
     public UnitMenuMessages burnOil() {

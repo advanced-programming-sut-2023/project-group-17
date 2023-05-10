@@ -403,9 +403,6 @@ public class UnitMenu extends Menu {
             case INVALID_TYPE_OF_SELECTED_UNIT:
                 System.out.println("fill moat failed : this unit cannot fill moat");
                 break;
-            case FILL_OPPONENT_MOAT:
-                System.out.println("fill moat failed : fill opponent moat");
-                break;
         }
     }
 

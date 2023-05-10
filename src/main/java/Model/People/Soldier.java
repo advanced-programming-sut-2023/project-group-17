@@ -69,11 +69,11 @@ public class Soldier extends Person {
         return health;
     }
 
-    public boolean CanClimbLadder() {
+    public boolean canClimbLadder() {
         return climbLadder;
     }
 
-    public boolean CanDigMoat() {
+    public boolean canDigMoat() {
         return digMoat;
     }
 

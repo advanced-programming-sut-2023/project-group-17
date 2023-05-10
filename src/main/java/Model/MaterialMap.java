@@ -1,7 +1,5 @@
 package Model;
 
-import Model.Items.Resource;
-
 public class MaterialMap {
     public enum textureMap {
         LAND("land", false, Color.ANSI_YELLOW_BACKGROUND),
@@ -19,7 +17,8 @@ public class MaterialMap {
         SHALLOW_POND("shallow pond", true, Color.ANSI_BLUE_BACKGROUND),
         DEEP_POND("deep pond", true, Color.ANSI_BLUE_BACKGROUND),
         BEACH("beach", true, Color.ANSI_BLUE_BACKGROUND),
-        SEA("sea", true, Color.ANSI_BLUE_BACKGROUND);
+        SEA("sea", true, Color.ANSI_BLUE_BACKGROUND),
+        MOAT("moat", true, Color.ANSI_BLACK_BACKGROUND);
         final private String material;
         final private boolean waterZone;
         final private String color;
