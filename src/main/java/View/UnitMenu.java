@@ -201,6 +201,12 @@ public class UnitMenu extends Menu {
             case NO_UNIT_SELECTED:
                 System.out.println("attack enemy failed : you have not selected any unit");
                 break;
+            case DISTANCE_OUT_OF_BOUNDS:
+                System.out.println("attack enemy failed : unit is out of range");
+                break;
+            case INVALID_TYPE_OF_SELECTED_UNIT:
+                System.out.println("attack enemy failed : you have to select air attackers unit");
+                break;
         }
     }
 
@@ -231,6 +237,9 @@ public class UnitMenu extends Menu {
                 break;
             case INVALID_TYPE_OF_SELECTED_UNIT:
                 System.out.println("air attack failed : you have to select air attackers unit");
+                break;
+            case DISTANCE_OUT_OF_BOUNDS:
+                System.out.println("air attack failed : unit is out of range");
                 break;
         }
     }
