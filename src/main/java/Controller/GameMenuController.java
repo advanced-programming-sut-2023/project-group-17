@@ -1,8 +1,7 @@
 package Controller;
 
-import Model.AttackToolsAndMethods;
-import Model.Buildings.*;
 import Model.*;
+import Model.Buildings.*;
 import Model.Items.Item;
 import Model.MapCellItems.MapCellItems;
 import Model.MapCellItems.Wall;
@@ -13,7 +12,6 @@ import Utils.CheckMapCell;
 import View.Enums.Messages.GameMenuMessages;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -149,12 +147,15 @@ public class GameMenuController {
     public void applyDamageToBuildings() {
         int startX, startY;
         for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
+            startX = mapCell.getX();
+            startY = mapCell.getY();
             if(mapCell.getBuilding() != null) {
-                startX = mapCell.getX();
-                startY = mapCell.getY();
-                if(mapCell.getBuilding() instanceof DefensiveBuilding) applyDamageDefensiveBuildings(startX, startY, mapCell, ((DefensiveBuilding) mapCell.getBuilding()).getDefenceRange());
+                if(mapCell.getBuilding() instanceof DefensiveBuilding)
+                    applyDamageDefensiveBuildings(startX, startY, mapCell, ((DefensiveBuilding) mapCell.getBuilding()).getDefenceRange());
                 else applyDamageOtherBuildings(startX, startY, mapCell);
             }
+            else
+                applyDamageWalls(startX, startY, mapCell);
         }
     }
 
@@ -170,6 +171,23 @@ public class GameMenuController {
                         mapCell.getBuilding().changeBuildingHp(-soldier.getAttackRating());
                 }
             }
+        }
+    }
+
+    public void applyDamageWalls(int startX, int startY, MapCell mapCell) {
+        int range;
+        for (Soldier soldier : mapCell.getSoldier()) {
+            range = soldier.getAttackRange();
+            if(range == 1)
+                for(int x = startX - range; x < startX + range + 1; x++) {
+                    for(int y = startY - range; y < startY + range + 1; y++) {
+                        if(!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y)) continue;
+
+                        for (MapCellItems mapCellItem : Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getMapCellItems()) {
+                            if(mapCellItem instanceof Wall && !soldier.getOwner().equals(mapCellItem.getOwner()))
+                                ((Wall) mapCellItem).changeHp(-soldier.getAttackRating());
+                        }                    }
+                }
         }
     }
 
