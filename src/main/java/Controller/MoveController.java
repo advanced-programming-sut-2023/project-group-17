@@ -121,19 +121,6 @@ public class MoveController {
         }
         return null;
     }
-
-    public static void main(String[] args) {
-        Map map = new Map(10, 10);
-        Database.setCurrentMapGame(map);
-        User user = new User("kasra", "shamimM123$%%%", "shamimM123$%%%",
-                "shamimrahimi83@gmail.com", "sham", "noSlogan", null);
-        MapCellItems mapCellItems = new MapCellItems(user);
-        map.getMapCellByCoordinates(1, 3).addMapCellItems(mapCellItems);
-        ArrayList<MapCell> path = aStarSearch(map, 1, 4, 1, 2);
-        for (MapCell mapCell : path) {
-            System.out.println(mapCell.getX() + " " + mapCell.getY());
-        }
-    }
 }
 
 //https://www.geeksforgeeks.org/a-search-algorithm/

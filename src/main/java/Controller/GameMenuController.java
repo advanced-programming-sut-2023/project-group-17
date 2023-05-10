@@ -48,7 +48,7 @@ public class GameMenuController {
     public void nextTurn() {
         //TODO: deal with whose turn is it
         //TODO: set currentUser to loggedInUser
-
+        //TODO turns--
         applyMoves();
         buildingsFunctionsEachTurn();
         applyDamageToSoldiers();
@@ -90,7 +90,7 @@ public class GameMenuController {
 
     private void movePerson(Person person, ArrayList<MapCell> path) {
         int counter = 0;
-        for(int i = path.size() - 1; i >= 0; i--) {
+        for(int i = path.size() - 1; i > 0; i--) {
             path.get(i).removePerson(person);
             path.get(i-1).addPeople(person);
             counter++;
@@ -100,7 +100,7 @@ public class GameMenuController {
 
     private void moveAttackToolsAndMethods(AttackToolsAndMethods attackToolsAndMethods, ArrayList<MapCell> path) {
         int counter = 0;
-        for(int i = path.size() - 1; i >= 0; i--) {
+        for(int i = path.size() - 1; i > 0; i--) {
             path.get(i).setAttackToolsAndMethods(null);
             path.get(i-1).setAttackToolsAndMethods(attackToolsAndMethods);
             counter++;
