@@ -39,7 +39,39 @@ public class BuildingMenu extends Menu{
                 return;
             }
 
+            else if ((matcher = BuildingMenuCommands.getMatcher(command, BuildingMenuCommands.DROP_WALL)) != null)
+                dropWall(matcher);
+
             else System.out.println("Invalid Command");
+        }
+    }
+
+    private void dropWall(Matcher matcher) {
+        if (Menu.checkBlankField(matcher.group("x")) || Menu.checkBlankField(matcher.group("y")) ||
+            Menu.checkBlankField(matcher.group("thickness")) || Menu.checkBlankField(matcher.group("height"))) {
+            System.out.println("create attack tool : blank field");
+            return;
+        }
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        String thickness = Menu.handleDoubleQuote(matcher.group("thickness"));
+        String height = Menu.handleDoubleQuote(matcher.group("height"));
+        switch (controller.dropWall(thickness, height, x, y)) {
+            case SUCCESS:
+                System.out.println("The wall dropped successfully");
+                break;
+            case X_OUT_OF_BOUNDS:
+                System.out.println("Drop wall failed : Coordinate of x is out of bounds");
+                break;
+            case Y_OUT_OF_BOUNDS:
+                System.out.println("Drop wall failed : Coordinate of y is out of bounds");
+                break;
+            case CELL_IS_FULL:
+                System.out.println("Drop wall failed : The cell is full");
+                break;
+            case INVALID_TYPE:
+                System.out.println("Drop wall failed : Invalid type of wall");
+                break;
         }
     }
 

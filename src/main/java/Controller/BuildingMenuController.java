@@ -5,6 +5,7 @@ import Model.Buildings.*;
 import Model.Items.Animal;
 import Model.Items.ArmorAndWeapon;
 import Model.Items.Resource;
+import Model.MapCellItems.Wall;
 import Model.People.*;
 import Utils.CheckMapCell;
 import View.EmpireMenu;
@@ -33,8 +34,7 @@ public class BuildingMenuController {
         for (PeopleType peopleType : buildingSample.getNumberOfWorkers().keySet()) {
             numberOfWorkers += buildingSample.getNumberOfWorkers().get(peopleType);
         }
-
-        //TODO az hashmap bayad
+        //TODO drop wall
         if (currentUser.getEmpire().getNormalPeople().size() < numberOfWorkers) return BuildingMenuMessages.NOT_ENOUGH_CROWD;
 
         for (Resource.resourceType recourseRequired : buildingSample.getBuildingCost().keySet()) {
@@ -61,6 +61,24 @@ public class BuildingMenuController {
 
             makeUnits(currentUser, mapCell, numberOfWorkers, newBuilding, peopleType, null);
         }
+
+        return BuildingMenuMessages.SUCCESS;
+    }
+    public BuildingMenuMessages dropWall(String thickness, String height, int x, int y) {
+
+        if (!CheckMapCell.validationOfX(x)) return BuildingMenuMessages.X_OUT_OF_BOUNDS;
+
+        if (!CheckMapCell.validationOfY(y)) return BuildingMenuMessages.Y_OUT_OF_BOUNDS;
+
+        if (!CheckMapCell.mapCellEmptyByCoordinates(x, y)) return BuildingMenuMessages.CELL_IS_FULL;
+
+        if (Wall.getThickness(thickness) == null) return BuildingMenuMessages.INVALID_TYPE;
+
+        if (Wall.getHeight(height) == null) return BuildingMenuMessages.INVALID_TYPE;
+
+        MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
+        Wall wall = new Wall(Database.getLoggedInUser(), Wall.getHeight(height), Wall.getThickness(thickness));
+        mapCell.addMapCellItems(wall);
 
         return BuildingMenuMessages.SUCCESS;
     }

@@ -12,7 +12,11 @@ public enum BuildingMenuCommands {
     REPAIR("\\s*repair\\s*"),
     BACK("\\s*back\\s*"),
     CREATE_ATTACK_TOOL("\\s*create\\s+attack\\s+tool\\s+(?:(-t\\s*)(?<type>\".+\"|\\S+)?(\\s*)()|" +
-            "(-x\\s*)(?<x>\\d+)?(\\s*)()|(-y\\s*)(?<y>\\d+)?(\\s*)()){3}\\4\\8\\12");
+            "(-x\\s*)(?<x>\\d+)?(\\s*)()|(-y\\s*)(?<y>\\d+)?(\\s*)()){3}\\4\\8\\12"),
+    DROP_WALL("\\s*drop\\s+wall\\s+(?:(-t\\s*)(?<thickness>\".+\"|\\S+)?(\\s*)()|" +
+            "(-h\\s*)(?<height>\".+\"|\\S+)?(\\s*)()|(-x\\s*)(?<x>\\d+)?(\\s*)()|(-y\\s*)(?<y>\\d+)?(\\s*)())" +
+            "{4}\\4\\8\\12\\16")
+    ;
     final String regex;
     private BuildingMenuCommands(String regex) {this.regex = regex;}
 

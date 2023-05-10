@@ -139,6 +139,7 @@ public class MapCell {
         }
         return null;
     }
+
     public Tree getTree() {
         for (MapCellItems mapCellItem : mapCellItems) {
             if (mapCellItem instanceof Tree) return (Tree) mapCellItem;
