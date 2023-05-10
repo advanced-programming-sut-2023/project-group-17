@@ -25,6 +25,7 @@ public class UnitMenuController {
     }
 
     public UnitMenuMessages moveUnitTo(int x, int y) {
+
         return null;
     }
 
@@ -33,6 +34,7 @@ public class UnitMenuController {
     }
 
     public UnitMenuMessages setUnitMood(int x, int y, String status) {
+        boolean isMySoldier = false;
         if (!CheckMapCell.validationOfX(x)) return UnitMenuMessages.X_OUT_OF_BOUNDS;
         if (!CheckMapCell.validationOfY(y)) return UnitMenuMessages.Y_OUT_OF_BOUNDS;
         if (Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getSoldier() ==  null) return UnitMenuMessages.DOES_NOT_INCLUDE_UNIT;
@@ -40,11 +42,14 @@ public class UnitMenuController {
         for (Soldier soldier : Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getSoldier()) {
             if(soldier.getOwner().equals(Database.getCurrentUser())) {
                 soldier.setStatus(status);
+                isMySoldier = true;
                 //TODO: need for save soldier??? bcz of json
-                return UnitMenuMessages.SUCCESS;
             }
         }
-        return UnitMenuMessages.OPPONENT_UNIT;
+        if(!isMySoldier)
+            return UnitMenuMessages.OPPONENT_UNIT;
+
+        return UnitMenuMessages.SUCCESS;
     }
 
     public UnitMenuMessages attackEnemy(int x, int y) {
