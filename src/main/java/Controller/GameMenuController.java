@@ -49,6 +49,7 @@ public class GameMenuController {
 
     public void nextTurn() {
         //TODO: deal with whose turn is it
+        //TODO: check if king is alive or not
         //TODO: set currentUser to loggedInUser
         //TODO turns--
         Database.increaseTurnsPassed();
@@ -61,11 +62,7 @@ public class GameMenuController {
         removeDeadSoldiers();
         removeDestroyedBuildings();
         removeDestroyedAttackToolsAndMethods();
-        if (gameIsFinished()) applyPoints();
-    }
-
-    private void applyPoints() {
-
+        if (gameIsFinished()) setScores();
     }
 
     private void applyMoves() {
@@ -109,8 +106,10 @@ public class GameMenuController {
 
                 person.getOwner().getEmpire().removePerson(person);
 
-                if (person instanceof King)
+                if (person instanceof King) {
                     path.get(i - 1).getBuilding().getOwner().getEmpire().increaseNumberOfKingsKilled();
+                    person.getOwner().getEmpire().killedKing();
+                }
 
                 break;
             }
