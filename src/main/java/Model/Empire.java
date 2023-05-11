@@ -123,8 +123,8 @@ public class Empire {
     }
     public void makeHeadquarter(int x, int y, User user) {
         setHeadquarter(Database.getCurrentMapGame().getMapCellByCoordinates(x, y), user);
-        makeStockpile(x, y, user, "stockpile");
-        makeStockpile(x, y, user, "granary");
+        makeStockpileAndGranary(x, y, user, "stockpile");
+        makeStockpileAndGranary(x, y, user, "granary");
     }
 
     public void removeBuilding(Building currentBuilding) {
@@ -145,12 +145,13 @@ public class Empire {
         }
     }
 
-    private void makeStockpile(int x, int y, User user, String name) {
+    private void makeStockpileAndGranary(int x, int y, User user, String name) {
 
         for (int z = -1; z < 2; z++) {
             for (int j = -1; j < 2; j++) {
                 if (Utils.CheckMapCell.validationOfY(y + j) && Utils.CheckMapCell.validationOfX(x + z) &&
-                        !Database.getCurrentMapGame().getMapCellByCoordinates(x + z, y + j).haveBuilding()) {
+                        !Database.getCurrentMapGame().getMapCellByCoordinates(x + z, y + j).haveBuilding()
+                        && (z == 0 && j == 1)) {
 
                     MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x + z, y + j);
                     if (mapCell.canDropItems()) {
@@ -167,7 +168,8 @@ public class Empire {
         for (int z = -1; z < 2; z++) {
             for (int j = -1; j < 2; j++) {
                 if (Utils.CheckMapCell.validationOfY(y + j) && Utils.CheckMapCell.validationOfX(x + z) &&
-                        !Database.getCurrentMapGame().getMapCellByCoordinates(x + z, y + j).haveBuilding()) {
+                        !Database.getCurrentMapGame().getMapCellByCoordinates(x + z, y + j).haveBuilding()
+                        && (z == 0 && j == 1)) {
                     MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x + z, y + j);
                     mapCell.clear();
                     StorageBuilding stockpile = new StorageBuilding(user, x + z, y + j,

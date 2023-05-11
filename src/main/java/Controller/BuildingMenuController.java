@@ -30,10 +30,18 @@ public class BuildingMenuController {
         Building buildingSample = Database.getBuildingDataByName(type);
         User currentUser = Database.getCurrentUser();
 
+        if (currentUser.getEmpire().getEngineers().size() < 1) return BuildingMenuMessages.NOT_ENOUGH_ENGINEERS;
+
         int numberOfWorkers = 0;
         for (PeopleType peopleType : buildingSample.getNumberOfWorkers().keySet()) {
-            numberOfWorkers += buildingSample.getNumberOfWorkers().get(peopleType);
+            if (peopleType.equals(PeopleType.ENGINEER)) {
+                if (currentUser.getEmpire().getEngineers().size() < buildingSample.getNumberOfWorkers().get(peopleType)) {
+                    return BuildingMenuMessages.NOT_ENOUGH_ENGINEERS;
+                }
+            }
+            else numberOfWorkers += buildingSample.getNumberOfWorkers().get(peopleType);
         }
+
         if (currentUser.getEmpire().getNormalPeople().size() < numberOfWorkers) return BuildingMenuMessages.NOT_ENOUGH_CROWD;
 
         for (Resource.resourceType recourseRequired : buildingSample.getBuildingCost().keySet()) {
@@ -53,12 +61,20 @@ public class BuildingMenuController {
         mapCell.addBuilding(newBuilding);
         currentUser.getEmpire().addBuilding(newBuilding);
 
-        int counterToWorker = 0;
         for (PeopleType peopleType : buildingSample.getNumberOfWorkers().keySet()) {
 
-            numberOfWorkers = buildingSample.getNumberOfWorkers().get(peopleType);
-
-            makeUnits(currentUser, mapCell, numberOfWorkers, newBuilding, peopleType, null);
+            if (peopleType.equals(PeopleType.ENGINEER)) {
+                int counter = 0;
+                for (Engineer engineer : currentUser.getEmpire().getEngineers()) {
+                    counter++;
+                    MapCell previousMapCell =
+                            Database.getCurrentMapGame().getMapCellByCoordinates(engineer.getX(), engineer.getY());
+                    previousMapCell.removePerson(engineer);
+                    mapCell.addPeople(engineer);
+                    if (counter == buildingSample.getNumberOfWorkers().get(peopleType)) break;
+                }
+            }
+            else makeUnits(currentUser, mapCell, numberOfWorkers, newBuilding, peopleType, null);
         }
 
         return BuildingMenuMessages.SUCCESS;
@@ -125,9 +141,7 @@ public class BuildingMenuController {
             }
             currentUser.getEmpire().getNormalPeople().remove(normalPeople);
             Person person;
-            if (type.equals(PeopleType.ENGINEER))
-                person = new Engineer(normalPeople.getOwner());
-            else if (type.equals(PeopleType.SOLDIER))
+            if (type.equals(PeopleType.SOLDIER))
                 person = new Soldier(normalPeople.getOwner(), soldier);
             else
                 person = new Worker(normalPeople.getOwner(), building);

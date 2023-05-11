@@ -143,6 +143,12 @@ public class BuildingMenu extends Menu{
             case CELL_IS_FULL:
                 System.out.println("Drop building failed : Cell is full");
                 break;
+            case NOT_ENOUGH_CROWD:
+                System.out.println("Drop building failed : Not enough crowd to make workers");
+                break;
+            case NOT_ENOUGH_ENGINEERS:
+                System.out.println("Drop building failed : Not enough engineers to build the building");
+                break;
         }
     }
 
