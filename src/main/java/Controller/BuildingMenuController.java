@@ -5,6 +5,7 @@ import Model.Buildings.*;
 import Model.Items.Animal;
 import Model.Items.ArmorAndWeapon;
 import Model.Items.Resource;
+import Model.MapCellItems.Stair;
 import Model.MapCellItems.Wall;
 import Model.People.*;
 import Utils.CheckMapCell;
@@ -92,8 +93,36 @@ public class BuildingMenuController {
         if (Wall.getHeight(height) == null) return BuildingMenuMessages.INVALID_TYPE;
 
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
-        Wall wall = new Wall(Database.getLoggedInUser(), Wall.getHeight(height), Wall.getThickness(thickness));
+        Wall wall = new Wall(Database.getLoggedInUser(), Wall.getHeight(height), Wall.getThickness(thickness), x, y);
         mapCell.addMapCellItems(wall);
+
+        return BuildingMenuMessages.SUCCESS;
+    }
+
+    public BuildingMenuMessages dropStair(int x, int y) {
+
+        if (!CheckMapCell.validationOfX(x)) return BuildingMenuMessages.X_OUT_OF_BOUNDS;
+
+        if (!CheckMapCell.validationOfY(y)) return BuildingMenuMessages.Y_OUT_OF_BOUNDS;
+
+        if (!CheckMapCell.mapCellEmptyByCoordinates(x, y)) return BuildingMenuMessages.CELL_IS_FULL;
+
+        MapCell mapCell;
+
+        for (int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
+                if (Utils.CheckMapCell.validationOfY(y + j) && Utils.CheckMapCell.validationOfX(x + i)) {
+                    mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x + i, y + j);
+                    if ((mapCell.getWall() != null) && mapCell.getWall().getOwner().equals(Database.getLoggedInUser())) {
+                        break;
+                    } else if (i == 1 && j == 1) return BuildingMenuMessages.THERE_IS_NOT_ANY_WALLS_NEAR;
+                }
+            }
+        }
+
+        Stair stair = new Stair(Database.getLoggedInUser(), x, y);
+        mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
+        mapCell.addMapCellItems(stair);
 
         return BuildingMenuMessages.SUCCESS;
     }

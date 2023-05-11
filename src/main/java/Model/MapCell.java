@@ -156,6 +156,12 @@ public class MapCell {
         }
         return null;
     }
+    public Stair getStair() {
+        for (MapCellItems mapCellItem : mapCellItems) {
+            if (mapCellItem instanceof Stair) return (Stair) mapCellItem;
+        }
+        return null;
+    }
     public ArrayList<Soldier> getSoldier() {
         ArrayList<Soldier> soldiers = new ArrayList<>();
         for (Person person : people) {

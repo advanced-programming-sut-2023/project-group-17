@@ -42,7 +42,36 @@ public class BuildingMenu extends Menu{
             else if ((matcher = BuildingMenuCommands.getMatcher(command, BuildingMenuCommands.DROP_WALL)) != null)
                 dropWall(matcher);
 
+            else if ((matcher = BuildingMenuCommands.getMatcher(command, BuildingMenuCommands.DROP_STAIR)) != null)
+                dropStair(matcher);
+
             else System.out.println("Invalid Command");
+        }
+    }
+
+    private void dropStair(Matcher matcher) {
+        if (Menu.checkBlankField(matcher.group("x")) || Menu.checkBlankField(matcher.group("y"))) {
+            System.out.println("create attack tool : blank field");
+            return;
+        }
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        switch (controller.dropStair(x, y)) {
+            case SUCCESS:
+                System.out.println("The stair dropped successfully");
+                break;
+            case X_OUT_OF_BOUNDS:
+                System.out.println("Drop stair failed : Coordinate of x is out of bounds");
+                break;
+            case Y_OUT_OF_BOUNDS:
+                System.out.println("Drop stair failed : Coordinate of y is out of bounds");
+                break;
+            case CELL_IS_FULL:
+                System.out.println("Drop stair failed : The cell is full");
+                break;
+            case THERE_IS_NOT_ANY_WALLS_NEAR:
+                System.out.println("Drop stair failed : There isn't any of your walls near");
+                break;
         }
     }
 
