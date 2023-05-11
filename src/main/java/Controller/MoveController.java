@@ -16,7 +16,7 @@ public class MoveController {
     }
 
     static boolean isUnBlocked(Map map, int x, int y) {
-        return Utils.CheckMapCell.mapCellEmptyByCoordinates(x, y);
+        return Utils.CheckMapCell.mapCellTraversableByCoordinates(x, y);
     }
 
     static boolean isDestination(int x, int y, int destinationX, int destinationY) {

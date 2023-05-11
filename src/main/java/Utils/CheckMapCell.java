@@ -19,6 +19,12 @@ public class CheckMapCell {
         return mapCell.canDropItems();
     }
 
+    public static boolean mapCellTraversableByCoordinates(int x, int y) {
+        MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
+        assert mapCell != null;
+        return mapCell.isTraversable();
+    }
+
     public static UtilsMessages mapCellHaveBuildingByCoordinates(int x, int y, User owner) {
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
         assert mapCell != null;

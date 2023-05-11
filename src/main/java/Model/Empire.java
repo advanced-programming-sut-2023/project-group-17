@@ -23,6 +23,7 @@ public class Empire {
     private ArrayList<TradeRequest> sentTradeRequests;
     private ArrayList<Building> buildings;
     private ArrayList<AttackToolsAndMethods> attackToolsAndMethods;
+    private int numberOfKingsKilled;
     private int fearRate;
     private int taxRate;
     private int foodRate;
@@ -58,6 +59,7 @@ public class Empire {
         addWeapons();
         addAnimals();
         this.empireColor = empireColor;
+        this.numberOfKingsKilled = 0;
     }
 
     public empireColors getEmpireColor() {
@@ -426,5 +428,13 @@ public class Empire {
 
     public King getKing() {
         return king;
+    }
+
+    public int getNumberOfKingsKilled() {
+        return numberOfKingsKilled;
+    }
+
+    public void increaseNumberOfKingsKilled() {
+        this.numberOfKingsKilled++;
     }
 }

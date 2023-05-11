@@ -1,17 +1,21 @@
 package Controller;
 
+import Model.AttackToolsAndMethods;
+import Model.Buildings.*;
 import Model.*;
 import Model.Buildings.*;
 import Model.Items.Item;
 import Model.MapCellItems.MapCellItems;
 import Model.MapCellItems.Wall;
 import Model.MapGeneration.MapOrganizer;
+import Model.People.King;
 import Model.People.Person;
 import Model.People.Soldier;
 import Utils.CheckMapCell;
 import View.Enums.Messages.GameMenuMessages;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -47,6 +51,7 @@ public class GameMenuController {
         //TODO: deal with whose turn is it
         //TODO: set currentUser to loggedInUser
         //TODO turns--
+        Database.increaseTurnsPassed();
         applyMoves();
         buildingsFunctionsEachTurn();
         applyDamageToSoldiers();
@@ -56,6 +61,11 @@ public class GameMenuController {
         removeDeadSoldiers();
         removeDestroyedBuildings();
         removeDestroyedAttackToolsAndMethods();
+        if (gameIsFinished()) applyPoints();
+    }
+
+    private void applyPoints() {
+
     }
 
     private void applyMoves() {
@@ -91,6 +101,20 @@ public class GameMenuController {
         for(int i = path.size() - 1; i > 0; i--) {
             path.get(i).removePerson(person);
             path.get(i-1).addPeople(person);
+
+            if (path.get(i - 1).getBuilding() instanceof Trap &&
+                    !path.get(i - 1).getBuilding().getOwner().equals(person.getOwner())) {
+
+                path.get(i - 1).removePerson(person);
+
+                person.getOwner().getEmpire().removePerson(person);
+
+                if (person instanceof King)
+                    path.get(i - 1).getBuilding().getOwner().getEmpire().increaseNumberOfKingsKilled();
+
+                break;
+            }
+
             counter++;
             if (person instanceof Soldier && counter >= ((Soldier) person).getSpeed()) break;
         }
@@ -627,6 +651,16 @@ public class GameMenuController {
 
     private boolean gameIsFinished() {
         //TODO shartaye etmame bazi
+
+        int numberOfKingsAlive = 0;
+        for (User user : Database.getUsersInTheGame()) {
+            if (user.getEmpire().getKing() != null) numberOfKingsAlive++;
+        }
+
+        if (numberOfKingsAlive <= 1) return true;
+
+        if (Database.getTurnsPassed() >= Database.getTotalTurns()) return true;
+
         return false;
     }
 

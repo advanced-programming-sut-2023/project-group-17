@@ -34,7 +34,6 @@ public class BuildingMenuController {
         for (PeopleType peopleType : buildingSample.getNumberOfWorkers().keySet()) {
             numberOfWorkers += buildingSample.getNumberOfWorkers().get(peopleType);
         }
-        //TODO drop wall
         if (currentUser.getEmpire().getNormalPeople().size() < numberOfWorkers) return BuildingMenuMessages.NOT_ENOUGH_CROWD;
 
         for (Resource.resourceType recourseRequired : buildingSample.getBuildingCost().keySet()) {

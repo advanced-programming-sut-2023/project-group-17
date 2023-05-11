@@ -34,7 +34,6 @@ public class GateHouse extends Building{
             NormalPeople normalPeople = new NormalPeople(Database.getCurrentUser());
             Database.getCurrentUser().getEmpire().addPopulation(normalPeople);
             this.addPerson(normalPeople);
-            //TODO moshkel dare ke bar asas logged in user sakhte mishe
         }
     }
 

@@ -1,11 +1,9 @@
 package Model;
 
 import Model.Buildings.Building;
+import Model.Buildings.Trap;
 import Model.Items.Item;
-import Model.MapCellItems.MapCellItems;
-import Model.MapCellItems.Rock;
-import Model.MapCellItems.Tree;
-import Model.MapCellItems.Wall;
+import Model.MapCellItems.*;
 import Model.People.Person;
 import Model.People.Soldier;
 
@@ -152,6 +150,12 @@ public class MapCell {
         }
         return null;
     }
+    public Tunnel getTunnel() {
+        for (MapCellItems mapCellItem : mapCellItems) {
+            if (mapCellItem instanceof Tunnel) return (Tunnel) mapCellItem;
+        }
+        return null;
+    }
     public ArrayList<Soldier> getSoldier() {
         ArrayList<Soldier> soldiers = new ArrayList<>();
         for (Person person : people) {
@@ -171,6 +175,14 @@ public class MapCell {
 
     public boolean canDropItems() {
         return !haveMapCellItem() && !haveBuilding() && !haveAttackTools();
+    }
+
+    public boolean isTraversable() {
+        if (haveBuilding() && !(getBuilding() instanceof Trap)) return false;
+
+        if (getWall() != null || getTunnel() != null) return false;
+
+        return getMaterialMap().isTraversable();
     }
 
     @Override
