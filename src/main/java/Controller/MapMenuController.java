@@ -121,6 +121,8 @@ public class MapMenuController {
         if (!CheckMapCell.validationOfY(y)) return MapMenuMessages.Y_OUT_OF_BOUNDS;
         if (MaterialMap.getTextureMap(type) == null) return MapMenuMessages.INVALID_TYPE;
         if (!CheckMapCell.mapCellEmptyByCoordinates(x, y)) return MapMenuMessages.CELL_IS_FULL;
+        if (Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getSoldier().size() != 0)
+            return MapMenuMessages.CELL_IS_FULL;
 
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
         mapCell.setMaterialMap(MaterialMap.getTextureMap(type));
