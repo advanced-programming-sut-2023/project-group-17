@@ -61,13 +61,9 @@ public class GameMenuController {
                 if(user.getEmpire().getBuildingByName("drawbridge") != null)
                     handleDrawBridge(user.getEmpire().getBuildingByName("drawbridge"));
             }
-            applyDamageToSoldiers();
-            applyDamageToBuildings();
-            applyDamageToAttackToolsAndMethods();
-            applyDamageByAttackToolsAndMethods();
-            removeDeadBodies();
-            removeDestroyedBuildings();
-            removeDestroyedAttackToolsAndMethods();
+            applyDamages();
+            clearDestroyedThings();
+
         }
         buildingsFunctionsEachTurn();
         if (gameIsFinished()) {
@@ -80,6 +76,19 @@ public class GameMenuController {
         Database.setCurrentUser(Database.getUsersInTheGame().get((index + 1) % size));
         if (Database.getCurrentUser().getEmpire().getKing() == null) nextTurn();
         return false;
+    }
+
+    private void applyDamages() {
+        applyDamageToSoldiers();
+        applyDamageToBuildings();
+        applyDamageToAttackToolsAndMethods();
+        applyDamageByAttackToolsAndMethods();
+    }
+
+    private void clearDestroyedThings() {
+        removeDeadBodies();
+        removeDestroyedBuildings();
+        removeDestroyedAttackToolsAndMethods();
     }
 
     private void applyMoves() {
