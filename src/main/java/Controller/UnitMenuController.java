@@ -195,7 +195,7 @@ public class UnitMenuController {
             }
 
         if(!haveOilSmelter) return UnitMenuMessages.OIL_SMELTER_DOES_NOT_EXIST;
-        if(Database.getCurrentUser().getEmpire().getResourceByName("pitch").getNumber() < 1) return UnitMenuMessages.OIL_SMELTER_EMPTY;
+        if(Database.getCurrentUser().getEmpire().getWeaponByName("oil").getNumber() < 1) return UnitMenuMessages.OIL_SMELTER_EMPTY;
 
         return pourOilIteration(engineer.getX(), engineer.getY(), engineer);
     }
@@ -219,14 +219,14 @@ public class UnitMenuController {
                         if(!soldier.getOwner().equals(Database.getCurrentUser()))
                             soldier.changeHp(-engineer.getAttackRating());
                     }
-                    Database.getCurrentUser().getEmpire().getResourceByName("pitch").changeNumber(-1);
+                    Database.getCurrentUser().getEmpire().getWeaponByName("oil").changeNumber(-1);
                     break outerLoop;
                 }else if(engineer.getStatus().equals("defensive") && soldierNumber >= 1) {
                     for (Soldier soldier : mapCell.getSoldier()) {
                         if(!soldier.getOwner().equals(Database.getCurrentUser()))
                             soldier.changeHp(-engineer.getAttackRating());
                     }
-                    Database.getCurrentUser().getEmpire().getResourceByName("pitch").changeNumber(-1);
+                    Database.getCurrentUser().getEmpire().getWeaponByName("oil").changeNumber(-1);
                     break outerLoop;
                 }
             }
@@ -352,9 +352,5 @@ public class UnitMenuController {
         }
 
         return UnitMenuMessages.INVALID_TYPE_OF_SELECTED_UNIT;
-    }
-
-    private void ifDefensiveBuildingExists() {
-        //TODO
     }
 }
