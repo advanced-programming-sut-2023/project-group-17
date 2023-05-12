@@ -14,6 +14,8 @@ import View.EmpireMenu;
 import View.Enums.Messages.BuildingMenuMessages;
 import View.ShopMenu;
 
+import java.util.ArrayList;
+
 public class BuildingMenuController {
     public Building selectedBuilding = null;
     public int x = 0;
@@ -318,9 +320,44 @@ public class BuildingMenuController {
         int x = building.getX();
         int y = building.getY();
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
-        ((Animal) Item.getAvailableItems("dog")).changeNumber(3);
-        Animal dogs = (Animal) Item.getAvailableItems("dog");
-        mapCell.addItems(dogs);
-        Database.getCurrentUser().getEmpire().addAnimal(dogs);
+        Empire empire = Database.getCurrentUser().getEmpire();
+        for (int i = 0; i < 11; i++) {
+            for (int j = 0; j < 11; j++) {
+                if (Utils.CheckMapCell.validationOfY(y + j) && Utils.CheckMapCell.validationOfX(x + i)) {
+                    mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x + i, y + j);
+                    for (Soldier soldier : mapCell.getSoldier()) {
+                        Animal dogs = empire.getAnimalByName("dog");
+                        ArrayList<MapCell> path =
+                            MoveController.aStarSearch(Database.getCurrentMapGame(), x, y, soldier.getX(), soldier.getY());
+                        for(int z = path.size() - 1; z > 0; z--) {
+                            path.get(i).removeAnimal(dogs);
+                            path.get(i - 1).addAnimal(dogs);
+
+                            if (path.get(i - 1).getBuilding() instanceof Trap &&
+                                    !path.get(i - 1).getBuilding().getOwner().equals(dogs.getOwner())) {
+
+                                path.get(i - 1).removeAnimal(dogs);
+                                dogs.getOwner().getEmpire().removeAnimal(dogs);
+                                return;
+                            }
+                        }
+                        if (path.size() != 0) {
+                            soldier.changeHp(-100);
+                            if (soldier.getHealth() > 0) {
+                                path.get(i - 1).removeAnimal(dogs);
+                                dogs.getOwner().getEmpire().removeAnimal(dogs);
+                                return;
+                            } else {
+                                for (int z = 0; z < path.size(); z++) {
+                                    path.get(z).removeAnimal(dogs);
+                                    path.get(z + 1).addAnimal(dogs);
+                                }
+                            }
+                        return;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

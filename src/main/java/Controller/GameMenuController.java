@@ -80,6 +80,7 @@ public class GameMenuController {
         int index = Database.getUsersInTheGame().indexOf(Database.getCurrentUser());
         int size = Database.getUsersInTheGame().size();
         Database.setCurrentUser(Database.getUsersInTheGame().get((index + 1) % size));
+        if (Database.getCurrentUser().getEmpire().getKing() == null) nextTurn();
         return false;
     }
 

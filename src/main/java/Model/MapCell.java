@@ -297,4 +297,8 @@ public class MapCell {
     public void removeBuilding(Building building) {
         if(this.building.equals(building)) this.building = null;
     }
+
+    public void addAnimal(Animal animal) {
+        items.add(animal);
+    }
 }

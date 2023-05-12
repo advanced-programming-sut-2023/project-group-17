@@ -5,6 +5,7 @@ import Model.Items.Animal;
 import Model.Items.Item;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class StorageBuilding extends Building{
     private ArrayList<Item> storedItems;
@@ -13,16 +14,11 @@ public class StorageBuilding extends Building{
         super(owner, storageBuilding, x, y);
         this.storedItems = new ArrayList<>();
         this.storedItemTypes = storageBuilding.getStoredItemTypes();
-        if(storageBuilding.getBuildingName().equals("stable")) createHorses(x, y);
         addStoredItems();
-    }
-
-    private void createHorses(int x, int y) {
-        Empire empire = Database.getCurrentUser().getEmpire();
-        MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
-        Animal animal = new Animal(Animal.animalNames.HORSE, Database.getCurrentUser(), 4);
-        mapCell.addItems(animal);
-        empire.addAnimal(animal);
+        if(storageBuilding.getBuildingName().equals("stable"))
+            Objects.requireNonNull(Item.getAvailableItems("horse")).changeNumber(4);
+        if (storageBuilding.getBuildingName().equals("caged war dogs"))
+            Objects.requireNonNull(Item.getAvailableItems("dog")).changeNumber(3);
     }
 
     public ArrayList<Item> getStoredItems() {

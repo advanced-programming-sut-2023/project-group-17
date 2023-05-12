@@ -447,4 +447,10 @@ public class Empire {
     public void increaseNumberOfKingsKilled() {
         this.numberOfKingsKilled++;
     }
+
+    public void removeAnimal(Animal animal) {
+        for (Animal animal1 : animals) {
+            if (animal1.equals(animal)) animal1.changeNumber(-animal1.getNumber());
+        }
+    }
 }

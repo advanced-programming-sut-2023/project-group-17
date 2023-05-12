@@ -51,7 +51,7 @@ public class MoveController {
     }
 
     public static ArrayList<MapCell> aStarSearch(Map map, int currentX, int currentY, int goalX, int goalY) {
-        if (!isUnBlocked(map, currentX, currentY) || !isUnBlocked(map, goalX, goalY)) {
+        if (!isUnBlocked(map, goalX, goalY)) {
             return null;
         }
 
