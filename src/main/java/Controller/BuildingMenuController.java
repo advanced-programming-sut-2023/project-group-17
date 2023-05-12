@@ -41,8 +41,6 @@ public class BuildingMenuController {
         Building buildingSample = Database.getBuildingDataByName(type);
         User currentUser = Database.getCurrentUser();
 
-        if (currentUser.getEmpire().getEngineers().size() < 1) return BuildingMenuMessages.NOT_ENOUGH_ENGINEERS;
-
         int numberOfWorkers = 0;
         for (PeopleType peopleType : buildingSample.getNumberOfWorkers().keySet()) {
             if (peopleType.equals(PeopleType.ENGINEER)) {
