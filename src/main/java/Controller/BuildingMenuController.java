@@ -4,6 +4,7 @@ import Model.*;
 import Model.Buildings.*;
 import Model.Items.Animal;
 import Model.Items.ArmorAndWeapon;
+import Model.Items.Item;
 import Model.Items.Resource;
 import Model.MapCellItems.Stair;
 import Model.MapCellItems.Wall;
@@ -313,10 +314,12 @@ public class BuildingMenuController {
     }
 
     public static void handleCagedDogs(Building building) {
+        //TODO hamle
         int x = building.getX();
         int y = building.getY();
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
-        Animal dogs = (new Animal(Animal.animalNames.DOG, Database.getCurrentUser(), 3));
+        ((Animal) Item.getAvailableItems("dog")).changeNumber(3);
+        Animal dogs = (Animal) Item.getAvailableItems("dog");
         mapCell.addItems(dogs);
         Database.getCurrentUser().getEmpire().addAnimal(dogs);
     }

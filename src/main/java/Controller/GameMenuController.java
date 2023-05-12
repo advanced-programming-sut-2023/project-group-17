@@ -3,7 +3,6 @@ package Controller;
 import Model.AttackToolsAndMethods;
 import Model.Buildings.*;
 import Model.*;
-import Model.Buildings.*;
 import Model.Items.Animal;
 import Model.Items.Item;
 import Model.MapCellItems.MapCellItems;
@@ -15,9 +14,7 @@ import Model.People.Soldier;
 import Utils.CheckMapCell;
 import View.Enums.Messages.GameMenuMessages;
 
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -49,7 +46,7 @@ public class GameMenuController {
         return GameMenuMessages.SUCCESS;
     }
 
-    public void nextTurn() {
+    public boolean nextTurn() {
         //TODO: deal with whose turn is it
         //TODO: check if king is alive or not
         //TODO: set currentUser to loggedInUser
@@ -76,10 +73,14 @@ public class GameMenuController {
             removeDestroyedAttackToolsAndMethods();
         }
         buildingsFunctionsEachTurn();
-        if (gameIsFinished()) setScores();
+        if (gameIsFinished()) {
+            setScores();
+            return true;
+        }
         int index = Database.getUsersInTheGame().indexOf(Database.getCurrentUser());
         int size = Database.getUsersInTheGame().size();
         Database.setCurrentUser(Database.getUsersInTheGame().get((index + 1) % size));
+        return false;
     }
 
     private void applyMoves() {
@@ -619,7 +620,6 @@ public class GameMenuController {
     }
 
     public static void handleDrawBridge(Building building) {
-        //TODO handle when attacking
         for(int i = building.getX()-1; i <= building.getX()+1; i++) {
             for(int j = building.getY()-1; j <= building.getY()+1; j++) {
                 if(Utils.CheckMapCell.validationOfX(i) && Utils.CheckMapCell.validationOfY(j)) {
@@ -716,7 +716,6 @@ public class GameMenuController {
     }
 
     private boolean gameIsFinished() {
-        //TODO shartaye etmame bazi
 
         int numberOfKingsAlive = 0;
         for (User user : Database.getUsersInTheGame()) {

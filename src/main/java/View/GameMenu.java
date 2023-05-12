@@ -28,7 +28,7 @@ public class GameMenu extends Menu {
                 showMap(matcher);
 
             else if(GameMenuCommands.getMatcher(command, GameMenuCommands.NEXT_TURN) != null)
-                nextTurn();
+                if(nextTurn()) return;
 
             else if(GameMenuCommands.getMatcher(command, GameMenuCommands.ENTER_EMPIRE_MENU) != null)
                 new EmpireMenu().run();
@@ -151,7 +151,7 @@ public class GameMenu extends Menu {
         }
     }
 
-    public void nextTurn() {
-        controller.nextTurn();
+    public boolean nextTurn() {
+        return controller.nextTurn();
     }
 }
