@@ -141,7 +141,8 @@ public class GameMenuController {
             counter++;
             if (person instanceof Soldier && counter >= ((Soldier) person).getSpeed()) break;
         }
-        person.setDestination(null);
+        if (person.getX() == person.getDestination().getX() && person.getY() == person.getDestination().getY())
+            person.setDestination(null);
     }
 
     private void moveAttackToolsAndMethods(AttackToolsAndMethods attackToolsAndMethods, ArrayList<MapCell> path) {
