@@ -26,6 +26,7 @@ public class ProfileMenuController {
 
         getCurrentUser().setUsername(username);
         Database.saveUsers();
+        if (Database.getStayLoggedInUser() != null) Database.setStayLoggedInUser(getCurrentUser());
         return ProfileMenuMessages.SUCCESS;
     }
 
@@ -35,6 +36,7 @@ public class ProfileMenuController {
 
         getCurrentUser().setNickname(nickname);
         Database.saveUsers();
+        if (Database.getStayLoggedInUser() != null) Database.setStayLoggedInUser(getCurrentUser());
         return ProfileMenuMessages.SUCCESS;
     }
 
@@ -74,6 +76,7 @@ public class ProfileMenuController {
 
         getCurrentUser().setPassword(User.SHA256Code(newPassword));
         Database.saveUsers();
+        if (Database.getStayLoggedInUser() != null) Database.setStayLoggedInUser(getCurrentUser());
         return ProfileMenuMessages.SUCCESS;
     }
 
@@ -89,6 +92,7 @@ public class ProfileMenuController {
 
         getCurrentUser().setEmail(email);
         Database.saveUsers();
+        if (Database.getStayLoggedInUser() != null) Database.setStayLoggedInUser(getCurrentUser());
         return ProfileMenuMessages.SUCCESS;
     }
 
@@ -97,6 +101,7 @@ public class ProfileMenuController {
 
         getCurrentUser().setSlogan(slogan);
         Database.saveUsers();
+        if (Database.getStayLoggedInUser() != null) Database.setStayLoggedInUser(getCurrentUser());
         return ProfileMenuMessages.SUCCESS;
     }
 
@@ -106,6 +111,7 @@ public class ProfileMenuController {
 
         getCurrentUser().setSlogan(null);
         Database.saveUsers();
+        if (Database.getStayLoggedInUser() != null) Database.setStayLoggedInUser(getCurrentUser());
         return ProfileMenuMessages.SUCCESS;
     }
 

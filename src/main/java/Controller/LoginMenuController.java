@@ -78,8 +78,7 @@ public class LoginMenuController {
             Database.loadUnits();
             Database.loadBuildings();
             Database.loadAttackToolsAndMethods();
-            Database.setCurrentUser(Database.getUserByUsername(Database.getStayLoggedInUser().getUsername()));
-            Database.setStayLoggedInUser(Database.getCurrentUser());
+            Database.setCurrentUser(Database.getUserByUsername(Database.getStayLoggedInUser()));
             Database.setLoggedInUser(Database.getCurrentUser());
             return true;
         }
