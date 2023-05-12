@@ -42,8 +42,6 @@ public class UnitMenu extends Menu {
                 disbandUnit();
             else if((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.DIG_MOAT)) != null)
                 digMoat(matcher);
-            else if((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.BURN_OIL)) != null)
-                burnOil();
             else if((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.FILL_MOAT)) != null)
                 fillMoat(matcher);
             else if((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.BACK)) != null) {
@@ -408,23 +406,6 @@ public class UnitMenu extends Menu {
                 break;
             case INVALID_TYPE_OF_SELECTED_UNIT:
                 System.out.println("fill moat failed : this unit cannot fill moat");
-                break;
-        }
-    }
-
-    private void burnOil() {
-        switch (controller.burnOil()) {
-            case SUCCESS:
-                System.out.println("oil burned successfully");
-                break;
-            case NO_UNIT_SELECTED:
-                System.out.println("burn oil failed : you have not selected any unit");
-                break;
-            case INVALID_TYPE_OF_SELECTED_UNIT:
-                System.out.println("burn oil failed : you have to select an engineer");
-                break;
-            case OIL_SMELTER_DOES_NOT_EXIST:
-                System.out.println("burn oil failed : there is no oil smelter");
                 break;
         }
     }

@@ -288,6 +288,7 @@ public class UnitMenuController {
     }
 
     public UnitMenuMessages buildSurroundingEquipment(String buildingName) {
+        //TODO
         return null;
     }
 
@@ -347,10 +348,6 @@ public class UnitMenuController {
         }
 
         return UnitMenuMessages.INVALID_TYPE_OF_SELECTED_UNIT;
-    }
-
-    public UnitMenuMessages burnOil() {
-        return null;
     }
 
     private void ifDefensiveBuildingExists() {
