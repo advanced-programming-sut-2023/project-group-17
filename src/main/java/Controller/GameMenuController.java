@@ -1,8 +1,7 @@
 package Controller;
 
-import Model.AttackToolsAndMethods;
-import Model.Buildings.*;
 import Model.*;
+import Model.Buildings.*;
 import Model.Items.Animal;
 import Model.Items.Item;
 import Model.MapCellItems.MapCellItems;
@@ -186,14 +185,11 @@ public class GameMenuController {
 //            }
 //        }
 //        return -1;
-        for(int x = Database.getCurrentMapGame().getWidth(); x > 0; x--) {
-            for(int y = Database.getCurrentMapGame().getLength(); y > 0; y--) {
-                MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
-                for (Person person : mapCell.getPeople()) {
-                    if(person.getHp() <= 0) {
-                        mapCell.removePerson(person);
-                        person.getOwner().getEmpire().removePerson(person);
-                    }
+        for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
+            for (int i = mapCell.getPeople().size() - 1; i > 0; i--) {
+                if(mapCell.getPeople().get(i).getHp() <= 0) {
+                    mapCell.getPeople().get(i).getOwner().getEmpire().removePerson(mapCell.getPeople().get(i));
+                    mapCell.removePerson(mapCell.getPeople().get(i));
                 }
             }
         }
@@ -270,16 +266,12 @@ public class GameMenuController {
 //            }
 //        }
 //        return -1;
-        for(int x = Database.getCurrentMapGame().getWidth(); x > 0; x--) {
-            for(int y = Database.getCurrentMapGame().getLength(); y > 0; y--) {
-                MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
-                if(mapCell.getBuilding() != null && mapCell.getBuilding().getBuildingHp() <= 0) {
-                    mapCell.getBuilding().getOwner().getEmpire().removeBuilding(mapCell.getBuilding());
-                    mapCell.setBuilding(null);
-                }
+        for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
+            if(mapCell.getBuilding() != null && mapCell.getBuilding().getBuildingHp() <= 0) {
+                mapCell.getBuilding().getOwner().getEmpire().removeBuilding(mapCell.getBuilding());
+                mapCell.setBuilding(null);
             }
         }
-
     }
 
     //TODO: Siege Tower and Portable Shield?
@@ -363,13 +355,10 @@ public class GameMenuController {
 //            }
 //        }
 //        return -1;
-        for(int x = Database.getCurrentMapGame().getWidth(); x > 0; x--) {
-            for(int y = Database.getCurrentMapGame().getLength(); y > 0; y--) {
-                MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
-                if(mapCell.getAttackToolsAndMethods() != null && mapCell.getAttackToolsAndMethods().getHp() <= 0) {
-                    mapCell.getAttackToolsAndMethods().getOwner().getEmpire().removeAttackToolsAndMethods(mapCell.getAttackToolsAndMethods());
-                    mapCell.setAttackToolsAndMethods(null);
-                }
+        for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
+            if (mapCell.getAttackToolsAndMethods() != null && mapCell.getAttackToolsAndMethods().getHp() <= 0) {
+                mapCell.getAttackToolsAndMethods().getOwner().getEmpire().removeAttackToolsAndMethods(mapCell.getAttackToolsAndMethods());
+                mapCell.setAttackToolsAndMethods(null);
             }
         }
     }
