@@ -82,15 +82,35 @@ public class GameMenu extends Menu {
 
     private void chooseMapGame() {
         System.out.println(controller.chooseMap());
+        String command = scanner.nextLine();
+        Matcher matcher;
+        if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.GET_MAP_ID)) == null) {
+            System.out.println("Invalid command");
+            chooseMapGame();
+            return;
+        }
 
-        int mapId = scanner.nextInt();
-        scanner.nextLine();
-
-        if(mapId == 0) {
+        if(checkBlankField(matcher.group("id"))) {
+            System.out.println("show map failed : blank field");
+            chooseMapGame();
+            return;
+        }
+        int mapId = Integer.parseInt(matcher.group("id"));
+        if (mapId == 0) {
             System.out.println("enter width and length");
-            int width = scanner.nextInt();
-            int length = scanner.nextInt();
-            scanner.nextLine();
+            command = scanner.nextLine();
+            if ((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.GET_WIDTH_AND_LENGTH)) == null) {
+                System.out.println("Invalid command");
+                chooseMapGame();
+                return;
+            }
+            if (checkBlankField(matcher.group("width")) && checkBlankField(matcher.group("length"))) {
+                System.out.println("show map failed : blank field");
+                chooseMapGame();
+                return;
+            }
+            int width = Integer.parseInt(matcher.group("width"));
+            int length = Integer.parseInt(matcher.group("length"));
             switch (controller.createNewMap(width, length)) {
                 case INVALID_LENGTH:
                     System.out.println("create map failed : invalid length");

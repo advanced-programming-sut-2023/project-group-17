@@ -14,8 +14,9 @@ public enum GameMenuCommands {
     ENTER_SHOP_MENU("\\s*enter\\s+shop\\s+menu\\s*"),
     ENTER_MAP_MENU("\\s*enter\\s+map\\s+menu\\s*"),
     NEXT_TURN("\\s*next\\s+turn\\s*"),
-    SHOW_CURRENT_MENU("\\s*show\\s+current\\s+menu\\s*")
-    ;
+    SHOW_CURRENT_MENU("\\s*show\\s+current\\s+menu\\s*"),
+    GET_MAP_ID("\\s*-i\\s+(?<id>\\d+)\\s*"),
+    GET_WIDTH_AND_LENGTH("\\s*(?:(-w\\s*)(?<width>\\d+)?(\\s*)()|(-l\\s*)(?<length>\\d+)?(\\s*)()){2}\\4\\8\\s*");
 
     final String regex;
     private GameMenuCommands(String regex) { this.regex = regex; }
