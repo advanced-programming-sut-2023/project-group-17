@@ -106,13 +106,6 @@ public class GameMenuController {
                         z--;
                     }
                 }
-//                for (Person person : mapCell.getPeople()) {
-//                    if (person.getDestination() != null) {
-//                        path = MoveController.aStarSearch(map, mapCell.getX(),
-//                                mapCell.getY(), person.getDestination().getX(), person.getDestination().getY());
-//                        movePerson(person, path);
-//                    }
-//                }
                 if (mapCell.getAttackToolsAndMethods() != null) {
                     attackToolsAndMethods = mapCell.getAttackToolsAndMethods();
                     if (attackToolsAndMethods.getDestination() != null) {
@@ -220,16 +213,6 @@ public class GameMenuController {
     }
 
     public void removeDeadBodies() {
-//        for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
-//            for (Person person : mapCell.getPeople()) {
-//                if(person.getHp() <= 0) {
-//                    mapCell.removePerson(person);
-//                    person.getOwner().getEmpire().removePerson(person);
-//                    return removeDeadBodies();
-//                }
-//            }
-//        }
-//        return -1;
         for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
             for (int i = mapCell.getPeople().size() - 1; i >= 0; i--) {
                 if(mapCell.getPeople().get(i).getHp() <= 0) {
@@ -304,14 +287,6 @@ public class GameMenuController {
     }
 
     public void removeDestroyedBuildings() {
-//        for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
-//            if(mapCell.getBuilding() != null && mapCell.getBuilding().getBuildingHp() <= 0) {
-//                mapCell.getBuilding().getOwner().getEmpire().removeBuilding(mapCell.getBuilding());
-//                mapCell.setBuilding(null);
-//                return removeDestroyedBuildings();
-//            }
-//        }
-//        return -1;
         for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
             if(mapCell.getBuilding() != null && mapCell.getBuilding().getBuildingHp() <= 0) {
                 mapCell.getBuilding().getOwner().getEmpire().removeBuilding(mapCell.getBuilding());
@@ -427,14 +402,6 @@ public class GameMenuController {
     }
 
     public void removeDestroyedAttackToolsAndMethods() {
-//        for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
-//            if(mapCell.getAttackToolsAndMethods() != null && mapCell.getAttackToolsAndMethods().getHp() <= 0) {
-//                mapCell.getAttackToolsAndMethods().getOwner().getEmpire().removeAttackToolsAndMethods(mapCell.getAttackToolsAndMethods());
-//                mapCell.setAttackToolsAndMethods(null);
-//                return removeDestroyedAttackToolsAndMethods();
-//            }
-//        }
-//        return -1;
         for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
             if (mapCell.getAttackToolsAndMethods() != null && mapCell.getAttackToolsAndMethods().getHp() <= 0) {
                 mapCell.getAttackToolsAndMethods().getOwner().getEmpire().removeAttackToolsAndMethods(mapCell.getAttackToolsAndMethods());
