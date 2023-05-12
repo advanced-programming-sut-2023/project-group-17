@@ -69,6 +69,9 @@ public class GameMenuController {
         }
         buildingsFunctionsEachTurn();
         if (gameIsFinished()) setScores();
+        int index = Database.getUsersInTheGame().indexOf(Database.getCurrentUser());
+        int size = Database.getUsersInTheGame().size();
+        Database.setCurrentUser(Database.getUsersInTheGame().get((index + 1) % size));
     }
 
     private void applyMoves() {
