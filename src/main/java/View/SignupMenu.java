@@ -102,6 +102,7 @@ public class SignupMenu extends Menu{
             case RANDOM_SLOGAN:
                 System.out.println(("your slogan is \"" + (slogan = controller.getRandomSlogan()) + "\""));
                 createUserErrors(username, password, confirmationPassword, email, nickname, slogan);
+                break;
             case RANDOM_PASSWORD:
                 System.out.print("your random password is : " + (password = controller.getRandomPassword()) + '\n' +
                                  "please re-enter your password here:" + '\n');
@@ -133,6 +134,7 @@ public class SignupMenu extends Menu{
                 break;
             case INVALID_EMAIL:
                 System.out.println("signup failed : invalid email format");
+                break;
         }
     }
 
