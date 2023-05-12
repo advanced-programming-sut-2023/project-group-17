@@ -114,16 +114,17 @@ public class LoginMenu extends Menu {
 
         switch (controller.forgetPassword(username)) {
                 case USERNAME_DOES_NOT_EXISTS:
-                System.out.println("password change failed : username does not exist");
-                break;
+                    System.out.println("password change failed : username does not exist");
+                    break;
                 case ANSWER_RECOVERY_QUESTION:
-                System.out.println("please answer this question : " + controller.getUserRecoveryQuestion(username));
-                answer = scanner.nextLine();
-                if(controller.isRecoveryQuestionAnswerCorrect(username, answer)) {
-                    System.out.println("please enter your new password:");
-                    newPassword = scanner.nextLine();
-                    forgetPasswordError(username, newPassword);
-                }else System.out.println("password change failed : your answer is not correct");
+                    System.out.println("please answer this question : " + controller.getUserRecoveryQuestion(username));
+                    answer = scanner.nextLine();
+                    if(controller.isRecoveryQuestionAnswerCorrect(username, answer)) {
+                        System.out.println("please enter your new password:");
+                        newPassword = scanner.nextLine();
+                        forgetPasswordError(username, newPassword);
+                    } else System.out.println("password change failed : your answer is not correct");
+                    break;
         }
     }
 
@@ -147,6 +148,7 @@ public class LoginMenu extends Menu {
             case PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER:
                 System.out.println("password change failed : your password must contain at least" +
                                    " one character other than letters and numbers");
+                break;
             case SUCCESS:
                 System.out.println("password changed successfully");
                 break;

@@ -137,6 +137,7 @@ public class ProfileMenu extends Menu {
             case RANDOM_SLOGAN:
                 System.out.println("your slogan is \"" + (slogan = controller.getRandomSlogan()) + "\"");
                 changeSloganErrors(slogan);
+                break;
         }
     }
 
