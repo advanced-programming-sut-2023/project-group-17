@@ -27,8 +27,9 @@ public class GameMenu extends Menu {
             if((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.SHOW_MAP)) != null)
                 showMap(matcher);
 
-            else if(GameMenuCommands.getMatcher(command, GameMenuCommands.NEXT_TURN) != null)
-                if(nextTurn()) return;
+            else if(GameMenuCommands.getMatcher(command, GameMenuCommands.NEXT_TURN) != null) {
+                if (nextTurn()) return;
+            }
 
             else if(GameMenuCommands.getMatcher(command, GameMenuCommands.ENTER_EMPIRE_MENU) != null)
                 new EmpireMenu().run();
