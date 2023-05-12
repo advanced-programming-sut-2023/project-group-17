@@ -93,7 +93,7 @@ public class BuildingMenuController {
         if (Wall.getHeight(height) == null) return BuildingMenuMessages.INVALID_TYPE;
 
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
-        Wall wall = new Wall(Database.getLoggedInUser(), Wall.getHeight(height), Wall.getThickness(thickness), x, y);
+        Wall wall = new Wall(Database.getCurrentUser(), Wall.getHeight(height), Wall.getThickness(thickness), x, y);
         mapCell.addMapCellItems(wall);
 
         return BuildingMenuMessages.SUCCESS;
@@ -113,14 +113,14 @@ public class BuildingMenuController {
             for (int j = -1; j < 2; j++) {
                 if (Utils.CheckMapCell.validationOfY(y + j) && Utils.CheckMapCell.validationOfX(x + i)) {
                     mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x + i, y + j);
-                    if ((mapCell.getWall() != null) && mapCell.getWall().getOwner().equals(Database.getLoggedInUser())) {
+                    if ((mapCell.getWall() != null) && mapCell.getWall().getOwner().equals(Database.getCurrentUser())) {
                         break outer;
                     } else if (i == 1 && j == 1) return BuildingMenuMessages.THERE_IS_NOT_ANY_WALLS_NEAR;
                 }
             }
         }
 
-        Stair stair = new Stair(Database.getLoggedInUser(), x, y);
+        Stair stair = new Stair(Database.getCurrentUser(), x, y);
         mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
         mapCell.addMapCellItems(stair);
 

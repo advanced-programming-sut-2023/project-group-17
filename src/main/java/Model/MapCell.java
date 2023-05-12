@@ -186,9 +186,37 @@ public class MapCell {
     public boolean isTraversable() {
         if (haveBuilding() && !(getBuilding() instanceof Trap)) return false;
 
-        if (getWall() != null || getTunnel() != null) return false;
+        if (getTunnel() != null) return false;
+        if (getWall() != null && dfsForStair(getX(), getY())) {
+            checkForDfs.clear();
+            return true;
+        }
+        checkForDfs.clear();
+        if (getWall() != null) return false;
 
         return getMaterialMap().isTraversable();
+    }
+
+    private ArrayList<MapCell> checkForDfs = new ArrayList<>();
+    public boolean dfsForStair(int firstX, int firstY) {
+        int x , y;
+        MapCell mapCell;
+        int[] xMove = {-1, -1, -1, 0, 0, 0, 1, 1, 1};
+        int[] yMove = {-1, 0, 1, -1, 0, 1, -1, 0, 1};
+        for (int i = 0; i < 9; i++) {
+            x = firstX + xMove[i];
+            y = firstY + yMove[i];
+            if (Utils.CheckMapCell.validationOfX(x) && Utils.CheckMapCell.validationOfY(y) &&
+            !checkForDfs.contains(Database.getCurrentMapGame().getMapCellByCoordinates(x, y)) &&
+            Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getWall() != null) {
+                mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
+                checkForDfs.add(mapCell);
+                if (mapCell.getWall().haveStairs() || dfsForStair(x, y)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override
