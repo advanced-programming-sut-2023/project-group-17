@@ -315,7 +315,7 @@ public class UnitMenuController {
         if(empire.getCoins() < golds) return UnitMenuMessages.INSUFFICIENT_GOLD;
 
         AttackToolsAndMethods sample = Database.getAttackToolsDataByName(type);
-        AttackToolsAndMethods attackToolsAndMethods = new AttackToolsAndMethods(Database.getCurrentUser(), sample);
+        AttackToolsAndMethods attackToolsAndMethods = new AttackToolsAndMethods(Database.getCurrentUser(), sample, x, y);
         for (Person person : selectedUnit) {
             if(person instanceof Engineer) {
                 attackToolsAndMethods.getEngineers().add((Engineer) person);
