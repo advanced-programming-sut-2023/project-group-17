@@ -12,6 +12,7 @@ public class EmpireMenu extends Menu {
     }
     @Override
     public void run() {
+        System.out.println("entered empire menu successfully");
         Matcher matcher;
         String command;
 
@@ -51,7 +52,7 @@ public class EmpireMenu extends Menu {
     }
 
     private void showFoodList() {
-        System.out.println(controller.showFoodList());
+        System.out.print(controller.showFoodList());
     }
 
     private void setFoodRate(Matcher matcher) {

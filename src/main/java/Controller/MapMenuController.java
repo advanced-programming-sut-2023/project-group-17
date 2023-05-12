@@ -108,7 +108,7 @@ public class MapMenuController {
         else if (mapCell.getTree() != null) details += "Tree : " + mapCell.getTree().getTypeOfTree().getType() + "\n";
         else if (mapCell.getRock() != null) details += "Have rock\n" ;
         else if (mapCell.getStair() != null) details += mapCell.getStair().toString();
-        details += "Number of people in this cell : " + mapCell.getSoldier().size() + "\n";
+        details += "Number of soldiers in this cell : " + mapCell.getSoldier().size() + "\n";
         for (Soldier soldier : mapCell.getSoldier()) {
             details += soldier.toString();
         }

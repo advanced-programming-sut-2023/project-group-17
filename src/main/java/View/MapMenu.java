@@ -70,7 +70,7 @@ public class MapMenu extends Menu{
         }
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
-        System.out.println(controller.showDetails(x, y));
+        System.out.print(controller.showDetails(x, y));
     }
 
     private void setTextureOneBlock(Matcher matcher) {
