@@ -206,11 +206,13 @@ public class MapCell {
     }
 
     public String objectInCell() {
-        if (haveBuilding()) return  "B";
+        if (getSoldier().size() != 0) return "S";
+        if (haveBuilding()) return "B";
+        if (haveAttackTools()) return "A";
         if (getRock() != null) return "R";
         if (getTree() != null) return "T";
         if (getWall() != null) return "W";
-        if (getSoldier().size() != 0) return "S";
+        if (getStair() != null) return "P";
         return "#";
     }
 

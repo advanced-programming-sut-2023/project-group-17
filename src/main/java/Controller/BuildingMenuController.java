@@ -109,12 +109,12 @@ public class BuildingMenuController {
 
         MapCell mapCell;
 
-        for (int i = -1; i < 2; i++) {
+        outer : for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
                 if (Utils.CheckMapCell.validationOfY(y + j) && Utils.CheckMapCell.validationOfX(x + i)) {
                     mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x + i, y + j);
                     if ((mapCell.getWall() != null) && mapCell.getWall().getOwner().equals(Database.getLoggedInUser())) {
-                        break;
+                        break outer;
                     } else if (i == 1 && j == 1) return BuildingMenuMessages.THERE_IS_NOT_ANY_WALLS_NEAR;
                 }
             }
