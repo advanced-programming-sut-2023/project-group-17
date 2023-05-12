@@ -57,6 +57,7 @@ public class GameMenuController {
                 changePopularity(user.getEmpire());
                 handleFearRate(user.getEmpire());
                 getTax(user.getEmpire());
+                giveFood(user.getEmpire());
             }
             applyMoves();
             for (User user : Database.getUsersInTheGame()) {
@@ -560,10 +561,6 @@ public class GameMenuController {
         empire.changeCoins(coinNumber * empire.getPopulation());
     }
 
-    public void handleUnemployedPopulation() {
-
-    }
-
     public void handleFearRate(Empire empire) {
         empire.changeEfficiency(empire.getFearRate() * -0.1);
         for (Soldier soldier : empire.getSoldiers()) {
@@ -683,11 +680,6 @@ public class GameMenuController {
     public static void handleIronMine(Building building) {
         Objects.requireNonNull(Item.getAvailableItems("iron")).changeNumber(5);
     }
-
-//    public static void handleQuarry(Building building) {
-//        Objects.requireNonNull(Item.getAvailableItems("stone")).changeNumber(5);
-//        //TODO
-//    }
 
     public static void handleOilSmelter(Building building) {
         Objects.requireNonNull(Item.getAvailableItems("oil")).changeNumber(1);

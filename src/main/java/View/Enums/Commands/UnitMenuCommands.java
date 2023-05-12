@@ -14,7 +14,8 @@ public enum UnitMenuCommands {
     AIR_ATTACK("\\s*attack\\s+(?:(-x\\s*)(?<x>\\d+)?(\\s*)()|(-y\\s*)(?<y>\\d+)?(\\s*)()){2}\\4\\8"),
     POUR_OIL("\\s*pour\\s+oil\\s+-d\\s*(?<direction>\\S+)?\\s*"),
     DIG_TUNNEL("\\s*dig\\s+tunnel\\s+(?:(-x\\s*)(?<x>\\d+)?(\\s*)()|(-y\\s*)(?<y>\\d+)?(\\s*)()){2}\\4\\8"),
-    BUILD_SURROUNDING_EQUIPMENT("\\s*build\\s+-q\\s*(?<equipment>\".+\"|\\S+)?\\s*"),
+    BUILD_SURROUNDING_EQUIPMENT("\\s*build\\s+(?:(-q\\s*)(?<equipment>\".+\"|\\S+)?(\\s*)()|" +
+            "(-x\\s*)(?<x>\\d+)?(\\s*)()|(-y\\s*)(?<y>\\d+)?(\\s*)()){3}\\4\\8\\12"),
     DISBAND_UNIT("\\s*disband\\s+unit\\s*"),
     DIG_MOAT("\\s*dig\\s+moat\\s+(?:(-x\\s*)(?<x>\\d+)?(\\s*)()|(-y\\s*)(?<y>\\d+)?(\\s*)()){2}\\4\\8"),
     BURN_OIL("\\s*burn\\s+oil\\s*"),

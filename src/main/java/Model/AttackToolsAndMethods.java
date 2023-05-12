@@ -1,9 +1,14 @@
 package Model;
 
+import Model.People.Engineer;
+
+import java.util.ArrayList;
+
 public class AttackToolsAndMethods {
     private final User owner;
     private final String name;
     private final int numberOfEngineers;
+    private ArrayList<Engineer> engineers;
     private final boolean isPortable;
     private int hp;
     private final int range;
@@ -21,6 +26,7 @@ public class AttackToolsAndMethods {
         this.damage = type.getDamage();
         this.cost = type.getCost();
         this.speed = type.getSpeed();
+        this.engineers = new ArrayList<>();
     }
 
     public User getOwner() {
@@ -73,5 +79,9 @@ public class AttackToolsAndMethods {
 
     public void setDestination(MapCell destination) {
         this.destination = destination;
+    }
+
+    public ArrayList<Engineer> getEngineers() {
+        return engineers;
     }
 }

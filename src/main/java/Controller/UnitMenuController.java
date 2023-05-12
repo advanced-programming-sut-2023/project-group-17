@@ -1,21 +1,20 @@
 package Controller;
 
+import Model.*;
 import Model.Buildings.Building;
 import Model.Buildings.DefensiveBuilding;
-import Model.Database;
-import Model.Direction;
-import Model.MapCell;
 import Model.MapCellItems.MapCellItems;
 import Model.MapCellItems.Tunnel;
 import Model.MapCellItems.Wall;
-import Model.MaterialMap;
 import Model.People.Engineer;
 import Model.People.Person;
 import Model.People.Soldier;
 import Model.People.Tunneler;
 import Utils.CheckMapCell;
+import View.Enums.Messages.BuildingMenuMessages;
 import View.Enums.Messages.UnitMenuMessages;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 
 public class UnitMenuController {
@@ -291,9 +290,44 @@ public class UnitMenuController {
         return UnitMenuMessages.NO_BUILDING_IN_RANGE;
     }
 
-    public UnitMenuMessages buildSurroundingEquipment(String buildingName) {
-        //TODO
-        return null;
+    public UnitMenuMessages buildSurroundingEquipment(int x, int y, String type) {
+        if (!CheckMapCell.validationOfX(x)) return UnitMenuMessages.X_OUT_OF_BOUNDS;
+        if (!CheckMapCell.validationOfY(y)) return UnitMenuMessages.Y_OUT_OF_BOUNDS;
+
+        AttackToolsAndMethods sampleAttackToolsAndMethods = Database.getAttackToolsDataByName(type);
+        if (sampleAttackToolsAndMethods == null) return UnitMenuMessages.INVALID_TYPE;
+
+        if(selectedUnit == null) return UnitMenuMessages.UNIT_IS_NOT_SELECTED;
+
+        int numberOfEngineersSelected = 0;
+        int numberOfEngineers = sampleAttackToolsAndMethods.getNumberOfEngineers();
+        for (Person person : selectedUnit) {
+            if(person instanceof Engineer) numberOfEngineersSelected++;
+        }
+        if(numberOfEngineersSelected < numberOfEngineers) return UnitMenuMessages.INSUFFICIENT_ENGINEER_SELECTED;
+
+        MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
+        if(!Utils.CheckMapCell.mapCellEmptyByCoordinates(x, y))
+            return UnitMenuMessages.CELL_IS_FULL;
+
+        Empire empire = Database.getCurrentUser().getEmpire();
+        int golds = sampleAttackToolsAndMethods.getCost();
+        if(empire.getCoins() < golds) return UnitMenuMessages.INSUFFICIENT_GOLD;
+
+        AttackToolsAndMethods sample = Database.getAttackToolsDataByName(type);
+        AttackToolsAndMethods attackToolsAndMethods = new AttackToolsAndMethods(Database.getCurrentUser(), sample);
+        for (Person person : selectedUnit) {
+            if(person instanceof Engineer) {
+                attackToolsAndMethods.getEngineers().add((Engineer) person);
+                Database.getCurrentMapGame().getMapCellByCoordinates(person.getX(), person.getY()).removePerson(person);
+                Database.getCurrentMapGame().getMapCellByCoordinates(person.getX(), person.getY()).addPeople(person);
+            }
+            if(attackToolsAndMethods.getEngineers().size() == numberOfEngineers) break;
+        }
+        empire.changeCoins(-golds);
+        empire.addAttackToolsAndMethods(attackToolsAndMethods);
+        mapCell.addAttackToolsAndMethods(attackToolsAndMethods);
+        return UnitMenuMessages.SUCCESS;
     }
 
     public UnitMenuMessages disbandUnit() {

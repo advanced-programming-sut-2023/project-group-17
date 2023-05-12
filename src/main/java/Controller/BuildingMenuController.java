@@ -301,7 +301,8 @@ public class BuildingMenuController {
             return BuildingMenuMessages.CELL_IS_FULL;
 
         Empire empire = Database.getCurrentUser().getEmpire();
-        if(empire.getEngineers().size() < sampleAttackToolsAndMethods.getNumberOfEngineers())
+        int numberOfEngineers = sampleAttackToolsAndMethods.getNumberOfEngineers();
+        if(empire.getEngineers().size() < numberOfEngineers)
             return BuildingMenuMessages.INSUFFICIENT_ENGINEER;
 
         int golds = sampleAttackToolsAndMethods.getCost();
@@ -309,14 +310,19 @@ public class BuildingMenuController {
 
         AttackToolsAndMethods sample = Database.getAttackToolsDataByName(type);
         AttackToolsAndMethods attackToolsAndMethods = new AttackToolsAndMethods(Database.getCurrentUser(), sample);
-
+        for (Engineer engineer : empire.getEngineers()) {
+            attackToolsAndMethods.getEngineers().add(engineer);
+            Database.getCurrentMapGame().getMapCellByCoordinates(engineer.getX(), engineer.getY()).removePerson(engineer);
+            Database.getCurrentMapGame().getMapCellByCoordinates(engineer.getX(), engineer.getY()).addPeople(engineer);
+            if(attackToolsAndMethods.getEngineers().size() == numberOfEngineers) break;
+        }
+        empire.changeCoins(-golds);
         empire.addAttackToolsAndMethods(attackToolsAndMethods);
         mapCell.addAttackToolsAndMethods(attackToolsAndMethods);
         return BuildingMenuMessages.SUCCESS;
     }
 
     public static void handleCagedDogs(Building building) {
-        //TODO hamle
         int x = building.getX();
         int y = building.getY();
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);

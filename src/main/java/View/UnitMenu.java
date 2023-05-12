@@ -1,7 +1,15 @@
 package View;
 
 import Controller.UnitMenuController;
+import Model.AttackToolsAndMethods;
+import Model.Database;
+import Model.Empire;
+import Model.MapCell;
+import Model.People.Engineer;
+import Model.People.Person;
+import Utils.CheckMapCell;
 import View.Enums.Commands.UnitMenuCommands;
+import View.Enums.Messages.UnitMenuMessages;
 
 import java.util.regex.Matcher;
 
@@ -311,28 +319,40 @@ public class UnitMenu extends Menu {
     }
 
     private void buildSurroundingEquipment(Matcher matcher) {
-        if (checkBlankField(matcher.group("equipment"))) {
+        if (checkBlankField(matcher.group("equipment")) || checkBlankField(matcher.group("x")) ||
+                checkBlankField(matcher.group("y"))) {
             System.out.println("build equipment failed : blank field");
             return;
         }
 
         String equipment = handleDoubleQuote(matcher.group("equipment"));
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
 
-        switch (controller.buildSurroundingEquipment(equipment)) {
+        switch (controller.buildSurroundingEquipment(x, y, equipment)) {
             case SUCCESS:
                 System.out.println("equipment built successfully");
                 break;
-            case INVALID_EQUIPMENT_NAME:
-                System.out.println("build equipment failed : invalid equipment name");
+            case X_OUT_OF_BOUNDS:
+                System.out.println("build equipment failed : x out of bounds");
                 break;
-            case NO_UNIT_SELECTED:
-                System.out.println("build equipment failed : you have not selected any unit");
+            case Y_OUT_OF_BOUNDS:
+                System.out.println("build equipment failed : y out of bounds");
                 break;
-            case INVALID_TYPE_OF_SELECTED_UNIT:
-                System.out.println("build equipment failed : you have to select an engineer");
+            case INVALID_TYPE:
+                System.out.println("build equipment failed : invalid equipment type");
                 break;
-            case INSUFFICIENT_SOURCE:
-                System.out.println("build equipment failed : insufficient resources");
+            case UNIT_IS_NOT_SELECTED:
+                System.out.println("build equipment failed : no unit selected");
+                break;
+            case INSUFFICIENT_ENGINEER_SELECTED:
+                System.out.println("build equipment failed : not enough engineers selected");
+                break;
+            case CELL_IS_FULL:
+                System.out.println("build equipment failed : map cell is full");
+                break;
+            case INSUFFICIENT_GOLD:
+                System.out.println("build equipment failed : not enough golds");
                 break;
         }
     }
