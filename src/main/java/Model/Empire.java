@@ -432,14 +432,6 @@ public class Empire {
         return king;
     }
 
-    public void destroyEmpire() {
-        //TODO complete destroying an empire
-        this.king = null;
-        this.people.clear();
-        this.buildings.clear();
-        this.attackToolsAndMethods.clear();
-    }
-
     public int getNumberOfKingsKilled() {
         return numberOfKingsKilled;
     }
