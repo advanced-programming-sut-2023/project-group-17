@@ -8,6 +8,8 @@ import Model.People.Soldier;
 import Utils.CheckMapCell;
 import View.Enums.Messages.MapMenuMessages;
 
+import java.util.Objects;
+
 public class MapMenuController {
     private int xCell;
     private int yCell;
@@ -201,11 +203,15 @@ public class MapMenuController {
         if (Database.getBuildingDataByName(type) == null) return MapMenuMessages.INVALID_TYPE;
         if (!CheckMapCell.mapCellEmptyByCoordinates(x, y)) return MapMenuMessages.CELL_IS_FULL;
 
-        if (Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getMaterialMap().isWaterZone())
-            return MapMenuMessages.INAPPROPRIATE_TEXTURE;
-
-        Building building = new Building(Database.getCurrentUser(), Database.getBuildingDataByName(type), x, y);
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
+        if (mapCell.getMaterialMap().isWaterZone() ||
+                (type.equals("iron mine") && !mapCell.getMaterialMap().equals(MaterialMap.textureMap.STONE))
+                || (type.equals("pitch rig")) && !mapCell.getMaterialMap().equals(MaterialMap.textureMap.PLAIN)) {
+            return MapMenuMessages.INAPPROPRIATE_TEXTURE;
+        }
+
+        Building building = new Building(Database.getCurrentUser(),
+                Objects.requireNonNull(Database.getBuildingDataByName(type)), x, y);
 
         mapCell.addBuilding(building);
 

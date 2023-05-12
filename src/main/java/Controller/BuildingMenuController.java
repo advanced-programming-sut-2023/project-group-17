@@ -28,6 +28,13 @@ public class BuildingMenuController {
 
         if (!CheckMapCell.mapCellEmptyByCoordinates(x, y)) return BuildingMenuMessages.CELL_IS_FULL;
 
+        MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
+
+        if (mapCell.getMaterialMap().isWaterZone() ||
+        (type.equals("iron mine") && !mapCell.getMaterialMap().equals(MaterialMap.textureMap.STONE))
+        || (type.equals("pitch rig")) && !mapCell.getMaterialMap().equals(MaterialMap.textureMap.PLAIN))
+            return BuildingMenuMessages.INAPPROPRIATE_TEXTURE;
+
         Building buildingSample = Database.getBuildingDataByName(type);
         User currentUser = Database.getCurrentUser();
 
@@ -58,7 +65,6 @@ public class BuildingMenuController {
         }
 
         Building newBuilding = getTypeBuildings(currentUser, buildingSample, x, y);
-        MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
         mapCell.addBuilding(newBuilding);
         currentUser.getEmpire().addBuilding(newBuilding);
 
