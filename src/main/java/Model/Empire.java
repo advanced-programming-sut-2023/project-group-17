@@ -151,7 +151,7 @@ public class Empire {
             for (int j = -1; j < 2; j++) {
                 if (Utils.CheckMapCell.validationOfY(y + j) && Utils.CheckMapCell.validationOfX(x + z) &&
                         !Database.getCurrentMapGame().getMapCellByCoordinates(x + z, y + j).haveBuilding()
-                        && (z == 0 && j == 1)) {
+                        && !(z == 0 && j == 1)) {
 
                     MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x + z, y + j);
                     if (mapCell.canDropItems()) {
@@ -169,7 +169,7 @@ public class Empire {
             for (int j = -1; j < 2; j++) {
                 if (Utils.CheckMapCell.validationOfY(y + j) && Utils.CheckMapCell.validationOfX(x + z) &&
                         !Database.getCurrentMapGame().getMapCellByCoordinates(x + z, y + j).haveBuilding()
-                        && (z == 0 && j == 1)) {
+                        && !(z == 0 && j == 1)) {
                     MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x + z, y + j);
                     mapCell.clear();
                     StorageBuilding stockpile = new StorageBuilding(user, x + z, y + j,
