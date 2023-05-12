@@ -102,9 +102,6 @@ public class UnitMenu extends Menu {
             case NO_UNIT_SELECTED:
                 System.out.println("move unit failed : you have not selected any unit");
                 break;
-            case DISTANCE_OUT_OF_BOUNDS:
-                System.out.println("move unit failed : distance out of bounds");
-                break;
             case NOT_TRAVERSABLE:
                 System.out.println("move unit failed : you cannot move to that spot");
                 break;
@@ -138,9 +135,6 @@ public class UnitMenu extends Menu {
                 break;
             case NO_UNIT_SELECTED:
                 System.out.println("patrol unit failed : you have not selected any unit");
-                break;
-            case DISTANCE_OUT_OF_BOUNDS:
-                System.out.println("patrol unit failed : distance out of bounds");
                 break;
         }
     }

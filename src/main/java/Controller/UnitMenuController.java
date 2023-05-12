@@ -11,19 +11,17 @@ import Model.People.Person;
 import Model.People.Soldier;
 import Model.People.Tunneler;
 import Utils.CheckMapCell;
-import View.Enums.Messages.BuildingMenuMessages;
 import View.Enums.Messages.UnitMenuMessages;
 
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 
 public class UnitMenuController {
-    private ArrayList<Person> selectedUnit;
+    private ArrayList<Person> selectedUnit = new ArrayList<>();
     public UnitMenuMessages selectUnit(int x, int y) {
         if(!Utils.CheckMapCell.validationOfX(x)) return UnitMenuMessages.X_OUT_OF_BOUNDS;
         if(!Utils.CheckMapCell.validationOfY(y)) return UnitMenuMessages.Y_OUT_OF_BOUNDS;
 
-        for (Person person : selectedUnit = Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getPeople()) {
+        for (Person person : Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getPeople()) {
             if((person instanceof Soldier) && person.getOwner().equals(Database.getCurrentUser())) {
                 selectedUnit.add(person);
                 person.setCoordinates(x, y);
@@ -40,12 +38,6 @@ public class UnitMenuController {
         if(selectedUnit == null) return UnitMenuMessages.NO_UNIT_SELECTED;
 
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
-
-        for (Person person : selectedUnit) {
-            if(((Soldier)person).getSpeed() < ((int)Math.sqrt(Math.pow(person.getX() - x, 2) + Math.pow(person.getY() - y, 2))))
-                return UnitMenuMessages.DISTANCE_OUT_OF_BOUNDS;
-        }
-
         if(!mapCell.isTraversable()) return UnitMenuMessages.NOT_TRAVERSABLE;
 
         for (Person person : selectedUnit) {
@@ -74,16 +66,6 @@ public class UnitMenuController {
         if(!secondMapCell.isTraversable()) return UnitMenuMessages.NOT_TRAVERSABLE;
 
         for (Person person : selectedUnit) {
-            if(((Soldier)person).getSpeed() < ((int)Math.sqrt(Math.pow(person.getX() - x1, 2) + Math.pow(person.getY() - y1, 2))))
-                return UnitMenuMessages.DISTANCE_OUT_OF_BOUNDS;
-        }
-
-        for (Person person : selectedUnit) {
-            if(((Soldier)person).getSpeed() < ((int)Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2))))
-                return UnitMenuMessages.DISTANCE_OUT_OF_BOUNDS;
-        }
-
-        for (Person person : selectedUnit) {
             person.setDestination(mapCell);
             person.setSecondDestination(secondMapCell);
         }
@@ -104,7 +86,6 @@ public class UnitMenuController {
             if(soldier.getOwner().equals(Database.getCurrentUser())) {
                 soldier.setStatus(status);
                 isMySoldier = true;
-                //TODO: need for save soldier??? bcz of json
             }
         }
         if(!isMySoldier)
