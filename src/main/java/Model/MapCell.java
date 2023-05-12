@@ -2,6 +2,7 @@ package Model;
 
 import Model.Buildings.Building;
 import Model.Buildings.Trap;
+import Model.Items.Animal;
 import Model.Items.Item;
 import Model.MapCellItems.*;
 import Model.People.Person;
@@ -179,6 +180,15 @@ public class MapCell {
         }
     }
 
+    public void removeAnimal(Animal animal) {
+        for (Item item : items) {
+            if(item.equals(animal)) {
+                items.remove(animal);
+                break;
+            }
+        }
+    }
+
     public boolean canDropItems() {
         return !haveMapCellItem() && !haveBuilding() && !haveAttackTools();
     }
@@ -282,5 +292,9 @@ public class MapCell {
 
     public void setParentY(int parentY) {
         this.parentY = parentY;
+    }
+
+    public void removeBuilding(Building building) {
+        if(this.building.equals(building)) this.building = null;
     }
 }

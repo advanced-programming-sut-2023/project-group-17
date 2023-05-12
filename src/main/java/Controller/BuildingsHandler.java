@@ -57,12 +57,13 @@ public class BuildingsHandler {
             case "market":
                 BuildingMenuController.handleMarket(building);
                 break;
-            case "ox tether":
-                BuildingMenuController.handleOxTether(building);
-                break;
+//            case "ox tether":
+//                BuildingMenuController.handleOxTether(building);
+//                break;
 //            default:
 //                BuildingMenuController.handleReligiousBuildings(building);
 //                break;
+            //TODO default ha
         }
     }
 }

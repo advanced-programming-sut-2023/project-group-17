@@ -4,6 +4,7 @@ import Model.AttackToolsAndMethods;
 import Model.Buildings.*;
 import Model.*;
 import Model.Buildings.*;
+import Model.Items.Animal;
 import Model.Items.Item;
 import Model.MapCellItems.MapCellItems;
 import Model.MapCellItems.Wall;
@@ -14,6 +15,7 @@ import Model.People.Soldier;
 import Utils.CheckMapCell;
 import View.Enums.Messages.GameMenuMessages;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -53,11 +55,17 @@ public class GameMenuController {
         //TODO: set currentUser to loggedInUser
         //TODO turns--
         Database.increaseTurnsPassed();
-        applyMoves();
+
         if(Database.getTurnsPassed() % Database.getUsersInTheGame().size() == 0) {
             for (User user : Database.getUsersInTheGame()) {
                 changePopularity(user.getEmpire());
                 handleFearRate(user.getEmpire());
+                getTax(user.getEmpire());
+            }
+            applyMoves();
+            for (User user : Database.getUsersInTheGame()) {
+                if(user.getEmpire().getBuildingByName("drawbridge") != null)
+                    handleDrawBridge(user.getEmpire().getBuildingByName("drawbridge"));
             }
             applyDamageToSoldiers();
             applyDamageToBuildings();
@@ -69,6 +77,9 @@ public class GameMenuController {
         }
         buildingsFunctionsEachTurn();
         if (gameIsFinished()) setScores();
+        int index = Database.getUsersInTheGame().indexOf(Database.getCurrentUser());
+        int size = Database.getUsersInTheGame().size();
+        Database.setCurrentUser(Database.getUsersInTheGame().get((index + 1) % size));
     }
 
     private void applyMoves() {
@@ -631,10 +642,10 @@ public class GameMenuController {
         Objects.requireNonNull(Item.getAvailableItems("iron")).changeNumber(5);
     }
 
-    public static void handleQuarry(Building building) {
-        Objects.requireNonNull(Item.getAvailableItems("stone")).changeNumber(5);
-        //TODO
-    }
+//    public static void handleQuarry(Building building) {
+//        Objects.requireNonNull(Item.getAvailableItems("stone")).changeNumber(5);
+//        //TODO
+//    }
 
     public static void handleOilSmelter(Building building) {
         Objects.requireNonNull(Item.getAvailableItems("oil")).changeNumber(1);
@@ -649,9 +660,59 @@ public class GameMenuController {
                 handleReligiousBuildings(building);
             else if(building.getCategory().equals("inn")) handleInn(building);
             else if(building.getBuildingName().equals("iron mine")) handleIronMine(building);
-            else if(building.getBuildingName().equals("quarry")) handleQuarry(building);
+//            else if(building.getBuildingName().equals("quarry")) handleQuarry(building);
             else if(building.getBuildingName().equals("oil smelter")) handleOilSmelter(building);
+            else if(building.getBuildingName().equals("ox tether")) handleOxTether(building);
         }
+    }
+
+    public static void handleOxTether(Building building) {
+        Item.getAvailableItems("cow").changeNumber(1);
+        Animal cow = Database.getCurrentUser().getEmpire().getAnimalByName("cow");
+        Database.getCurrentMapGame().getMapCellByCoordinates(building.getX(), building.getY()).addItems(cow);
+        moveCowAndOxTether(cow, building, building.getX(), building.getY());
+    }
+
+    private static void moveCowAndOxTether(Animal cow, Building building, int currentX, int currentY) {
+        int goalX = -1;
+        int goalY = -1;
+        for (Building building1 : Database.getCurrentUser().getEmpire().getBuildings()) {
+            if(building1.getBuildingName().equals("quarry")) {
+                goalX = building1.getX();
+                goalY = building1.getY();
+                break;
+            }
+        }
+        if(goalX == -1) return;
+        ArrayList<MapCell> path = MoveController.aStarSearch(Database.getCurrentMapGame(), currentX, currentY, goalX, goalY);
+
+        for(int i = path.size() - 1; i > 0; i--) {
+            path.get(i).removeAnimal(cow);
+            path.get(i).removeBuilding(building);
+            path.get(i-1).addItems(cow);
+            path.get(i-1).addBuilding(building);
+        }
+
+        int goalX2 = -1;
+        int goalY2 = -1;
+        for (Building building1 : Database.getCurrentUser().getEmpire().getBuildings()) {
+            if(building1.getBuildingName().equals("stockpile")) {
+                goalX2 = building1.getX();
+                goalY2 = building1.getY();
+                break;
+            }
+        }
+        if(goalX2 == -1) return;
+        ArrayList<MapCell> path2 = MoveController.aStarSearch(Database.getCurrentMapGame(), goalX, goalY, goalX2, goalY2);
+
+        for(int i = path2.size() - 1; i > 0; i--) {
+            path2.get(i).removeAnimal(cow);
+            path2.get(i).removeBuilding(building);
+            path2.get(i-1).addItems(cow);
+            path2.get(i-1).addBuilding(building);
+        }
+
+        Item.getAvailableItems("stone").changeNumber(cow.getNumber() * 5);
     }
 
     private boolean gameIsFinished() {
