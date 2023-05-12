@@ -28,7 +28,11 @@ public class GameMenu extends Menu {
                 showMap(matcher);
 
             else if(GameMenuCommands.getMatcher(command, GameMenuCommands.NEXT_TURN) != null) {
-                if (nextTurn()) return;
+                if (nextTurn()) {
+                    System.out.println(controller.showWinner());
+                    return;
+                }
+
                 System.out.println(controller.getCurrentUserName() + " is now playing");
             }
 

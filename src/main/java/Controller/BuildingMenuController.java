@@ -335,7 +335,7 @@ public class BuildingMenuController {
                         Animal dogs = empire.getAnimalByName("dog");
                         ArrayList<MapCell> path =
                             MoveController.aStarSearch(Database.getCurrentMapGame(), x, y, soldier.getX(), soldier.getY());
-                        for(int z = path.size() - 2; z > 0; z--) {
+                        for(int z = path.size() - 1; z > 0; z--) {
                             path.get(i).removeAnimal(dogs);
                             path.get(i - 1).addAnimal(dogs);
 

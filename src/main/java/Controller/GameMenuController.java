@@ -97,13 +97,22 @@ public class GameMenuController {
         for (int i = 1; i <= map.getWidth(); i++) {
             for (int j = 1; j <= map.getLength(); j++) {
                 mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(i, j);
-                for (Person person : mapCell.getPeople()) {
-                    if (person.getDestination() != null) {
+                for (int z = 0; z < mapCell.getPeople().size(); z++) {
+                    if (mapCell.getPeople().get(z).getDestination() != null) {
                         path = MoveController.aStarSearch(map, mapCell.getX(),
-                                mapCell.getY(), person.getDestination().getX(), person.getDestination().getY());
-                        movePerson(person, path);
+                                mapCell.getY(), mapCell.getPeople().get(z).getDestination().getX(),
+                                mapCell.getPeople().get(z).getDestination().getY());
+                        movePerson(mapCell.getPeople().get(z), path);
+                        z--;
                     }
                 }
+//                for (Person person : mapCell.getPeople()) {
+//                    if (person.getDestination() != null) {
+//                        path = MoveController.aStarSearch(map, mapCell.getX(),
+//                                mapCell.getY(), person.getDestination().getX(), person.getDestination().getY());
+//                        movePerson(person, path);
+//                    }
+//                }
                 if (mapCell.getAttackToolsAndMethods() != null) {
                     attackToolsAndMethods = mapCell.getAttackToolsAndMethods();
                     if (attackToolsAndMethods.getDestination() != null) {
@@ -119,9 +128,10 @@ public class GameMenuController {
 
     private void movePerson(Person person, ArrayList<MapCell> path) {
         int counter = 0;
-        for(int i = path.size() - 2; i > 0; i--) {
+        for(int i = path.size() - 1; i > 0; i--) {
             path.get(i).removePerson(person);
             path.get(i-1).addPeople(person);
+            person.setCoordinates(path.get(i - 1).getX(), path.get(i - 1).getY());
 
             if (path.get(i - 1).getBuilding() instanceof Trap &&
                     !path.get(i - 1).getBuilding().getOwner().equals(person.getOwner())) {
@@ -147,7 +157,7 @@ public class GameMenuController {
 
     private void moveAttackToolsAndMethods(AttackToolsAndMethods attackToolsAndMethods, ArrayList<MapCell> path) {
         int counter = 0;
-        for(int i = path.size() - 2; i > 0; i--) {
+        for(int i = path.size() - 1; i > 0; i--) {
             path.get(i).setAttackToolsAndMethods(null);
             path.get(i-1).setAttackToolsAndMethods(attackToolsAndMethods);
             attackToolsAndMethods.setX(path.get(i - 1).getX());
@@ -155,7 +165,9 @@ public class GameMenuController {
             counter++;
             if (counter >= attackToolsAndMethods.getSpeed()) break;
         }
-        attackToolsAndMethods.setDestination(null);
+        if (attackToolsAndMethods.getX() == attackToolsAndMethods.getDestination().getX() &&
+                attackToolsAndMethods.getY() == attackToolsAndMethods.getDestination().getY())
+            attackToolsAndMethods.setDestination(null);
     }
 
     public void destroyEmpire(King king) {
@@ -771,6 +783,8 @@ public class GameMenuController {
             path.get(i).removeBuilding(building);
             path.get(i-1).addItems(cow);
             path.get(i-1).addBuilding(building);
+            building.setX(path.get(i - 1).getX());
+            building.setY(path.get(i - 1).getY());
         }
 
         int goalX2 = -1;
@@ -790,6 +804,8 @@ public class GameMenuController {
             path2.get(i).removeBuilding(building);
             path2.get(i-1).addItems(cow);
             path2.get(i-1).addBuilding(building);
+            building.setX(path2.get(i - 1).getX());
+            building.setY(path2.get(i - 1).getY());
         }
 
         Item.getAvailableItems("stone").changeNumber(cow.getNumber() * 5);
@@ -816,6 +832,7 @@ public class GameMenuController {
             if(user.getEmpire().getKing() != null) tmpScore += 50;
             tmpScore += user.getEmpire().getNumberOfKingsKilled() * 15 + user.getEmpire().getPopularityRate() * 10;
             if(tmpScore > userFromAllUsers.getHighScore()) userFromAllUsers.setHighScore(tmpScore);
+            user.getEmpire().changeScore(tmpScore);
         }
         Database.saveUsers();
     }
@@ -834,5 +851,14 @@ public class GameMenuController {
 
     public String getCurrentUserName() {
         return Database.getCurrentUser().getUsername();
+    }
+
+    public String showWinner() {
+        User user = Database.getUsersInTheGame().get(0);
+        for (int i = 1; i < Database.getUsersInTheGame().size(); i++) {
+            if (user.getEmpire().getScore() < Database.getUsersInTheGame().get(i).getEmpire().getScore())
+                user = Database.getUsersInTheGame().get(i);
+        }
+        return "The winner is : " + user.getUsername() + " and the score was : " + user.getEmpire().getScore();
     }
 }

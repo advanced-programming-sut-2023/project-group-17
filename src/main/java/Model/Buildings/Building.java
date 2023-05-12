@@ -13,8 +13,8 @@ public class Building {
     private final String buildingName;
     private final HashMap<Resource.resourceType, Integer> buildingCost;
     private final HashMap<PeopleType, Integer> numberOfWorkers;
-    private final int x;
-    private final int y;
+    private int x;
+    private int y;
 
     public Building(User owner, Building building, int x, int y) {
         this.owner = owner;
@@ -64,6 +64,14 @@ public class Building {
 
     public int getY() {
         return y;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 
     @Override
