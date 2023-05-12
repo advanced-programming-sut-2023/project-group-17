@@ -35,6 +35,10 @@ public class Building {
         return buildingHp;
     }
 
+    public void setBuildingHp(int buildingHp) {
+        this.buildingHp = buildingHp;
+    }
+
     public String getBuildingName() {
         return buildingName;
     }

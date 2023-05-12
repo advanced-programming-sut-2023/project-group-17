@@ -126,7 +126,7 @@ public class GameMenuController {
 
                 if (person instanceof King) {
                     path.get(i - 1).getBuilding().getOwner().getEmpire().increaseNumberOfKingsKilled();
-                    person.getOwner().getEmpire().killedKing();
+                    destroyEmpire((King)person);
                 }
 
                 break;
@@ -147,6 +147,21 @@ public class GameMenuController {
         }
     }
 
+    public void destroyEmpire(King king) {
+        for (Person person : king.getOwner().getEmpire().getPeople()) {
+            person.setHp(-1);
+        }
+        removeDeadBodies();
+        for (Building building : king.getOwner().getEmpire().getBuildings()) {
+            building.setBuildingHp(-1);
+        }
+        removeDestroyedBuildings();
+        for (AttackToolsAndMethods attackToolsAndMethod : king.getOwner().getEmpire().getAttackToolsAndMethods()) {
+            attackToolsAndMethod.setHp(-1);
+        }
+        removeDestroyedAttackToolsAndMethods();
+    }
+
     public void applyDamageToSoldiers() {
         for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
             for (Soldier soldier : mapCell.getSoldier()) {
@@ -165,8 +180,10 @@ public class GameMenuController {
                 for (Person person : Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getPeople()) {
                     if(!soldier.getOwner().equals(person.getOwner()) && person.getHp() > 0) {
                         person.changeHp(-soldier.getAttackRating());
-                        if(person instanceof King && person.getHp() <= 0)
+                        if(person instanceof King && person.getHp() <= 0) {
                             soldier.getOwner().getEmpire().increaseNumberOfKingsKilled();
+                            destroyEmpire((King)person);
+                        }
                         break outerLoop;
                     }
                 }
@@ -302,8 +319,10 @@ public class GameMenuController {
                 for (Person person : Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getPeople()) {
                     if(!attackToolsAndMethods.getOwner().equals(person.getOwner()) && person.getHp() > 0) {
                         person.changeHp(-attackToolsAndMethods.getDamage());
-                        if(person instanceof King && person.getHp() <= 0)
+                        if(person instanceof King && person.getHp() <= 0) {
                             attackToolsAndMethods.getOwner().getEmpire().increaseNumberOfKingsKilled();
+                            destroyEmpire((King)person);
+                        }
                         break outerLoop;
                     }
                 }

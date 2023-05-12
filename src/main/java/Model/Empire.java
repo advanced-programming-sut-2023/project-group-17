@@ -432,7 +432,7 @@ public class Empire {
         return king;
     }
 
-    public void killedKing() {
+    public void destroyEmpire() {
         //TODO complete destroying an empire
         this.king = null;
         this.people.clear();
