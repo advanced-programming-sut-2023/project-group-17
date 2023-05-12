@@ -3,7 +3,6 @@ package View;
 import Controller.MainMenuController;
 import View.Enums.Commands.MainMenuCommands;
 
-import java.util.Scanner;
 import java.util.regex.Matcher;
 
 
@@ -23,14 +22,13 @@ public class MainMenu extends Menu {
             command = scanner.nextLine();
             if ((matcher = MainMenuCommands.getMatcher(command, MainMenuCommands.ENTER_PROFILE_MENU)) != null)
                 enterProfileMenu();
-
             else if ((matcher = MainMenuCommands.getMatcher(command, MainMenuCommands.LOGOUT)) != null) {
-                if (logout())
-                    return;
+                if (logout()) return;
             }
-
             else if ((matcher = MainMenuCommands.getMatcher(command, MainMenuCommands.START_NEW_GAME)) != null)
                 startNewGame(matcher);
+            else if((matcher = MainMenuCommands.getMatcher(command, MainMenuCommands.SHOW_CURRENT_MENU)) != null)
+                System.out.println("Main menu");
             else System.out.println("Invalid Command");
         }
     }

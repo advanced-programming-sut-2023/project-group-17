@@ -3,7 +3,6 @@ package View;
 import Controller.TradeMenuController;
 import View.Enums.Commands.TradeMenuCommands;
 
-import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class TradeMenu extends Menu {
@@ -35,6 +34,8 @@ public class TradeMenu extends Menu {
                 System.out.println("entered game menu successfully");
                 return;
             }
+            else if((matcher = TradeMenuCommands.getMatcher(command, TradeMenuCommands.SHOW_CURRENT_MENU)) != null)
+                System.out.println("Trade menu");
             else System.out.println("Invalid Command");
         }
     }

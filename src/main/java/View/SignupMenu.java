@@ -27,6 +27,8 @@ public class SignupMenu extends Menu{
                 enterLoginMenu();
                 return;
             }
+            else if((matcher = SignupMenuCommands.getMatcher(command, SignupMenuCommands.SHOW_CURRENT_MENU)) != null)
+                System.out.println("Signup menu");
             else System.out.println("Invalid Command");
         }
     }

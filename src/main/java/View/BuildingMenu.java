@@ -3,7 +3,6 @@ package View;
 import Controller.BuildingMenuController;
 import View.Enums.Commands.BuildingMenuCommands;
 
-import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class BuildingMenu extends Menu{
@@ -44,6 +43,9 @@ public class BuildingMenu extends Menu{
 
             else if ((matcher = BuildingMenuCommands.getMatcher(command, BuildingMenuCommands.DROP_STAIR)) != null)
                 dropStair(matcher);
+
+            else if((matcher = BuildingMenuCommands.getMatcher(command, BuildingMenuCommands.SHOW_CURRENT_MENU)) != null)
+                System.out.println("Building menu");
 
             else System.out.println("Invalid Command");
         }

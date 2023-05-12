@@ -1,11 +1,8 @@
 package View;
 
 import Controller.MapMenuController;
-import Utils.CheckValidation;
 import View.Enums.Commands.MapMenuCommands;
-import View.Enums.Messages.MapMenuMessages;
 
-import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class MapMenu extends Menu{
@@ -43,6 +40,8 @@ public class MapMenu extends Menu{
                 System.out.println("Entered game menu");
                 return;
             }
+            else if((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.SHOW_CURRENT_MENU)) != null)
+                System.out.println("Map menu");
             else System.out.println("Invalid Command");
         }
     }
