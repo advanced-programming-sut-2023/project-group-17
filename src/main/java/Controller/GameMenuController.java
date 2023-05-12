@@ -119,7 +119,7 @@ public class GameMenuController {
 
     private void movePerson(Person person, ArrayList<MapCell> path) {
         int counter = 0;
-        for(int i = path.size() - 1; i > 0; i--) {
+        for(int i = path.size() - 1; i > 1; i--) {
             path.get(i).removePerson(person);
             path.get(i-1).addPeople(person);
 
