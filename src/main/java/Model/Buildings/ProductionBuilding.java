@@ -11,7 +11,6 @@ public class ProductionBuilding extends Building{
     private String relatedStorageBuildingName;
     int rate;
     public ProductionBuilding(User owner, int x, int y, ProductionBuilding productionBuilding) {
-        //TODO: constructor hameye buildinga
         super(owner, productionBuilding, x, y);
         this.productionItem = productionBuilding.getProductionItem();
         this.relatedStorageBuildingName = productionBuilding.getRelatedStorageBuildingName();

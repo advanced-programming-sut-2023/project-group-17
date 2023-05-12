@@ -54,14 +54,20 @@ public class GameMenuController {
         //TODO turns--
         Database.increaseTurnsPassed();
         applyMoves();
+        if(Database.getTurnsPassed() % Database.getUsersInTheGame().size() == 0) {
+            for (User user : Database.getUsersInTheGame()) {
+                changePopularity(user.getEmpire());
+                handleFearRate(user.getEmpire());
+            }
+            applyDamageToSoldiers();
+            applyDamageToBuildings();
+            applyDamageToAttackToolsAndMethods();
+            applyDamageByAttackToolsAndMethods();
+            removeDeadSoldiers();
+            removeDestroyedBuildings();
+            removeDestroyedAttackToolsAndMethods();
+        }
         buildingsFunctionsEachTurn();
-        applyDamageToSoldiers();
-        applyDamageToBuildings();
-        applyDamageToAttackToolsAndMethods();
-        applyDamageByAttackToolsAndMethods();
-        removeDeadSoldiers();
-        removeDestroyedBuildings();
-        removeDestroyedAttackToolsAndMethods();
         if (gameIsFinished()) setScores();
     }
 
