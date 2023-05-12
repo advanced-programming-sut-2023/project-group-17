@@ -228,7 +228,8 @@ public class BuildingMenuController {
         if (currentUser.getEmpire().getNormalPeople().size() < count) return BuildingMenuMessages.NOT_ENOUGH_CROWD;
 
         for (ArmorAndWeapon armorAndWeapon : currentUser.getEmpire().getWeapons()) {
-            if (armorAndWeapon.getItemName().equals(sampleSoldier.getWeapon())) {
+            if (armorAndWeapon.getItemName().equals(sampleSoldier.getWeapon()) &&
+                    sampleSoldier.getNationality().equals(UnitAttributes.Nationality.EUROPEAN)) {
                 if (armorAndWeapon.getNumber() < count) return BuildingMenuMessages.INSUFFICIENT_STORAGE;
                 else {
                     armorAndWeapon.changeNumber(-count);

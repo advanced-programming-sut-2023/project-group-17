@@ -11,6 +11,9 @@ public class BuildingsHandler {
             case "other buildings":
                 handleOtherBuildings(building);
                 break;
+            case "storage building":
+                handleStorageBuildings(building);
+                break;
             default:
                 break;
         }
