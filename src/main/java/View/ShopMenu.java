@@ -3,7 +3,6 @@ package View;
 import Controller.ShopMenuController;
 import View.Enums.Commands.ShopMenuCommands;
 
-import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class ShopMenu extends Menu{
@@ -31,6 +30,8 @@ public class ShopMenu extends Menu{
                 System.out.println("entered game menu successfully");
                 return;
             }
+            else if((matcher = ShopMenuCommands.getMatcher(command, ShopMenuCommands.SHOW_CURRENT_MENU)) != null)
+                System.out.println("Shop menu");
             else System.out.println("Invalid Command");
 
         }

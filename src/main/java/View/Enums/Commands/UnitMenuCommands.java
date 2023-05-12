@@ -20,7 +20,8 @@ public enum UnitMenuCommands {
     DIG_MOAT("\\s*dig\\s+moat\\s+(?:(-x\\s*)(?<x>\\d+)?(\\s*)()|(-y\\s*)(?<y>\\d+)?(\\s*)()){2}\\4\\8"),
     BURN_OIL("\\s*burn\\s+oil\\s*"),
     FILL_MOAT("\\s*fill\\s+moat\\s+(?:(-x\\s*)(?<x>\\d+)?(\\s*)()|(-y\\s*)(?<y>\\d+)?(\\s*)()){2}\\4\\8"),
-    BACK("\\s*back\\s*")
+    BACK("\\s*back\\s*"),
+    SHOW_CURRENT_MENU("\\s*show\\s+current\\s+menu\\s*")
     ;
 
     String regex;

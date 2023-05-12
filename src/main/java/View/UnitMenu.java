@@ -1,15 +1,7 @@
 package View;
 
 import Controller.UnitMenuController;
-import Model.AttackToolsAndMethods;
-import Model.Database;
-import Model.Empire;
-import Model.MapCell;
-import Model.People.Engineer;
-import Model.People.Person;
-import Utils.CheckMapCell;
 import View.Enums.Commands.UnitMenuCommands;
-import View.Enums.Messages.UnitMenuMessages;
 
 import java.util.regex.Matcher;
 
@@ -56,6 +48,8 @@ public class UnitMenu extends Menu {
                 System.out.println("entered game menu successfully");
                 return;
             }
+            else if((matcher = UnitMenuCommands.getMatcher(command, UnitMenuCommands.SHOW_CURRENT_MENU)) != null)
+                System.out.println("Unit menu");
             else System.out.println("Invalid Command");
         }
     }

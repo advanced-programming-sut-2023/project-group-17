@@ -12,7 +12,7 @@ public enum SignupMenuCommands {
                     "(-a\\s*)(?<answer>\".+\"|\\S+)?(\\s*)()|" +
                     "(-c\\s*)(?<confirmation>\".+\"|\\S+)?(\\s*)()){3}\\4\\8\\12"),
     PICK_CAPTCHA("\\s*[0-9]+\\s*"),
-
+    SHOW_CURRENT_MENU("\\s*show\\s+current\\s+menu\\s*"),
     ENTER_LOGIN_MENU("\\s*enter\\s+login\\s+menu\\s*")
     ;
 

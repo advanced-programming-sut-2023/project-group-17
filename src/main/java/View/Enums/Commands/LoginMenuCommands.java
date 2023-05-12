@@ -10,7 +10,9 @@ public enum LoginMenuCommands {
 
     PICK_CAPTCHA("\\s*[0-9]+\\s*"),
 
-    ENTER_SIGNUP_MENU("\\s*enter\\s+signup\\s+menu\\s*");
+    ENTER_SIGNUP_MENU("\\s*enter\\s+signup\\s+menu\\s*"),
+    SHOW_CURRENT_MENU("\\s*show\\s+current\\s+menu\\s*")
+    ;
 
     final String regex;
     private LoginMenuCommands(String regex) { this.regex = regex; }

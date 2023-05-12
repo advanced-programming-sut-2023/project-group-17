@@ -1,7 +1,5 @@
 package View.Enums.Commands;
 
-import Controller.ProfileMenuController;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,7 +14,9 @@ public enum ProfileMenuCommands {
     DISPLAY_RANK("\\s*profile\\s+display\\s+rank\\s*"),
     DISPLAY_SLOGAN("\\s*profile\\s+display\\s+slogan\\s*"),
     DISPLAY_PROFILE("\\s*profile\\s+display\\s*"),
-    BACK("\\s*back\\s*")
+    BACK("\\s*back\\s*"),
+    SHOW_CURRENT_MENU("\\s*show\\s+current\\s+menu\\s*")
+
     ;
 
     final String regex;

@@ -17,7 +17,9 @@ public enum BuildingMenuCommands {
             "(-h\\s*)(?<height>\".+\"|\\S+)?(\\s*)()|(-x\\s*)(?<x>\\d+)?(\\s*)()|(-y\\s*)(?<y>\\d+)?(\\s*)())" +
             "{4}\\4\\8\\12\\16"),
     DROP_STAIR("\\s*drop\\s+stair\\s+(?:(-x\\s*)(?<x>\\d+)?(\\s*)()|(-y\\s*)(?<y>\\d+)?(\\s*)())" +
-            "{2}\\4\\8");
+            "{2}\\4\\8"),
+    SHOW_CURRENT_MENU("\\s*show\\s+current\\s+menu\\s*")
+    ;
     final String regex;
     private BuildingMenuCommands(String regex) {this.regex = regex;}
 

@@ -42,6 +42,8 @@ public class ProfileMenu extends Menu {
                 displayRank();
             else if((matcher = ProfileMenuCommands.getMatcher(command, ProfileMenuCommands.BACK)) != null)
                 return;
+            else if((matcher = ProfileMenuCommands.getMatcher(command, ProfileMenuCommands.SHOW_CURRENT_MENU)) != null)
+                System.out.println("Profile menu");
             else System.out.println("Invalid Command");
 
         }

@@ -2,9 +2,7 @@ package View;
 
 import Controller.EmpireMenuController;
 import View.Enums.Commands.EmpireMenuCommands;
-import View.Enums.Messages.EmpireMenuMessages;
 
-import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class EmpireMenu extends Menu {
@@ -38,6 +36,8 @@ public class EmpireMenu extends Menu {
             else if ((matcher = EmpireMenuCommands.getMatcher(command, EmpireMenuCommands.SHOW_FEAR_RATE)) != null)
                 showFearRate();
             else if ((matcher = EmpireMenuCommands.getMatcher(command, EmpireMenuCommands.BACK)) != null) return;
+            else if((matcher = EmpireMenuCommands.getMatcher(command, EmpireMenuCommands.SHOW_CURRENT_MENU)) != null)
+                System.out.println("Empire menu");
             else System.out.println("Invalid Command");
         }
     }

@@ -10,7 +10,9 @@ public enum TradeMenuCommands {
     ACCEPT_TRADE("\\s*trade\\s+accept\\s+(?:(-i\\s*)(?<id>\\S+)?(\\s*)()|" +
             "(-m\\s*)(?<message>(\".+\")|(\\S+))?(\\s*)()){2}\\4\\10"),
     TRADE_HISTORY("\\s*trade\\s+history\\s*"),
-    BACK("\\s*back\\s*");
+    BACK("\\s*back\\s*"),
+    SHOW_CURRENT_MENU("\\s*show\\s+current\\s+menu\\s*")
+    ;
 
     final String regex;
     private TradeMenuCommands(String regex) { this.regex = regex; }

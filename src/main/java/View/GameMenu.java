@@ -50,6 +50,9 @@ public class GameMenu extends Menu {
             else if(GameMenuCommands.getMatcher(command, GameMenuCommands.ENTER_MAP_MENU) != null)
                 mapMenu.run();
 
+            else if((matcher = GameMenuCommands.getMatcher(command, GameMenuCommands.SHOW_CURRENT_MENU)) != null)
+                System.out.println("Game menu");
+
             else System.out.println("Invalid Command");
         }
     }
