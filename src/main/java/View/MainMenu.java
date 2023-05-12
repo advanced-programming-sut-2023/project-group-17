@@ -58,7 +58,7 @@ public class MainMenu extends Menu {
             return;
         }
         int turnsNumber = Integer.parseInt(matcher.group("turnsNumber"));
-        String users = matcher.group("users");
+        String users = matcher.group("users").trim();
         switch (controller.startNewGame(users, turnsNumber)) {
             case SUCCESS:
                 System.out.println("Entered new game");

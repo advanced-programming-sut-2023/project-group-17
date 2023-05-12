@@ -13,8 +13,10 @@ public class MainMenuController {
         if (turnsCount <= 0) return MainMenuMessages.INVALID_NUMBER;
         String[] user = users.split(",");
         if (user.length > 8 || user.length < 1) return MainMenuMessages.INVALID_NUMBER_OF_USERS;
-        for (int i = 0; i < user.length; i++)
-            user[i] = Menu.handleDoubleQuote(user[i]);
+        for (int i = 0; i < user.length; i++) {
+            if (user[i].startsWith("\"")) user[i] = user[i].substring(1);
+            if (user[i].endsWith("\"")) user[i] = user[i].substring(0, user[i].length() - 1);
+        }
 
         for (String username : user) {
             if (Database.getUserByUsername(username) == null) return MainMenuMessages.USERNAME_DOES_NOT_EXIST;
