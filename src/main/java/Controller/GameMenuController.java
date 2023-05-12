@@ -46,8 +46,6 @@ public class GameMenuController {
     }
 
     public boolean nextTurn() {
-        //TODO: check if king is alive or not
-        //TODO turns--
         Database.increaseTurnsPassed();
         if(Database.getTurnsPassed() % Database.getUsersInTheGame().size() == 0) {
             for (User user : Database.getUsersInTheGame()) {
@@ -56,6 +54,7 @@ public class GameMenuController {
                 getTax(user.getEmpire());
                 giveFood(user.getEmpire());
             }
+            findSiegeTower();
             applyMoves();
             for (User user : Database.getUsersInTheGame()) {
                 if(user.getEmpire().getBuildingByName("drawbridge") != null)
@@ -150,6 +149,8 @@ public class GameMenuController {
         for(int i = path.size() - 1; i > 0; i--) {
             path.get(i).setAttackToolsAndMethods(null);
             path.get(i-1).setAttackToolsAndMethods(attackToolsAndMethods);
+            attackToolsAndMethods.setX(path.get(i - 1).getX());
+            attackToolsAndMethods.setY(path.get(i - 1).getY());
             counter++;
             if (counter >= attackToolsAndMethods.getSpeed()) break;
         }
@@ -305,7 +306,34 @@ public class GameMenuController {
         }
     }
 
-    //TODO: Siege Tower
+    public void findSiegeTower() {
+        Empire empire;
+        for (User user : Database.getUsersInTheGame()) {
+            empire = user.getEmpire();
+            for (AttackToolsAndMethods attackToolsAndMethod : empire.getAttackToolsAndMethods()) {
+                if (attackToolsAndMethod.getName().equals("siege tower")) handleSiegeTower(attackToolsAndMethod);
+            }
+        }
+    }
+
+    public void handleSiegeTower(AttackToolsAndMethods siegeTower) {
+        int x = siegeTower.getX();
+        int y = siegeTower.getY();
+        MapCell mapCell;
+        for (int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
+                if (Utils.CheckMapCell.validationOfY(y + j) && Utils.CheckMapCell.validationOfX(x + i)) {
+                    mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x + i, y + j);
+                    if ((mapCell.getWall() != null) && !mapCell.getWall().getOwner().equals(siegeTower.getOwner())) {
+                        for (Soldier soldier : siegeTower.getSoldiers()) {
+                            soldier.setCoordinates(mapCell.getX(), mapCell.getY());
+                            siegeTower.getSoldiers().remove(soldier);
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     public void applyDamageByAttackToolsAndMethods() {
         for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {

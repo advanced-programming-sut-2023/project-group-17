@@ -309,7 +309,7 @@ public class BuildingMenuController {
         if(empire.getCoins() < golds) return BuildingMenuMessages.INSUFFICIENT_GOLD;
 
         AttackToolsAndMethods sample = Database.getAttackToolsDataByName(type);
-        AttackToolsAndMethods attackToolsAndMethods = new AttackToolsAndMethods(Database.getCurrentUser(), sample);
+        AttackToolsAndMethods attackToolsAndMethods = new AttackToolsAndMethods(Database.getCurrentUser(), sample, x, y);
         for (Engineer engineer : empire.getEngineers()) {
             attackToolsAndMethods.getEngineers().add(engineer);
             Database.getCurrentMapGame().getMapCellByCoordinates(engineer.getX(), engineer.getY()).removePerson(engineer);
