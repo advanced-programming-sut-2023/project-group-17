@@ -49,7 +49,7 @@ public class MainMenu extends Menu {
             System.out.println("user logged out successfully");
             controller.logout();
             return true;
-        }
+        } else System.out.println("logout failed");
         return false;
     }
     private void startNewGame(Matcher matcher) {
