@@ -20,5 +20,6 @@ public enum UnitMenuMessages {
     NO_MOAT,
 //    ATTACK_OPPONENT_UNIT,
     FILL_OPPONENT_MOAT,
-    NO_UNIT_SELECTED;
+    NO_UNIT_SELECTED,
+    NO_BUILDING_IN_RANGE;
 }

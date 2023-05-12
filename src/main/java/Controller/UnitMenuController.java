@@ -1,7 +1,11 @@
 package Controller;
 
+import Model.Buildings.DefensiveBuilding;
 import Model.Database;
 import Model.MapCell;
+import Model.MapCellItems.MapCellItems;
+import Model.MapCellItems.Tunnel;
+import Model.MapCellItems.Wall;
 import Model.MaterialMap;
 import Model.People.Person;
 import Model.People.Soldier;
@@ -167,28 +171,53 @@ public class UnitMenuController {
         return null;
     }
 
-    public UnitMenuMessages digTunnel(int x, int y) {
-        if(!Utils.CheckMapCell.validationOfX(x)) return UnitMenuMessages.X_OUT_OF_BOUNDS;
-        if(!Utils.CheckMapCell.validationOfY(y)) return UnitMenuMessages.Y_OUT_OF_BOUNDS;
+    public UnitMenuMessages digTunnel(int startX, int startY) {
+        if(!Utils.CheckMapCell.validationOfX(startX)) return UnitMenuMessages.X_OUT_OF_BOUNDS;
+        if(!Utils.CheckMapCell.validationOfY(startY)) return UnitMenuMessages.Y_OUT_OF_BOUNDS;
         if(selectedUnit == null) return UnitMenuMessages.NO_UNIT_SELECTED;
 
-        MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
+        MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(startX, startY);
         if(!mapCell.getMaterialMap().equals(MaterialMap.textureMap.LAND) &&
            !mapCell.getMaterialMap().equals(MaterialMap.textureMap.GRASS) &&
            !mapCell.getMaterialMap().equals(MaterialMap.textureMap.MEADOW))
             return UnitMenuMessages.INAPPROPRIATE_TEXTURE;
 
-        for (Person person : selectedUnit) {
-            if (person instanceof Tunneler) {
-                //TODO: dig tunnel/ make it invisible/ find the nearest wall
-
-
-                selectedUnit.subList(0, selectedUnit.size()).clear();
-                return UnitMenuMessages.SUCCESS;
-            }
-        }
+        for (Person person : selectedUnit)
+            if (person instanceof Tunneler) return digTunnelIteration(startX, startY, mapCell);
 
         return UnitMenuMessages.INVALID_TYPE_OF_SELECTED_UNIT;
+    }
+
+    public UnitMenuMessages digTunnelIteration(int startX, int startY, MapCell mapCell) {
+        int range = 20;
+        Tunnel tunnel;
+        for(int x = startX - range; x < startX + range + 1; x++) {
+            for(int y = startY - range; y < startY + range + 1; y++) {
+                if(!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y)) continue;
+
+                MapCell endMapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
+
+                if(endMapCell.getBuilding() != null &&
+                !endMapCell.getBuilding().getOwner().equals(Database.getCurrentUser()) &&
+                endMapCell.getBuilding() instanceof DefensiveBuilding) {
+                    endMapCell.getBuilding().changeBuildingHp(-1200);
+                    tunnel = new Tunnel(Database.getCurrentUser(), mapCell, endMapCell);
+                    selectedUnit.subList(0, selectedUnit.size()).clear();
+                    return UnitMenuMessages.SUCCESS;
+                }
+                else {
+                    for (MapCellItems mapCellItem : endMapCell.getMapCellItems()) {
+                        if(mapCellItem instanceof Wall && !mapCellItem.getOwner().equals(Database.getCurrentUser())) {
+                            ((Wall) mapCellItem).setHp(0);
+                            tunnel = new Tunnel(Database.getCurrentUser(), mapCell, endMapCell);
+                            selectedUnit.subList(0, selectedUnit.size()).clear();
+                            return UnitMenuMessages.SUCCESS;
+                        }
+                    }
+                }
+            }
+        }
+        return UnitMenuMessages.NO_BUILDING_IN_RANGE;
     }
 
     public UnitMenuMessages buildSurroundingEquipment(String buildingName) {
@@ -198,8 +227,8 @@ public class UnitMenuController {
     public UnitMenuMessages disbandUnit() {
         if(selectedUnit == null) return UnitMenuMessages.NO_UNIT_SELECTED;
 
-        int x = Database.getCurrentUser().getEmpire().getHeadquarter().getX() - 1;
-        int y = Database.getCurrentUser().getEmpire().getHeadquarter().getY() - 1;
+        int x = Database.getCurrentUser().getEmpire().getHeadquarter().getX();
+        int y = Database.getCurrentUser().getEmpire().getHeadquarter().getY() + 1;
 
         for (Person person : selectedUnit) {
             person.setDestination(Database.getCurrentMapGame().getMapCellByCoordinates(x, y));

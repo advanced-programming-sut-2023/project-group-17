@@ -302,6 +302,9 @@ public class UnitMenu extends Menu {
             case INVALID_TYPE_OF_SELECTED_UNIT:
                 System.out.println("dig tunnel failed : you have to select tunneler");
                 break;
+            case NO_BUILDING_IN_RANGE:
+                System.out.println("dig tunnel failed : there is no building in range to destroy");
+                break;
         }
 
     }
