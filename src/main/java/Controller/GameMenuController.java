@@ -146,7 +146,7 @@ public class GameMenuController {
 
     private void moveAttackToolsAndMethods(AttackToolsAndMethods attackToolsAndMethods, ArrayList<MapCell> path) {
         int counter = 0;
-        for(int i = path.size() - 1; i > 0; i--) {
+        for(int i = path.size() - 2; i > 0; i--) {
             path.get(i).setAttackToolsAndMethods(null);
             path.get(i-1).setAttackToolsAndMethods(attackToolsAndMethods);
             attackToolsAndMethods.setX(path.get(i - 1).getX());
@@ -154,6 +154,7 @@ public class GameMenuController {
             counter++;
             if (counter >= attackToolsAndMethods.getSpeed()) break;
         }
+        attackToolsAndMethods.setDestination(null);
     }
 
     public void destroyEmpire(King king) {
