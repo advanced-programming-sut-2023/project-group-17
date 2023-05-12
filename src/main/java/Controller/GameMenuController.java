@@ -46,6 +46,8 @@ public class GameMenuController {
     }
 
     public boolean nextTurn() {
+        //TODO: check if king is alive or not
+        //TODO turns--
         Database.increaseTurnsPassed();
         if(Database.getTurnsPassed() % Database.getUsersInTheGame().size() == 0) {
             for (User user : Database.getUsersInTheGame()) {
@@ -59,13 +61,9 @@ public class GameMenuController {
                 if(user.getEmpire().getBuildingByName("drawbridge") != null)
                     handleDrawBridge(user.getEmpire().getBuildingByName("drawbridge"));
             }
-            applyDamageToSoldiers();
-            applyDamageToBuildings();
-            applyDamageToAttackToolsAndMethods();
-            applyDamageByAttackToolsAndMethods();
-            removeDeadBodies();
-            removeDestroyedBuildings();
-            removeDestroyedAttackToolsAndMethods();
+            applyDamages();
+            clearDestroyedThings();
+
         }
         buildingsFunctionsEachTurn();
         if (gameIsFinished()) {
@@ -78,6 +76,19 @@ public class GameMenuController {
         Database.setCurrentUser(Database.getUsersInTheGame().get((index + 1) % size));
         if (Database.getCurrentUser().getEmpire().getKing() == null) nextTurn();
         return false;
+    }
+
+    private void applyDamages() {
+        applyDamageToSoldiers();
+        applyDamageToBuildings();
+        applyDamageToAttackToolsAndMethods();
+        applyDamageByAttackToolsAndMethods();
+    }
+
+    private void clearDestroyedThings() {
+        removeDeadBodies();
+        removeDestroyedBuildings();
+        removeDestroyedAttackToolsAndMethods();
     }
 
     private void applyMoves() {
@@ -174,16 +185,21 @@ public class GameMenuController {
             for(int y = startY - range; y < startY + range + 1; y++) {
                 if(!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y)) continue;
 
-                for (Person person : Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getPeople()) {
-                    if(!soldier.getOwner().equals(person.getOwner()) && person.getHp() > 0) {
-                        person.changeHp(-soldier.getAttackRating());
-                        if(person instanceof King && person.getHp() <= 0) {
-                            soldier.getOwner().getEmpire().increaseNumberOfKingsKilled();
-                            destroyEmpire((King)person);
+                AttackToolsAndMethods attackTool = Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getAttackToolsAndMethods();
+                if(attackTool != null && attackTool.getName().equals("portable shield") &&
+                        !attackTool.getOwner().equals(Database.getCurrentUser()) && attackTool.getHp() > 0)
+                    attackTool.changeHp(-soldier.getAttackRating());
+                else
+                    for (Person person : Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getPeople()) {
+                        if(!soldier.getOwner().equals(person.getOwner()) && person.getHp() > 0) {
+                            person.changeHp(-soldier.getAttackRating());
+                            if(person instanceof King && person.getHp() <= 0) {
+                                soldier.getOwner().getEmpire().increaseNumberOfKingsKilled();
+                                destroyEmpire((King)person);
+                            }
+                            break outerLoop;
                         }
-                        break outerLoop;
                     }
-                }
             }
         }
     }
@@ -250,7 +266,8 @@ public class GameMenuController {
                         for (MapCellItems mapCellItem : Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getMapCellItems()) {
                             if(mapCellItem instanceof Wall && !soldier.getOwner().equals(mapCellItem.getOwner()))
                                 ((Wall) mapCellItem).changeHp(-soldier.getAttackRating());
-                        }                    }
+                        }
+                    }
                 }
         }
     }
@@ -288,7 +305,7 @@ public class GameMenuController {
         }
     }
 
-    //TODO: Siege Tower and Portable Shield?
+    //TODO: Siege Tower
 
     public void applyDamageByAttackToolsAndMethods() {
         for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
@@ -313,16 +330,21 @@ public class GameMenuController {
                     break outerLoop;
                 }
 
-                for (Person person : Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getPeople()) {
-                    if(!attackToolsAndMethods.getOwner().equals(person.getOwner()) && person.getHp() > 0) {
-                        person.changeHp(-attackToolsAndMethods.getDamage());
-                        if(person instanceof King && person.getHp() <= 0) {
-                            attackToolsAndMethods.getOwner().getEmpire().increaseNumberOfKingsKilled();
-                            destroyEmpire((King)person);
+                AttackToolsAndMethods attackTool = Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getAttackToolsAndMethods();
+                if(attackTool != null && attackTool.getName().equals("portable shield") &&
+                        !attackTool.getOwner().equals(Database.getCurrentUser()) && attackTool.getHp() > 0)
+                    attackTool.changeHp(-attackToolsAndMethods.getDamage());
+                else
+                    for (Person person : Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getPeople()) {
+                        if(!attackToolsAndMethods.getOwner().equals(person.getOwner()) && person.getHp() > 0) {
+                            person.changeHp(-attackToolsAndMethods.getDamage());
+                            if(person instanceof King && person.getHp() <= 0) {
+                                attackToolsAndMethods.getOwner().getEmpire().increaseNumberOfKingsKilled();
+                                destroyEmpire((King)person);
+                            }
+                            break outerLoop;
                         }
-                        break outerLoop;
                     }
-                }
             }
         }
     }
