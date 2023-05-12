@@ -15,6 +15,7 @@ public class MapMenu extends Menu{
     }
     @Override
     public void run() {
+        System.out.println("Entered map menu");
         Matcher matcher;
         String command;
 
@@ -38,7 +39,10 @@ public class MapMenu extends Menu{
                 dropBuilding(matcher);
             else if ((matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.DROP_UNIT)) != null)
                 dropUnit(matcher);
-            else if ((matcher = MapMenuCommands.getMatcher(command,MapMenuCommands.BACK)) != null) return;
+            else if ((matcher = MapMenuCommands.getMatcher(command,MapMenuCommands.BACK)) != null) {
+                System.out.println("Entered game menu");
+                return;
+            }
             else System.out.println("Invalid Command");
         }
     }
