@@ -68,7 +68,7 @@ public class GameMenuController {
             applyDamageToBuildings();
             applyDamageToAttackToolsAndMethods();
             applyDamageByAttackToolsAndMethods();
-            removeDeadSoldiers();
+            removeDeadBodies();
             removeDestroyedBuildings();
             removeDestroyedAttackToolsAndMethods();
         }
@@ -163,8 +163,10 @@ public class GameMenuController {
                 if(!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y)) continue;
 
                 for (Person person : Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getPeople()) {
-                    if(!soldier.getOwner().equals(person.getOwner())) {
+                    if(!soldier.getOwner().equals(person.getOwner()) && person.getHp() > 0) {
                         person.changeHp(-soldier.getAttackRating());
+                        if(person instanceof King && person.getHp() <= 0)
+                            soldier.getOwner().getEmpire().increaseNumberOfKingsKilled();
                         break outerLoop;
                     }
                 }
@@ -172,17 +174,28 @@ public class GameMenuController {
         }
     }
 
-    public int removeDeadSoldiers() {
-        for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
-            for (Person person : mapCell.getPeople()) {
-                if(person.getHp() <= 0) {
-                    mapCell.removePerson(person);
-                    person.getOwner().getEmpire().removePerson(person);
-                    return removeDeadSoldiers();
+    public void removeDeadBodies() {
+//        for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
+//            for (Person person : mapCell.getPeople()) {
+//                if(person.getHp() <= 0) {
+//                    mapCell.removePerson(person);
+//                    person.getOwner().getEmpire().removePerson(person);
+//                    return removeDeadSoldiers();
+//                }
+//            }
+//        }
+//        return -1;
+        for(int x = Database.getCurrentMapGame().getWidth(); x > 0; x--) {
+            for(int y = Database.getCurrentMapGame().getLength(); y > 0; y--) {
+                MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
+                for (Person person : mapCell.getPeople()) {
+                    if(person.getHp() <= 0) {
+                        mapCell.removePerson(person);
+                        person.getOwner().getEmpire().removePerson(person);
+                    }
                 }
             }
         }
-        return -1;
     }
 
     public void applyDamageToBuildings() {
@@ -195,8 +208,7 @@ public class GameMenuController {
                     applyDamageDefensiveBuildings(startX, startY, mapCell, ((DefensiveBuilding) mapCell.getBuilding()).getDefenceRange());
                 else applyDamageOtherBuildings(startX, startY, mapCell);
             }
-            else
-                applyDamageWalls(startX, startY, mapCell);
+            else applyDamageWalls(startX, startY, mapCell);
         }
     }
 
@@ -248,15 +260,25 @@ public class GameMenuController {
         }
     }
 
-    public int removeDestroyedBuildings() {
-        for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
-            if(mapCell.getBuilding() != null && mapCell.getBuilding().getBuildingHp() <= 0) {
-                mapCell.getBuilding().getOwner().getEmpire().removeBuilding(mapCell.getBuilding());
-                mapCell.setBuilding(null);
-                return removeDestroyedBuildings();
+    public void removeDestroyedBuildings() {
+//        for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
+//            if(mapCell.getBuilding() != null && mapCell.getBuilding().getBuildingHp() <= 0) {
+//                mapCell.getBuilding().getOwner().getEmpire().removeBuilding(mapCell.getBuilding());
+//                mapCell.setBuilding(null);
+//                return removeDestroyedBuildings();
+//            }
+//        }
+//        return -1;
+        for(int x = Database.getCurrentMapGame().getWidth(); x > 0; x--) {
+            for(int y = Database.getCurrentMapGame().getLength(); y > 0; y--) {
+                MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
+                if(mapCell.getBuilding() != null && mapCell.getBuilding().getBuildingHp() <= 0) {
+                    mapCell.getBuilding().getOwner().getEmpire().removeBuilding(mapCell.getBuilding());
+                    mapCell.setBuilding(null);
+                }
             }
         }
-        return -1;
+
     }
 
     //TODO: Siege Tower and Portable Shield?
@@ -284,9 +306,11 @@ public class GameMenuController {
                     break outerLoop;
                 }
 
-                for (Soldier soldier : Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getSoldier()) {
-                    if(!attackToolsAndMethods.getOwner().equals(soldier.getOwner())) {
-                        soldier.changeHp(-attackToolsAndMethods.getDamage());
+                for (Person person : Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getPeople()) {
+                    if(!attackToolsAndMethods.getOwner().equals(person.getOwner()) && person.getHp() > 0) {
+                        person.changeHp(-attackToolsAndMethods.getDamage());
+                        if(person instanceof King && person.getHp() <= 0)
+                            attackToolsAndMethods.getOwner().getEmpire().increaseNumberOfKingsKilled();
                         break outerLoop;
                     }
                 }
@@ -329,15 +353,24 @@ public class GameMenuController {
         }
     }
 
-    public int removeDestroyedAttackToolsAndMethods() {
-        for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
-            if(mapCell.getAttackToolsAndMethods() != null && mapCell.getAttackToolsAndMethods().getHp() <= 0) {
-                mapCell.getAttackToolsAndMethods().getOwner().getEmpire().removeAttackToolsAndMethods(mapCell.getAttackToolsAndMethods());
-                mapCell.setAttackToolsAndMethods(null);
-                return removeDestroyedAttackToolsAndMethods();
+    public void removeDestroyedAttackToolsAndMethods() {
+//        for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
+//            if(mapCell.getAttackToolsAndMethods() != null && mapCell.getAttackToolsAndMethods().getHp() <= 0) {
+//                mapCell.getAttackToolsAndMethods().getOwner().getEmpire().removeAttackToolsAndMethods(mapCell.getAttackToolsAndMethods());
+//                mapCell.setAttackToolsAndMethods(null);
+//                return removeDestroyedAttackToolsAndMethods();
+//            }
+//        }
+//        return -1;
+        for(int x = Database.getCurrentMapGame().getWidth(); x > 0; x--) {
+            for(int y = Database.getCurrentMapGame().getLength(); y > 0; y--) {
+                MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
+                if(mapCell.getAttackToolsAndMethods() != null && mapCell.getAttackToolsAndMethods().getHp() <= 0) {
+                    mapCell.getAttackToolsAndMethods().getOwner().getEmpire().removeAttackToolsAndMethods(mapCell.getAttackToolsAndMethods());
+                    mapCell.setAttackToolsAndMethods(null);
+                }
             }
         }
-        return -1;
     }
 
     public void changePopularity(Empire empire) {

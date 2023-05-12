@@ -47,7 +47,7 @@ public class UnitMenuController {
                 return UnitMenuMessages.DISTANCE_OUT_OF_BOUNDS;
         }
 
-        //TODO: traversable???
+        if(!mapCell.isTraversable()) return UnitMenuMessages.NOT_TRAVERSABLE;
 
         for (Person person : selectedUnit) {
             person.setDestination(mapCell);
@@ -67,10 +67,12 @@ public class UnitMenuController {
 
         if(selectedUnit == null) return UnitMenuMessages.NO_UNIT_SELECTED;
 
-        //TODO: traversable???
 
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x1, y1);
         MapCell secondMapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x2, y2);
+
+        if(!mapCell.isTraversable()) return UnitMenuMessages.NOT_TRAVERSABLE;
+        if(!secondMapCell.isTraversable()) return UnitMenuMessages.NOT_TRAVERSABLE;
 
         for (Person person : selectedUnit) {
             if(((Soldier)person).getSpeed() < ((int)Math.sqrt(Math.pow(person.getX() - x1, 2) + Math.pow(person.getY() - y1, 2))))
@@ -269,6 +271,7 @@ public class UnitMenuController {
                 endMapCell.getBuilding() instanceof DefensiveBuilding) {
                     endMapCell.getBuilding().changeBuildingHp(-1200);
                     tunnel = new Tunnel(Database.getCurrentUser(), mapCell, endMapCell);
+                    mapCell.addMapCellItems(tunnel);
                     selectedUnit.subList(0, selectedUnit.size()).clear();
                     return UnitMenuMessages.SUCCESS;
                 }
@@ -277,6 +280,7 @@ public class UnitMenuController {
                         if(mapCellItem instanceof Wall && !mapCellItem.getOwner().equals(Database.getCurrentUser())) {
                             ((Wall) mapCellItem).setHp(0);
                             tunnel = new Tunnel(Database.getCurrentUser(), mapCell, endMapCell);
+                            mapCell.addMapCellItems(tunnel);
                             selectedUnit.subList(0, selectedUnit.size()).clear();
                             return UnitMenuMessages.SUCCESS;
                         }
