@@ -272,10 +272,6 @@ public class BuildingMenuController {
         new EmpireMenu().run();
     }
 
-    public static void handleOxTether(Building building) {
-        //TODO
-    }
-
     public static void handleMarket(Building building) {
         new ShopMenu().run();
     }

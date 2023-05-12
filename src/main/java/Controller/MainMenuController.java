@@ -31,7 +31,7 @@ public class MainMenuController {
                 new Empire(Database.getUsersInTheGame().get(i), Database.getEmpireColors().get(i)));
         }
         Database.setTotalTurns(turnsCount * user.length);
-        Database.setCurrentUser(Database.getLoggedInUser());
+//        Database.setCurrentUser(Database.getLoggedInUser());
         return MainMenuMessages.SUCCESS;
     }
 
