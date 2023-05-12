@@ -55,12 +55,17 @@ public class GameMenuController {
         //TODO: set currentUser to loggedInUser
         //TODO turns--
         Database.increaseTurnsPassed();
-        applyMoves();
+
         if(Database.getTurnsPassed() % Database.getUsersInTheGame().size() == 0) {
             for (User user : Database.getUsersInTheGame()) {
                 changePopularity(user.getEmpire());
                 handleFearRate(user.getEmpire());
                 getTax(user.getEmpire());
+            }
+            applyMoves();
+            for (User user : Database.getUsersInTheGame()) {
+                if(user.getEmpire().getBuildingByName("drawbridge") != null)
+                    handleDrawBridge(user.getEmpire().getBuildingByName("drawbridge"));
             }
             applyDamageToSoldiers();
             applyDamageToBuildings();
