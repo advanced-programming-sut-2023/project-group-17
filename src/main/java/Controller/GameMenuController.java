@@ -46,9 +46,6 @@ public class GameMenuController {
     }
 
     public boolean nextTurn() {
-        //TODO: deal with whose turn is it
-        //TODO: check if king is alive or not
-        //TODO turns--
         Database.increaseTurnsPassed();
         if(Database.getTurnsPassed() % Database.getUsersInTheGame().size() == 0) {
             for (User user : Database.getUsersInTheGame()) {
