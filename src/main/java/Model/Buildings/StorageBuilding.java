@@ -15,10 +15,16 @@ public class StorageBuilding extends Building{
         this.storedItems = new ArrayList<>();
         this.storedItemTypes = storageBuilding.getStoredItemTypes();
         addStoredItems();
-        if(storageBuilding.getBuildingName().equals("stable"))
+        if(storageBuilding.getBuildingName().equals("stable")) {
             Objects.requireNonNull(Item.getAvailableItems("horse")).changeNumber(4);
-        if (storageBuilding.getBuildingName().equals("caged war dogs"))
+            Database.getCurrentMapGame().getMapCellByCoordinates(this.getX(), this.getY()).
+                    addAnimal((Animal) Item.getAvailableItems("horse"));
+        }
+        if (storageBuilding.getBuildingName().equals("caged war dogs")) {
             Objects.requireNonNull(Item.getAvailableItems("dog")).changeNumber(3);
+            Database.getCurrentMapGame().getMapCellByCoordinates(this.getX(), this.getY()).
+                    addAnimal((Animal) Item.getAvailableItems("dog"));
+        }
     }
 
     public ArrayList<Item> getStoredItems() {

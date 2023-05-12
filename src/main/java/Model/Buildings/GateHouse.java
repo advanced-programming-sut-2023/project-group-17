@@ -34,6 +34,7 @@ public class GateHouse extends Building{
             NormalPeople normalPeople = new NormalPeople(Database.getCurrentUser());
             Database.getCurrentUser().getEmpire().addPopulation(normalPeople);
             this.addPerson(normalPeople);
+            Database.getCurrentMapGame().getMapCellByCoordinates(this.getX(), this.getY()).addPeople(normalPeople);
         }
     }
 
