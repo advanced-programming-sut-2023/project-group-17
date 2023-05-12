@@ -180,7 +180,7 @@ public class GameMenuController {
     }
 
     public void mapIterationOnSoldiers(int startX, int startY, Soldier soldier) {
-        int range = soldier.getAttackRange();
+        int range = getRangeByStatus(soldier);
         outerLoop:
         for(int x = startX - range; x < startX + range + 1; x++) {
             for(int y = startY - range; y < startY + range + 1; y++) {
@@ -258,7 +258,7 @@ public class GameMenuController {
     public void applyDamageWalls(int startX, int startY, MapCell mapCell) {
         int range;
         for (Soldier soldier : mapCell.getSoldier()) {
-            range = soldier.getAttackRange();
+            range = getRangeByStatus(soldier);
             if(range == 1)
                 for(int x = startX - range; x < startX + range + 1; x++) {
                     for(int y = startY - range; y < startY + range + 1; y++) {
@@ -276,7 +276,7 @@ public class GameMenuController {
     public void applyDamageOtherBuildings(int startX, int startY, MapCell mapCell) {
         int range;
         for (Soldier soldier : mapCell.getSoldier()) {
-            range = soldier.getAttackRange();
+            range = getRangeByStatus(soldier);
             for(int x = startX - range; x < startX + range + 1; x++) {
                 for(int y = startY - range; y < startY + range + 1; y++) {
                     if(!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y)) continue;
@@ -400,7 +400,7 @@ public class GameMenuController {
     }
 
     public void mapIterationOnAttackTools(int startX, int startY, Soldier soldier) {
-        int range = soldier.getAttackRange();
+        int range = getRangeByStatus(soldier);
         for(int x = startX - range; x < startX + range + 1; x++) {
             for(int y = startY - range; y < startY + range + 1; y++) {
                 if(!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y)) continue;
@@ -819,5 +819,17 @@ public class GameMenuController {
             if(tmpScore > userFromAllUsers.getHighScore()) userFromAllUsers.setHighScore(tmpScore);
         }
         Database.saveUsers();
+    }
+
+    private int getRangeByStatus(Soldier soldier) {
+        switch (soldier.getStatus()) {
+            case "standing":
+                return soldier.getAttackRange();
+            case "defensive":
+                return soldier.getAttackRange() - 2;
+            case "offensive":
+                return soldier.getAttackRange() + 2;
+        }
+        return -1;
     }
 }
