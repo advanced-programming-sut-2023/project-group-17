@@ -119,6 +119,7 @@ public class Empire {
         headquarter.addBuilding(gateHouse);
         gateHouse.addPerson(king);
         addPopulation(king);
+        headquarter.addPeople(king);
         this.headquarter = headquarter;
     }
     public void makeHeadquarter(int x, int y, User user) {
