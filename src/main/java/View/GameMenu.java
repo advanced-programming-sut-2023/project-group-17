@@ -29,6 +29,7 @@ public class GameMenu extends Menu {
 
             else if(GameMenuCommands.getMatcher(command, GameMenuCommands.NEXT_TURN) != null) {
                 if (nextTurn()) return;
+                System.out.println(controller.getCurrentUserName() + " is now playing");
             }
 
             else if(GameMenuCommands.getMatcher(command, GameMenuCommands.ENTER_EMPIRE_MENU) != null)

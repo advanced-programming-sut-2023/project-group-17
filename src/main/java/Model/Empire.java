@@ -180,7 +180,6 @@ public class Empire {
                 }
             }
         }
-
     }
 
     public User getOwner() {

@@ -62,7 +62,6 @@ public class GameMenuController {
             }
             applyDamages();
             clearDestroyedThings();
-
         }
         buildingsFunctionsEachTurn();
         if (gameIsFinished()) {
@@ -831,5 +830,9 @@ public class GameMenuController {
                 return soldier.getAttackRange() + 2;
         }
         return -1;
+    }
+
+    public String getCurrentUserName() {
+        return Database.getCurrentUser().getUsername();
     }
 }
