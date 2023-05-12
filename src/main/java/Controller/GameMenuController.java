@@ -48,7 +48,6 @@ public class GameMenuController {
     public boolean nextTurn() {
         //TODO: deal with whose turn is it
         //TODO: check if king is alive or not
-        //TODO: set currentUser to loggedInUser
         //TODO turns--
         Database.increaseTurnsPassed();
 
@@ -74,6 +73,7 @@ public class GameMenuController {
         buildingsFunctionsEachTurn();
         if (gameIsFinished()) {
             setScores();
+            Database.setCurrentUser(Database.getLoggedInUser());
             return true;
         }
         int index = Database.getUsersInTheGame().indexOf(Database.getCurrentUser());
@@ -772,6 +772,14 @@ public class GameMenuController {
     }
 
     private void setScores() {
-        //TODO
+        int tmpScore;
+        for (User user : Database.getUsersInTheGame()) {
+            tmpScore = 0;
+            if(user.getEmpire().getKing() != null) tmpScore += 50;
+            tmpScore += user.getEmpire().getNumberOfKingsKilled() * 15 + user.getEmpire().getPopularityRate() * 10;
+            if(tmpScore > user.getHighScore()) user.setHighScore(tmpScore);
+            //TODO: necessary to save??
+            Database.saveUsers();
+        }
     }
 }
