@@ -35,8 +35,8 @@ public class MapOrganizer {
 
     public static void loadMap(String id) {
         try {
-//            String json = new String(Files.readAllBytes(Paths.get(pathGenerator(id))));
-            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/Maps/" + id + ".json")));
+            String json = new String(Files.readAllBytes(Paths.get(pathGenerator(id))));
+//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/Maps/" + id + ".json")));
             Map savedMap;
             savedMap = new Gson().fromJson(json, new TypeToken<Map>() {}.getType());
             if (savedMap != null) Database.setCurrentMapGame(savedMap);
