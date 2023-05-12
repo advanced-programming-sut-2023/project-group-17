@@ -11,13 +11,13 @@ public class Soldier extends Person {
     private int defenceRating;
     private String weapon;
     private UnitAttributes.Nationality nationality;
-    private int health;
+//    private int health;
     private boolean climbLadder;
     private boolean digMoat;
     private int attackRange;
     private double cost;
     public Soldier(User owner, Soldier soldier) {
-        super(owner, soldier.getHealth());
+        super(owner, soldier.getHp());
         this.name = soldier.name;
         this.speed = soldier.speed;
         this.attackRating = soldier.attackRating;
@@ -25,7 +25,6 @@ public class Soldier extends Person {
         this.defenceRating = soldier.defenceRating;
         this.weapon = soldier.weapon;
         this.nationality = soldier.nationality;
-        this.health = soldier.health;
         this.climbLadder = soldier.climbLadder;
         this.digMoat = soldier.digMoat;
         this.status = UnitAttributes.Status.STANDING.getStatus();
@@ -65,9 +64,9 @@ public class Soldier extends Person {
         return nationality;
     }
 
-    public int getHealth() {
-        return health;
-    }
+//    public int getHealth() {
+//        return health;
+//    }
 
     public boolean canClimbLadder() {
         return climbLadder;
@@ -100,6 +99,6 @@ public class Soldier extends Person {
     @Override
     public String toString() {
         return "soldier name : " + this.name + " , cost : " + cost + " , owner : " + getOwner().getUsername()
-                + " and hp : " + getHealth() + "\n";
+                + " and hp : " + getHp() + "\n";
     }
 }

@@ -4,7 +4,6 @@ import Model.*;
 import Model.Buildings.*;
 import Model.Items.Animal;
 import Model.Items.ArmorAndWeapon;
-import Model.Items.Item;
 import Model.Items.Resource;
 import Model.MapCellItems.Stair;
 import Model.MapCellItems.Wall;
@@ -349,7 +348,7 @@ public class BuildingMenuController {
                         }
                         if (path.size() != 0) {
                             soldier.changeHp(-100);
-                            if (soldier.getHealth() > 0) {
+                            if (soldier.getHp() > 0) {
                                 path.get(i - 1).removeAnimal(dogs);
                                 dogs.getOwner().getEmpire().removeAnimal(dogs);
                                 return;

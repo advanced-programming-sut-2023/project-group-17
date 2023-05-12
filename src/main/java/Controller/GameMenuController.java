@@ -225,13 +225,13 @@ public class GameMenuController {
 //                if(person.getHp() <= 0) {
 //                    mapCell.removePerson(person);
 //                    person.getOwner().getEmpire().removePerson(person);
-//                    return removeDeadSoldiers();
+//                    return removeDeadBodies();
 //                }
 //            }
 //        }
 //        return -1;
         for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
-            for (int i = mapCell.getPeople().size() - 1; i > 0; i--) {
+            for (int i = mapCell.getPeople().size() - 1; i >= 0; i--) {
                 if(mapCell.getPeople().get(i).getHp() <= 0) {
                     mapCell.getPeople().get(i).getOwner().getEmpire().removePerson(mapCell.getPeople().get(i));
                     mapCell.removePerson(mapCell.getPeople().get(i));
@@ -732,15 +732,15 @@ public class GameMenuController {
         }
     }
 
-    public static void handleInn(Building building) {
+    public static void handleInn() {
         Database.getCurrentUser().getEmpire().changePopularityRate(5);
     }
 
-    public static void handleIronMine(Building building) {
+    public static void handleIronMine() {
         Objects.requireNonNull(Item.getAvailableItems("iron")).changeNumber(5);
     }
 
-    public static void handleOilSmelter(Building building) {
+    public static void handleOilSmelter() {
         Objects.requireNonNull(Item.getAvailableItems("oil")).changeNumber(1);
     }
 
@@ -750,10 +750,9 @@ public class GameMenuController {
             else if(building.getCategory().equals("mining")) handleMiningBuildings(building);
             else if(building.getBuildingName().equals("church") || building.getBuildingName().equals("cathedral"))
                 handleReligiousBuildings(building);
-            else if(building.getCategory().equals("inn")) handleInn(building);
-            else if(building.getBuildingName().equals("iron mine")) handleIronMine(building);
-//            else if(building.getBuildingName().equals("quarry")) handleQuarry(building);
-            else if(building.getBuildingName().equals("oil smelter")) handleOilSmelter(building);
+            else if(building.getCategory().equals("inn")) handleInn();
+            else if(building.getBuildingName().equals("iron mine")) handleIronMine();
+            else if(building.getBuildingName().equals("oil smelter")) handleOilSmelter();
             else if(building.getBuildingName().equals("ox tether")) handleOxTether(building);
         }
     }
