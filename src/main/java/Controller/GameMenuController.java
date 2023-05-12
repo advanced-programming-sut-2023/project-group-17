@@ -520,7 +520,6 @@ public class GameMenuController {
             else if (ratio > 0.5) empire.setFoodRate(-1);
             else empire.setFoodRate(-2);
         }
-
         number = getNumberOfGivenFoods(empire);
         empire.changeFoodNumber(-number * empire.getPopulation());
     }
@@ -794,12 +793,10 @@ public class GameMenuController {
     }
 
     private boolean gameIsFinished() {
-
         int numberOfKingsAlive = 0;
         for (User user : Database.getUsersInTheGame()) {
             if (user.getEmpire().getKing() != null) numberOfKingsAlive++;
         }
-
         if (numberOfKingsAlive <= 1) return true;
 
         if (Database.getTurnsPassed() >= Database.getTotalTurns()) return true;

@@ -263,14 +263,6 @@ public class Empire {
         this.foodRate = foodRate;
     }
 
-    public void setReligionRate(double religionRate) {
-        this.religionRate = religionRate;
-    }
-
-    public void setPopularityRate(int popularityRate) {
-        this.popularityRate = popularityRate;
-    }
-
     public void changePopularityRate(int popularityRate) {
         this.popularityRate += popularityRate;
     }
@@ -279,26 +271,10 @@ public class Empire {
         this.religionRate += amount;
     }
 
-    public void addFood(Food food) {
-        this.foods.add(food);
-    }
-
-    public void addResource(Resource resource) {
-        this.resources.add(resource);
-    }
-
-
     public void addPopulation(Person person) {
         this.people.add(person);
     }
 
-    public void addWeapon(ArmorAndWeapon weapon) {
-        this.weapons.add(weapon);
-    }
-
-    public void addAnimal(Animal animal) {
-        this.animals.add(animal);
-    }
     public void changeCoins(double coins) {
         this.coins += coins;
     }
@@ -355,7 +331,7 @@ public class Empire {
     }
 
     public void changeFoodNumber(double amount) {
-        while (amount != 0) {
+        while (amount > 0) {
             for (Food food : foods) {
                 if (amount == 0) break;
                 if (food.getNumber() > 0) food.changeNumber(-0.5);
