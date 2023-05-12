@@ -271,6 +271,9 @@ public class UnitMenu extends Menu {
             case OIL_SMELTER_EMPTY:
                 System.out.println("pour oil failed : oil smelter is empty");
                 break;
+            case DOES_NOT_INCLUDE_UNIT:
+                System.out.println("pour oil failed : there is no unit here");
+                break;
         }
     }
 
