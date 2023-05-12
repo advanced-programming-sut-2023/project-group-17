@@ -368,14 +368,14 @@ public class Database {
         }
     }
 
-    public static String getStayLoggedInUser() {
+    public static User getStayLoggedInUser() {
         try {
             String json = new String(Files.readAllBytes(Paths.get("src/main/resources/StayLoggedInUser.json")));
 //            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/StayLoggedInUser.json")));
 
             User stayLoggedInUser;
             stayLoggedInUser = new Gson().fromJson(json, new TypeToken<User>() {}.getType());
-            if (stayLoggedInUser != null) return stayLoggedInUser.getUsername();
+            if (stayLoggedInUser != null) return stayLoggedInUser;
         } catch (IOException e) {
             e.printStackTrace();
         }
