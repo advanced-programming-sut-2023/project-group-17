@@ -770,7 +770,6 @@ public class GameMenuController {
             if(user.getEmpire().getKing() != null) tmpScore += 50;
             tmpScore += user.getEmpire().getNumberOfKingsKilled() * 15 + user.getEmpire().getPopularityRate() * 10;
             if(tmpScore > userFromAllUsers.getHighScore()) userFromAllUsers.setHighScore(tmpScore);
-            //TODO: necessary to save??
         }
         Database.saveUsers();
     }
