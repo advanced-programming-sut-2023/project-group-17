@@ -17,7 +17,7 @@ public class ArmorAndWeapon extends Item{
         SWORDS("swords", getBuildingDataByName("blacksmith"), new Resource(Resource.resourceType.IRON, null, 1), 1),
         LEATHER_ARMOR("leather armor", getBuildingDataByName("dairy farmer"), new Animal(Animal.animalNames.COW, null, 1), 1),
         METAL_ARMOR("metal armor", getBuildingDataByName("armorer"), new Resource(Resource.resourceType.IRON, null, 1), 1),
-        OIL("oil", getBuildingDataByName("armorer"), null, 0)
+        OIL("oil", getBuildingDataByName("armorer"), null, 1)
         ;
         private String name;
         private Building producedIn;
