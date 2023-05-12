@@ -201,7 +201,7 @@ public class MapCell {
             checkForDfs.clear();
             return true;
         }
-        checkForDfs.clear();
+        if (checkForDfs != null) checkForDfs.clear();
         if (getWall() != null) return false;
 
         return getMaterialMap().isTraversable();
