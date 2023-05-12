@@ -50,7 +50,6 @@ public class GameMenuController {
         //TODO: check if king is alive or not
         //TODO turns--
         Database.increaseTurnsPassed();
-
         if(Database.getTurnsPassed() % Database.getUsersInTheGame().size() == 0) {
             for (User user : Database.getUsersInTheGame()) {
                 changePopularity(user.getEmpire());
@@ -683,7 +682,6 @@ public class GameMenuController {
 
     public static void handleOilSmelter(Building building) {
         Objects.requireNonNull(Item.getAvailableItems("oil")).changeNumber(1);
-        //TODO
     }
 
     private void buildingsFunctionsEachTurn() {
