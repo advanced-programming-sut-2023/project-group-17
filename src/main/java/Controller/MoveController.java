@@ -92,7 +92,7 @@ public class MoveController {
             int[] xMove = {-1, 1, 0, 0, -1, -1, 1, 1};
             int[] yMove = {0, 0, 1, -1, 1, -1, 1, -1};
 
-            for(int i = 0 ; i < 7; i++) {
+            for(int i = 0; i < 8; i++) {
                 int newX = x+xMove[i];
                 int newY = y+yMove[i];
                 if(isValid(map, newX, newY)){
@@ -107,7 +107,7 @@ public class MoveController {
                         gNew = map.getMapCellByCoordinates(x, y).getgValue() + 1;
                         hNew = calculateHValue(newX, newY, goalX, goalY);
                         fNew = (int) (gNew + hNew);
-                        if(newCell.getfValue() == 2147483647 || newCell.getfValue() > fNew) {
+                        if(newCell.getfValue() == 2147483647 || (newCell.getfValue() > fNew)) {
                             openList.put(newCell, fNew);
                             newCell.setfValue(fNew);
                             newCell.setgValue(gNew);
