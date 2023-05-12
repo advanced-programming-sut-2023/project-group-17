@@ -11,18 +11,8 @@ public class BuildingsHandler {
             case "other buildings":
                 handleOtherBuildings(building);
                 break;
-//            case "inn":
-//                BuildingMenuController.handleInn(building);
-//                break;
-            case "mining":
-                handleMiningBuildings(building);
+            default:
                 break;
-//            case "production":
-//                BuildingMenuController.handleProductionBuildings(building);
-//                break;
-//            case "storage":
-//                handleStorageBuildings(building);
-//                break;
         }
     }
 
@@ -32,38 +22,9 @@ public class BuildingsHandler {
         }
     }
 
-    private static void handleMiningBuildings(Building building) {
-        switch (building.getBuildingName()) {
-//            case "oil smelter":
-//                BuildingMenuController.handleOilSmelter(building);
-//                break;
-//            case "iron mine":
-//                BuildingMenuController.handleIronMine(building);
-//                break;
-//            case "quarry":
-//                BuildingMenuController.handleQuarry(building);
-//                break;
-//            default:
-//                BuildingMenuController.handleMiningBuildings(building);
-//                break;
-        }
-    }
-
     public static void handleOtherBuildings(Building building) {
-        switch (building.getBuildingName()) {
-//            case "drawbridge":
-//                BuildingMenuController.handleDrawBridge(building);
-//                break;
-            case "market":
-                BuildingMenuController.handleMarket(building);
-                break;
-//            case "ox tether":
-//                BuildingMenuController.handleOxTether(building);
-//                break;
-//            default:
-//                BuildingMenuController.handleReligiousBuildings(building);
-//                break;
-            //TODO default ha
+        if (building.getBuildingName().equals("market")) {
+            BuildingMenuController.handleMarket(building);
         }
     }
 }
