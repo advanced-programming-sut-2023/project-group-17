@@ -11,8 +11,4 @@ public class MapCellItems {
     public User getOwner() {
         return owner;
     }
-
-    public void addItem(int x, int y) {
-        //TODO chera aslan in vojod dare
-    }
 }
