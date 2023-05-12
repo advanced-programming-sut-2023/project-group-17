@@ -118,7 +118,8 @@ public class BuildingMenuController {
 
         MapCell mapCell;
 
-        outer : for (int i = -1; i < 2; i++) {
+        outer :
+        for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
                 if (Utils.CheckMapCell.validationOfY(y + j) && Utils.CheckMapCell.validationOfX(x + i)) {
                     mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x + i, y + j);
