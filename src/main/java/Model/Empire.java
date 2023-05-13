@@ -416,9 +416,9 @@ public class Empire {
         this.numberOfKingsKilled++;
     }
 
-    public void removeAnimal(Animal animal) {
+    public void removeAnimal(Animal animal, int number) {
         for (Animal animal1 : animals) {
-            if (animal1.equals(animal)) animal1.changeNumber(-animal1.getNumber());
+            if (animal1.equals(animal)) animal1.changeNumber(-number);
         }
     }
 }

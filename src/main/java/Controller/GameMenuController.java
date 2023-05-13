@@ -189,25 +189,28 @@ public class GameMenuController {
     public void mapIterationOnSoldiers(int startX, int startY, Soldier soldier) {
         int range = getRangeByStatus(soldier);
         outerLoop:
-        for(int x = startX - range; x < startX + range + 1; x++) {
-            for(int y = startY - range; y < startY + range + 1; y++) {
-                if(!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y)) continue;
+        for (int i = 0; i < range; i++) {
+            for (int x = startX - i; x < startX + i + 1; x++) {
+                for (int y = startY - i; y < startY + i + 1; y++) {
+                    if (!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y)) continue;
 
-                AttackToolsAndMethods attackTool = Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getAttackToolsAndMethods();
-                if(attackTool != null && attackTool.getName().equals("portable shield") &&
-                        !attackTool.getOwner().equals(Database.getCurrentUser()) && attackTool.getHp() > 0)
-                    attackTool.changeHp(-soldier.getAttackRating());
-                else
-                    for (Person person : Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getPeople()) {
-                        if(!soldier.getOwner().equals(person.getOwner()) && person.getHp() > 0) {
-                            person.changeHp(-soldier.getAttackRating());
-                            if(person instanceof King && person.getHp() <= 0) {
-                                soldier.getOwner().getEmpire().increaseNumberOfKingsKilled();
-                                destroyEmpire((King)person);
+                    AttackToolsAndMethods attackTool = Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getAttackToolsAndMethods();
+                    if (attackTool != null && attackTool.getName().equals("portable shield") &&
+                            !attackTool.getOwner().equals(Database.getCurrentUser()) && attackTool.getHp() > 0)
+                        attackTool.changeHp(-soldier.getAttackRating());
+                    else {
+                        for (Person person : Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getPeople()) {
+                            if (!soldier.getOwner().equals(person.getOwner()) && person.getHp() > 0) {
+                                person.changeHp(-soldier.getAttackRating());
+                                if (person instanceof King && person.getHp() <= 0) {
+                                    soldier.getOwner().getEmpire().increaseNumberOfKingsKilled();
+                                    destroyEmpire((King) person);
+                                }
+                                break outerLoop;
                             }
-                            break outerLoop;
                         }
                     }
+                }
             }
         }
     }
@@ -239,14 +242,16 @@ public class GameMenuController {
 
     public void applyDamageDefensiveBuildings(int startX, int startY, MapCell mapCell, int range) {
         int distance;
-        for(int x = startX - range; x < startX + range + 1; x++) {
-            for(int y = startY - range; y < startY + range + 1; y++) {
-                if(!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y)) continue;
+        for (int i = 0; i < range; i++) {
+            for (int x = startX - i; x < startX + i + 1; x++) {
+                for (int y = startY - i; y < startY + i + 1; y++) {
+                    if (!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y)) continue;
 
-                distance = ((int)Math.sqrt(Math.pow(startX - x, 2) + Math.pow(startY - y, 2)));
-                for (Soldier soldier : Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getSoldier()) {
-                    if(!soldier.getOwner().equals(mapCell.getBuilding().getOwner()) && soldier.getAttackRange() >= distance)
-                        mapCell.getBuilding().changeBuildingHp(-soldier.getAttackRating());
+                    distance = ((int) Math.sqrt(Math.pow(startX - x, 2) + Math.pow(startY - y, 2)));
+                    for (Soldier soldier : Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getSoldier()) {
+                        if (!soldier.getOwner().equals(mapCell.getBuilding().getOwner()) && soldier.getAttackRange() >= distance)
+                            mapCell.getBuilding().changeBuildingHp(-soldier.getAttackRating());
+                    }
                 }
             }
         }
@@ -274,13 +279,15 @@ public class GameMenuController {
         int range;
         for (Soldier soldier : mapCell.getSoldier()) {
             range = getRangeByStatus(soldier);
-            for(int x = startX - range; x < startX + range + 1; x++) {
-                for(int y = startY - range; y < startY + range + 1; y++) {
-                    if(!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y)) continue;
+            for (int i = 0; i < range; i++) {
+                for (int x = startX - i; x < startX + i + 1; x++) {
+                    for (int y = startY - i; y < startY + i + 1; y++) {
+                        if (!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y)) continue;
 
-                    Building building = Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getBuilding();
-                        if(building != null && !soldier.getOwner().equals(building.getOwner()))
+                        Building building = Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getBuilding();
+                        if (building != null && !soldier.getOwner().equals(building.getOwner()))
                             building.changeBuildingHp(-soldier.getAttackRating());
+                    }
                 }
             }
         }
@@ -390,13 +397,15 @@ public class GameMenuController {
 
     public void mapIterationOnAttackTools(int startX, int startY, Soldier soldier) {
         int range = getRangeByStatus(soldier);
-        for(int x = startX - range; x < startX + range + 1; x++) {
-            for(int y = startY - range; y < startY + range + 1; y++) {
-                if(!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y)) continue;
+        for (int i = 0; i < range; i++) {
+            for (int x = startX - i; x < startX + i + 1; x++) {
+                for (int y = startY - i; y < startY + i + 1; y++) {
+                    if (!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y)) continue;
 
-                AttackToolsAndMethods attackTool = Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getAttackToolsAndMethods();
-                if(attackTool != null && !soldier.getOwner().equals(attackTool.getOwner()))
-                    attackTool.changeHp(-soldier.getAttackRating());
+                    AttackToolsAndMethods attackTool = Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getAttackToolsAndMethods();
+                    if (attackTool != null && !soldier.getOwner().equals(attackTool.getOwner()))
+                        attackTool.changeHp(-soldier.getAttackRating());
+                }
             }
         }
     }

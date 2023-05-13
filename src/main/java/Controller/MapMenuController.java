@@ -236,6 +236,7 @@ public class MapMenuController {
             Soldier soldier = new Soldier(Database.getCurrentUser(), Database.getSoldierDataByName(type));
             Database.getCurrentUser().getEmpire().addPopulation(soldier);
             mapCell.addPeople(soldier);
+            soldier.setCoordinates(mapCell.getX(), mapCell.getY());
         }
 
         return MapMenuMessages.SUCCESS;

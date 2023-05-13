@@ -97,7 +97,7 @@ public class Item {
         else if(empire.getResourceByName(name) != null) {
             return ItemTypes.RESOURCE;
         }
-        else if (name.equals("cow")) {
+        else if (empire.getAnimalByName(name) != null) {
             return ItemTypes.ANIMAL;
         }
         return null;

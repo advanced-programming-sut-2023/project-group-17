@@ -4,6 +4,7 @@ import Model.Buildings.Building;
 
 public class BuildingsHandler {
     public static void handleBuildingFunction(Building building) {
+
         switch (building.getCategory()) {
             case "gate house":
                 BuildingMenuController.handleGateHouse(building);
@@ -11,7 +12,7 @@ public class BuildingsHandler {
             case "other buildings":
                 handleOtherBuildings(building);
                 break;
-            case "storage building":
+            case "storage":
                 handleStorageBuildings(building);
                 break;
             default:
