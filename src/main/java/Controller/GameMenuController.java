@@ -12,10 +12,10 @@ import Model.People.Person;
 import Model.People.Soldier;
 import Utils.CheckMapCell;
 import View.Enums.Messages.GameMenuMessages;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
+import static Controller.UnitMenuController.selectedUnit;
 
 public class GameMenuController {
     public GameMenuMessages chooseMapGame(int id) {
@@ -47,6 +47,7 @@ public class GameMenuController {
 
     public boolean nextTurn() {
         Database.increaseTurnsPassed();
+        clearSelectedUnits();
         if(Database.getTurnsPassed() % Database.getUsersInTheGame().size() == 0) {
             for (User user : Database.getUsersInTheGame()) {
                 changePopularity(user.getEmpire());
@@ -838,5 +839,11 @@ public class GameMenuController {
                 user = Database.getUsersInTheGame().get(i);
         }
         return "The winner is : " + user.getUsername() + " and the score was : " + user.getEmpire().getScore();
+    }
+
+    public void clearSelectedUnits() {
+        if (selectedUnit.size() > 0) {
+            selectedUnit.subList(0, selectedUnit.size()).clear();
+        }
     }
 }
