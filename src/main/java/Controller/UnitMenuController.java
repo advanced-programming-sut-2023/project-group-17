@@ -35,7 +35,7 @@ public class UnitMenuController {
     public UnitMenuMessages moveUnitTo(int x, int y) {
         if(!Utils.CheckMapCell.validationOfX(x)) return UnitMenuMessages.X_OUT_OF_BOUNDS;
         if(!Utils.CheckMapCell.validationOfY(y)) return UnitMenuMessages.Y_OUT_OF_BOUNDS;
-        if(selectedUnit == null) return UnitMenuMessages.NO_UNIT_SELECTED;
+        if(selectedUnit == null || selectedUnit.size() == 0) return UnitMenuMessages.NO_UNIT_SELECTED;
 
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
         if(!mapCell.isTraversable()) return UnitMenuMessages.NOT_TRAVERSABLE;
@@ -56,7 +56,7 @@ public class UnitMenuController {
         if(!Utils.CheckMapCell.validationOfY(y1) || !Utils.CheckMapCell.validationOfY(y2))
             return UnitMenuMessages.Y_OUT_OF_BOUNDS;
 
-        if(selectedUnit == null) return UnitMenuMessages.NO_UNIT_SELECTED;
+        if(selectedUnit == null || selectedUnit.size() == 0) return UnitMenuMessages.NO_UNIT_SELECTED;
 
 
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x1, y1);
@@ -96,18 +96,21 @@ public class UnitMenuController {
     public UnitMenuMessages attackEnemy(int x, int y) {
         if(!Utils.CheckMapCell.validationOfX(x)) return UnitMenuMessages.X_OUT_OF_BOUNDS;
         if(!Utils.CheckMapCell.validationOfY(y)) return UnitMenuMessages.Y_OUT_OF_BOUNDS;
-        if(selectedUnit == null) return UnitMenuMessages.NO_UNIT_SELECTED;
+        if(selectedUnit == null || selectedUnit.size() == 0) return UnitMenuMessages.NO_UNIT_SELECTED;
         if(Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getSoldier() == null) return UnitMenuMessages.DOES_NOT_INCLUDE_UNIT;
 
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
 //        boolean isCorrectSoldier = false;
 
         for (Person person : selectedUnit) {
+            System.out.println("chera?");
 //            int distance = ((int)Math.sqrt(Math.pow(person.getX() - x, 2) + Math.pow(person.getY() - y, 2)));
             if(((Soldier)person).getAttackRange() == 1) {
 //                if(((Soldier)person).getSpeed() < distance) return UnitMenuMessages.DISTANCE_OUT_OF_BOUNDS;
 //                else
+                System.out.println("inja");
                 person.setDestination(mapCell);
+                System.out.println(person.getDestination().getX());
 //                isCorrectSoldier = true;
             }
         }
@@ -124,7 +127,7 @@ public class UnitMenuController {
     public UnitMenuMessages airAttack(int x, int y) {
         if(!Utils.CheckMapCell.validationOfX(x)) return UnitMenuMessages.X_OUT_OF_BOUNDS;
         if(!Utils.CheckMapCell.validationOfY(y)) return UnitMenuMessages.Y_OUT_OF_BOUNDS;
-        if(selectedUnit == null) return UnitMenuMessages.NO_UNIT_SELECTED;
+        if(selectedUnit == null || selectedUnit.size() == 0) return UnitMenuMessages.NO_UNIT_SELECTED;
         if(Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getSoldier() == null) return UnitMenuMessages.DOES_NOT_INCLUDE_UNIT;
 
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
@@ -154,7 +157,7 @@ public class UnitMenuController {
     }
 
     public UnitMenuMessages pourOil(String direction) {
-        if(selectedUnit == null) return UnitMenuMessages.NO_UNIT_SELECTED;
+        if(selectedUnit == null || selectedUnit.size() == 0) return UnitMenuMessages.NO_UNIT_SELECTED;
 
         Soldier engineer = null;
         for (Person person : selectedUnit)
@@ -224,7 +227,7 @@ public class UnitMenuController {
     public UnitMenuMessages digTunnel(int startX, int startY) {
         if(!Utils.CheckMapCell.validationOfX(startX)) return UnitMenuMessages.X_OUT_OF_BOUNDS;
         if(!Utils.CheckMapCell.validationOfY(startY)) return UnitMenuMessages.Y_OUT_OF_BOUNDS;
-        if(selectedUnit == null) return UnitMenuMessages.NO_UNIT_SELECTED;
+        if(selectedUnit == null || selectedUnit.size() == 0) return UnitMenuMessages.NO_UNIT_SELECTED;
 
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(startX, startY);
         if(!mapCell.getMaterialMap().equals(MaterialMap.textureMap.LAND) &&
@@ -313,7 +316,7 @@ public class UnitMenuController {
     }
 
     public UnitMenuMessages disbandUnit() {
-        if(selectedUnit == null) return UnitMenuMessages.NO_UNIT_SELECTED;
+        if(selectedUnit == null || selectedUnit.size() == 0) return UnitMenuMessages.NO_UNIT_SELECTED;
 
         int x = Database.getCurrentUser().getEmpire().getHeadquarter().getX();
         int y = Database.getCurrentUser().getEmpire().getHeadquarter().getY() + 1;
@@ -331,7 +334,7 @@ public class UnitMenuController {
     public UnitMenuMessages digMoat(int x, int y) {
         if(!Utils.CheckMapCell.validationOfX(x)) return UnitMenuMessages.X_OUT_OF_BOUNDS;
         if(!Utils.CheckMapCell.validationOfY(y)) return UnitMenuMessages.Y_OUT_OF_BOUNDS;
-        if(selectedUnit == null) return UnitMenuMessages.NO_UNIT_SELECTED;
+        if(selectedUnit == null || selectedUnit.size() == 0) return UnitMenuMessages.NO_UNIT_SELECTED;
 
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
         if(!mapCell.getMaterialMap().equals(MaterialMap.textureMap.LAND) &&
@@ -353,7 +356,7 @@ public class UnitMenuController {
     public UnitMenuMessages fillMoat(int x, int y) {
         if(!Utils.CheckMapCell.validationOfX(x)) return UnitMenuMessages.X_OUT_OF_BOUNDS;
         if(!Utils.CheckMapCell.validationOfY(y)) return UnitMenuMessages.Y_OUT_OF_BOUNDS;
-        if(selectedUnit == null) return UnitMenuMessages.NO_UNIT_SELECTED;
+        if(selectedUnit == null || selectedUnit.size() == 0) return UnitMenuMessages.NO_UNIT_SELECTED;
 
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
         if(!mapCell.getMaterialMap().equals(MaterialMap.textureMap.MOAT)) return UnitMenuMessages.NO_MOAT;
