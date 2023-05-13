@@ -101,16 +101,21 @@ public class UnitMenuController {
 
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
 //        boolean isCorrectSoldier = false;
-
+        if (!mapCell.isTraversable()) {
+            for (int i = -1; i < 2; i++) {
+                for (int j = -1; j < 2; j++) {
+                    if (Utils.CheckMapCell.validationOfY(y + j) && Utils.CheckMapCell.validationOfX(x + i)
+                    && Database.getCurrentMapGame().getMapCellByCoordinates(x + i, y + j).isTraversable())
+                        mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x + i, y + j);
+                }
+            }
+        }
         for (Person person : selectedUnit) {
-            System.out.println("chera?");
 //            int distance = ((int)Math.sqrt(Math.pow(person.getX() - x, 2) + Math.pow(person.getY() - y, 2)));
             if(((Soldier)person).getAttackRange() == 1) {
 //                if(((Soldier)person).getSpeed() < distance) return UnitMenuMessages.DISTANCE_OUT_OF_BOUNDS;
 //                else
-                System.out.println("inja");
                 person.setDestination(mapCell);
-                System.out.println(person.getDestination().getX());
 //                isCorrectSoldier = true;
             }
         }
