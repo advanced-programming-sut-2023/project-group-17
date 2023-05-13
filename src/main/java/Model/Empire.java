@@ -71,7 +71,7 @@ public class Empire {
     }
 
     private void addAnimals() {
-        animals.add(new Animal(Animal.animalNames.COW, owner, 0));
+        animals.add(new Animal(Animal.animalNames.COW, owner, 3));
         animals.add(new Animal(Animal.animalNames.DOG, owner, 0));
         animals.add(new Animal(Animal.animalNames.HORSE, owner, 0));
 

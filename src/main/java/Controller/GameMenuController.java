@@ -652,10 +652,13 @@ public class GameMenuController {
                         }
                     }
                     else {
-                        if (((StorageBuilding) empire.getBuildingByName(((ProductionBuilding) building).
-                                getRelatedStorageBuildingName())).getItemByName(itemType.getName()) != null) {
-                            ((StorageBuilding) empire.getBuildingByName(((ProductionBuilding) building).
-                                    getRelatedStorageBuildingName())).addItem(Item.getAvailableItems(itemType.getName()));
+                        if ((empire.getBuildingByName(((ProductionBuilding) building).
+                                getRelatedStorageBuildingName())) != null) {
+                            if (((StorageBuilding) empire.getBuildingByName(((ProductionBuilding) building).
+                                    getRelatedStorageBuildingName())).getItemByName(itemType.getName()) != null) {
+                                ((StorageBuilding) empire.getBuildingByName(((ProductionBuilding) building).
+                                        getRelatedStorageBuildingName())).addItem(Item.getAvailableItems(itemType.getName()));
+                            }
                         }
                     }
                 }
