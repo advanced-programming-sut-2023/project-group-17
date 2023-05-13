@@ -103,8 +103,10 @@ public class GameMenuController {
                         path = MoveController.aStarSearch(map, mapCell.getX(),
                                 mapCell.getY(), mapCell.getPeople().get(z).getDestination().getX(),
                                 mapCell.getPeople().get(z).getDestination().getY());
-                        movePerson(mapCell.getPeople().get(z), path);
-                        z--;
+                        if (path != null) {
+                            movePerson(mapCell.getPeople().get(z), path);
+                            z--;
+                        }
                     }
                 }
                 if (mapCell.getAttackToolsAndMethods() != null) {
@@ -118,12 +120,9 @@ public class GameMenuController {
                 }
             }
         }
-        System.out.println(Database.getCurrentMapGame().getMapCellByCoordinates(30, 30).getSoldier().size());
     }
 
     private void movePerson(Person person, ArrayList<MapCell> path) {
-        System.out.println(((Soldier) person).getName());
-        System.out.println("======");
         int counter = 0;
         for(int i = path.size() - 1; i > 0; i--) {
             path.get(i).removePerson(person);
@@ -149,23 +148,13 @@ public class GameMenuController {
             if (person instanceof Soldier && counter >= ((Soldier) person).getSpeed()) break;
         }
         if (person.getX() == person.getDestination().getX() && person.getY() == person.getDestination().getY()) {
-            System.out.println(person.getX());
-            System.out.println(person.getY());
-            System.out.println(Database.getCurrentMapGame().getMapCellByCoordinates(30, 30).getSoldier().size());
-            System.out.println(((Soldier) person).getName());
-            System.out.println("injma");
             if (person.getSecondDestination() != null) {
                 MapCell tmp = person.getDestination();
-                System.out.println("onja");
                 person.setDestination(person.getSecondDestination());
-                System.out.println(person.getDestination().getX());
-                System.out.println(person.getSecondDestination().getX());
                 person.setSecondDestination(tmp);
-                System.out.println(person.getSecondDestination().getX());
             }
             else person.setDestination(null);
         }
-        System.out.println("inja");
     }
 
     private void moveAttackToolsAndMethods(AttackToolsAndMethods attackToolsAndMethods, ArrayList<MapCell> path) {
