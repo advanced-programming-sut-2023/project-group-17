@@ -353,6 +353,9 @@ public class BuildingMenuController {
                                 if (soldier.getHp() > 0) {
                                     path.get(i - 1).removeAnimal(dogs);
                                     dogs.getOwner().getEmpire().removeAnimal(dogs, 3);
+                                    Database.getCurrentMapGame().getMapCellByCoordinates(building.getX(),building.getY())
+                                            .removeBuilding(building);
+                                    building.getOwner().getEmpire().removeBuilding(building);
                                     return;
                                 } else {
                                     soldier.getOwner().getEmpire().removePerson(soldier);
