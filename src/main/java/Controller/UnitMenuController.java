@@ -16,7 +16,7 @@ import View.Enums.Messages.UnitMenuMessages;
 import java.util.ArrayList;
 
 public class UnitMenuController {
-    private ArrayList<Person> selectedUnit = new ArrayList<>();
+    public static ArrayList<Person> selectedUnit = new ArrayList<>();
     public UnitMenuMessages selectUnit(int x, int y) {
         if(!Utils.CheckMapCell.validationOfX(x)) return UnitMenuMessages.X_OUT_OF_BOUNDS;
         if(!Utils.CheckMapCell.validationOfY(y)) return UnitMenuMessages.Y_OUT_OF_BOUNDS;
@@ -100,19 +100,20 @@ public class UnitMenuController {
         if(Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getSoldier() == null) return UnitMenuMessages.DOES_NOT_INCLUDE_UNIT;
 
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
-        boolean isCorrectSoldier = false;
+//        boolean isCorrectSoldier = false;
 
         for (Person person : selectedUnit) {
-            int distance = ((int)Math.sqrt(Math.pow(person.getX() - x, 2) + Math.pow(person.getY() - y, 2)));
+//            int distance = ((int)Math.sqrt(Math.pow(person.getX() - x, 2) + Math.pow(person.getY() - y, 2)));
             if(((Soldier)person).getAttackRange() == 1) {
-                if(((Soldier)person).getSpeed() < distance) return UnitMenuMessages.DISTANCE_OUT_OF_BOUNDS;
-                else person.setDestination(mapCell);
-                isCorrectSoldier = true;
+//                if(((Soldier)person).getSpeed() < distance) return UnitMenuMessages.DISTANCE_OUT_OF_BOUNDS;
+//                else
+                person.setDestination(mapCell);
+//                isCorrectSoldier = true;
             }
         }
 
-        if(!isCorrectSoldier)
-            return UnitMenuMessages.INVALID_TYPE_OF_SELECTED_UNIT;
+//        if(!isCorrectSoldier)
+//            return UnitMenuMessages.INVALID_TYPE_OF_SELECTED_UNIT;
 
         if (selectedUnit.size() > 0) {
             selectedUnit.subList(0, selectedUnit.size()).clear();
