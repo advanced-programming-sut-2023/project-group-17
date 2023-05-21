@@ -6,23 +6,18 @@ import Model.User;
 import View.Enums.Messages.EmpireMenuMessages;
 
 public class EmpireMenuController {
-
-    private User user;
-    public EmpireMenuController() {
-        this.user = Database.getCurrentUser();
-    }
     public String showPopularity() {
-        return user.getUsername() + "'s popularity rate is : " + user.getEmpire().getPopularityRate();
+        return Database.getCurrentUser().getUsername() + "'s popularity rate is : " + Database.getCurrentUser().getEmpire().getPopularityRate();
     }
 
     public String showPopularityFactors() {
-        return user.getEmpire().toString();
+        return Database.getCurrentUser().getEmpire().toString();
     }
 
     public String showFoodList() {
         String result = "";
-        if (user.getEmpire().getFoods() == null) return result;
-        for (Food food : user.getEmpire().getFoods()) {
+        if (Database.getCurrentUser().getEmpire().getFoods() == null) return result;
+        for (Food food : Database.getCurrentUser().getEmpire().getFoods()) {
             result += food.toString() + "\n";
         }
         return result;
@@ -30,31 +25,31 @@ public class EmpireMenuController {
 
     public EmpireMenuMessages setFoodRate(int foodRate) {
         if (foodRate < -2 || 2 < foodRate) return EmpireMenuMessages.INVALID_NUMBER;
-        user.getEmpire().setFoodRate(foodRate);
+        Database.getCurrentUser().getEmpire().setFoodRate(foodRate);
         return EmpireMenuMessages.SUCCESS;
     }
 
     public String showFoodRate() {
-        return user.getUsername() + "'s food rate is : " + user.getEmpire().getFoodRate();
+        return Database.getCurrentUser().getUsername() + "'s food rate is : " + Database.getCurrentUser().getEmpire().getFoodRate();
     }
 
     public EmpireMenuMessages setTaxRate(int taxRate) {
         if (taxRate < -3 || 8 < taxRate) return EmpireMenuMessages.INVALID_NUMBER;
-        user.getEmpire().setTaxRate(taxRate);
+        Database.getCurrentUser().getEmpire().setTaxRate(taxRate);
         return EmpireMenuMessages.SUCCESS;
     }
 
     public String showTaxRate() {
-        return user.getUsername() + "'s tax rate is : " + user.getEmpire().getTaxRate();
+        return Database.getCurrentUser().getUsername() + "'s tax rate is : " + Database.getCurrentUser().getEmpire().getTaxRate();
     }
 
     public EmpireMenuMessages setFearRate(int fearRate) {
         if (fearRate < -5 || 5 < fearRate) return EmpireMenuMessages.INVALID_NUMBER;
-        user.getEmpire().setTaxRate(fearRate);
+        Database.getCurrentUser().getEmpire().setTaxRate(fearRate);
         return EmpireMenuMessages.SUCCESS;
     }
 
     public String showFearRate() {
-        return user.getUsername() + "'s fear rate is : " + user.getEmpire().getFearRate();
+        return Database.getCurrentUser().getUsername() + "'s fear rate is : " + Database.getCurrentUser().getEmpire().getFearRate();
     }
 }

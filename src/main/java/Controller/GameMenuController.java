@@ -698,7 +698,6 @@ public class GameMenuController {
         Empire empire = Database.getCurrentUser().getEmpire();
         empire.changePopularityRate(2);
         empire.changeReligionRate(2);
-
         if(building.getBuildingName().equals("cathedral")) {
             empire.changePopularityRate(2);
             empire.changeReligionRate(2);
@@ -763,8 +762,21 @@ public class GameMenuController {
             }
         }
         if(goalX == -1) return;
+        MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(goalX, goalY);
+        if (!mapCell.isTraversable()) {
+            for (int i = -1; i < 2; i++) {
+                for (int j = -1; j < 2; j++) {
+                    if (Utils.CheckMapCell.validationOfY(goalY + j) && Utils.CheckMapCell.validationOfX(goalX + i)
+                            && Database.getCurrentMapGame().getMapCellByCoordinates(goalX + i, goalY + j).isTraversable()) {
+                        goalX = goalX + i;
+                        goalY = goalY + j;
+                    }
+                }
+            }
+        }
         ArrayList<MapCell> path = MoveController.aStarSearch(Database.getCurrentMapGame(), currentX, currentY, goalX, goalY);
-
+        //System.out.println(path);
+        assert path != null;
         for(int i = path.size() - 1; i > 0; i--) {
             path.get(i).removeAnimal(cow);
             path.get(i).removeBuilding(building);
@@ -784,8 +796,21 @@ public class GameMenuController {
             }
         }
         if(goalX2 == -1) return;
+        mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(goalX2, goalY2);
+        if (!mapCell.isTraversable()) {
+            for (int i = -1; i < 2; i++) {
+                for (int j = -1; j < 2; j++) {
+                    if (Utils.CheckMapCell.validationOfY(goalY2 + j) && Utils.CheckMapCell.validationOfX(goalX2 + i)
+                            && Database.getCurrentMapGame().getMapCellByCoordinates(goalX2 + i, goalY2 + j).isTraversable()) {
+                        goalX2 = goalX2 + i;
+                        goalY2 = goalY2 + j;
+                    }
+                }
+            }
+        }
         ArrayList<MapCell> path2 = MoveController.aStarSearch(Database.getCurrentMapGame(), goalX, goalY, goalX2, goalY2);
 
+        assert path2 != null;
         for(int i = path2.size() - 1; i > 0; i--) {
             path2.get(i).removeAnimal(cow);
             path2.get(i).removeBuilding(building);
