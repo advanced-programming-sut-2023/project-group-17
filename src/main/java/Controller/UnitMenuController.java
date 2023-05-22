@@ -16,6 +16,7 @@ import View.Enums.Messages.UnitMenuMessages;
 import java.util.ArrayList;
 
 public class UnitMenuController {
+    //TODO faghat ye sarbaz harekat kard
     public static ArrayList<Person> selectedUnit = new ArrayList<>();
     public UnitMenuMessages selectUnit(int x, int y) {
         if(!Utils.CheckMapCell.validationOfX(x)) return UnitMenuMessages.X_OUT_OF_BOUNDS;
