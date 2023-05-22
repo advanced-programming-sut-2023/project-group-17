@@ -249,33 +249,36 @@ public class UnitMenuController {
     public UnitMenuMessages digTunnelIteration(int startX, int startY, MapCell mapCell) {
         int range = 20;
         Tunnel tunnel;
-        for(int x = startX - range; x < startX + range + 1; x++) {
-            for(int y = startY - range; y < startY + range + 1; y++) {
-                if(!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y)) continue;
+        for (int i = 0; i < range; i++) {
+            for(int x = startX - range; x < startX + range + 1; x++) {
+                for(int y = startY - range; y < startY + range + 1; y++) {
+                    if(!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y)) continue;
 
-                MapCell endMapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
+                    MapCell endMapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
 
-                if(endMapCell.getBuilding() != null &&
-                !endMapCell.getBuilding().getOwner().equals(Database.getCurrentUser()) &&
-                endMapCell.getBuilding() instanceof DefensiveBuilding) {
-                    endMapCell.getBuilding().changeBuildingHp(-1200);
-                    tunnel = new Tunnel(Database.getCurrentUser(), mapCell, endMapCell);
-                    mapCell.addMapCellItems(tunnel);
-                    selectedUnit.subList(0, selectedUnit.size()).clear();
-                    return UnitMenuMessages.SUCCESS;
-                }
-                else {
-                    for (MapCellItems mapCellItem : endMapCell.getMapCellItems()) {
-                        if(mapCellItem instanceof Wall && !mapCellItem.getOwner().equals(Database.getCurrentUser())) {
-                            ((Wall) mapCellItem).setHp(0);
-                            tunnel = new Tunnel(Database.getCurrentUser(), mapCell, endMapCell);
-                            mapCell.addMapCellItems(tunnel);
-                            selectedUnit.subList(0, selectedUnit.size()).clear();
-                            return UnitMenuMessages.SUCCESS;
+                    if(endMapCell.getBuilding() != null &&
+                            !endMapCell.getBuilding().getOwner().equals(Database.getCurrentUser()) &&
+                            endMapCell.getBuilding() instanceof DefensiveBuilding) {
+                        endMapCell.getBuilding().changeBuildingHp(-1200);
+                        tunnel = new Tunnel(Database.getCurrentUser(), mapCell, endMapCell);
+                        mapCell.addMapCellItems(tunnel);
+                        selectedUnit.subList(0, selectedUnit.size()).clear();
+                        return UnitMenuMessages.SUCCESS;
+                    }
+                    else {
+                        for (MapCellItems mapCellItem : endMapCell.getMapCellItems()) {
+                            if(mapCellItem instanceof Wall && !mapCellItem.getOwner().equals(Database.getCurrentUser())) {
+                                ((Wall) mapCellItem).setHp(0);
+                                tunnel = new Tunnel(Database.getCurrentUser(), mapCell, endMapCell);
+                                mapCell.addMapCellItems(tunnel);
+                                selectedUnit.subList(0, selectedUnit.size()).clear();
+                                return UnitMenuMessages.SUCCESS;
+                            }
                         }
                     }
                 }
             }
+
         }
         return UnitMenuMessages.NO_BUILDING_IN_RANGE;
     }
