@@ -98,15 +98,22 @@ public class GameMenuController {
         for (int i = 1; i <= map.getWidth(); i++) {
             for (int j = 1; j <= map.getLength(); j++) {
                 mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(i, j);
+                for (Person person : mapCell.getPeople()) {
+                    if (person.getDestination() != null) {
+                        path = MoveController.aStarSearch(map, mapCell.getX(),
+                                mapCell.getY(), person.getDestination().getX(), person.getDestination().getY());
+                        break;
+                    }
+                }
                 for (int z = 0; z < mapCell.getPeople().size(); z++) {
                     if (mapCell.getPeople().get(z).getDestination() != null) {
-                        path = MoveController.aStarSearch(map, mapCell.getX(),
-                                mapCell.getY(), mapCell.getPeople().get(z).getDestination().getX(),
-                                mapCell.getPeople().get(z).getDestination().getY());
-                        if (path != null) {
-                            movePerson(mapCell.getPeople().get(z), path);
-                            z--;
-                        }
+//                        path = MoveController.aStarSearch(map, mapCell.getX(),
+//                                mapCell.getY(), mapCell.getPeople().get(z).getDestination().getX(),
+//                                mapCell.getPeople().get(z).getDestination().getY());
+//                        if (path != null) {
+                        movePerson(mapCell.getPeople().get(z), path);
+                        z--;
+//                        }
                     }
                 }
                 if (mapCell.getAttackToolsAndMethods() != null) {
