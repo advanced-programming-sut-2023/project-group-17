@@ -99,4 +99,14 @@ public class SignupMenuController {
     public boolean validateCaptcha(int input) {
         return verifyingNumber == input;
     }
+
+    public String getAvailableSlogans (int i) {
+        if (i != -1) return Randoms.Slogans[i];
+        return null;
+    }
+
+    public String getSecurityQuestions (int i) {
+        if (i != -1) return recoveryQuestions[i];
+        return null;
+    }
 }

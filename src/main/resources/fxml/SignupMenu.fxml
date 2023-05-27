@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="668.0" prefWidth="1016.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.SignupMenu">
+   <children>
+      <TextField fx:id="username" layoutX="619.0" layoutY="191.0" promptText="username" />
+      <TextField fx:id="nickname" layoutX="619.0" layoutY="400.0" promptText="nickname" />
+      <TextField fx:id="email" layoutX="619.0" layoutY="353.0" promptText="email" />
+      <ChoiceBox fx:id="securityQuestionChoiceBox" layoutX="617.0" layoutY="531.0" prefHeight="26.0" prefWidth="167.0" value="choose security question" onMouseClicked="#chooseSecurityQuestion">
+         <items>
+            <FXCollections fx:factory="observableArrayList">
+               <String fx:value="What is my father's name?" />
+               <String fx:value="What was my first pet's name?" />
+               <String fx:value="What is my mother's last name?" />
+            </FXCollections>
+         </items>
+      </ChoiceBox>
+      <TextField fx:id="answer" layoutX="622.0" layoutY="572.0" promptText="security answer" />
+      <PasswordField fx:id="password" layoutX="619.0" layoutY="253.0" promptText="password" />
+      <TextField fx:id="passwordVisible" layoutX="619.0" layoutY="253.0" promptText="password" visible="false" />
+      <CheckBox fx:id="showPassword" layoutX="641.0" layoutY="289.0" mnemonicParsing="false" onAction="#showPassword" text="show passsword" />
+      <CheckBox fx:id="randomPassword" layoutX="641.0" layoutY="316.0" mnemonicParsing="false" onAction="#randonPassword" text="random password" />
+      <CheckBox fx:id="sloganYes" layoutX="652.0" layoutY="454.0" mnemonicParsing="false" onAction="#addSlogan" text="add slogan" />
+      <TextField fx:id="slogan" layoutX="711.0" layoutY="449.0" promptText="slogan" visible="false" />
+      <CheckBox fx:id="randomSlogan" layoutX="646.0" layoutY="489.0" mnemonicParsing="false" onAction="#randomSlogan" text="random slogan" visible="false"/>
+      <ChoiceBox fx:id="randomSlogans" layoutX="532.0" layoutY="449.0" prefHeight="26.0" prefWidth="167.0" value="choose a slogan" visible="false" onMouseClicked="#chooseSlogan">
+         <items>
+            <FXCollections fx:factory="observableArrayList">
+               <String fx:value="Give up or I will make you give up" />
+               <String fx:value="I shall have my revenge, in this life or in next" />
+               <String fx:value="Greatest player of all time is playing" />
+               <String fx:value="I am the reason of your nightmares" />
+               <String fx:value="You will remember me as a legend" />
+               <String fx:value="join me or die" />
+            </FXCollections>
+         </items>
+      </ChoiceBox>
+      <Text fx:id="usernameError" layoutX="813.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="passwordError" layoutX="813.0" layoutY="273.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="emailError" layoutX="813.0" layoutY="373.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="nicknameError" layoutX="813.0" layoutY="420.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="answerError" layoutX="813.0" layoutY="592.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Button layoutX="675.0" layoutY="616.0" mnemonicParsing="false" onMouseClicked="#signup" text="Sign up" />
+   </children>
+</AnchorPane>

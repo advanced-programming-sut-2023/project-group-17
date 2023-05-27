@@ -1,6 +1,10 @@
 package Utils;
 
+import Model.Database;
+import View.Enums.Messages.SignupMenuMessages;
 import View.Enums.Messages.UtilsMessages;
+
+import static Model.Database.getUserByUsername;
 
 public class CheckValidation {
     public static UtilsMessages isPasswordStrong(String password) {
@@ -16,5 +20,23 @@ public class CheckValidation {
             return UtilsMessages.PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER;
 
         return UtilsMessages.PASSWORD_IS_STRONG;
+    }
+
+    public static UtilsMessages isUsernameOk(String username) {
+        Database.loadUsers();
+        if(!username.matches("[A-Za-z0-9_]+"))
+            return UtilsMessages.INVALID_USERNAME;
+
+        if(getUserByUsername(username) != null)
+            return UtilsMessages.USERNAME_EXISTS;
+
+        return UtilsMessages.SUCCESS;
+    }
+
+    public static UtilsMessages isEmailOk(String email) {
+        if(!email.matches("([A-Za-z0-9_.]+@[A-Za-z0-9_.]+\\.[A-Za-z0-9_.]+)"))
+            return UtilsMessages.INVALID_EMAIL;
+
+        return UtilsMessages.SUCCESS;
     }
 }

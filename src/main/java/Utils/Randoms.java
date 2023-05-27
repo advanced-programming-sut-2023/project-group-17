@@ -31,7 +31,7 @@ public class Randoms {
             return index;
     }
 
-    static String[] Slogans = {
+    public static String[] Slogans = {
         "Give up or I will make you give up",
         "I shall have my revenge, in this life or in next",
         "Greatest player of all time is playing",
