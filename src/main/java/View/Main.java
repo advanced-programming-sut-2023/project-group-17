@@ -1,11 +1,18 @@
 package View;
 
-import View.LoginMenu;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
-import static View.Menu.scanner;
-
-public class Main {
+public class Main extends Application{
+    public static Stage stage;
     public static void main(String[] args) {
-        new LoginMenu().run();
+        launch(args);
     }
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        Main.stage = stage;
+        new LoginMenu().start(stage);
+    }
+
 }
