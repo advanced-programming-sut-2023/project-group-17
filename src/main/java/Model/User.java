@@ -13,6 +13,7 @@ public class User {
     private String passwordRecoveryAnswer;
     private int highScore;
     private Empire empire;
+    private String avatarPath;
 
     public User(String username, String password, String nickname, String email, String slogan, String passwordRecoveryQuestion, String passwordRecoveryAnswer) {
         this.username = username;
@@ -103,6 +104,7 @@ public class User {
 
     public void setPasswordRecoveryAnswer(String passwordRecoveryAnswer) {
         this.passwordRecoveryAnswer = passwordRecoveryAnswer;
+        this.avatarPath = randomPathGenerator();
     }
 
     public Empire getEmpire() {
@@ -111,5 +113,18 @@ public class User {
 
     public void setEmpire(Empire empire) {
         this.empire = empire;
+    }
+
+    public String getAvatarPath() {
+        return avatarPath;
+    }
+
+    public void setAvatarPath(String avatarPath) {
+        this.avatarPath = avatarPath;
+    }
+
+    public String randomPathGenerator() {
+        int x = (int) (Math.random() * 4 + 1);
+        return User.class.getResource("/assets/avatars/" + x + ".png").toString();
     }
 }

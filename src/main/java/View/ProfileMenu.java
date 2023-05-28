@@ -53,6 +53,7 @@ public class ProfileMenu extends Application {
     public ChoiceBox randomSlogans;
     public Button randomSlogan;
     public Button scoreboard;
+    public Button avatarMenu;
 
     public static void main(String[] args) {
         launch(args);
@@ -70,6 +71,9 @@ public class ProfileMenu extends Application {
                 "/assets/Backgrounds/profileMenu.jpg").toExternalForm()),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 new BackgroundSize(1.0, 1.0, true, true, false, false))));
+        ImageView imageView = new ImageView(new Image(controller.getAvatarPath() , 160 ,160, false, false));
+        imageView.setX(0); imageView.setY(0);
+        pane.getChildren().add(imageView);
         mainPane = pane;
         stage.setScene(new Scene(pane));
         stage.setFullScreen(true);
@@ -98,6 +102,7 @@ public class ProfileMenu extends Application {
         sloganText.setDisable(true);
         makeListenerForDisablingRemoveButton();
         if (sloganText.getText().equals("Slogan is empty")) deleteSlogan.setDisable(true);
+        avatar = new ImageView(new Image(controller.getAvatarPath(), 160 ,160, false, false));
 
         makeListenerForRandomSlogans();
 //        changeDataPane = FXMLLoader.load(ProfileMenu.class.getResource("/fxml/profileMenu/dataPane.fxml"));
@@ -440,7 +445,7 @@ public class ProfileMenu extends Application {
 
         // Add the grid pane and button box to a VBox
         VBox vbox = new VBox(10);
-        vbox.getChildren().addAll(gridPane, errorText, buttonBox);
+        vbox.getChildren().addAll(gridPane, errorText, controllerError, buttonBox);
 //        vbox.setPrefWidth(600); vbox.setPrefHeight(400);
 
 
@@ -463,13 +468,25 @@ public class ProfileMenu extends Application {
                 switch (controller.changePassword(oldPasswordTextField.getText(), newPasswordTextField.getText())) {
                     case INCORRECT_PASSWORD:
                         controllerError.setText("password change failed : current password is incorrect");
+                        new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                controllerError.setText("");
+                            }
+                        })).play();
                         break;
                     case SAME_PASSWORD:
                         controllerError.setText("password change failed : your new password cannot be the same as your current password");
+                        new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                controllerError.setText("");
+                            }
+                        })).play();
                         break;
                     case SUCCESS:
-                        oldPasswordTextField.setText(""); newPasswordTextField.setText("");
                         Popup popup = new Popup();
+                        popup.setOpacity(0.5);
                         popup.setAnchorX(580); popup.setAnchorY(300);
                         Label label = new Label("You have successfully changed your password");
                         label.setTextFill(Color.WHITE);
@@ -590,5 +607,9 @@ public class ProfileMenu extends Application {
 
     public void openScoreboard(ActionEvent actionEvent) throws Exception {
         new ScoreBoardMenu().start(new Stage());
+    }
+
+    public void openAvatarMenu(ActionEvent actionEvent) throws Exception {
+        new AvatarMenu().start(Main.stage);
     }
 }

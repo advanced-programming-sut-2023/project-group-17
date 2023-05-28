@@ -70,7 +70,10 @@ public class ProfileMenuController {
         if (newPassword.equals("random"))
             return ProfileMenuMessages.RANDOM_PASSWORD;
 
-        return ProfileMenuMessages.ENTER_PASSWORD_AGAIN;
+        getCurrentUser().setPassword(User.SHA256Code(newPassword));
+        Database.saveUsers();
+        if (Database.getStayLoggedInUser() != null) Database.setStayLoggedInUser(getCurrentUser());
+        return ProfileMenuMessages.SUCCESS;
     }
 
     public ProfileMenuMessages setNewPassword(String newPassword, String confirmationPassword) {
@@ -216,5 +219,13 @@ public class ProfileMenuController {
 
     public String getRandomSlogan() {
         return Randoms.generateRandomSlogan();
+    }
+
+    public String getAvatarPath() {
+        if (getCurrentUser().getAvatarPath() == null) {
+            getCurrentUser().setAvatarPath(getCurrentUser().randomPathGenerator());
+            Database.saveUsers();
+        }
+        return getCurrentUser().getAvatarPath();
     }
 }
