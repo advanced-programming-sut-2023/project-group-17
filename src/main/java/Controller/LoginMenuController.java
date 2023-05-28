@@ -39,8 +39,10 @@ public class LoginMenuController {
         return LoginMenuMessages.ANSWER_RECOVERY_QUESTION;
     }
 
-    public LoginMenuMessages setNewPassword(String username, String newPassword) {
+    public LoginMenuMessages setNewPassword(String username, String newPassword, String recoveryQuestionAnswer) {
         User user = getUserByUsername(username);
+
+        if (!recoveryQuestionAnswer.equals(user.getPasswordRecoveryAnswer())) return LoginMenuMessages.WRONG_PASSWORD_RECOVERY_ANSWER;
 
         if(!CheckValidation.isPasswordStrong(newPassword).equals(UtilsMessages.PASSWORD_IS_STRONG)) {
             switch (CheckValidation.isPasswordStrong(newPassword)) {

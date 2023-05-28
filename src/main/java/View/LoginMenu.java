@@ -35,6 +35,7 @@ public class LoginMenu extends Application {
     public Button submitButton;
     public TextField forgotPasswordUsername;
     public Text forgotPasswordUsernameError;
+    public Button loginButton;
     private LoginMenuController controller;
     public LoginMenu() {
         controller = new LoginMenuController();
@@ -82,6 +83,7 @@ public class LoginMenu extends Application {
         username.textProperty().addListener((observable, oldText, newText) -> {
             usernameError.setFill(Color.DARKRED);
             if (!username.getText().equals("")) usernameError.setText("");
+
         } );
 
         password.textProperty().addListener((observable, oldText, newText) -> {
@@ -103,19 +105,29 @@ public class LoginMenu extends Application {
 
         });
 
-
     }
 
     public void forgotPassword() {
-        if (forgotPassword.isSelected()) {
-            forgotPassword.setVisible(false);
-            securityQuestion.setVisible(true);
-            securityQuestionAnswer.setVisible(true);
-            forgotPasswordUsername.setVisible(true);
-            newPassword.setVisible(true);
-            newPasswordError.setVisible(true);
-            submitButton.setVisible(true);
-        }
+        if (forgotPassword.isSelected()) toggleForgotPasswordFields();
+    }
+
+    public void toggleForgotPasswordFields() {
+        forgotPassword.setVisible(!forgotPassword.isVisible());
+        securityQuestion.setVisible(!securityQuestion.isVisible());
+        securityQuestionAnswer.setVisible(!securityQuestionAnswer.isVisible());
+        forgotPasswordUsername.setVisible(!forgotPasswordUsername.isVisible());
+        newPassword.setVisible(!newPassword.isVisible());
+        newPasswordError.setVisible(!newPasswordError.isVisible());
+        submitButton.setVisible(!submitButton.isVisible());
+    }
+
+    private void resetForgetPasswordFields() {
+        securityQuestion.setText("");
+        securityQuestionAnswer.setText("");
+        forgotPasswordUsername.setText("");
+        forgotPasswordUsernameError.setText("");
+        newPassword.setText("");
+        newPasswordError.setText("");
     }
 
 
@@ -124,10 +136,30 @@ public class LoginMenu extends Application {
     }
 
     public void submit(MouseEvent mouseEvent) {
-        if (forgotPasswordUsername.getText().equals("")) {
-            forgotPasswordUsernameError.setFill(Color.DARKRED);
-            forgotPasswordUsernameError.setText("Username doesn't exist");
+
+        Popup popup = getPopup();
+        Label label = getLabel();
+        popup.getContent().add(label);
+
+        Timeline timeline = hidePopup(popup);
+
+        switch (controller.setNewPassword(forgotPasswordUsername.getText(), newPassword.getText(), securityQuestionAnswer.getText())) {
+            case SUCCESS:
+                label.setText("Password Changed Successfully");
+                popup.show(Main.stage);
+                timeline.play();
+                break;
+            case WRONG_PASSWORD_RECOVERY_ANSWER:
+                label.setText("Recovery Answer is Wrong");
+                popup.show(Main.stage);
+                timeline.play();
+                break;
+
         }
+
+        toggleForgotPasswordFields();
+        resetForgetPasswordFields();
+        forgotPassword.setSelected(false);
     }
 
     public void login(MouseEvent mouseEvent) throws Exception{
@@ -141,25 +173,13 @@ public class LoginMenu extends Application {
             passwordError.setText("Password Error");
         }
 
-        Popup popup = new Popup();
-        popup.setAnchorX(580); popup.setAnchorY(300);
-        popup.centerOnScreen();
-        popup.setOpacity(0.5);
-        Label label = new Label();
-        label.setTextFill(Color.WHITE);
-        label.setMinWidth(200); label.setMinHeight(60);
-        label.setStyle("-fx-background-color: black;");
-        label.setAlignment(Pos.CENTER);
+        Popup popup = getPopup();
+        Label label = getLabel();
         popup.getContent().add(label);
 
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                popup.hide();
-            }
-        }));
+        Timeline timeline = hidePopup(popup);
 
-        Timeline mainMenuTimeLine = new Timeline(new KeyFrame(Duration.seconds(2), new EventHandler<ActionEvent>() {
+        Timeline mainMenuTimeLine = new Timeline(new KeyFrame(Duration.seconds(1.5), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 try {
@@ -194,6 +214,33 @@ public class LoginMenu extends Application {
                 timeline.play();
                 break;
         }
+    }
+
+    public Popup getPopup() {
+        Popup popup = new Popup();
+        popup.setAnchorX(580); popup.setAnchorY(300);
+        popup.centerOnScreen();
+        popup.setOpacity(0.5);
+        return popup;
+    }
+
+    public Label getLabel() {
+        Label label = new Label();
+        label.setTextFill(Color.WHITE);
+        label.setMinWidth(200);
+        label.setMinHeight(60);
+        label.setStyle("-fx-background-color: black;");
+        label.setAlignment(Pos.CENTER);
+        return label;
+    }
+
+    public Timeline hidePopup(Popup popup) {
+        return new Timeline(new KeyFrame(Duration.seconds(1.5), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                popup.hide();
+            }
+        }));
     }
 
 
