@@ -2,12 +2,10 @@ package View;
 
 import Controller.SignupMenuController;
 import Utils.CheckValidation;
-import View.Enums.Commands.SignupMenuCommands;
 import View.Enums.Messages.UtilsMessages;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,17 +18,14 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
-import org.controlsfx.control.CheckComboBox;
 
 import java.util.Objects;
 import java.util.Random;
-import java.util.regex.Matcher;
+
+import static View.Main.stage;
 
 public class SignupMenu extends Application {
     public static String securityQuestionSelected;
@@ -114,7 +109,7 @@ public class SignupMenu extends Application {
             }
         });
 
-        nicknameError.textProperty().addListener((observable, oldText, newText)-> {
+        nickname.textProperty().addListener((observable, oldText, newText)-> {
             if (!nickname.getText().equals("")) nicknameError.setText("");
         });
 
@@ -144,7 +139,7 @@ public class SignupMenu extends Application {
         }
     }
 
-    public void randonPassword(ActionEvent actionEvent) {
+    public void randomPassword(ActionEvent actionEvent) {
         if (randomPassword.isSelected()) {
             password.setText(controller.getRandomPassword());
         }
@@ -163,7 +158,7 @@ public class SignupMenu extends Application {
         if (randomSlogan.isSelected()) slogan.setText(controller.getRandomSlogan());
     }
 
-    public void signup(MouseEvent mouseEvent) {
+    public void signup(MouseEvent mouseEvent) throws Exception {
         if (username.getText().equals("")) {
             usernameError.setFill(Color.DARKRED);
             usernameError.setText("enter username");
@@ -191,6 +186,7 @@ public class SignupMenu extends Application {
 //        popup.getContent().add()
         controller.createUser(username.getText(), password.getText(), password.getText(),
                 email.getText(), nickname.getText(), slogan.getText());
+        new LoginMenu().start(stage);
     }
 
     public void chooseSlogan(MouseEvent mouseEvent) {

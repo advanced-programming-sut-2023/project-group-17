@@ -18,6 +18,8 @@ import org.controlsfx.control.CheckComboBox;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 
+import static View.Main.stage;
+
 
 public class MainMenu extends Application {
 
@@ -68,15 +70,13 @@ public class MainMenu extends Application {
 //        new GameMenu().start(stage);
     }
 
-    public void enterProfileMenu(MouseEvent mouseEvent) {
-        //TODO
-//        new ProfileMenu().start(stage);
+    public void enterProfileMenu(MouseEvent mouseEvent) throws Exception {
+        new ProfileMenu().start(stage);
     }
 
-    public void logout(MouseEvent mouseEvent) {
+    public void logout(MouseEvent mouseEvent) throws Exception {
         controller.logout();
-        //TODO
-//        new LoginMenu().start(stage);
+        new LoginMenu().start(stage);
     }
 
 //    public void run() {
