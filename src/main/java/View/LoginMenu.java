@@ -34,6 +34,7 @@ public class LoginMenu extends Application {
     public Text passwordError;
     public Button submitButton;
     public TextField forgotPasswordUsername;
+    public Text forgotPasswordUsernameError;
     private LoginMenuController controller;
     public LoginMenu() {
         controller = new LoginMenuController();
@@ -88,6 +89,21 @@ public class LoginMenu extends Application {
             if (!password.getText().equals("")) passwordError.setText("");
         });
 
+        forgotPasswordUsername.textProperty().addListener((observableValue, oldText, newText) -> {
+            forgotPasswordUsernameError.setFill(Color.DARKRED);
+            if (!forgotPasswordUsername.getText().equals("")) forgotPasswordUsernameError.setText("");
+
+            System.out.println(forgotPasswordUsername.getText());
+            System.out.println(controller.getUserByUsername(forgotPasswordUsername.getText()));
+            System.out.println(controller.getUserRecoveryQuestion(forgotPasswordUsername.getText()));
+            if (controller.getUserByUsername(forgotPasswordUsername.getText()) != null) {
+                System.out.println("goh");
+                securityQuestion.setText(controller.getUserRecoveryQuestion(forgotPasswordUsername.getText()));
+            }
+
+        });
+
+
     }
 
     public void forgotPassword() {
@@ -107,7 +123,11 @@ public class LoginMenu extends Application {
         new SignupMenu().start(Main.stage);
     }
 
-    public void changePassword(MouseEvent mouseEvent) {
+    public void submit(MouseEvent mouseEvent) {
+        if (forgotPasswordUsername.getText().equals("")) {
+            forgotPasswordUsernameError.setFill(Color.DARKRED);
+            forgotPasswordUsernameError.setText("Username doesn't exist");
+        }
     }
 
     public void login(MouseEvent mouseEvent) throws Exception{

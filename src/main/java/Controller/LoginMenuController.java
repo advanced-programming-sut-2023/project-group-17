@@ -7,7 +7,7 @@ import Utils.CheckValidation;
 import View.Enums.Messages.LoginMenuMessages;
 import View.Enums.Messages.UtilsMessages;
 
-import static Model.Database.getUserByUsername;
+import static Model.Database.loadUsers;
 import static Model.Database.setCurrentUser;
 
 public class LoginMenuController {
@@ -63,7 +63,9 @@ public class LoginMenuController {
     }
 
     public String getUserRecoveryQuestion(String username) {
-        return getUserByUsername(username).getPasswordRecoveryQuestion();
+        System.out.println("Username : " + Database.getUserByUsername(username).getUsername());
+        return Database.getUserByUsername(username).getPasswordRecoveryQuestion();
+//        return getUserByUsername(username).getPasswordRecoveryQuestion();
     }
 
     public boolean isRecoveryQuestionAnswerCorrect(String username, String answer) {
@@ -101,5 +103,10 @@ public class LoginMenuController {
         setCurrentUser(user);
         Database.loadUnits();
         Database.loadBuildings();
+    }
+
+    public User getUserByUsername(String username) {
+        loadUsers();
+        return Database.getUserByUsername(username);
     }
 }
