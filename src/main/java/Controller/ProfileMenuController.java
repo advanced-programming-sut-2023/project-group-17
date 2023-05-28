@@ -30,6 +30,19 @@ public class ProfileMenuController {
         return ProfileMenuMessages.SUCCESS;
     }
 
+    public ProfileMenuMessages changeUsernameErrors(String username) {
+        if (!username.matches("[A-Za-z0-9_]+"))
+            return ProfileMenuMessages.INVALID_USERNAME;
+
+        if (getUserByUsername(username) != null)
+            return ProfileMenuMessages.USERNAME_EXISTS;
+
+        if (getCurrentUser().getUsername().equals(username))
+            return ProfileMenuMessages.SAME_USERNAME;
+
+        return ProfileMenuMessages.SUCCESS;
+    }
+
     public ProfileMenuMessages changeNickname(String nickname) {
         if (getCurrentUser().getNickname().equals(nickname))
             return ProfileMenuMessages.SAME_NICKNAME;
@@ -37,6 +50,13 @@ public class ProfileMenuController {
         getCurrentUser().setNickname(nickname);
         Database.saveUsers();
         if (Database.getStayLoggedInUser() != null) Database.setStayLoggedInUser(getCurrentUser());
+        return ProfileMenuMessages.SUCCESS;
+    }
+
+    public ProfileMenuMessages changeNicknameErrors(String nickname) {
+        if (getCurrentUser().getNickname().equals(nickname))
+            return ProfileMenuMessages.SAME_NICKNAME;
+
         return ProfileMenuMessages.SUCCESS;
     }
 
@@ -80,7 +100,7 @@ public class ProfileMenuController {
         return ProfileMenuMessages.SUCCESS;
     }
 
-    public ProfileMenuMessages changeEmail (String email){
+    public ProfileMenuMessages changeEmail(String email){
         if(emailExists(email))
             return ProfileMenuMessages.EMAIL_EXISTS;
 
@@ -96,8 +116,21 @@ public class ProfileMenuController {
         return ProfileMenuMessages.SUCCESS;
     }
 
+    public ProfileMenuMessages changeEmailError(String email) {
+        if(emailExists(email))
+            return ProfileMenuMessages.EMAIL_EXISTS;
+
+        if(!email.matches("([A-Za-z0-9_.]+@[A-Za-z0-9_.]+\\.[A-Za-z0-9_.]+)"))
+            return ProfileMenuMessages.INVALID_EMAIL;
+
+        if(getCurrentUser().getEmail().equals(email))
+            return ProfileMenuMessages.SAME_EMAIL;
+
+        return ProfileMenuMessages.SUCCESS;
+    }
+
     public ProfileMenuMessages changeSlogan (String slogan){
-        if(slogan.equals("random")) return ProfileMenuMessages.RANDOM_SLOGAN;
+        if (slogan.equals("")) removeSlogan();
 
         getCurrentUser().setSlogan(slogan);
         Database.saveUsers();
@@ -153,6 +186,28 @@ public class ProfileMenuController {
                   "email : " + getCurrentUser().getEmail() + '\n' +
                   "slogan : " + slogan + '\n';
         return result;
+    }
+
+    public String getUsername() {
+        return getCurrentUser().getUsername();
+    }
+
+    public String getNickname() {
+        return getCurrentUser().getNickname();
+    }
+
+    public String getEmail() {
+        return getCurrentUser().getEmail();
+    }
+
+    public String getSlogan() {
+        if (getCurrentUser().getSlogan() == null) return "Slogan is empty";
+        return getCurrentUser().getSlogan();
+    }
+
+    public String getAvailableSlogans (int i) {
+        if (i != -1) return Randoms.Slogans[i];
+        return null;
     }
 
     public String getRandomPassword() {

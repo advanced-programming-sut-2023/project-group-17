@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.CheckBox?>
+<Pane fx:controller="View.ProfileMenu"
+      maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+      <TextField fx:id="usernameText" layoutX="558.0" layoutY="355.0" />
+      <TextField fx:id="nicknameText" layoutX="558.0" layoutY="405.0"/>
+      <TextField fx:id="emailText" layoutX="558.0" layoutY="455.0"/>
+      <ImageView fx:id="avatar" fitHeight="120.0" fitWidth="120.0" layoutX="1043.0" layoutY="84.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="changeUsername" layoutX="787.0" layoutY="354.0" minWidth="130.0" mnemonicParsing="false" onAction="#changeUsername" text="Change Username">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Button>
+      <Button fx:id="changePassword" layoutX="537.0" layoutY="570.0" minWidth="130.0" mnemonicParsing="false" onAction="#changePassword" text="Change Password" />
+      <Button fx:id="changeNickname" layoutX="788.0" layoutY="401.0" minWidth="130.0" mnemonicParsing="false" onAction="#changeNickname" text="Change Nickname" />
+      <Button fx:id="changeEmail" layoutX="788.0" layoutY="452.0" minWidth="130.0" mnemonicParsing="false" onAction="#changeEmail" text="Change Email" />
+      <Text layoutX="564.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Profile">
+         <font>
+            <Font name="Apple Symbols" size="120.0" />
+         </font>
+      </Text>
+      <Text layoutX="471.0" layoutY="371.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username :" style="-fx-fill: white;"/>
+      <Text layoutX="472.0" layoutY="419.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nickname :" style="-fx-fill: white;"/>
+      <Text layoutX="472.0" layoutY="470.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email :" wrappingWidth="43.23388671875" style="-fx-fill: white;"/>
+      <Text layoutX="472.0" layoutY="525.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Slogan :" style="-fx-fill: white;"/>
+      <TextField fx:id="sloganText" layoutX="558.0" layoutY="510.0"/>
+      <Button fx:id="changeSlogan" layoutX="789.0" layoutY="508.0" minWidth="60.0" mnemonicParsing="false" onAction="#changeSlogan" text="Change" />
+      <Button fx:id="deleteSlogan" layoutX="859.0" layoutY="508.0" minWidth="60.0" mnemonicParsing="false" onAction="#deleteSlogan" text="Delete" />
+      <Button fx:id="randomSlogan" layoutX="950.0" layoutY="535.0" mnemonicParsing="false" onAction="#randomSlogan" text="random slogan" visible="false"/>
+      <ChoiceBox fx:id="randomSlogans" layoutX="950.0" layoutY="508.0" prefHeight="26.0" prefWidth="167.0" value="choose a slogan" visible="false" onMouseClicked="#chooseSlogan">
+          <items>
+              <FXCollections fx:factory="observableArrayList">
+                  <String fx:value="Give up or I will make you give up" />
+                  <String fx:value="I shall have my revenge, in this life or in next" />
+                  <String fx:value="Greatest player of all time is playing" />
+                  <String fx:value="I am the reason of your nightmares" />
+                  <String fx:value="You will remember me as a legend" />
+                  <String fx:value="join me or die" />
+              </FXCollections>
+          </items>
+      </ChoiceBox>
+      <Button fx:id="mainMenu" layoutX="733.0" layoutY="570.0" minWidth="130.0" mnemonicParsing="false" onAction="#backToMainMenu" text="Main Menu" />
+      <Text layoutX="160.0" layoutY="357.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="170.79689025878906" fx:id="usernameError"/>
+      <Text layoutX="160.0" layoutY="417.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="176.3282470703125" fx:id="nicknameError"/>
+      <Text layoutX="162.0" layoutY="469.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="154.20286560058594" fx:id="emailError"/>
+</Pane>

@@ -28,7 +28,7 @@
       <PasswordField fx:id="password" layoutX="619.0" layoutY="253.0" promptText="password" />
       <TextField fx:id="passwordVisible" layoutX="619.0" layoutY="253.0" promptText="password" visible="false" />
       <CheckBox fx:id="showPassword" layoutX="641.0" layoutY="289.0" mnemonicParsing="false" onAction="#showPassword" text="show passsword" />
-      <CheckBox fx:id="randomPassword" layoutX="641.0" layoutY="316.0" mnemonicParsing="false" onAction="#randonPassword" text="random password" />
+      <CheckBox fx:id="randomPassword" layoutX="641.0" layoutY="316.0" mnemonicParsing="false" onAction="#randomPassword" text="random password" />
       <CheckBox fx:id="sloganYes" layoutX="652.0" layoutY="454.0" mnemonicParsing="false" onAction="#addSlogan" text="add slogan" />
       <TextField fx:id="slogan" layoutX="711.0" layoutY="449.0" promptText="slogan" visible="false" />
       <CheckBox fx:id="randomSlogan" layoutX="646.0" layoutY="489.0" mnemonicParsing="false" onAction="#randomSlogan" text="random slogan" visible="false"/>
