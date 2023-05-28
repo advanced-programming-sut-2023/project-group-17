@@ -203,7 +203,7 @@ public class SignupMenu extends Application {
         securityQuestionChoiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue ov, Number value, Number new_value) {
                 securityQuestionSelected = controller.getSecurityQuestions(new_value.intValue());
-                questionNumber = new_value.intValue();
+                questionNumber = new_value.intValue() + 1;
             }
         });
     }
