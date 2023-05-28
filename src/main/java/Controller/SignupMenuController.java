@@ -54,7 +54,6 @@ public class SignupMenuController {
 
         tmpUser = new User(username, User.SHA256Code(password), nickname, email, slogan, null, null);
         addUser(tmpUser);
-        Database.saveUsers();
         return SignupMenuMessages.SUCCESS;
     }
 
