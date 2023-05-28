@@ -22,6 +22,7 @@ public class User {
         this.slogan = slogan;
         this.passwordRecoveryQuestion = passwordRecoveryQuestion;
         this.passwordRecoveryAnswer = passwordRecoveryAnswer;
+        this.highScore = 0;
     }
 
     public static String SHA256Code(String value) {
