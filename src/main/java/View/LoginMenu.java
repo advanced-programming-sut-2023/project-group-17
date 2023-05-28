@@ -1,5 +1,6 @@
 package View;
 
+import Controller.LoginMenuController;
 import Utils.CheckValidation;
 import javafx.application.Application;
 import javafx.fxml.FXML;
@@ -29,7 +30,10 @@ public class LoginMenu extends Application {
     public Text passwordError;
     public Button submitButton;
     public TextField forgotPasswordUsername;
-
+    private LoginMenuController controller;
+    public LoginMenu() {
+        controller = new LoginMenuController();
+    }
     @Override
     public void start(Stage stage) throws Exception {
         AnchorPane pane = FXMLLoader.load(LoginMenu.class.getResource("/fxml/LoginMenu.fxml"));
@@ -75,6 +79,11 @@ public class LoginMenu extends Application {
             if (!username.getText().equals("")) usernameError.setText("");
         } );
 
+        password.textProperty().addListener((observable, oldText, newText) -> {
+            passwordError.setFill(Color.DARKRED);
+            if (!password.getText().equals("")) passwordError.setText("");
+        });
+
     }
 
     public void forgotPassword() {
@@ -89,14 +98,28 @@ public class LoginMenu extends Application {
         }
     }
 
-    public void enterMainMenu(MouseEvent mouseEvent) {
-    }
 
     public void enterSignupMenu(MouseEvent mouseEvent) throws Exception{
         new SignupMenu().start(Main.stage);
     }
 
     public void changePassword(MouseEvent mouseEvent) {
+    }
+
+    public void login(MouseEvent mouseEvent) throws Exception{
+        if (username.getText().equals("")) {
+            usernameError.setFill(Color.DARKRED);
+            usernameError.setText("Username Error");
+        }
+
+        if (password.getText().equals("")) {
+            passwordError.setFill(Color.DARKRED);
+            passwordError.setText("Password Error");
+        }
+
+        //TODO popup
+        controller.loginUser(username.getText(), password.getText(), true);
+        new MainMenu().start(Main.stage);
     }
 
 

@@ -12,17 +12,17 @@
    <children>
       <TextField fx:id="username" layoutX="670.0" layoutY="227.0" promptText="Username" />
       <PasswordField fx:id="password" layoutX="670.0" layoutY="282.0" promptText="Password" />
-      <Button layoutX="722.0" layoutY="334.0" mnemonicParsing="false" onMouseClicked="#enterMainMenu" text="Login" />
-      <Hyperlink layoutX="797.0" layoutY="534.0" onMouseClicked="#enterSignupMenu" text="Sign In" />
-      <Text layoutX="653.0" layoutY="550.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Already Have an Account?" />
+      <Button layoutX="722.0" layoutY="334.0" mnemonicParsing="false" onMouseClicked="#login" text="Login" />
+      <Hyperlink layoutX="783.0" layoutY="534.0" onMouseClicked="#enterSignupMenu" text="Sign In" />
+      <Text layoutX="653.0" layoutY="550.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Don't Have an Account?" />
       <CheckBox fx:id="forgotPassword" layoutX="690.0" layoutY="384.0" mnemonicParsing="false" onAction="#forgotPassword" text="Forgot Password" />
       <Text fx:id="securityQuestion" layoutX="623.0" layoutY="438.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Security Question" visible="false" />
       <TextField fx:id="securityQuestionAnswer" layoutX="754.0" layoutY="420.0" prefHeight="25.0" prefWidth="103.0" promptText="Security Answer" visible="false" />
       <PasswordField fx:id="newPassword" layoutX="670.0" layoutY="460.0" promptText="New Password" visible="false" />
       <Button fx:id="submitButton" layoutX="718.0" layoutY="497.0" mnemonicParsing="false" onMouseClicked="#changePassword" text="Submit" visible="false" />
-      <Text fx:id="newPasswordError" layoutX="848.0" layoutY="430.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
-      <Text fx:id="usernameError" layoutX="848.0" layoutY="244.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
-      <Text fx:id="passwordError" layoutX="848.0" layoutY="299.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
-      <TextField fx:id="forgotPasswordUsername" layoutX="671.0" layoutY="380.0" promptText="Username" visible="false"/>
+      <Text fx:id="newPasswordError" layoutX="844.0" layoutY="477.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
+      <Text fx:id="usernameError" layoutX="848.0" layoutY="244.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="passwordError" layoutX="848.0" layoutY="299.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <TextField fx:id="forgotPasswordUsername" layoutX="671.0" layoutY="380.0" promptText="Username" visible="false" />
    </children>
 </AnchorPane>
