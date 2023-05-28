@@ -23,7 +23,7 @@ public class MapOrganizer {
         try {
             System.out.println(pathGenerator(id));
             FileWriter fileWriter = new FileWriter(pathGenerator(id));
-//            FileWriter fileWriter = new FileWriter("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/UserDatabase.json");
+//            FileWriter fileWriter = new FileWriter("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/UserDatabase.json");
             Map m = Database.getCurrentMapGame();
             String gson = new Gson().toJson(m);
             fileWriter.write(gson);

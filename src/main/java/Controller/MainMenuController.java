@@ -7,6 +7,8 @@ import Model.empireColors;
 import View.Enums.Messages.MainMenuMessages;
 import View.Menu;
 
+import java.util.ArrayList;
+
 public class MainMenuController {
     User loggedInUser = Database.getCurrentUser();
     public MainMenuMessages startNewGame(String users, int turnsCount) {
@@ -18,9 +20,9 @@ public class MainMenuController {
             if (user[i].endsWith("\"")) user[i] = user[i].substring(0, user[i].length() - 1);
         }
 
-        for (String username : user) {
-            if (Database.getUserByUsername(username) == null) return MainMenuMessages.USERNAME_DOES_NOT_EXIST;
-        }
+//        for (String username : user) {
+//            if (Database.getUserByUsername(username) == null) return MainMenuMessages.USERNAME_DOES_NOT_EXIST;
+//        }
         empireColors.addColors();
         Database.setEmpireColors(empireColors.getColors());
 
@@ -40,5 +42,12 @@ public class MainMenuController {
     public void logout() {
         if (Database.getStayLoggedInUser() != null) Database.clearStayLoggedIn();
         Database.setLoggedInUser(null);
+    }
+
+    public void addUsers(ArrayList<String> list) {
+        Database.loadUsers();
+        for (User user : Database.getUsers()) {
+            list.add(user.getUsername());
+        }
     }
 }

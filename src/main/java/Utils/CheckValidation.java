@@ -34,6 +34,7 @@ public class CheckValidation {
     }
 
     public static UtilsMessages isEmailOk(String email) {
+        Database.loadUsers();
         if(!email.matches("([A-Za-z0-9_.]+@[A-Za-z0-9_.]+\\.[A-Za-z0-9_.]+)"))
             return UtilsMessages.INVALID_EMAIL;
 
