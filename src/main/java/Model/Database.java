@@ -305,7 +305,7 @@ public class Database {
     public static void saveUsers() {
         try {
 //            FileWriter fileWriter = new FileWriter("src/main/resources/jsons/UserDatabase.json");
-            FileWriter fileWriter = new FileWriter("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/UserDatabase.json");
+            FileWriter fileWriter = new FileWriter("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/UserDatabase.json");
 
             String gson = new Gson().toJson(getUsers());
             fileWriter.write(gson);

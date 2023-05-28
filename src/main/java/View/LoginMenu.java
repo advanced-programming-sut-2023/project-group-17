@@ -2,20 +2,23 @@ package View;
 
 import Controller.LoginMenuController;
 import Utils.CheckValidation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class LoginMenu extends Application {
 
@@ -118,8 +121,53 @@ public class LoginMenu extends Application {
         }
 
         //TODO popup
-        controller.loginUser(username.getText(), password.getText(), true);
-        new MainMenu().start(Main.stage);
+        Popup popup = new Popup();
+        popup.setAnchorX(580); popup.setAnchorY(300);
+        Label label = new Label();
+        label.setTextFill(Color.BLACK);
+        label.setMinWidth(200);
+        label.setMinHeight(100);
+        label.setStyle("-fx-background-color: white;");
+        popup.getContent().add(label);
+
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                popup.hide();
+            }
+        }));
+
+        Timeline mainMenuTimeLine = new Timeline(new KeyFrame(Duration.seconds(2), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try {
+                    new MainMenu().start(Main.stage);
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }));
+
+
+        switch (controller.loginUser(username.getText(), password.getText(), true)) {
+            case SUCCESS:
+                label.setText("You have entered successfully!");
+                popup.show(Main.stage);
+                timeline.play();
+                mainMenuTimeLine.play();
+                break;
+            case USERNAME_DOES_NOT_EXISTS:
+                label.setText("Username doesn't exist!");
+                popup.show(Main.stage);
+                timeline.play();
+                break;
+            case WRONG_PASSWORD:
+                label.setText("Your password is wrong!");
+                popup.show(Main.stage);
+                timeline.play();
+                break;
+        }
+//        new MainMenu().start(Main.stage);
     }
 
 
