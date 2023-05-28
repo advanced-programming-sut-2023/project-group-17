@@ -29,6 +29,7 @@ import static View.Main.stage;
 
 public class SignupMenu extends Application {
     public static String securityQuestionSelected;
+    private static int questionNumber;
     public TextField slogan;
     public ChoiceBox randomSlogans;
     public TextField username;
@@ -186,6 +187,7 @@ public class SignupMenu extends Application {
 //        popup.getContent().add()
         controller.createUser(username.getText(), password.getText(), password.getText(),
                 email.getText(), nickname.getText(), slogan.getText());
+        controller.pickQuestion(questionNumber, answer.getText(), answer.getText());
         new LoginMenu().start(stage);
     }
 
@@ -201,6 +203,7 @@ public class SignupMenu extends Application {
         securityQuestionChoiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue ov, Number value, Number new_value) {
                 securityQuestionSelected = controller.getSecurityQuestions(new_value.intValue());
+                questionNumber = new_value.intValue();
             }
         });
     }

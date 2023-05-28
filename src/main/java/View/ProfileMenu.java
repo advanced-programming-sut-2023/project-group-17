@@ -18,12 +18,14 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.SwipeEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -586,7 +588,7 @@ public class ProfileMenu extends Application {
         sloganText.setText(controller.getRandomSlogan());
     }
 
-    public void openScoreboard(ActionEvent actionEvent) {
-
+    public void openScoreboard(ActionEvent actionEvent) throws Exception {
+        new ScoreBoardMenu().start(new Stage());
     }
 }
