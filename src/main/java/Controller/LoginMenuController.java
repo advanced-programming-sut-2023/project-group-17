@@ -42,20 +42,14 @@ public class LoginMenuController {
     public LoginMenuMessages setNewPassword(String username, String newPassword, String recoveryQuestionAnswer) {
         User user = getUserByUsername(username);
 
-        if (!recoveryQuestionAnswer.equals(user.getPasswordRecoveryAnswer())) return LoginMenuMessages.WRONG_PASSWORD_RECOVERY_ANSWER;
+        if (username.equals("") || newPassword.equals("") || recoveryQuestionAnswer.equals(""))
+            return LoginMenuMessages.BLANK_FIELD;
+
+        if (!recoveryQuestionAnswer.equals(user.getPasswordRecoveryAnswer()))
+            return LoginMenuMessages.WRONG_PASSWORD_RECOVERY_ANSWER;
 
         if(!CheckValidation.isPasswordStrong(newPassword).equals(UtilsMessages.PASSWORD_IS_STRONG)) {
             switch (CheckValidation.isPasswordStrong(newPassword)) {
-//                case SHORT_PASSWORD:
-//                    return LoginMenuMessages.SHORT_PASSWORD;
-//                case PASSWORD_DOES_NOT_CONTAIN_LOWERCASE:
-//                    return LoginMenuMessages.PASSWORD_DOES_NOT_CONTAIN_LOWERCASE;
-//                case PASSWORD_DOES_NOT_CONTAIN_INTEGER:
-//                    return LoginMenuMessages.PASSWORD_DOES_NOT_CONTAIN_INTEGER;
-//                case PASSWORD_DOES_NOT_CONTAIN_UPPERCASE:
-//                    return LoginMenuMessages.PASSWORD_DOES_NOT_CONTAIN_UPPERCASE;
-//                case PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER:
-//                    return LoginMenuMessages.PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER;
                 case PASSWORD_IS_STRONG:
                     break;
                 default:
@@ -69,9 +63,7 @@ public class LoginMenuController {
     }
 
     public String getUserRecoveryQuestion(String username) {
-//        System.out.println("Username : " + Database.getUserByUsername(username).getUsername());
         return Database.getUserByUsername(username).getPasswordRecoveryQuestion();
-//        return getUserByUsername(username).getPasswordRecoveryQuestion();
     }
 
     public boolean isRecoveryQuestionAnswerCorrect(String username, String answer) {
@@ -112,7 +104,6 @@ public class LoginMenuController {
     }
 
     public User getUserByUsername(String username) {
-//        loadUsers();
         return Database.getUserByUsername(username);
     }
 }

@@ -105,6 +105,13 @@ public class LoginMenu extends Application {
 
         });
 
+        securityQuestionAnswer.textProperty().addListener((observable, oldText, newText) -> {
+            if (controller.getUserByUsername(forgotPasswordUsername.getText()) != null) {
+                newPassword.setDisable(!controller.getUserByUsername(
+                        forgotPasswordUsername.getText()).getPasswordRecoveryAnswer().equals(securityQuestionAnswer.getText()));
+            }
+        });
+
     }
 
     public void forgotPassword() {
@@ -129,7 +136,6 @@ public class LoginMenu extends Application {
         newPassword.setText("");
         newPasswordError.setText("");
     }
-
 
     public void enterSignupMenu(MouseEvent mouseEvent) throws Exception{
         new SignupMenu().start(Main.stage);
@@ -156,6 +162,11 @@ public class LoginMenu extends Application {
                 break;
             case WEAK_PASSWORD:
                 label.setText("Your password is Weak");
+                popup.show(Main.stage);
+                timeline.play();
+                break;
+            case BLANK_FIELD:
+                label.setText("Blank Field");
                 popup.show(Main.stage);
                 timeline.play();
                 break;
