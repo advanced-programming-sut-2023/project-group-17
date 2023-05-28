@@ -91,15 +91,15 @@ public class LoginMenu extends Application {
 
         forgotPasswordUsername.textProperty().addListener((observableValue, oldText, newText) -> {
             forgotPasswordUsernameError.setFill(Color.DARKRED);
-            if (!forgotPasswordUsername.getText().equals("")) forgotPasswordUsernameError.setText("");
-
-            System.out.println(forgotPasswordUsername.getText());
-            System.out.println(controller.getUserByUsername(forgotPasswordUsername.getText()));
-            System.out.println(controller.getUserRecoveryQuestion(forgotPasswordUsername.getText()));
-            if (controller.getUserByUsername(forgotPasswordUsername.getText()) != null) {
-                System.out.println("goh");
-                securityQuestion.setText(controller.getUserRecoveryQuestion(forgotPasswordUsername.getText()));
+            if (forgotPasswordUsername.getText().equals("")) {
+                forgotPasswordUsernameError.setText("");
+                securityQuestion.setText("");
             }
+
+            if (controller.getUserByUsername(forgotPasswordUsername.getText()) != null) {
+                securityQuestion.setText(controller.getUserRecoveryQuestion(forgotPasswordUsername.getText()));
+                forgotPasswordUsernameError.setText("");
+            }else forgotPasswordUsernameError.setText("Username doesn't exist");
 
         });
 
@@ -177,6 +177,11 @@ public class LoginMenu extends Application {
                 popup.show(Main.stage);
                 timeline.play();
                 mainMenuTimeLine.play();
+                break;
+            case BLANK_FIELD:
+                label.setText("Blank Field!");
+                popup.show(Main.stage);
+                timeline.play();
                 break;
             case USERNAME_DOES_NOT_EXISTS:
                 label.setText("Username doesn't exist!");

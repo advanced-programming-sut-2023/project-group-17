@@ -58,9 +58,9 @@ public class Database {
     }
 
     public static User getUserByUsername(String username) {
+        loadUsers();
         for (User user : users) {
-            if(user.getUsername().equals(username))
-                return user;
+            if(user.getUsername().equals(username)) return user;
         }
         return null;
     }

@@ -7,7 +7,6 @@ import Utils.CheckValidation;
 import View.Enums.Messages.LoginMenuMessages;
 import View.Enums.Messages.UtilsMessages;
 
-import static Model.Database.loadUsers;
 import static Model.Database.setCurrentUser;
 
 public class LoginMenuController {
@@ -15,6 +14,9 @@ public class LoginMenuController {
 
     public LoginMenuMessages loginUser(String username, String password, boolean stayLoggedIn) {
         Database.loadUsers();
+
+        if (username.equals("") || password.equals("")) return LoginMenuMessages.BLANK_FIELD;
+
         if(getUserByUsername(username) == null)
             return LoginMenuMessages.USERNAME_DOES_NOT_EXISTS;
 
@@ -63,7 +65,7 @@ public class LoginMenuController {
     }
 
     public String getUserRecoveryQuestion(String username) {
-        System.out.println("Username : " + Database.getUserByUsername(username).getUsername());
+//        System.out.println("Username : " + Database.getUserByUsername(username).getUsername());
         return Database.getUserByUsername(username).getPasswordRecoveryQuestion();
 //        return getUserByUsername(username).getPasswordRecoveryQuestion();
     }
@@ -106,7 +108,7 @@ public class LoginMenuController {
     }
 
     public User getUserByUsername(String username) {
-        loadUsers();
+//        loadUsers();
         return Database.getUserByUsername(username);
     }
 }

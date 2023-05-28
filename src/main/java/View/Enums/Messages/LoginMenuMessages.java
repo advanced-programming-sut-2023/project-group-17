@@ -3,6 +3,7 @@ package View.Enums.Messages;
 public enum LoginMenuMessages {
     SUCCESS,
     WRONG_PASSWORD,
+    BLANK_FIELD,
     USERNAME_DOES_NOT_EXISTS,
     PASSWORD_DOES_NOT_MATCH,
 
