@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.Pane?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+      minWidth="-Infinity" onScrollStarted="#showNextTen" prefHeight="400.0"
+      prefWidth="600.0" xmlns="http://javafx.com/javafx/19"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.ScoreBoardMenu">
+    <TextArea fx:id="textArea" layoutX="-4.0" layoutY="-5.0" prefHeight="400.0" prefWidth="600.0" text=" "/>
+</Pane>
