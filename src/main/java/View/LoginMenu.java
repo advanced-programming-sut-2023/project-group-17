@@ -154,7 +154,11 @@ public class LoginMenu extends Application {
                 popup.show(Main.stage);
                 timeline.play();
                 break;
-
+            case WEAK_PASSWORD:
+                label.setText("Your password is Weak");
+                popup.show(Main.stage);
+                timeline.play();
+                break;
         }
 
         toggleForgotPasswordFields();

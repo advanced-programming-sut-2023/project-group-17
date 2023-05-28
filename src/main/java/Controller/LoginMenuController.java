@@ -46,18 +46,20 @@ public class LoginMenuController {
 
         if(!CheckValidation.isPasswordStrong(newPassword).equals(UtilsMessages.PASSWORD_IS_STRONG)) {
             switch (CheckValidation.isPasswordStrong(newPassword)) {
-                case SHORT_PASSWORD:
-                    return LoginMenuMessages.SHORT_PASSWORD;
-                case PASSWORD_DOES_NOT_CONTAIN_LOWERCASE:
-                    return LoginMenuMessages.PASSWORD_DOES_NOT_CONTAIN_LOWERCASE;
-                case PASSWORD_DOES_NOT_CONTAIN_INTEGER:
-                    return LoginMenuMessages.PASSWORD_DOES_NOT_CONTAIN_INTEGER;
-                case PASSWORD_DOES_NOT_CONTAIN_UPPERCASE:
-                    return LoginMenuMessages.PASSWORD_DOES_NOT_CONTAIN_UPPERCASE;
-                case PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER:
-                    return LoginMenuMessages.PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER;
+//                case SHORT_PASSWORD:
+//                    return LoginMenuMessages.SHORT_PASSWORD;
+//                case PASSWORD_DOES_NOT_CONTAIN_LOWERCASE:
+//                    return LoginMenuMessages.PASSWORD_DOES_NOT_CONTAIN_LOWERCASE;
+//                case PASSWORD_DOES_NOT_CONTAIN_INTEGER:
+//                    return LoginMenuMessages.PASSWORD_DOES_NOT_CONTAIN_INTEGER;
+//                case PASSWORD_DOES_NOT_CONTAIN_UPPERCASE:
+//                    return LoginMenuMessages.PASSWORD_DOES_NOT_CONTAIN_UPPERCASE;
+//                case PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER:
+//                    return LoginMenuMessages.PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER;
                 case PASSWORD_IS_STRONG:
-                    return LoginMenuMessages.PASSWORD_IS_STRONG;
+                    break;
+                default:
+                    return LoginMenuMessages.WEAK_PASSWORD;
             }
         }
 
