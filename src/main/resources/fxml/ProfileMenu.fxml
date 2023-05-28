@@ -51,7 +51,8 @@
               </FXCollections>
           </items>
       </ChoiceBox>
-      <Button fx:id="mainMenu" layoutX="733.0" layoutY="570.0" minWidth="130.0" mnemonicParsing="false" onAction="#backToMainMenu" text="Main Menu" />
+      <Button fx:id="scoreboard" layoutX="733.0" layoutY="570.0" minWidth="130.0" mnemonicParsing="false" onAction="#openScoreboard" text="Score Board" />
+    <Button fx:id="mainMenu" layoutX="635.0" layoutY="630" minWidth="130" mnemonicParsing="false" onAction="#backToMainMenu" text="Main Menu"/>
       <Text layoutX="160.0" layoutY="357.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="170.79689025878906" fx:id="usernameError"/>
       <Text layoutX="160.0" layoutY="417.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="176.3282470703125" fx:id="nicknameError"/>
       <Text layoutX="162.0" layoutY="469.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="154.20286560058594" fx:id="emailError"/>
