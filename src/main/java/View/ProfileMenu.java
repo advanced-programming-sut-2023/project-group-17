@@ -1,7 +1,6 @@
 package View;
 
 import Controller.ProfileMenuController;
-import Model.Database;
 import Utils.CheckValidation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -51,6 +50,7 @@ public class ProfileMenu extends Application {
     public Text emailError;
     public ChoiceBox randomSlogans;
     public Button randomSlogan;
+    public Button scoreboard;
 
     public static void main(String[] args) {
         launch(args);
@@ -63,7 +63,7 @@ public class ProfileMenu extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         ProfileMenu.stage = stage;
-        Pane pane = FXMLLoader.load(ProfileMenu.class.getResource("/fxml/profileMenu.fxml"));
+        Pane pane = FXMLLoader.load(ProfileMenu.class.getResource("/fxml/ProfileMenu.fxml"));
         pane.setBackground(new Background(new BackgroundImage(new Image(LoginMenu.class.getResource(
                 "/assets/Backgrounds/profileMenu.jpg").toExternalForm()),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
@@ -584,5 +584,9 @@ public class ProfileMenu extends Application {
 
     public void randomSlogan(ActionEvent actionEvent) {
         sloganText.setText(controller.getRandomSlogan());
+    }
+
+    public void openScoreboard(ActionEvent actionEvent) {
+
     }
 }
