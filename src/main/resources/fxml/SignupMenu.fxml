@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="668.0" prefWidth="1016.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.SignupMenu">
+<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.SignupMenu">
    <children>
       <TextField fx:id="username" layoutX="619.0" layoutY="191.0" promptText="username" />
       <TextField fx:id="nickname" layoutX="619.0" layoutY="400.0" promptText="nickname" />

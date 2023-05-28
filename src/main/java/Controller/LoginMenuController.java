@@ -19,10 +19,8 @@ public class LoginMenuController {
             return LoginMenuMessages.USERNAME_DOES_NOT_EXISTS;
 
         User user = getUserByUsername(username);
-
         if(!user.getPassword().equals(User.SHA256Code(password)))
             return LoginMenuMessages.WRONG_PASSWORD;
-
         if (stayLoggedIn) Database.setStayLoggedInUser(user);
         setCurrentUser(user);
         Database.loadUnits();
