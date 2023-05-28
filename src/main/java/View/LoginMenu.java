@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -120,14 +121,15 @@ public class LoginMenu extends Application {
             passwordError.setText("Password Error");
         }
 
-        //TODO popup
         Popup popup = new Popup();
         popup.setAnchorX(580); popup.setAnchorY(300);
+        popup.centerOnScreen();
+        popup.setOpacity(0.5);
         Label label = new Label();
-        label.setTextFill(Color.BLACK);
-        label.setMinWidth(200);
-        label.setMinHeight(100);
-        label.setStyle("-fx-background-color: white;");
+        label.setTextFill(Color.WHITE);
+        label.setMinWidth(200); label.setMinHeight(60);
+        label.setStyle("-fx-background-color: black;");
+        label.setAlignment(Pos.CENTER);
         popup.getContent().add(label);
 
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), new EventHandler<ActionEvent>() {
@@ -167,7 +169,6 @@ public class LoginMenu extends Application {
                 timeline.play();
                 break;
         }
-//        new MainMenu().start(Main.stage);
     }
 
 
