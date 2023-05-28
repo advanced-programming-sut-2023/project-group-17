@@ -185,10 +185,13 @@ public class SignupMenu extends Application {
         //TODO captcha
         Popup popup = new Popup();
 //        popup.getContent().add()
-        controller.createUser(username.getText(), password.getText(), password.getText(),
-                email.getText(), nickname.getText(), slogan.getText());
-        controller.pickQuestion(questionNumber, answer.getText(), answer.getText());
-        new LoginMenu().start(stage);
+        if (usernameError.getText().equals("") && passwordError.getText().equals("") && nicknameError.getText().equals("")
+        && answerError.getText().equals("") && emailError.getText().equals("")) {
+            controller.createUser(username.getText(), password.getText(), password.getText(),
+                    email.getText(), nickname.getText(), slogan.getText());
+            controller.pickQuestion(questionNumber, answer.getText(), answer.getText());
+            new LoginMenu().start(stage);
+        }
     }
 
     public void chooseSlogan(MouseEvent mouseEvent) {
