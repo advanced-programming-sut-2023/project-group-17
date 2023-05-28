@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="838.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MainMenu">
+   <children>
+      <TextField fx:id="turnsCount" layoutX="654.0" layoutY="162.0" promptText="number of turns" prefWidth="120"/>
+      <Button layoutX="654.0" layoutY="216.0" mnemonicParsing="false" onMouseClicked="#startNewGame" text="start new game" prefWidth="120"/>
+      <Button layoutX="654.0" layoutY="269.0" mnemonicParsing="false" onMouseClicked="#enterProfileMenu" text="profile menu" prefWidth="120"/>
+      <Button layoutX="654.0" layoutY="318.0" mnemonicParsing="false" onMouseClicked="#logout" text="logout" prefWidth="120"/>
+   </children>
+</Pane>

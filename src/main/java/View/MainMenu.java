@@ -2,72 +2,137 @@ package View;
 
 import Controller.MainMenuController;
 import View.Enums.Commands.MainMenuCommands;
+import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
+import javafx.stage.Stage;
+import org.controlsfx.control.CheckComboBox;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 
-public class MainMenu extends Menu {
+public class MainMenu extends Application {
 
-    private MainMenuController controller;
+    public TextField turnsCount;
+    private MainMenuController controller = new MainMenuController();
+    public static String users;
 
-    public MainMenu() {
-        this.controller = new MainMenuController();
-    }
+//    public MainMenu() {
+//        this.controller = new MainMenuController();
+//    }
 
-    public void run() {
-        Matcher matcher;
-        String command;
+    @Override
+    public void start(Stage stage) throws Exception {
+        Pane pane = FXMLLoader.load(LoginMenu.class.getResource("/fxml/MainMenu.fxml"));
+        pane.setBackground(new Background(new BackgroundImage(new Image(LoginMenu.class.getResource(
+                "/assets/Backgrounds/mainBackground.jpg").toExternalForm()),
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+                new BackgroundSize(1.0, 1.0, true, true, false, false))));
+        ObservableList<String> items = FXCollections.observableArrayList();
+        ArrayList<String> list = new ArrayList<>();
+        controller.addUsers(list);
+        items.addAll(list);
+        CheckComboBox<String> control = new CheckComboBox<String>(items);
 
-        while (true) {
-            command = scanner.nextLine();
-            if ((matcher = MainMenuCommands.getMatcher(command, MainMenuCommands.ENTER_PROFILE_MENU)) != null)
-                enterProfileMenu();
-            else if ((matcher = MainMenuCommands.getMatcher(command, MainMenuCommands.LOGOUT)) != null) {
-                if (logout()) return;
+        control.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
+            public void onChanged(ListChangeListener.Change<? extends String> c) {
+                users = "";
+                for (String checkedItem : control.getCheckModel().getCheckedItems()) {
+                    users += "," + checkedItem;
+                }
+                users = users.substring(1);
             }
-            else if ((matcher = MainMenuCommands.getMatcher(command, MainMenuCommands.START_NEW_GAME)) != null)
-                startNewGame(matcher);
-            else if((matcher = MainMenuCommands.getMatcher(command, MainMenuCommands.SHOW_CURRENT_MENU)) != null)
-                System.out.println("Main menu");
-            else System.out.println("Invalid Command");
-        }
+        });
+
+        pane.getChildren().add(control);
+        control.setLayoutX(657);
+        control.setLayoutY(110);
+        stage.setScene(new Scene(pane));
+        stage.setFullScreen(true);
+        stage.show();
     }
 
-
-    private void enterProfileMenu() {
-        System.out.println("entered profile menu successfully");
-        new ProfileMenu().run();
-        System.out.println("entered main menu successfully");
+    public void startNewGame(MouseEvent mouseEvent) {
+        System.out.println(users);
+        if (!turnsCount.getText().equals("") && !users.equals(""))
+            controller.startNewGame(users, Integer.parseInt(turnsCount.getText()));
+        //TODO
+//        new GameMenu().start(stage);
     }
 
-    private boolean logout() {
-        System.out.println("Are you sure you want to logout?");
-        String answer = scanner.nextLine().trim();
-        if (answer.matches("yes")) {
-            System.out.println("user logged out successfully");
-            controller.logout();
-            return true;
-        } else System.out.println("logout failed");
-        return false;
+    public void enterProfileMenu(MouseEvent mouseEvent) {
+        //TODO
+//        new ProfileMenu().start(stage);
     }
-    private void startNewGame(Matcher matcher) {
-        if (Menu.checkBlankField(matcher.group("turnsNumber")) || Menu.checkBlankField(matcher.group("users"))) {
-            System.out.println("Start new game failed : blank field");
-            return;
-        }
-        int turnsNumber = Integer.parseInt(matcher.group("turnsNumber"));
-        String users = matcher.group("users").trim();
-        switch (controller.startNewGame(users, turnsNumber)) {
-            case SUCCESS:
-                System.out.println("Entered new game");
-                new GameMenu().run();
-                break;
-            case USERNAME_DOES_NOT_EXIST:
-                System.out.println("Start new game failed : Username does not exist");
-                break;
-            case INVALID_NUMBER:
-                System.out.println("Start new game failed : Invalid number");
-                break;
-        }
+
+    public void logout(MouseEvent mouseEvent) {
+        controller.logout();
+        //TODO
+//        new LoginMenu().start(stage);
     }
+
+//    public void run() {
+//        Matcher matcher;
+//        String command;
+//
+//        while (true) {
+//            command = scanner.nextLine();
+//            if ((matcher = MainMenuCommands.getMatcher(command, MainMenuCommands.ENTER_PROFILE_MENU)) != null)
+//                enterProfileMenu();
+//            else if ((matcher = MainMenuCommands.getMatcher(command, MainMenuCommands.LOGOUT)) != null) {
+//                if (logout()) return;
+//            }
+//            else if ((matcher = MainMenuCommands.getMatcher(command, MainMenuCommands.START_NEW_GAME)) != null)
+//                startNewGame(matcher);
+//            else if((matcher = MainMenuCommands.getMatcher(command, MainMenuCommands.SHOW_CURRENT_MENU)) != null)
+//                System.out.println("Main menu");
+//            else System.out.println("Invalid Command");
+//        }
+//    }
+//
+//
+//    private void enterProfileMenu() {
+//        System.out.println("entered profile menu successfully");
+//        new ProfileMenu().run();
+//        System.out.println("entered main menu successfully");
+//    }
+//
+//    private boolean logout() {
+//        System.out.println("Are you sure you want to logout?");
+//        String answer = scanner.nextLine().trim();
+//        if (answer.matches("yes")) {
+//            System.out.println("user logged out successfully");
+//            controller.logout();
+//            return true;
+//        } else System.out.println("logout failed");
+//        return false;
+//    }
+//    private void startNewGame(Matcher matcher) {
+//        if (Menu.checkBlankField(matcher.group("turnsNumber")) || Menu.checkBlankField(matcher.group("users"))) {
+//            System.out.println("Start new game failed : blank field");
+//            return;
+//        }
+//        int turnsNumber = Integer.parseInt(matcher.group("turnsNumber"));
+//        String users = matcher.group("users").trim();
+//        switch (controller.startNewGame(users, turnsNumber)) {
+//            case SUCCESS:
+//                System.out.println("Entered new game");
+//                new GameMenu().run();
+//                break;
+//            case USERNAME_DOES_NOT_EXIST:
+//                System.out.println("Start new game failed : Username does not exist");
+//                break;
+//            case INVALID_NUMBER:
+//                System.out.println("Start new game failed : Invalid number");
+//                break;
+//        }
+//    }
 }

@@ -24,7 +24,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
+import org.controlsfx.control.CheckComboBox;
 
 import java.util.Objects;
 import java.util.Random;
@@ -184,6 +186,9 @@ public class SignupMenu extends Application {
             return;
         }
 
+        //TODO captcha
+        Popup popup = new Popup();
+//        popup.getContent().add()
         controller.createUser(username.getText(), password.getText(), password.getText(),
                 email.getText(), nickname.getText(), slogan.getText());
     }
