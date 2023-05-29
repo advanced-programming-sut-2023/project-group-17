@@ -62,7 +62,7 @@ public class SignupMenu extends Application {
                 "/assets/Backgrounds/LoginBackground.PNG").toExternalForm()),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 new BackgroundSize(1.0, 1.0, true, true, false, false))));
-        stage.setScene(new Scene(pane));
+        stage.getScene().setRoot(pane);
         stage.setFullScreen(true);
         stage.show();
     }

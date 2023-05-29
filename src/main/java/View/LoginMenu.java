@@ -48,8 +48,7 @@ public class LoginMenu extends Application {
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 new BackgroundSize(1.0, 1.0, true, true, false, false))));
 
-        Scene scene = new Scene(pane);
-        stage.setScene(scene);
+        stage.getScene().setRoot(pane);
         stage.setFullScreen(true);
         stage.show();
     }

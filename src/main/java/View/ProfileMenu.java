@@ -75,7 +75,7 @@ public class ProfileMenu extends Application {
         imageView.setX(0); imageView.setY(0);
         pane.getChildren().add(imageView);
         mainPane = pane;
-        stage.setScene(new Scene(pane));
+        stage.getScene().setRoot(pane);
         stage.setFullScreen(true);
         stage.show();
     }

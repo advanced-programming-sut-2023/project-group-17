@@ -2,6 +2,8 @@ package View;
 
 import Controller.LoginMenuController;
 import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class Main extends Application{
@@ -13,9 +15,10 @@ public class Main extends Application{
 
     @Override
     public void start(Stage stage) throws Exception {
+        Pane pane = new Pane();
+        stage.setScene(new Scene(pane));
         Main.stage = stage;
         if (controller.checkStayLoggedIn()) new MainMenu().start(stage);
         else new LoginMenu().start(stage);
     }
-
 }

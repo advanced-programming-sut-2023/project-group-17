@@ -42,7 +42,7 @@ public class AvatarMenu extends Application {
         makeHBoxBrowse(pane, stage);
         makeVBoxDefaultAvatars(pane, stage);
         AvatarMenu.pane = pane;
-        stage.setScene(new Scene(pane));
+        stage.getScene().setRoot(pane);
         stage.setFullScreen(true);
         stage.show();
     }

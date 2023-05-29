@@ -57,7 +57,7 @@ public class MainMenu extends Application {
         pane.getChildren().add(control);
         control.setLayoutX(657);
         control.setLayoutY(110);
-        stage.setScene(new Scene(pane));
+        stage.getScene().setRoot(pane);
         stage.setFullScreen(true);
         stage.show();
     }
