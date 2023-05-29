@@ -93,6 +93,7 @@ public class ProfileMenu extends Application {
         makeListenerForNicknameTextField();
         nicknameText.setDisable(true);
 //        emailText.setText("a.kasrahmi@gmail.com");
+        emailError.setFill(Color.RED);
         emailText.setText(controller.getEmail());
         makeListenerForEmailTextField();
         emailText.setDisable(true);

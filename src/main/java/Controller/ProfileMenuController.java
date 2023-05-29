@@ -25,6 +25,7 @@ public class ProfileMenuController {
             return ProfileMenuMessages.SAME_USERNAME;
 
         getCurrentUser().setUsername(username);
+        Database.getUserByUsername(getCurrentUser().getUsername()).setUsername(username);
         Database.saveUsers();
         if (Database.getStayLoggedInUser() != null) Database.setStayLoggedInUser(getCurrentUser());
         return ProfileMenuMessages.SUCCESS;
@@ -48,6 +49,7 @@ public class ProfileMenuController {
             return ProfileMenuMessages.SAME_NICKNAME;
 
         getCurrentUser().setNickname(nickname);
+        Database.getUserByUsername(getCurrentUser().getUsername()).setNickname(nickname);
         Database.saveUsers();
         if (Database.getStayLoggedInUser() != null) Database.setStayLoggedInUser(getCurrentUser());
         return ProfileMenuMessages.SUCCESS;
@@ -71,6 +73,7 @@ public class ProfileMenuController {
             return ProfileMenuMessages.RANDOM_PASSWORD;
 
         getCurrentUser().setPassword(User.SHA256Code(newPassword));
+        Database.getUserByUsername(getCurrentUser().getUsername()).setPassword(User.SHA256Code(newPassword));
         Database.saveUsers();
         if (Database.getStayLoggedInUser() != null) Database.setStayLoggedInUser(getCurrentUser());
         return ProfileMenuMessages.SUCCESS;
@@ -114,6 +117,7 @@ public class ProfileMenuController {
             return ProfileMenuMessages.SAME_EMAIL;
 
         getCurrentUser().setEmail(email);
+        Database.getUserByUsername(getCurrentUser().getUsername()).setEmail(email);
         Database.saveUsers();
         if (Database.getStayLoggedInUser() != null) Database.setStayLoggedInUser(getCurrentUser());
         return ProfileMenuMessages.SUCCESS;
@@ -136,6 +140,7 @@ public class ProfileMenuController {
         if (slogan.equals("")) removeSlogan();
 
         getCurrentUser().setSlogan(slogan);
+        Database.getUserByUsername(getCurrentUser().getUsername()).setSlogan(slogan);
         Database.saveUsers();
         if (Database.getStayLoggedInUser() != null) Database.setStayLoggedInUser(getCurrentUser());
         return ProfileMenuMessages.SUCCESS;
@@ -146,6 +151,7 @@ public class ProfileMenuController {
             return ProfileMenuMessages.EMPTY_SLOGAN;
 
         getCurrentUser().setSlogan(null);
+        Database.getUserByUsername(getCurrentUser().getUsername()).setSlogan(null);
         Database.saveUsers();
         if (Database.getStayLoggedInUser() != null) Database.setStayLoggedInUser(getCurrentUser());
         return ProfileMenuMessages.SUCCESS;
