@@ -9,7 +9,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
@@ -209,6 +208,10 @@ public class SignupMenu extends Application {
                 questionNumber = new_value.intValue() + 1;
             }
         });
+    }
+
+    public void enterLoginMenu(MouseEvent mouseEvent) throws Exception{
+        new LoginMenu().start(Main.stage);
     }
 
 

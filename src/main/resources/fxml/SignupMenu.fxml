@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -15,7 +16,7 @@
       <TextField fx:id="username" layoutX="619.0" layoutY="191.0" promptText="username" />
       <TextField fx:id="nickname" layoutX="619.0" layoutY="400.0" promptText="nickname" />
       <TextField fx:id="email" layoutX="619.0" layoutY="353.0" promptText="email" />
-      <ChoiceBox fx:id="securityQuestionChoiceBox" layoutX="617.0" layoutY="531.0" prefHeight="26.0" prefWidth="167.0" value="choose security question" onMouseClicked="#chooseSecurityQuestion">
+      <ChoiceBox fx:id="securityQuestionChoiceBox" layoutX="617.0" layoutY="531.0" onMouseClicked="#chooseSecurityQuestion" prefHeight="26.0" prefWidth="167.0" value="choose security question">
          <items>
             <FXCollections fx:factory="observableArrayList">
                <String fx:value="What is my father's name?" />
@@ -27,12 +28,12 @@
       <TextField fx:id="answer" layoutX="622.0" layoutY="572.0" promptText="security answer" />
       <PasswordField fx:id="password" layoutX="619.0" layoutY="253.0" promptText="password" />
       <TextField fx:id="passwordVisible" layoutX="619.0" layoutY="253.0" promptText="password" visible="false" />
-      <CheckBox fx:id="showPassword" layoutX="641.0" layoutY="289.0" mnemonicParsing="false" onAction="#showPassword" text="show passsword" />
+      <CheckBox fx:id="showPassword" layoutX="641.0" layoutY="289.0" mnemonicParsing="false" onAction="#showPassword" text="show password" />
       <CheckBox fx:id="randomPassword" layoutX="641.0" layoutY="316.0" mnemonicParsing="false" onAction="#randomPassword" text="random password" />
       <CheckBox fx:id="sloganYes" layoutX="652.0" layoutY="454.0" mnemonicParsing="false" onAction="#addSlogan" text="add slogan" />
       <TextField fx:id="slogan" layoutX="711.0" layoutY="449.0" promptText="slogan" visible="false" />
-      <CheckBox fx:id="randomSlogan" layoutX="646.0" layoutY="489.0" mnemonicParsing="false" onAction="#randomSlogan" text="random slogan" visible="false"/>
-      <ChoiceBox fx:id="randomSlogans" layoutX="532.0" layoutY="449.0" prefHeight="26.0" prefWidth="167.0" value="choose a slogan" visible="false" onMouseClicked="#chooseSlogan">
+      <CheckBox fx:id="randomSlogan" layoutX="646.0" layoutY="489.0" mnemonicParsing="false" onAction="#randomSlogan" text="random slogan" visible="false" />
+      <ChoiceBox fx:id="randomSlogans" layoutX="532.0" layoutY="449.0" onMouseClicked="#chooseSlogan" prefHeight="26.0" prefWidth="167.0" value="choose a slogan" visible="false">
          <items>
             <FXCollections fx:factory="observableArrayList">
                <String fx:value="Give up or I will make you give up" />
@@ -50,5 +51,7 @@
       <Text fx:id="nicknameError" layoutX="813.0" layoutY="420.0" strokeType="OUTSIDE" strokeWidth="0.0" />
       <Text fx:id="answerError" layoutX="813.0" layoutY="592.0" strokeType="OUTSIDE" strokeWidth="0.0" />
       <Button layoutX="675.0" layoutY="616.0" mnemonicParsing="false" onMouseClicked="#signup" text="Sign up" />
+      <Text layoutX="606.0" layoutY="664.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Already Have an Account?" />
+      <Hyperlink layoutX="749.0" layoutY="646.0" text="Login" onMouseClicked="#enterLoginMenu"/>
    </children>
 </AnchorPane>
