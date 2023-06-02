@@ -1,10 +1,9 @@
 package Controller;
 
-import Model.Database;
-import Model.Empire;
-import Model.User;
-import Model.empireColors;
+import Model.*;
+import View.Enums.Messages.GameMenuMessages;
 import View.Enums.Messages.MainMenuMessages;
+import View.Main;
 import View.Menu;
 
 import java.util.ArrayList;
@@ -49,5 +48,20 @@ public class MainMenuController {
         for (User user : Database.getUsers()) {
             list.add(user.getUsername());
         }
+    }
+
+    public MainMenuMessages createNewMap(int width, int length) {
+        if(width <= 0) {
+            return MainMenuMessages.INVALID_WIDTH;
+        }
+
+        if(length <= 0) {
+            return MainMenuMessages.INVALID_LENGTH;
+        }
+
+        Map map = new Map(length, width);
+        Database.getAllMaps().add(map);
+        Database.setCurrentMapGame(map);
+        return MainMenuMessages.SUCCESS;
     }
 }

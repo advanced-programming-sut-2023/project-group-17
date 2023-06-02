@@ -24,6 +24,8 @@ import static View.Main.stage;
 public class MainMenu extends Application {
 
     public TextField turnsCount;
+    public TextField width;
+    public TextField length;
     private MainMenuController controller = new MainMenuController();
     public static String users;
 
@@ -63,10 +65,11 @@ public class MainMenu extends Application {
     }
 
     public void startNewGame(MouseEvent mouseEvent) {
+        controller.createNewMap(Integer.parseInt(width.getText()), Integer.parseInt(length.getText()));
         System.out.println(users);
         if (!turnsCount.getText().equals("") && !users.equals(""))
             controller.startNewGame(users, Integer.parseInt(turnsCount.getText()));
-        //TODO
+        //TODO set headquarters?
 //        new GameMenu().start(stage);
     }
 
