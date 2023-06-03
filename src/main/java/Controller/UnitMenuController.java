@@ -142,7 +142,7 @@ public class UnitMenuController {
 
         for (Person person : selectedUnit) {
             int distance = ((int)Math.sqrt(Math.pow(person.getX() - x, 2) + Math.pow(person.getY() - y, 2)));
-            if(((Soldier)person).getAttackRange() > 1) {
+            if (((Soldier)person).getAttackRange() > 1) {
                 isCorrectSoldier = true;
                 if (((Soldier) person).getAttackRange() >= distance) {
                     isReachable = true;

@@ -23,6 +23,8 @@ import org.controlsfx.control.CheckComboBox;
 
 import java.util.ArrayList;
 
+import static View.Main.stage;
+
 public class SetHeadquarters extends Application {
     public HeadquarterMenuController controller = new HeadquarterMenuController();
     ArrayList<TextField> textFields = new ArrayList<>();
@@ -107,12 +109,12 @@ public class SetHeadquarters extends Application {
         });
     }
 
-    public void enterGame(ActionEvent actionEvent) {
+    public void enterGame(ActionEvent actionEvent) throws Exception {
         for (int i = 0; i < controller.numberOfPlayerInTheGame() * 2; i++) {
             if (i % 2 == 1) {
                 controller.setHeadquartersByNumber(i, textFields.get(i - 1).getText(), textFields.get(i).getText());
             }
         }
-//        new GameMenu().start(stage);
+        new GameMenu().start(stage);
     }
 }
