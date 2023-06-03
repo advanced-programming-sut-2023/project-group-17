@@ -77,7 +77,7 @@ public class GameMenu extends Application {
     }
 
     private void createBuilding(String nameBuildingForHeadquarter, int xBuildingForHeadquarter, int yBuildingForHeadquarter, GridPane gridPane) {
-        String url = getClass().getResource("/assets/buildings/" + nameBuildingForHeadquarter +".png").toExternalForm();
+        String url = getClass().getResource("/assets/Buildings/" + nameBuildingForHeadquarter +".png").toExternalForm();
         gridPane.add(new ImageView(new Image(url, 80, 80, false, false)),
                 xBuildingForHeadquarter - 1, yBuildingForHeadquarter - 1);
     }

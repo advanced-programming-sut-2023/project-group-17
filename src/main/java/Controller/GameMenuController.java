@@ -896,17 +896,18 @@ public class GameMenuController {
     }
 
     public String getNameBuildingForHeadquarter(int i) {
-        User user = Database.getUsersInTheGame().get(i/3);
-        return user.getEmpire().getBuildings().get(i).getBuildingName();
+        User user = Database.getUsersInTheGame().get(i / 3);
+        System.out.println(user.getEmpire().getBuildings().size());
+        return user.getEmpire().getBuildings().get(i % 3).getBuildingName();
     }
 
     public int getXBuildingForHeadquarter(int i) {
         User user = Database.getUsersInTheGame().get(i / 3);
-        return user.getEmpire().getBuildings().get(i).getX();
+        return user.getEmpire().getBuildings().get(i % 3).getX();
     }
 
     public int getYBuildingForHeadquarter(int i) {
         User user = Database.getUsersInTheGame().get(i / 3);
-        return user.getEmpire().getBuildings().get(i).getY();
+        return user.getEmpire().getBuildings().get(i % 3).getY();
     }
 }

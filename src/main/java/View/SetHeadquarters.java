@@ -112,7 +112,7 @@ public class SetHeadquarters extends Application {
     public void enterGame(ActionEvent actionEvent) throws Exception {
         for (int i = 0; i < controller.numberOfPlayerInTheGame() * 2; i++) {
             if (i % 2 == 1) {
-                controller.setHeadquartersByNumber(i, textFields.get(i - 1).getText(), textFields.get(i).getText());
+                controller.setHeadquartersByNumber(i / 2, textFields.get(i - 1).getText(), textFields.get(i).getText());
             }
         }
         new GameMenu().start(stage);

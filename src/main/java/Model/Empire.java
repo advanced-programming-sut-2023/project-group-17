@@ -114,7 +114,7 @@ public class Empire {
 
     public void setHeadquarter(MapCell headquarter, User user) {
         GateHouse gateHouse = new GateHouse(user, headquarter.getX(), headquarter.getY(),
-            Database.getGatehouseBuildingDataByName("small stone gatehouse"));
+            Database.getGatehouseBuildingDataByName("smallStoneGatehouse"));
         addBuilding(gateHouse);
         headquarter.addBuilding(gateHouse);
         gateHouse.addPerson(king);

@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Database;
+import Model.Empire;
 import Model.User;
 
 public class HeadquarterMenuController {
@@ -13,8 +14,10 @@ public class HeadquarterMenuController {
     }
 
     public void setHeadquartersByNumber(int i, String x, String y) {
-        Database.getUsersInTheGame().get(i/2).getEmpire().
-                setHeadquarter(Database.getCurrentMapGame().getMapCellByCoordinates(Integer.parseInt(x), Integer.parseInt(y))
-                        ,Database.getUsersInTheGame().get(i/2));
+        User user = Database.getUsersInTheGame().get(i);
+        Empire empire = Database.getUsersInTheGame().get(i).getEmpire();
+        Database.setCurrentUser(user);
+        empire.makeHeadquarter(Integer.parseInt(x), Integer.parseInt(y), user);
+        Database.setCurrentUser(Database.getLoggedInUser());
     }
 }
