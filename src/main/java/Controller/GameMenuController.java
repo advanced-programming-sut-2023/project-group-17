@@ -886,4 +886,28 @@ public class GameMenuController {
             selectedUnit.subList(0, selectedUnit.size()).clear();
         }
     }
+
+    public int getWidthMap() {
+        return Database.getCurrentMapGame().getWidth();
+    }
+
+    public int getLengthMap() {
+        return Database.getCurrentMapGame().getLength();
+    }
+
+    public String getNameBuildingForHeadquarter(int i) {
+        User user = Database.getUsersInTheGame().get(i / 3);
+        System.out.println(user.getEmpire().getBuildings().size());
+        return user.getEmpire().getBuildings().get(i % 3).getBuildingName();
+    }
+
+    public int getXBuildingForHeadquarter(int i) {
+        User user = Database.getUsersInTheGame().get(i / 3);
+        return user.getEmpire().getBuildings().get(i % 3).getX();
+    }
+
+    public int getYBuildingForHeadquarter(int i) {
+        User user = Database.getUsersInTheGame().get(i / 3);
+        return user.getEmpire().getBuildings().get(i % 3).getY();
+    }
 }

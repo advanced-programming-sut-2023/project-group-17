@@ -29,4 +29,12 @@ public class AvatarMenuController {
             return Database.getCurrentUser().randomPathGenerator();
         return Database.getUsers().get(newValue).getAvatarPath();
     }
+
+    public String getAvatarPath() {
+        if (getCurrentUser().getAvatarPath() == null) {
+            getCurrentUser().setAvatarPath(getCurrentUser().randomPathGenerator());
+            Database.saveUsers();
+        }
+        return getCurrentUser().getAvatarPath();
+    }
 }

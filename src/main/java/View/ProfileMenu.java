@@ -457,7 +457,14 @@ public class ProfileMenu extends Application {
         Stage dialogStage = new Stage();
         dialogStage.initModality(Modality.APPLICATION_MODAL);
         dialogStage.setScene(scene);
-        dialogStage.setTitle("Dialog Example");
+        dialogStage.setTitle("Change Password");
+        dialogStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                dialogStage.close();
+                stage.setFullScreen(true);
+            }
+        });
 
         // Show the dialog
         dialogStage.show();

@@ -24,6 +24,8 @@ import static View.Main.stage;
 public class MainMenu extends Application {
 
     public TextField turnsCount;
+    public TextField width;
+    public TextField length;
     private MainMenuController controller = new MainMenuController();
     public static String users;
 
@@ -62,11 +64,13 @@ public class MainMenu extends Application {
         stage.show();
     }
 
-    public void startNewGame(MouseEvent mouseEvent) {
-        System.out.println(users);
-        if (!turnsCount.getText().equals("") && !users.equals(""))
+    public void startNewGame(MouseEvent mouseEvent) throws Exception {
+        if (!width.getText().equals("") && !length.getText().equals("") && !users.equals("") && !turnsCount.getText().equals("")) {
+            controller.createNewMap(Integer.parseInt(width.getText()), Integer.parseInt(length.getText()));
             controller.startNewGame(users, Integer.parseInt(turnsCount.getText()));
-        //TODO
+            new SetHeadquarters().start(stage);
+            //TODO set headquarters?
+        }
 //        new GameMenu().start(stage);
     }
 
