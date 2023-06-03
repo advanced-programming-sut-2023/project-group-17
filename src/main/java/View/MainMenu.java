@@ -65,11 +65,12 @@ public class MainMenu extends Application {
     }
 
     public void startNewGame(MouseEvent mouseEvent) {
-        controller.createNewMap(Integer.parseInt(width.getText()), Integer.parseInt(length.getText()));
-        System.out.println(users);
-        if (!turnsCount.getText().equals("") && !users.equals(""))
+        if (!width.getText().equals("") && length.getText().equals("") && !users.equals("") && !turnsCount.getText().equals("")) {
+            controller.createNewMap(Integer.parseInt(width.getText()), Integer.parseInt(length.getText()));
+            System.out.println(users);
             controller.startNewGame(users, Integer.parseInt(turnsCount.getText()));
-        //TODO set headquarters?
+            //TODO set headquarters?
+        }
 //        new GameMenu().start(stage);
     }
 
