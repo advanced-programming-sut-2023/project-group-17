@@ -31,8 +31,8 @@ public class GateHouse extends Building{
 
     public void handleLivingPeople() {
         for(int i = 0; i < this.getMaximumCapacity(); i++) {
-            NormalPeople normalPeople = new NormalPeople(Database.getCurrentUser());
-            Database.getCurrentUser().getEmpire().addPopulation(normalPeople);
+            NormalPeople normalPeople = new NormalPeople(Database.getUserInTheGameByUsername(getOwner().getUsername()));
+            Database.getUserInTheGameByUsername(getOwner().getUsername()).getEmpire().addPopulation(normalPeople);
             this.addPerson(normalPeople);
             Database.getCurrentMapGame().getMapCellByCoordinates(this.getX(), this.getY()).addPeople(normalPeople);
         }

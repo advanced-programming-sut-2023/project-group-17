@@ -64,11 +64,11 @@ public class MainMenu extends Application {
         stage.show();
     }
 
-    public void startNewGame(MouseEvent mouseEvent) {
-        if (!width.getText().equals("") && length.getText().equals("") && !users.equals("") && !turnsCount.getText().equals("")) {
+    public void startNewGame(MouseEvent mouseEvent) throws Exception {
+        if (!width.getText().equals("") && !length.getText().equals("") && !users.equals("") && !turnsCount.getText().equals("")) {
             controller.createNewMap(Integer.parseInt(width.getText()), Integer.parseInt(length.getText()));
-            System.out.println(users);
             controller.startNewGame(users, Integer.parseInt(turnsCount.getText()));
+            new SetHeadquarters().start(stage);
             //TODO set headquarters?
         }
 //        new GameMenu().start(stage);

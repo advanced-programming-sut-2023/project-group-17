@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="500.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/19"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.SetHeadquarters">
+    <children>
+        <Text layoutX="450.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" fx:id="user1Text">
+            <font>
+                <Font size="21.0" />
+            </font>
+        </Text>
+        <Text layoutX="450.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" fx:id="user2Text">
+            <font>
+                <Font size="21.0" />
+            </font>
+        </Text>
+        <Text layoutX="450.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" fx:id="user3Text">
+            <font>
+                <Font size="21.0" />
+            </font>
+        </Text>
+        <Text layoutX="450.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" fx:id="user4Text">
+            <font>
+                <Font size="21.0" />
+            </font>
+        </Text>
+        <Text layoutX="450.0" layoutY="242.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" fx:id="user5Text">
+            <font>
+                <Font size="21.0" />
+            </font>
+        </Text>
+        <Text layoutX="450.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" fx:id="user6Text">
+            <font>
+                <Font size="21.0" />
+            </font>
+        </Text>
+        <Text layoutX="450.0" layoutY="317.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" fx:id="user7Text">
+            <font>
+                <Font size="21.0" />
+            </font>
+        </Text>
+        <Text layoutX="450.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" fx:id="user8Text">
+            <font>
+                <Font size="21.0" />
+            </font>
+        </Text>
+        <Text layoutX="570.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Set Headquarters">
+            <font>
+                <Font size="21.0" />
+            </font>
+        </Text>
+        <TextField layoutX="753.0" layoutY="81.0" prefHeight="26.0" prefWidth="108.0"  fx:id="user1X" promptText="X Headquarter" visible="false"/>
+        <TextField layoutX="880.0" layoutY="81.0" prefHeight="26.0" prefWidth="108.0"  fx:id="user1Y" promptText="Y Headquarter" visible="false"/>
+        <TextField layoutX="753.0" layoutY="117.0" prefHeight="26.0" prefWidth="108.0" fx:id="user2X" promptText="X Headquarter" visible="false"/>
+        <TextField layoutX="880.0" layoutY="118.0" prefHeight="26.0" prefWidth="108.0" fx:id="user2Y" promptText="Y Headquarter" visible="false"/>
+        <TextField layoutX="753.0" layoutY="157.0" prefHeight="26.0" prefWidth="108.0" fx:id="user3X" promptText="X Headquarter" visible="false"/>
+        <TextField layoutX="880.0" layoutY="157.0" prefHeight="26.0" prefWidth="108.0" fx:id="user3Y" promptText="Y Headquarter" visible="false"/>
+        <TextField layoutX="753.0" layoutY="193.0" prefHeight="26.0" prefWidth="108.0" fx:id="user4X" promptText="X Headquarter" visible="false"/>
+        <TextField layoutX="880.0" layoutY="194.0" prefHeight="26.0" prefWidth="108.0" fx:id="user4Y" promptText="Y Headquarter" visible="false"/>
+        <TextField layoutX="753.0" layoutY="229.0" prefHeight="26.0" prefWidth="108.0" fx:id="user5X" promptText="X Headquarter" visible="false"/>
+        <TextField layoutX="880.0" layoutY="229.0" prefHeight="26.0" prefWidth="108.0" fx:id="user5Y" promptText="Y Headquarter" visible="false"/>
+        <TextField layoutX="753.0" layoutY="265.0" prefHeight="26.0" prefWidth="108.0" fx:id="user6X" promptText="X Headquarter" visible="false"/>
+        <TextField layoutX="880.0" layoutY="266.0" prefHeight="26.0" prefWidth="108.0" fx:id="user6Y" promptText="Y Headquarter" visible="false"/>
+        <TextField layoutX="753.0" layoutY="304.0" prefHeight="26.0" prefWidth="108.0" fx:id="user7X" promptText="X Headquarter" visible="false"/>
+        <TextField layoutX="880.0" layoutY="304.0" prefHeight="26.0" prefWidth="108.0" fx:id="user7Y" promptText="Y Headquarter" visible="false"/>
+        <TextField layoutX="753.0" layoutY="340.0" prefHeight="26.0" prefWidth="108.0" fx:id="user8X" promptText="X Headquarter" visible="false"/>
+        <TextField layoutX="880.0" layoutY="341.0" prefHeight="26.0" prefWidth="108.0" fx:id="user8Y" promptText="Y Headquarter" visible="false"/>
+        <Button layoutX="585.0" layoutY="385.0" mnemonicParsing="false" text="Enter Game" fx:id="enterGame" onAction="#enterGame"/>
+    </children>
+</Pane>
