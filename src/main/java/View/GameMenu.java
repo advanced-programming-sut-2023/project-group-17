@@ -2,6 +2,8 @@ package View;
 
 import Controller.GameMenuController;
 import javafx.application.Application;
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
@@ -31,15 +33,16 @@ public class GameMenu extends Application {
         gridPane.setGridLinesVisible(true);
         final int numCols = controller.getWidthMap();
         final int numRows = controller.getLengthMap();
-        setHeadQuarters(gridPane);
         for (int i = 0; i < numCols; i++) {
             ColumnConstraints colConst = new ColumnConstraints();
             colConst.setPrefWidth(80);
+            colConst.setHalignment(HPos.CENTER);
             gridPane.getColumnConstraints().add(colConst);
         }
         for (int i = 0; i < numRows; i++) {
             RowConstraints rowConst = new RowConstraints();
             rowConst.setPrefHeight(80);
+            rowConst.setValignment(VPos.CENTER);
             gridPane.getRowConstraints().add(rowConst);
         }
 
@@ -50,6 +53,17 @@ public class GameMenu extends Application {
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 //        scrollPane.setStyle("-fx-background-color : green;");
         gridPane.setBackground(new Background(new BackgroundFill(Color.GREEN,null, null)));
+        for (int i = 0; i < numCols; i++) {
+            for (int j = 0; j < numRows; j++) {
+                ImageView imageView = new ImageView(new Image(getClass().getResource(
+                        "/assets/Backgrounds/collection27.png").toExternalForm()));
+                imageView.setRotate(45);
+                gridPane.add(imageView, i, j);
+                imageView.setFitHeight(121);
+                imageView.setFitWidth(121);
+            }
+        }
+        setHeadQuarters(gridPane);
 //        scrollPane.getContent().setScaleY(5);
 //        scrollPane.getContent().setScaleX(5);
 //        Scene scene = new Scene(scrollPane);
@@ -57,6 +71,7 @@ public class GameMenu extends Application {
         primaryStage.getScene().setRoot(scrollPane);
         primaryStage.setFullScreen(true);
         primaryStage.show();
+
 //        ImageView imageView = new ImageView(new Image(getClass().getResource(
 //                "/assets/Backgrounds/Barracks.png").toExternalForm()));
 //        System.out.println(gridPane.getColumnConstraints().size());
