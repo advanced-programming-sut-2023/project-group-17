@@ -52,7 +52,7 @@ public class MainMenu extends Application {
                 for (String checkedItem : control.getCheckModel().getCheckedItems()) {
                     users += "," + checkedItem;
                 }
-                users = users.substring(1);
+                if (users.length() != 1) users = users.substring(1);
             }
         });
 
