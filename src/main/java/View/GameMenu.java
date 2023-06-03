@@ -4,15 +4,13 @@ import Controller.GameMenuController;
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
-import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
-
-import java.net.URL;
 
 public class GameMenu extends Application {
 
@@ -33,6 +31,8 @@ public class GameMenu extends Application {
         gridPane.setGridLinesVisible(true);
         final int numCols = controller.getWidthMap();
         final int numRows = controller.getLengthMap();
+//        System.out.println("col " + numCols);
+//        System.out.println("row " + numRows);
         for (int i = 0; i < numCols; i++) {
             ColumnConstraints colConst = new ColumnConstraints();
             colConst.setPrefWidth(80);
@@ -52,17 +52,29 @@ public class GameMenu extends Application {
         scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        for (int i = 0; i < numCols; i++) {
-            for (int j = 0; j < numRows; j++) {
+
+        for (int i = 0; i < numCols + 10; i += 10) {
+            for (int j = 0; j < numRows + 10; j += 10) {
                 ImageView imageView = new ImageView(new Image(getClass().getResource(
-                        "/assets/Backgrounds/collection27.png").toExternalForm()));
-                imageView.setRotate(45);
-                gridPane.add(imageView, i, j);
-                imageView.setFitHeight(114);
-                imageView.setFitWidth(114);
+                        "/assets/Texture/graveland.jpg").toExternalForm()));
+                imageView.setFitWidth(80 * 10);
+                imageView.setFitHeight(80 * 10);
+                gridPane.add(imageView, i , j);
                 imageView.setOpacity(0.8);
             }
         }
+
+//        for (int i = 0; i < numCols; i++) {
+//            for (int j = 0; j < numRows; j++) {
+//                ImageView imageView = new ImageView(new Image(getClass().getResource(
+//                        "/assets/Backgrounds/collection27.png").toExternalForm()));
+//                imageView.setRotate(45);
+//                gridPane.add(imageView, i, j);
+//                imageView.setFitHeight(114);
+//                imageView.setFitWidth(114);
+//                imageView.setOpacity(0.8);
+//            }
+//        }
         setHeadQuarters(gridPane);
 
         primaryStage.getScene().setRoot(scrollPane);
