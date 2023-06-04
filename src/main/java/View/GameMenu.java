@@ -107,13 +107,32 @@ public class GameMenu extends Application {
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 new BackgroundSize(1.0, 1.0, true, true, false, false))));
 
-        Button button1 = new Button("Building"); button1.setPrefWidth(80);
-        button1.setTranslateX(310); button1.setTranslateY(90);
-        Button button2 = new Button("Button 2"); button2.setPrefWidth(80);
-        button2.setTranslateX(310); button2.setTranslateY(90);
-        Button button3 = new Button("Button 3"); button3.setPrefWidth(80);
-        button3.setTranslateX(310); button3.setTranslateY(90);
-        toolBar.getItems().addAll(button1, button2, button3);
+        Button button1 = new Button();
+        button1.setTranslateX(310); button1.setTranslateY(80);
+        button1.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
+                "/assets/ToolBar/Buttons/Castle.png").toExternalForm(), 25, 25, false, false)));
+        Button button2 = new Button("");
+        button2.setTranslateX(310); button2.setTranslateY(80);
+        button2.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
+                "/assets/ToolBar/Buttons/Industry.png").toExternalForm(), 25, 25, false, false)));
+        Button button3 = new Button("");
+        button3.setTranslateX(310); button3.setTranslateY(80);
+        button3.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
+                "/assets/ToolBar/Buttons/Farm.png").toExternalForm(), 25, 25, false, false)));
+        Button button4 = new Button("");
+        button4.setTranslateX(310); button4.setTranslateY(80);
+        button4.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
+                "/assets/ToolBar/Buttons/Town.png").toExternalForm(), 25, 25, false, false)));
+        Button button5 = new Button("");
+        button5.setTranslateX(310); button5.setTranslateY(80);
+        button5.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
+                "/assets/ToolBar/Buttons/Weapons.png").toExternalForm(), 25, 25, false, false)));
+        Button button6 = new Button("");
+        button6.setTranslateX(310); button6.setTranslateY(80);
+        button6.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
+                "/assets/ToolBar/Buttons/Food.png").toExternalForm(), 25, 25, false, false)));
+
+        toolBar.getItems().addAll(button1, button2, button3, button4, button5, button6);
 
         return toolBar;
     }
