@@ -3,7 +3,9 @@ package View;
 import Controller.BuildingMenuController;
 import Controller.DataAnalysisController;
 import Controller.GameMenuController;
+import Controller.MapMenuController;
 import View.Enums.Messages.BuildingMenuMessages;
+import View.Enums.Messages.MapMenuMessages;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -34,16 +36,20 @@ public class GameMenu extends Application {
     private GameMenuController controller;
     private DataAnalysisController dataController;
     private BuildingMenuController buildingMenuController;
+    private MapMenuController mapMenuController;
     private MapMenu mapMenu;
     private GridPane gridPane;
     private ToolBar toolBar;
     private HBox toolBarHBox;
+    private boolean cheatMode;
 
     public GameMenu() {
         this.controller = new GameMenuController();
         this.mapMenu = new MapMenu();
         this.dataController = new DataAnalysisController();
         this.buildingMenuController = new BuildingMenuController();
+        this.mapMenuController = new MapMenuController();
+        cheatMode = false;
     }
 
     @Override
@@ -91,6 +97,7 @@ public class GameMenu extends Application {
         scrollPane.requestFocus();
         handleZoom(scrollPane);
         handleHover(gridPane);
+        handleCheatMode(borderPane);
         borderPane.setCenter(scrollPane);
         ToolBar toolBar = createToolbar();
         this.toolBar = toolBar;
@@ -100,6 +107,19 @@ public class GameMenu extends Application {
         primaryStage.getScene().setRoot(borderPane);
         primaryStage.setFullScreen(true);
         primaryStage.show();
+    }
+
+    private void handleCheatMode(BorderPane borderPane) {
+        KeyCombination cheatCode = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY);
+        borderPane.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (cheatCode.match(keyEvent)) {
+                    cheatMode = !cheatMode;
+                    System.out.println(cheatMode);
+                }
+            }
+        });
     }
 
     private void setDropActionForGridPane() {
@@ -120,11 +140,21 @@ public class GameMenu extends Application {
                     System.out.println("Dropped: " + db.getString());
                     int columnIndex = GridPane.getColumnIndex(node);
                     int rowIndex = GridPane.getRowIndex(node);
-                    if (buildingMenuController.dropBuilding(columnIndex, rowIndex, db.getString()).equals(BuildingMenuMessages.SUCCESS)) {
-                        String path = getClass().getResource("/assets/Buildings/" +
-                                db.getString() + ".png").toExternalForm();
-                        ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
-                        gridPane.add(imageView, columnIndex, rowIndex);
+                    if (cheatMode) {
+                        if (mapMenuController.dropBuilding(columnIndex, rowIndex, db.getString()).equals(MapMenuMessages.SUCCESS)) {
+                            String path = getClass().getResource("/assets/Buildings/" +
+                                    db.getString() + ".png").toExternalForm();
+                            ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
+                            gridPane.add(imageView, columnIndex, rowIndex);
+                        }
+                    }
+                    else {
+                        if (buildingMenuController.dropBuilding(columnIndex, rowIndex, db.getString()).equals(BuildingMenuMessages.SUCCESS)) {
+                            String path = getClass().getResource("/assets/Buildings/" +
+                                    db.getString() + ".png").toExternalForm();
+                            ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
+                            gridPane.add(imageView, columnIndex, rowIndex);
+                        }
                     }
                     event.setDropCompleted(true);
                 } else {
