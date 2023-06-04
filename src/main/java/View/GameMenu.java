@@ -1,48 +1,45 @@
 package View;
 
+import Controller.DataAnalysisController;
 import Controller.GameMenuController;
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Bounds;
 import javafx.geometry.HPos;
-import javafx.geometry.Pos;
-import javafx.geometry.Point2D;
 import javafx.geometry.VPos;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import javax.xml.crypto.dsig.keyinfo.KeyName;
-import java.awt.*;
+import java.io.File;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static java.lang.Math.pow;
 
 public class GameMenu extends Application {
 
     private GameMenuController controller;
+    private DataAnalysisController dataController;
     private MapMenu mapMenu;
     private GridPane gridPane;
+    private ToolBar toolBar;
+    private HBox toolBarHBox;
 
     public GameMenu() {
         this.controller = new GameMenuController();
         this.mapMenu = new MapMenu();
+        this.dataController = new DataAnalysisController();
     }
 
     @Override
@@ -91,11 +88,46 @@ public class GameMenu extends Application {
         handleHover(gridPane);
         borderPane.setCenter(scrollPane);
         ToolBar toolBar = createToolbar();
+        this.toolBar = toolBar;
+        setDropActionForGridPane();
 
         borderPane.setBottom(toolBar);
         primaryStage.getScene().setRoot(borderPane);
         primaryStage.setFullScreen(true);
         primaryStage.show();
+    }
+
+    private void setDropActionForGridPane() {
+        for (Node node : gridPane.getChildren()) {
+            node.setOnDragOver(event -> {
+                if (event.getGestureSource() != node && event.getDragboard().hasFiles()) {
+                    event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+                }
+                event.consume();
+            });
+
+            node.setOnDragEntered(event -> {
+                if (event.getGestureSource() != node && event.getDragboard().hasFiles()) {
+                }
+            });
+
+            node.setOnDragExited(event -> {
+            });
+
+            node.setOnDragDropped(event -> {
+                Dragboard db = event.getDragboard();
+                boolean success = false;
+                if (db.hasFiles()) {
+                    File file = db.getFiles().get(0);
+                    Image image = new Image(file.toURI().toString());
+                    System.out.println("ali");
+                    // avatar.setImage(image);
+                    success = true;
+                }
+                event.setDropCompleted(success);
+                event.consume();
+            });
+        }
     }
 
     private void handleZoom(ScrollPane scrollPane) {
@@ -130,35 +162,153 @@ public class GameMenu extends Application {
                 "/assets/ToolBar/menu.png").toExternalForm()),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 new BackgroundSize(1.0, 1.0, true, true, false, false))));
+        HBox hBoxButtons = new HBox();
+        hBoxButtons.setTranslateX(1000);
+        hBoxButtons.setSpacing(10);
+        hBoxButtons.setTranslateY(60);
+        hBoxButtons.setPrefHeight(30);
 
         Button button1 = new Button();
-        button1.setTranslateX(310); button1.setTranslateY(80);
+        button1.setTranslateY(110);
         button1.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
-                "/assets/ToolBar/Buttons/Castle.png").toExternalForm(), 25, 25, false, false)));
+                "/assets/ToolBar/Buttons/Gatehouse.png").toExternalForm(), 20, 20, false, false)));
         Button button2 = new Button("");
-        button2.setTranslateX(310); button2.setTranslateY(80);
+        button2.setTranslateY(110);
         button2.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
-                "/assets/ToolBar/Buttons/Industry.png").toExternalForm(), 25, 25, false, false)));
+                "/assets/ToolBar/Buttons/Production.png").toExternalForm(), 20, 20, false, false)));
         Button button3 = new Button("");
-        button3.setTranslateX(310); button3.setTranslateY(80);
+        button3.setTranslateY(110);
         button3.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
-                "/assets/ToolBar/Buttons/Farm.png").toExternalForm(), 25, 25, false, false)));
+                "/assets/ToolBar/Buttons/Farm.png").toExternalForm(), 20, 20, false, false)));
         Button button4 = new Button("");
-        button4.setTranslateX(310); button4.setTranslateY(80);
+        button4.setTranslateY(110);
         button4.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
-                "/assets/ToolBar/Buttons/Town.png").toExternalForm(), 25, 25, false, false)));
+                "/assets/ToolBar/Buttons/Town.png").toExternalForm(), 20, 20, false, false)));
         Button button5 = new Button("");
-        button5.setTranslateX(310); button5.setTranslateY(80);
+        button5.setTranslateY(110);
         button5.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
-                "/assets/ToolBar/Buttons/Weapons.png").toExternalForm(), 25, 25, false, false)));
+                "/assets/ToolBar/Buttons/Weapons.png").toExternalForm(), 20, 20, false, false)));
         Button button6 = new Button("");
-        button6.setTranslateX(310); button6.setTranslateY(80);
+        button6.setTranslateY(110);
         button6.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
-                "/assets/ToolBar/Buttons/Food.png").toExternalForm(), 25, 25, false, false)));
+                "/assets/ToolBar/Buttons/Food.png").toExternalForm(), 20, 20, false, false)));
+        setOnActionButtons(button1, button2, button3, button4, button5, button6);
+        hBoxButtons.getChildren().addAll(button1, button2, button3, button4, button5, button6);
 
-        toolBar.getItems().addAll(button1, button2, button3, button4, button5, button6);
+//        toolBar.getItems().addAll(button1, button2, button3, button4, button5, button6);
+        HBox hBox = new HBox();
+        hBox.setTranslateY(70); hBox.setTranslateX(40);
+        this.toolBarHBox = hBox;
+        toolBar.getItems().add(hBoxButtons);
+        toolBar.getItems().add(hBox);
+        openGatehouseBuildings();
 
         return toolBar;
+    }
+
+    private void setOnActionButtons(Button button1, Button button2, Button button3, Button button4, Button button5, Button button6) {
+        button1.setOnAction(e -> openGatehouseBuildings());
+        button2.setOnAction(e -> openProductionBuildings());
+    }
+
+    private void openProductionBuildings() {
+        String path = "";
+        toolBarHBox.getChildren().clear();
+        toolBarHBox.setSpacing(10);
+        for (int i = 0; i < dataController.getProductionBuildingsSize(); i++) {
+            path = getClass().getResource("/assets/Buildings/" +
+                    dataController.getProductionBuildingNameByNumber(i) + ".png").toExternalForm();
+            ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
+            imageView.setId(dataController.getProductionBuildingNameByNumber(i));
+            imageView.setOnDragOver(new EventHandler<DragEvent>() {
+                public void handle(DragEvent event) {
+                    if (event.getGestureSource() != imageView && event.getDragboard().hasFiles()) {
+                        event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+                    }
+                    event.consume();
+                }
+            });
+            imageView.setOnDragDropped(new EventHandler<DragEvent>() {
+                public void handle(DragEvent event) {
+                    Dragboard db = event.getDragboard();
+                    boolean success = false;
+                    if (db.hasFiles()) {
+                        success = true;
+                        String filePath = db.getFiles().get(0).toURI().toString();
+                        Image image = new Image(filePath);
+                        imageView.setImage(image);
+                    }
+                    event.setDropCompleted(success);
+                    event.consume();
+                }
+            });
+            toolBarHBox.getChildren().add(imageView);
+        }
+    }
+
+    private void openGatehouseBuildings() {
+        String path = "";
+        toolBarHBox.getChildren().clear();
+        toolBarHBox.setSpacing(10);
+        for (int i = 0; i < dataController.getGatehouseBuildingsSize(); i++) {
+            path = getClass().getResource("/assets/Buildings/" +
+                    dataController.getGatehouseBuildingNameByNumber(i) + ".png").toExternalForm();
+            ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
+            imageView.setId(dataController.getGatehouseBuildingNameByNumber(i));
+            imageView.setOnDragDetected(event -> {
+                Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(imageView.getImage());
+                db.setContent(content);
+                event.consume();
+            });
+            imageView.setOnDragOver(event -> {
+                if (event.getGestureSource() != imageView && event.getDragboard().hasFiles()) {
+                    event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+                }
+                event.consume();
+            });
+
+            // Change the appearance of the node when the drag enters
+            imageView.setOnDragEntered(event -> {
+                if (event.getGestureSource() != imageView && event.getDragboard().hasFiles()) {
+                    // You can change the appearance of the node here, e.g., change the background color
+                }
+            });
+
+            // Reset the appearance of the node when the drag exits
+            imageView.setOnDragExited(event -> {
+                // Reset the appearance of the node here, e.g., change the background color back to the original
+            });
+
+            imageView.setOnDragDropped(event -> {
+                Dragboard db = event.getDragboard();
+                boolean success = false;
+                if (db.hasFiles()) {
+                    File file = db.getFiles().get(0);
+                    Image image = new Image(file.toURI().toString());
+                    System.out.println("ali");
+                    // avatar.setImage(image);
+                    success = true;
+                }
+                event.setDropCompleted(success);
+                event.consume();
+            });
+//            imageView.setOnDragDropped(new EventHandler<DragEvent>() {
+//                @Override
+//                public void handle(DragEvent event) {
+//                    Dragboard db = event.getDragboard();
+//                    boolean success = false;
+//                    if (db.hasFiles()) {
+//                        // Handle the file drop here
+//                        success = true;
+//                    }
+//                    event.setDropCompleted(success);
+//                    event.consume();
+//                }
+//            });
+            toolBarHBox.getChildren().add(imageView);
+        }
     }
 
     private void handleHover(GridPane gridPane) {
@@ -186,7 +336,15 @@ public class GameMenu extends Application {
 
     private void createBuilding(String nameBuildingForHeadquarter, int xBuildingForHeadquarter, int yBuildingForHeadquarter, GridPane gridPane) {
         String url = getClass().getResource("/assets/Buildings/" + nameBuildingForHeadquarter +".png").toExternalForm();
-        gridPane.add(new ImageView(new Image(url, 80, 80, false, false)),
+        ImageView imageView = new ImageView(new Image(url, 80, 80, false, false));
+        imageView.setOnDragDetected(event -> {
+            Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
+            ClipboardContent content = new ClipboardContent();
+            content.putImage(imageView.getImage());
+            db.setContent(content);
+            event.consume();
+        });
+        gridPane.add(imageView,
                 xBuildingForHeadquarter - 1, yBuildingForHeadquarter - 1);
     }
 
