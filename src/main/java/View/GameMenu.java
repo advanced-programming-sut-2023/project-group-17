@@ -163,9 +163,9 @@ public class GameMenu extends Application {
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 new BackgroundSize(1.0, 1.0, true, true, false, false))));
         HBox hBoxButtons = new HBox();
-        hBoxButtons.setTranslateX(1000);
+        hBoxButtons.setTranslateX(1050);
         hBoxButtons.setSpacing(10);
-        hBoxButtons.setTranslateY(60);
+        hBoxButtons.setTranslateY(10);
         hBoxButtons.setPrefHeight(30);
 
         Button button1 = new Button();
@@ -197,7 +197,7 @@ public class GameMenu extends Application {
 
 //        toolBar.getItems().addAll(button1, button2, button3, button4, button5, button6);
         HBox hBox = new HBox();
-        hBox.setTranslateY(70); hBox.setTranslateX(40);
+        hBox.setTranslateY(20); hBox.setTranslateX(40);
         this.toolBarHBox = hBox;
         toolBar.getItems().add(hBoxButtons);
         toolBar.getItems().add(hBox);
