@@ -157,9 +157,9 @@ public class GameMenu extends Application {
 
     private ToolBar createToolbar() {
         ToolBar toolBar = new ToolBar();
-        toolBar.setPrefHeight(200);
+        toolBar.setPrefHeight(150);
         toolBar.setBackground(new Background(new BackgroundImage(new Image(LoginMenu.class.getResource(
-                "/assets/ToolBar/menu.png").toExternalForm()),
+                "/assets/ToolBar/menu.jpeg").toExternalForm()),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 new BackgroundSize(1.0, 1.0, true, true, false, false))));
         HBox hBoxButtons = new HBox();

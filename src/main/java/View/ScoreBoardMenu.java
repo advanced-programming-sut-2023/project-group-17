@@ -22,7 +22,7 @@ import java.util.List;
 
 public class ScoreBoardMenu extends Application {
     public TextArea textArea;
-    private static int scrollTimes;
+    private static int scrollTimes = 0;
 
     @Override
     public void start(Stage stage) throws Exception {
