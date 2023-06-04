@@ -99,32 +99,24 @@ public class GameMenu extends Application {
 
     private void setDropActionForGridPane() {
         for (Node node : gridPane.getChildren()) {
-            node.setOnDragOver(event -> {
-                if (event.getGestureSource() != node && event.getDragboard().hasFiles()) {
-                    event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
-                }
-                event.consume();
-            });
+            node.setOnDragOver(new EventHandler<DragEvent>() {
+                public void handle(DragEvent event) {
+                    if (event.getGestureSource() != node && event.getDragboard().hasString()) {
+                        event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+                    }
 
-            node.setOnDragEntered(event -> {
-                if (event.getGestureSource() != node && event.getDragboard().hasFiles()) {
+                    event.consume();
                 }
             });
 
-            node.setOnDragExited(event -> {
-            });
-
-            node.setOnDragDropped(event -> {
+            node.setOnDragDropped((DragEvent event) -> {
                 Dragboard db = event.getDragboard();
-                boolean success = false;
-                if (db.hasFiles()) {
-                    File file = db.getFiles().get(0);
-                    Image image = new Image(file.toURI().toString());
-                    System.out.println("ali");
-                    // avatar.setImage(image);
-                    success = true;
+                if (db.hasString()) {
+                    System.out.println("Dropped: " + db.getString());
+                    event.setDropCompleted(true);
+                } else {
+                    event.setDropCompleted(false);
                 }
-                event.setDropCompleted(success);
                 event.consume();
             });
         }
@@ -255,45 +247,58 @@ public class GameMenu extends Application {
                     dataController.getGatehouseBuildingNameByNumber(i) + ".png").toExternalForm();
             ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
             imageView.setId(dataController.getGatehouseBuildingNameByNumber(i));
-            imageView.setOnDragDetected(event -> {
+            int finalI = i;
+            imageView.setOnDragDetected((MouseEvent event) -> {
+                System.out.println("Circle 1 drag detected");
+
                 Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
+
                 ClipboardContent content = new ClipboardContent();
-                content.putImage(imageView.getImage());
+                content.putString(dataController.getGatehouseBuildingNameByNumber(finalI));
                 db.setContent(content);
-                event.consume();
             });
-            imageView.setOnDragOver(event -> {
-                if (event.getGestureSource() != imageView && event.getDragboard().hasFiles()) {
-                    event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
-                }
-                event.consume();
+            imageView.setOnMouseDragged((MouseEvent event) -> {
+                event.setDragDetect(true);
             });
 
-            // Change the appearance of the node when the drag enters
-            imageView.setOnDragEntered(event -> {
-                if (event.getGestureSource() != imageView && event.getDragboard().hasFiles()) {
-                    // You can change the appearance of the node here, e.g., change the background color
-                }
-            });
 
-            // Reset the appearance of the node when the drag exits
-            imageView.setOnDragExited(event -> {
-                // Reset the appearance of the node here, e.g., change the background color back to the original
-            });
+//            imageView.setOnDragDetected(event -> {
+//                Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
+//                ClipboardContent content = new ClipboardContent();
+//                content.putImage(imageView.getImage());
+//                db.setContent(content);
+//                event.consume();
+//            });
+//            imageView.setOnDragOver(new EventHandler<DragEvent>() {
+//                public void handle(DragEvent event) {
+//                    if (event.getGestureSource() != imageView && event.getDragboard().hasFiles()) {
+//                        event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+//                    }
+//                    event.consume();
+//                }
+//            });
+//            imageView.setOnDragDropped(new EventHandler<DragEvent>() {
+//                public void handle(DragEvent event) {
+//                    Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
+//                    ClipboardContent content = new ClipboardContent();
+//                    content.putImage(imageView.getImage());
+//                    db.setContent(content);
+//                    event.consume();
+//                }
+//            });
+//
+//            // Change the appearance of the node when the drag enters
+//            imageView.setOnDragEntered(event -> {
+//                if (event.getGestureSource() != imageView && event.getDragboard().hasFiles()) {
+//                    // You can change the appearance of the node here, e.g., change the background color
+//                }
+//            });
+//
+//            // Reset the appearance of the node when the drag exits
+//            imageView.setOnDragExited(event -> {
+//                // Reset the appearance of the node here, e.g., change the background color back to the original
+//            });
 
-            imageView.setOnDragDropped(event -> {
-                Dragboard db = event.getDragboard();
-                boolean success = false;
-                if (db.hasFiles()) {
-                    File file = db.getFiles().get(0);
-                    Image image = new Image(file.toURI().toString());
-                    System.out.println("ali");
-                    // avatar.setImage(image);
-                    success = true;
-                }
-                event.setDropCompleted(success);
-                event.consume();
-            });
 //            imageView.setOnDragDropped(new EventHandler<DragEvent>() {
 //                @Override
 //                public void handle(DragEvent event) {
