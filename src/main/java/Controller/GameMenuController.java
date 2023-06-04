@@ -932,4 +932,8 @@ public class GameMenuController {
         }
         return details;
     }
+
+    public void setFirstUser() {
+        Database.setCurrentUser(Database.getUsersInTheGame().get(0));
+    }
 }

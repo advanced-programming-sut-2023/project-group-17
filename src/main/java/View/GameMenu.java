@@ -1,7 +1,9 @@
 package View;
 
+import Controller.BuildingMenuController;
 import Controller.DataAnalysisController;
 import Controller.GameMenuController;
+import View.Enums.Messages.BuildingMenuMessages;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -31,6 +33,7 @@ public class GameMenu extends Application {
 
     private GameMenuController controller;
     private DataAnalysisController dataController;
+    private BuildingMenuController buildingMenuController;
     private MapMenu mapMenu;
     private GridPane gridPane;
     private ToolBar toolBar;
@@ -40,12 +43,14 @@ public class GameMenu extends Application {
         this.controller = new GameMenuController();
         this.mapMenu = new MapMenu();
         this.dataController = new DataAnalysisController();
+        this.buildingMenuController = new BuildingMenuController();
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
         BorderPane borderPane = new BorderPane();
+        controller.setFirstUser();
 
         GridPane gridPane = new GridPane();
         this.gridPane = gridPane;
@@ -113,12 +118,14 @@ public class GameMenu extends Application {
                 Dragboard db = event.getDragboard();
                 if (db.hasString()) {
                     System.out.println("Dropped: " + db.getString());
-                    String path = getClass().getResource("/assets/Buildings/" +
-                            db.getString() + ".png").toExternalForm();
-                    ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
                     int columnIndex = GridPane.getColumnIndex(node);
                     int rowIndex = GridPane.getRowIndex(node);
-                    gridPane.add(imageView, columnIndex, rowIndex);
+                    if (buildingMenuController.dropBuilding(columnIndex, rowIndex, db.getString()).equals(BuildingMenuMessages.SUCCESS)) {
+                        String path = getClass().getResource("/assets/Buildings/" +
+                                db.getString() + ".png").toExternalForm();
+                        ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
+                        gridPane.add(imageView, columnIndex, rowIndex);
+                    }
                     event.setDropCompleted(true);
                 } else {
                     event.setDropCompleted(false);
