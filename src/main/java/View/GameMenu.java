@@ -65,13 +65,13 @@ public class GameMenu extends Application {
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-        for (int i = 0; i < numCols + 10; i += 10) {
-            for (int j = 0; j < numRows + 10; j += 10) {
+        for (int i = 0; i < numCols; i += 10) {
+            for (int j = 0; j < numRows; j += 10) {
                 ImageView imageView = new ImageView(new Image(getClass().getResource(
                         "/assets/Texture/graveland.jpg").toExternalForm()));
-                imageView.setFitWidth(80 * 10);
-                imageView.setFitHeight(80 * 10);
-                gridPane.add(imageView, i , j);
+                imageView.setFitWidth(80 * Math.min(10, numCols - i));
+                imageView.setFitHeight(80 * Math.min(10, numRows - j));
+                gridPane.add(imageView, i, j, Math.min(10, numCols - i), Math.min(10, numRows - j));
                 imageView.setOpacity(0.8);
             }
         }
