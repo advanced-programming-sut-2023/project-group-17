@@ -113,6 +113,12 @@ public class GameMenu extends Application {
                 Dragboard db = event.getDragboard();
                 if (db.hasString()) {
                     System.out.println("Dropped: " + db.getString());
+                    String path = getClass().getResource("/assets/Buildings/" +
+                            db.getString() + ".png").toExternalForm();
+                    ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
+                    int columnIndex = GridPane.getColumnIndex(node);
+                    int rowIndex = GridPane.getRowIndex(node);
+                    gridPane.add(imageView, columnIndex, rowIndex);
                     event.setDropCompleted(true);
                 } else {
                     event.setDropCompleted(false);
@@ -249,7 +255,6 @@ public class GameMenu extends Application {
             imageView.setId(dataController.getGatehouseBuildingNameByNumber(i));
             int finalI = i;
             imageView.setOnDragDetected((MouseEvent event) -> {
-                System.out.println("Circle 1 drag detected");
 
                 Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
 
