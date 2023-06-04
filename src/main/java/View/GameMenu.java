@@ -2,15 +2,27 @@ package View;
 
 import Controller.GameMenuController;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+
+import java.awt.*;
 
 public class GameMenu extends Application {
 
@@ -76,10 +88,61 @@ public class GameMenu extends Application {
 //            }
 //        }
         setHeadQuarters(gridPane);
-
+        handleHover(gridPane);
         primaryStage.getScene().setRoot(scrollPane);
         primaryStage.setFullScreen(true);
         primaryStage.show();
+    }
+
+    private void handleHover(GridPane gridPane) {
+//        for (int i = 0; i < gridPane.getColumnCount(); i++) {
+//            for (int j = 0; j < gridPane.getRowCount(); j++) {
+//                Pane pane = new Pane();
+//                gridPane.add(pane, i, j);
+//                int finalI = i;
+//                int finalJ = j;
+//                pane.hoverProperty().addListener((ChangeListener<Boolean>) (observable, oldValue, newValue) -> {
+//                    TextArea textArea = new TextArea("hiiii" + finalI + finalJ);
+//                    textArea.setPrefSize(70, 70);
+//                    if (newValue) {
+//                        pane.getChildren().add(textArea);
+//                    } else {
+//                        pane.getChildren().clear();
+//                    }
+//                });
+//            }
+//        }
+        for (int i = 0; i < gridPane.getColumnCount(); i++) {
+            for (int j = 0; j < gridPane.getRowCount(); j++) {
+                Label label = new Label();
+                label.setMaxSize(80, 80);
+                String details = controller.showDetails(i + 1, j + 1);
+                Tooltip tooltip = new Tooltip(details);
+                tooltip.setShowDelay(Duration.seconds(2));
+                tooltip.setHideDelay(Duration.seconds(1));
+                label.setTooltip(tooltip);
+                Tooltip.install(label, tooltip);
+                gridPane.add(label, i, j);
+            }
+        }
+//        gridPane.hoverProperty().addListener((event)->System.out.println("Ho-Ho-Ho-Hovereeed!"));
+//        gridPane.hoverProperty().addListener((ChangeListener<Boolean>) (observable, oldValue, newValue) -> {
+//            Node source = (Node).getSource() ;
+//            if (newValue) {
+//                System.out.println("oomad");
+//            } else {
+//                System.out.println("raft");
+//            }
+//        });
+//        gridPane.setOnMouseEntered(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent event) {
+//                Node source = (Node)event.getSource() ;
+//                Integer colIndex = GridPane.getColumnIndex(source);
+//                Integer rowIndex = GridPane.getRowIndex(source);
+//                System.out.printf("Mouse entered cell [%d, %d]%n", colIndex.intValue(), rowIndex.intValue());
+//            }
+//        });
     }
 
     private void setHeadQuarters(GridPane gridPane) {

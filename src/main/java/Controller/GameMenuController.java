@@ -910,4 +910,27 @@ public class GameMenuController {
         User user = Database.getUsersInTheGame().get(i / 3);
         return user.getEmpire().getBuildings().get(i % 3).getY();
     }
+
+    public String showDetails(int x, int y) {
+        String details = "";
+        if (!CheckMapCell.validationOfX(x)) return "Show details failed : Coordinate of x is out of bounds";
+        if (!CheckMapCell.validationOfY(y)) return "Show details failed : Coordinate of y is out of bounds";
+
+        MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
+        details += "x : " + x + " y : " + y + "\n"
+                + "Texture : " + mapCell.getMaterialMap().getMaterial() + "\n";
+
+        if(mapCell.haveBuilding()) details += "Building : " + mapCell.getBuilding().toString() + "\n";
+        else if (mapCell.haveAttackTools()) details += "AttackTool : "
+                + mapCell.getAttackToolsAndMethods().getName() + "\n";
+        else if (mapCell.getWall() != null) details += mapCell.getWall().toString() ;
+        else if (mapCell.getTree() != null) details += "Tree : " + mapCell.getTree().getTypeOfTree().getType() + "\n";
+        else if (mapCell.getRock() != null) details += "Have rock\n" ;
+        else if (mapCell.getStair() != null) details += mapCell.getStair().toString();
+        details += "soldiers : " + mapCell.getSoldier().size() + "\n";
+        for (Soldier soldier : mapCell.getSoldier()) {
+            details += soldier.toString();
+        }
+        return details;
+    }
 }

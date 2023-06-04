@@ -87,6 +87,6 @@ public class Wall extends MapCellItems {
 
     @Override
     public String toString() {
-        return "The wall is for : " + getOwner().getUsername() + " and it's hp is : " + getHp() + "\n";
+        return "wall owner: " + getOwner().getUsername() + "hp : " + getHp() + "\n";
     }
 }

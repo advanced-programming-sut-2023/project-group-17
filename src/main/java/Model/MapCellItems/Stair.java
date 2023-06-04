@@ -21,6 +21,6 @@ public class Stair extends MapCellItems{
 
     @Override
     public String toString() {
-        return "Stair in x : " + x + " in y : " + y + " and the owner is : " + getOwner().getUsername() + "\n";
+        return "Stair owner : " + getOwner().getUsername() + "\n";
     }
 }

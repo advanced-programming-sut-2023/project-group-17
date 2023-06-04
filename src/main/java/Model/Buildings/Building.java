@@ -76,7 +76,7 @@ public class Building {
 
     @Override
     public String toString() {
-        return buildingName + " is located\n" +
-                "The owner is : " + owner.getUsername() + ", and the hp is : " + buildingHp;
+        return buildingName + "\n" +
+                "owner : " + owner.getUsername() + ",hp : " + buildingHp;
     }
 }
