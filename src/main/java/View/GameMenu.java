@@ -4,9 +4,12 @@ import Controller.GameMenuController;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
+import javafx.geometry.Bounds;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
+import javafx.geometry.Point2D;
 import javafx.geometry.VPos;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -15,13 +18,21 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.*;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import javax.xml.crypto.dsig.keyinfo.KeyName;
 import java.awt.*;
+
+import static java.lang.Math.pow;
 
 public class GameMenu extends Application {
 
@@ -44,8 +55,6 @@ public class GameMenu extends Application {
         gridPane.setGridLinesVisible(true);
         final int numCols = controller.getWidthMap();
         final int numRows = controller.getLengthMap();
-//        System.out.println("col " + numCols);
-//        System.out.println("row " + numRows);
         for (int i = 0; i < numCols; i++) {
             ColumnConstraints colConst = new ColumnConstraints();
             colConst.setPrefWidth(80);
@@ -61,8 +70,8 @@ public class GameMenu extends Application {
 
         ScrollPane scrollPane = new ScrollPane(gridPane);
 
-        scrollPane.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
-        scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
+//        scrollPane.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
+//        scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
@@ -76,19 +85,9 @@ public class GameMenu extends Application {
                 imageView.setOpacity(0.8);
             }
         }
-
-//        for (int i = 0; i < numCols; i++) {
-//            for (int j = 0; j < numRows; j++) {
-//                ImageView imageView = new ImageView(new Image(getClass().getResource(
-//                        "/assets/Backgrounds/collection27.png").toExternalForm()));
-//                imageView.setRotate(45);
-//                gridPane.add(imageView, i, j);
-//                imageView.setFitHeight(114);
-//                imageView.setFitWidth(114);
-//                imageView.setOpacity(0.8);
-//            }
-//        }
         setHeadQuarters(gridPane);
+        scrollPane.requestFocus();
+        handleZoom(scrollPane);
         handleHover(gridPane);
         borderPane.setCenter(scrollPane);
         ToolBar toolBar = createToolbar();
@@ -97,6 +96,31 @@ public class GameMenu extends Application {
         primaryStage.getScene().setRoot(borderPane);
         primaryStage.setFullScreen(true);
         primaryStage.show();
+    }
+
+    private void handleZoom(ScrollPane scrollPane) {
+        KeyCombination zoomInKeyCombination = new KeyCodeCombination(KeyCode.EQUALS, KeyCombination.CONTROL_DOWN);
+        KeyCombination zoomOutKeyCombination = new KeyCodeCombination(KeyCode.MINUS, KeyCombination.CONTROL_DOWN);
+        scrollPane.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                double zoomFactor = 1.05;
+                if (zoomInKeyCombination.match(event)) {
+                    if (gridPane.getScaleX() != pow(zoomFactor, 6)) {
+                        gridPane.setScaleX(gridPane.getScaleX() * zoomFactor);
+                        gridPane.setScaleY(gridPane.getScaleY() * zoomFactor);
+                        event.consume();
+                    }
+                }
+                else if (zoomOutKeyCombination.match(event)) {
+                    if (gridPane.getScaleX() != 1.0) {
+                        gridPane.setScaleX(gridPane.getScaleX() / zoomFactor);
+                        gridPane.setScaleY(gridPane.getScaleY() / zoomFactor);
+                        event.consume();
+                    }
+                }
+            }
+        });
     }
 
     private ToolBar createToolbar() {
@@ -138,23 +162,6 @@ public class GameMenu extends Application {
     }
 
     private void handleHover(GridPane gridPane) {
-//        for (int i = 0; i < gridPane.getColumnCount(); i++) {
-//            for (int j = 0; j < gridPane.getRowCount(); j++) {
-//                Pane pane = new Pane();
-//                gridPane.add(pane, i, j);
-//                int finalI = i;
-//                int finalJ = j;
-//                pane.hoverProperty().addListener((ChangeListener<Boolean>) (observable, oldValue, newValue) -> {
-//                    TextArea textArea = new TextArea("hiiii" + finalI + finalJ);
-//                    textArea.setPrefSize(70, 70);
-//                    if (newValue) {
-//                        pane.getChildren().add(textArea);
-//                    } else {
-//                        pane.getChildren().clear();
-//                    }
-//                });
-//            }
-//        }
         for (int i = 0; i < gridPane.getColumnCount(); i++) {
             for (int j = 0; j < gridPane.getRowCount(); j++) {
                 Label label = new Label();
@@ -168,24 +175,6 @@ public class GameMenu extends Application {
                 gridPane.add(label, i, j);
             }
         }
-//        gridPane.hoverProperty().addListener((event)->System.out.println("Ho-Ho-Ho-Hovereeed!"));
-//        gridPane.hoverProperty().addListener((ChangeListener<Boolean>) (observable, oldValue, newValue) -> {
-//            Node source = (Node).getSource() ;
-//            if (newValue) {
-//                System.out.println("oomad");
-//            } else {
-//                System.out.println("raft");
-//            }
-//        });
-//        gridPane.setOnMouseEntered(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent event) {
-//                Node source = (Node)event.getSource() ;
-//                Integer colIndex = GridPane.getColumnIndex(source);
-//                Integer rowIndex = GridPane.getRowIndex(source);
-//                System.out.printf("Mouse entered cell [%d, %d]%n", colIndex.intValue(), rowIndex.intValue());
-//            }
-//        });
     }
 
     private void setHeadQuarters(GridPane gridPane) {
