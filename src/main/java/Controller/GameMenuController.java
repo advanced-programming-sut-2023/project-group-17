@@ -897,7 +897,6 @@ public class GameMenuController {
 
     public String getNameBuildingForHeadquarter(int i) {
         User user = Database.getUsersInTheGame().get(i / 3);
-        System.out.println(user.getEmpire().getBuildings().size());
         return user.getEmpire().getBuildings().get(i % 3).getBuildingName();
     }
 

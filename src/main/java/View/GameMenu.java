@@ -5,20 +5,19 @@ import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -37,6 +36,8 @@ public class GameMenu extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+        BorderPane borderPane = new BorderPane();
 
         GridPane gridPane = new GridPane();
         this.gridPane = gridPane;
@@ -89,9 +90,32 @@ public class GameMenu extends Application {
 //        }
         setHeadQuarters(gridPane);
         handleHover(gridPane);
-        primaryStage.getScene().setRoot(scrollPane);
+        borderPane.setCenter(scrollPane);
+        ToolBar toolBar = createToolbar();
+
+        borderPane.setBottom(toolBar);
+        primaryStage.getScene().setRoot(borderPane);
         primaryStage.setFullScreen(true);
         primaryStage.show();
+    }
+
+    private ToolBar createToolbar() {
+        ToolBar toolBar = new ToolBar();
+        toolBar.setPrefHeight(200);
+        toolBar.setBackground(new Background(new BackgroundImage(new Image(LoginMenu.class.getResource(
+                "/assets/ToolBar/menu.png").toExternalForm()),
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+                new BackgroundSize(1.0, 1.0, true, true, false, false))));
+
+        Button button1 = new Button("Building"); button1.setPrefWidth(80);
+        button1.setTranslateX(310); button1.setTranslateY(90);
+        Button button2 = new Button("Button 2"); button2.setPrefWidth(80);
+        button2.setTranslateX(310); button2.setTranslateY(90);
+        Button button3 = new Button("Button 3"); button3.setPrefWidth(80);
+        button3.setTranslateX(310); button3.setTranslateY(90);
+        toolBar.getItems().addAll(button1, button2, button3);
+
+        return toolBar;
     }
 
     private void handleHover(GridPane gridPane) {
