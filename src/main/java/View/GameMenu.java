@@ -553,7 +553,7 @@ public class GameMenu extends Application {
         }
 
         for (Label label : labels) {
-            label.getTooltip().setText(controller.showDetails(GridPane.getColumnIndex(label), GridPane.getRowIndex(label)));
+            label.getTooltip().setText(controller.showDetails(GridPane.getColumnIndex(label)+1, GridPane.getRowIndex(label)+1));
         }
     }
 
