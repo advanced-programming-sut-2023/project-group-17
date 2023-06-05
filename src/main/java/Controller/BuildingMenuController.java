@@ -210,20 +210,21 @@ public class BuildingMenuController {
         return BuildingMenuMessages.SUCCESS;
     }
 
-    public BuildingMenuMessages createUnit(String type, int count) {
+    public BuildingMenuMessages createUnit(int columnIndex, int rowIndex,String type, int count) {
 
         User currentUser = Database.getCurrentUser();
         Soldier sampleSoldier = Database.getSoldierDataByName(type);
 
-        if (sampleSoldier == null) return BuildingMenuMessages.INVALID_TYPE;
-
-        if (count <= 0) return BuildingMenuMessages.INVALID_NUMBER;
-
-        if (selectedBuilding == null) return BuildingMenuMessages.BUILDING_IS_NOT_SELECTED;
+//        if (sampleSoldier == null) return BuildingMenuMessages.INVALID_TYPE;
+//
+//        if (count <= 0) return BuildingMenuMessages.INVALID_NUMBER;
+//
+//        if (selectedBuilding == null) return BuildingMenuMessages.BUILDING_IS_NOT_SELECTED;
+        x = columnIndex; y = rowIndex;
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
 
-        if (!selectedBuilding.getCategory().equals("soldier production"))
-            return BuildingMenuMessages.INVALID_TYPE_BUILDING;
+//        if (!selectedBuilding.getCategory().equals("soldier production"))
+//            return BuildingMenuMessages.INVALID_TYPE_BUILDING;
 
         if (currentUser.getEmpire().getNormalPeople().size() < count) return BuildingMenuMessages.NOT_ENOUGH_CROWD;
 
@@ -237,9 +238,9 @@ public class BuildingMenuController {
             }
         }
 
-        if (!((SoldierProduction) selectedBuilding).getSoldiersTrained().containsKey(type)) {
-            return BuildingMenuMessages.INVALID_TYPE_BUILDING;
-        }
+//        if (!((SoldierProduction) selectedBuilding).getSoldiersTrained().containsKey(type)) {
+//            return BuildingMenuMessages.INVALID_TYPE_BUILDING;
+//        }
 
         makeUnits(currentUser, mapCell, count, selectedBuilding, PeopleType.SOLDIER, sampleSoldier);
 

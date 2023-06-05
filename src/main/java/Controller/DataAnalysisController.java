@@ -71,4 +71,12 @@ public class DataAnalysisController {
         }
         return soldiers;
     }
+
+    public int getXHeadquarter() {
+        return Database.getCurrentUser().getEmpire().getHeadquarter().getX();
+    }
+
+    public int getYHeadquarter() {
+        return Database.getCurrentUser().getEmpire().getHeadquarter().getY();
+    }
 }

@@ -24,8 +24,8 @@ public class BuildingMenu extends Menu{
             else if ((matcher = BuildingMenuCommands.getMatcher(command, BuildingMenuCommands.SELECT_BUILDING)) != null)
                 selectBuilding(matcher);
 
-            else if ((matcher = BuildingMenuCommands.getMatcher(command, BuildingMenuCommands.CREATE_UNIT)) != null)
-                createUnit(matcher);
+            else if ((matcher = BuildingMenuCommands.getMatcher(command, BuildingMenuCommands.CREATE_UNIT)) != null);
+//                createUnit(matcher);
 
             else if ((matcher = BuildingMenuCommands.getMatcher(command, BuildingMenuCommands.REPAIR)) != null)
                 repair();
@@ -203,38 +203,38 @@ public class BuildingMenu extends Menu{
         }
     }
 
-    private void createUnit(Matcher matcher) {
-        if (Menu.checkBlankField(matcher.group("type")) || Menu.checkBlankField(matcher.group("count")) ||
-                Menu.checkBlankField(matcher.group("type"))) {
-            System.out.println("Create unit failed : blank field");
-            return;
-        }
-        String type = Menu.handleDoubleQuote(matcher.group("type"));
-        int count = Integer.parseInt(matcher.group("count"));
-        switch (controller.createUnit(type, count)) {
-            case SUCCESS:
-                System.out.println("Units successfully crated");
-                break;
-            case INVALID_NUMBER:
-                System.out.println("Create unit failed : The number is invalid");
-                break;
-            case INSUFFICIENT_STORAGE:
-                System.out.println("Create unit failed : Lack of resource for creating units");
-                break;
-            case NOT_ENOUGH_CROWD:
-                System.out.println("Create unit failed : Lack of crowd for creating units");
-                break;
-            case INVALID_TYPE:
-                System.out.println("Crate unit failed : Invalid soldier type");
-                break;
-            case INVALID_TYPE_BUILDING:
-                System.out.println("Crate unit failed : Invalid building type for creating this unit");
-                break;
-            case BUILDING_IS_NOT_SELECTED:
-                System.out.println("Create unit failed : Building is not selected");
-                break;
-        }
-    }
+//    private void createUnit(Matcher matcher) {
+//        if (Menu.checkBlankField(matcher.group("type")) || Menu.checkBlankField(matcher.group("count")) ||
+//                Menu.checkBlankField(matcher.group("type"))) {
+//            System.out.println("Create unit failed : blank field");
+//            return;
+//        }
+//        String type = Menu.handleDoubleQuote(matcher.group("type"));
+//        int count = Integer.parseInt(matcher.group("count"));
+//        switch (controller.createUnit(type, count)) {
+//            case SUCCESS:
+//                System.out.println("Units successfully crated");
+//                break;
+//            case INVALID_NUMBER:
+//                System.out.println("Create unit failed : The number is invalid");
+//                break;
+//            case INSUFFICIENT_STORAGE:
+//                System.out.println("Create unit failed : Lack of resource for creating units");
+//                break;
+//            case NOT_ENOUGH_CROWD:
+//                System.out.println("Create unit failed : Lack of crowd for creating units");
+//                break;
+//            case INVALID_TYPE:
+//                System.out.println("Crate unit failed : Invalid soldier type");
+//                break;
+//            case INVALID_TYPE_BUILDING:
+//                System.out.println("Crate unit failed : Invalid building type for creating this unit");
+//                break;
+//            case BUILDING_IS_NOT_SELECTED:
+//                System.out.println("Create unit failed : Building is not selected");
+//                break;
+//        }
+//    }
 
     private void repair() {
         switch (controller.repair()) {

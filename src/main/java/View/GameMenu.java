@@ -172,7 +172,7 @@ public class GameMenu extends Application {
                             String path = getClass().getResource("/assets/Buildings/" +
                                     db.getString() + ".png").toExternalForm();
                             ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
-                            handleSelectBuilding(imageView, db.getString());
+                            handleSelectBuilding(imageView, db.getString(), columnIndex, rowIndex);
                             gridPane.add(imageView, columnIndex, rowIndex);
                         }
                     }
@@ -186,20 +186,49 @@ public class GameMenu extends Application {
         }
     }
 
-    private void handleSelectBuilding(ImageView imageView, String name) {
+    private void handleSelectBuilding(ImageView imageView, String name, int columnIndex, int rowIndex) {
         switch (dataController.getTypeBuilding(name)) {
             case "production":
                 //TODO
                 break;
             case "soldier production":
-                imageView.setOnMouseClicked(e -> createUnitMenu(name));
+                imageView.setOnMouseClicked(e -> createUnitMenu(name, columnIndex, rowIndex));
                 break;
         }
     }
 
-    private void createUnitMenu(String name) {
+    private void createUnitMenu(String name, int columnIndex, int rowIndex) {
         toolBarHBox.getChildren().clear();
-        System.out.println(dataController.getSoldierNames(name));
+        ArrayList<String> soldiers = dataController.getSoldierNames(name);
+        for (int i = 0; i < soldiers.size(); i++) {
+            String path = getClass().getResource("/assets/Soldiers/" +
+                    soldiers.get(i) + ".png").toExternalForm();
+            ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
+            imageView.setId(soldiers.get(i));
+            int finalI = i;
+            imageView.setOnMouseClicked(e -> createSoldiers(soldiers.get(finalI), path, columnIndex, rowIndex));
+            toolBarHBox.getChildren().add(imageView);
+        }
+//        System.out.println(dataController.getSoldierNames(name));
+    }
+
+    private void createSoldiers(String soldierName, String path, int columnIndex, int rowIndex) {
+        if (cheatMode) {
+            if (mapMenuController.dropUnit(dataController.getXHeadquarter(), dataController.getYHeadquarter() + 1,
+                    soldierName, 0).equals(MapMenuMessages.SUCCESS)) {
+                ImageView imageView = new ImageView(new Image(path, 60, 60, false, false));
+                gridPane.add(imageView, dataController.getXHeadquarter() - 1, dataController.getYHeadquarter());
+            }
+        }
+        else {
+            if (buildingMenuController.createUnit(dataController.getXHeadquarter(),
+                    dataController.getYHeadquarter() + 1, soldierName, 1)
+                    .equals(BuildingMenuMessages.SUCCESS)) {
+                ImageView imageView = new ImageView(new Image(path, 60, 60, false, false));
+                gridPane.add(imageView, dataController.getXHeadquarter() - 1, dataController.getYHeadquarter());
+            }
+        }
+        refreshToolBar();
     }
 
     private void handleZoom(ScrollPane scrollPane) {
