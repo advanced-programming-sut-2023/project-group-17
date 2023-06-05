@@ -272,27 +272,18 @@ public class GameMenu extends Application {
                     dataController.getProductionBuildingNameByNumber(i) + ".png").toExternalForm();
             ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
             imageView.setId(dataController.getProductionBuildingNameByNumber(i));
-            imageView.setOnDragOver(new EventHandler<DragEvent>() {
-                public void handle(DragEvent event) {
-                    if (event.getGestureSource() != imageView && event.getDragboard().hasFiles()) {
-                        event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
-                    }
-                    event.consume();
-                }
+            int finalI = i;
+            imageView.setOnDragDetected((MouseEvent event) -> {
+
+                Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
+
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(imageView.getImage());
+                content.putString(dataController.getProductionBuildingNameByNumber(finalI));
+                db.setContent(content);
             });
-            imageView.setOnDragDropped(new EventHandler<DragEvent>() {
-                public void handle(DragEvent event) {
-                    Dragboard db = event.getDragboard();
-                    boolean success = false;
-                    if (db.hasFiles()) {
-                        success = true;
-                        String filePath = db.getFiles().get(0).toURI().toString();
-                        Image image = new Image(filePath);
-                        imageView.setImage(image);
-                    }
-                    event.setDropCompleted(success);
-                    event.consume();
-                }
+            imageView.setOnMouseDragged((MouseEvent event) -> {
+                event.setDragDetect(true);
             });
             toolBarHBox.getChildren().add(imageView);
         }
@@ -313,6 +304,7 @@ public class GameMenu extends Application {
                 Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
 
                 ClipboardContent content = new ClipboardContent();
+                content.putImage(imageView.getImage());
                 content.putString(dataController.getGatehouseBuildingNameByNumber(finalI));
                 db.setContent(content);
             });
