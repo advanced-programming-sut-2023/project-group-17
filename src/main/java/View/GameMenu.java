@@ -106,6 +106,7 @@ public class GameMenu extends Application {
         handleHover(gridPane);
         handleCheatMode(borderPane);
         handleClick(gridPane);
+//        handleDrag(gridPane);
         borderPane.setCenter(scrollPane);
         ToolBar toolBar = createToolbar();
         this.toolBar = toolBar;
@@ -116,6 +117,22 @@ public class GameMenu extends Application {
         primaryStage.setFullScreen(true);
         primaryStage.show();
     }
+//
+//    private void handleDrag(GridPane gridPane) {
+//        gridPane.addEventHandler(MouseDragEvent.MOUSE_DRAG_OVER, mouseDragEvent -> {
+//            Node drag = mouseDragEvent.getPickResult().getIntersectedNode();
+//            if (drag != gridPane) {
+//                int columnIndex = GridPane.getColumnIndex(drag);
+//                int rowIndex = GridPane.getRowIndex(drag);
+//                Rectangle cellBorder = new Rectangle(80, 80);
+//                cellBorder.setFill(Color.TRANSPARENT);
+//                cellBorder.setStroke(Color.DEEPSKYBLUE);
+//                cellBorder.setOpacity(0.5);
+//                cellBorder.setStrokeWidth(4);
+//                gridPane.add(cellBorder, columnIndex, rowIndex);
+//            }
+//        });
+//    }
 
     private void handleClick(GridPane gridPane) {
         gridPane.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
@@ -125,13 +142,13 @@ public class GameMenu extends Application {
                 for (Node child : children) {
                     if (child instanceof Rectangle) {
                         gridPane.getChildren().remove(child);
+                        break;
                     }
                 }
 
                 int columnIndex = GridPane.getColumnIndex(clickedNode);
                 int rowIndex = GridPane.getRowIndex(clickedNode);
-                Rectangle cellBorder = new Rectangle(80, 80);
-                cellBorder.setFill(Color.TRANSPARENT);
+                Rectangle cellBorder = new Rectangle(80, 80, Color.TRANSPARENT);
                 cellBorder.setStroke(Color.DEEPSKYBLUE);
                 cellBorder.setOpacity(0.5);
                 cellBorder.setStrokeWidth(4);
