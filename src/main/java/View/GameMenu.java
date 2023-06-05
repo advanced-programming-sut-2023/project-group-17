@@ -7,27 +7,20 @@ import Controller.MapMenuController;
 import View.Enums.Messages.BuildingMenuMessages;
 import View.Enums.Messages.MapMenuMessages;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
-import java.io.File;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static java.lang.Math.pow;
 
@@ -98,6 +91,7 @@ public class GameMenu extends Application {
         handleZoom(scrollPane);
         handleHover(gridPane);
         handleCheatMode(borderPane);
+        handleClick(gridPane);
         borderPane.setCenter(scrollPane);
         ToolBar toolBar = createToolbar();
         this.toolBar = toolBar;
@@ -107,6 +101,29 @@ public class GameMenu extends Application {
         primaryStage.getScene().setRoot(borderPane);
         primaryStage.setFullScreen(true);
         primaryStage.show();
+    }
+
+    private void handleClick(GridPane gridPane) {
+        gridPane.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+            Node clickedNode = mouseEvent.getPickResult().getIntersectedNode();
+            if (clickedNode != gridPane) {
+                ObservableList<Node> children = gridPane.getChildren();
+                for (Node child : children) {
+                    if (child instanceof Rectangle) {
+                        gridPane.getChildren().remove(child);
+                    }
+                }
+
+                int columnIndex = GridPane.getColumnIndex(clickedNode);
+                int rowIndex = GridPane.getRowIndex(clickedNode);
+                Rectangle cellBorder = new Rectangle(80, 80);
+                cellBorder.setFill(Color.TRANSPARENT);
+                cellBorder.setStroke(Color.DEEPSKYBLUE);
+                cellBorder.setOpacity(0.5);
+                cellBorder.setStrokeWidth(4);
+                gridPane.add(cellBorder, columnIndex, rowIndex);
+            }
+        });
     }
 
     private void handleCheatMode(BorderPane borderPane) {
