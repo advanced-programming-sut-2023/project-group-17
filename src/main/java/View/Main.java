@@ -18,6 +18,8 @@ public class Main extends Application{
         Pane pane = new Pane();
         stage.setScene(new Scene(pane));
         Main.stage = stage;
+
+//        new clearDeadThings().start(stage);
         if (controller.checkStayLoggedIn()) new MainMenu().start(stage);
         else new LoginMenu().start(stage);
     }

@@ -936,4 +936,8 @@ public class GameMenuController {
     public void setFirstUser() {
         Database.setCurrentUser(Database.getUsersInTheGame().get(0));
     }
+
+    public boolean isCellSelected(int x, int y) {
+        return true;
+    }
 }
