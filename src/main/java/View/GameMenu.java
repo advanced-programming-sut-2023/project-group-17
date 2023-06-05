@@ -113,13 +113,13 @@ public class GameMenu extends Application {
                 for (Node child : children) {
                     if (child instanceof Rectangle) {
                         gridPane.getChildren().remove(child);
+                        break;
                     }
                 }
 
                 int columnIndex = GridPane.getColumnIndex(clickedNode);
                 int rowIndex = GridPane.getRowIndex(clickedNode);
-                Rectangle cellBorder = new Rectangle(80, 80);
-                cellBorder.setFill(Color.TRANSPARENT);
+                Rectangle cellBorder = new Rectangle(80, 80, Color.TRANSPARENT);
                 cellBorder.setStroke(Color.DEEPSKYBLUE);
                 cellBorder.setOpacity(0.5);
                 cellBorder.setStrokeWidth(4);
