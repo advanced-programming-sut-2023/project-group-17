@@ -158,7 +158,7 @@ public class GameMenu extends Application {
                     int columnIndex = GridPane.getColumnIndex(node);
                     int rowIndex = GridPane.getRowIndex(node);
                     if (cheatMode) {
-                        if (mapMenuController.dropBuilding(columnIndex, rowIndex, db.getString()).equals(MapMenuMessages.SUCCESS)) {
+                        if (mapMenuController.dropBuilding(columnIndex + 1, rowIndex + 1, db.getString()).equals(MapMenuMessages.SUCCESS)) {
                             String path = getClass().getResource("/assets/Buildings/" +
                                     db.getString() + ".png").toExternalForm();
                             ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
@@ -166,7 +166,7 @@ public class GameMenu extends Application {
                         }
                     }
                     else {
-                        if (buildingMenuController.dropBuilding(columnIndex, rowIndex, db.getString()).equals(BuildingMenuMessages.SUCCESS)) {
+                        if (buildingMenuController.dropBuilding(columnIndex + 1, rowIndex + 1, db.getString()).equals(BuildingMenuMessages.SUCCESS)) {
                             String path = getClass().getResource("/assets/Buildings/" +
                                     db.getString() + ".png").toExternalForm();
                             ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
