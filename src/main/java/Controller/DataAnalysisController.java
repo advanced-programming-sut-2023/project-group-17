@@ -2,9 +2,9 @@ package Controller;
 
 import Model.Buildings.SoldierProduction;
 import Model.Database;
+import Model.Items.Item;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class DataAnalysisController {
     public int getGatehouseBuildingsSize() {
@@ -42,6 +42,7 @@ public class DataAnalysisController {
     }
 
     public String getOtherBuildingNameByNumber(int index) {
+        System.out.println("building name : " + Database.getOtherBuildings().get(index).getBuildingName());
         return Database.getOtherBuildings().get(index).getBuildingName();
     }
     public int getSoldierBuildingsSize() {
@@ -78,5 +79,32 @@ public class DataAnalysisController {
 
     public int getYHeadquarter() {
         return Database.getCurrentUser().getEmpire().getHeadquarter().getY();
+    }
+
+    public ArrayList<Item.ItemType> getWeaponsName() {
+        ArrayList<Item.ItemType> item = new ArrayList<>();
+        item.add(Item.ItemType.BOW);
+        item.add(Item.ItemType.CROSSBOW);
+        item.add(Item.ItemType.PIKE);
+        item.add(Item.ItemType.SPEAR);
+        item.add(Item.ItemType.MACE);
+        item.add(Item.ItemType.SWORDS);
+        item.add(Item.ItemType.LEATHER_ARMOR);
+        item.add(Item.ItemType.METAL_ARMOR);
+
+        item.add(Item.ItemType.WHEAT);
+        item.add(Item.ItemType.FLOUR);
+        item.add(Item.ItemType.HOPS);
+        item.add(Item.ItemType.ALE);
+        item.add(Item.ItemType.STONE);
+        item.add(Item.ItemType.IRON);
+        item.add(Item.ItemType.WOOD);
+        item.add(Item.ItemType.PITCH);
+
+        item.add(Item.ItemType.MEAT);
+        item.add(Item.ItemType.CHEESE);
+        item.add(Item.ItemType.BREAD);
+        item.add(Item.ItemType.APPLE);
+        return item;
     }
 }

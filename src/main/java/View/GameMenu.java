@@ -4,12 +4,14 @@ import Controller.BuildingMenuController;
 import Controller.DataAnalysisController;
 import Controller.GameMenuController;
 import Controller.MapMenuController;
+import Model.Items.Item;
 import View.Enums.Messages.BuildingMenuMessages;
 import View.Enums.Messages.MapMenuMessages;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -71,6 +73,31 @@ public class GameMenu extends Application {
             gridPane.getRowConstraints().add(rowConst);
         }
 
+        //
+//
+//        // Set up the mini-map GridPane
+//        GridPane miniMap = new GridPane();
+//        final int miniCols = numCols / 10;
+//        final int miniRows = numRows / 10;
+//        for (int i = 0; i < miniCols; i++) {
+//            ColumnConstraints colConst = new ColumnConstraints();
+//            colConst.setPrefWidth(8);
+//            colConst.setHalignment(HPos.CENTER);
+//            miniMap.getColumnConstraints().add(colConst);
+//        }
+//        for (int i = 0; i < miniRows; i++) {
+//            RowConstraints rowConst = new RowConstraints();
+//            rowConst.setPrefHeight(8);
+//            rowConst.setValignment(VPos.CENTER);
+//            miniMap.getRowConstraints().add(rowConst);
+//        }
+//
+//
+//
+        //
+
+
+
         ScrollPane scrollPane = new ScrollPane(gridPane);
 
 //        scrollPane.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
@@ -86,6 +113,25 @@ public class GameMenu extends Application {
                 imageView.setFitHeight(80 * Math.min(10, numRows - j));
                 gridPane.add(imageView, i, j, Math.min(10, numCols - i), Math.min(10, numRows - j));
                 imageView.setOpacity(0.8);
+
+                //
+
+//                if (i % 100 == 0 && j % 100 == 0) {
+//                    ImageView miniImageView = new ImageView(new Image(getClass().getResource(
+//                            "/assets/Texture/graveland.jpg").toExternalForm()));
+//                    miniImageView.setFitWidth(8 * Math.min(10, miniCols - i / 10));
+//                    miniImageView.setFitHeight(8 * Math.min(10, miniRows - j / 10));
+//                    miniMap.add(miniImageView, i / 10, j / 10);
+//                    miniImageView.setOnMouseClicked(event -> {
+//                        double x = event.getX() / miniImageView.getBoundsInLocal().getWidth() * numCols;
+//                        double y = event.getY() / miniImageView.getBoundsInLocal().getHeight() * numRows;
+////                        gridPane.scrollTo(x, y, ScrollPane.ScrollBarPolicy.NEVER, ScrollPane.ScrollBarPolicy.NEVER);
+//                    });
+//                }
+
+
+                //
+
             }
         }
         setHeadQuarters(gridPane);
@@ -100,6 +146,12 @@ public class GameMenu extends Application {
         setDropActionForGridPane();
 
         borderPane.setBottom(toolBar);
+        //
+//        miniMap.setCenterShape(true);
+//        borderPane.setBottom(miniMap);
+//        setHeadQuarters(miniMap);
+        //
+
         primaryStage.getScene().setRoot(borderPane);
         primaryStage.setFullScreen(true);
         primaryStage.show();
@@ -187,6 +239,7 @@ public class GameMenu extends Application {
     }
 
     private void handleSelectBuilding(ImageView imageView, String name, int columnIndex, int rowIndex) {
+        System.out.println(name);
         switch (dataController.getTypeBuilding(name)) {
             case "production":
                 //TODO
@@ -194,8 +247,50 @@ public class GameMenu extends Application {
             case "soldier production":
                 imageView.setOnMouseClicked(e -> createUnitMenu(name, columnIndex, rowIndex));
                 break;
+            case "other buildings":
+                if (name.equals("market"))
+                    imageView.setOnMouseClicked(e -> createShopMenu());
+                break;
         }
     }
+
+    private void createShopMenu() {
+        toolBarHBox.getChildren().clear();
+        Button buy = new Button("Buy"); buy.setDisable(true); buy.setPrefWidth(80);
+        Button sell = new Button("Sell"); sell.setDisable(true); sell.setPrefWidth(80);
+        toolBarHBox.getChildren().addAll(buy);
+        ArrayList<Item.ItemType> item = dataController.getWeaponsName();
+        VBox vBox = new VBox();
+        HBox hBox1 = new HBox(); hBox1.setSpacing(10);
+        HBox hBox2 = new HBox(); hBox2.setSpacing(10);
+        HBox hBox3 = new HBox(); hBox3.setSpacing(10);
+//        Item.ItemType selectedItem = null;
+
+        for (int i = 0; i < item.size(); i++) {
+            String path = getClass().getResource("/assets/Item/" +
+                    item.get(i).getName() + ".png").toExternalForm();
+            ImageView imageView = new ImageView(new Image(path, 40, 40, false, false));
+            imageView.setId(item.get(i).getName());
+            int finalI = i;
+//            imageView.setOnMouseClicked(e -> setSelectedItem(selectedItem, item.get(finalI)));
+
+            if (i < 8) hBox1.getChildren().add(imageView);
+            else if (i < 16) hBox2.getChildren().add(imageView);
+            else hBox3.getChildren().add(imageView);
+
+
+        }
+        hBox3.setAlignment(Pos.CENTER);
+        vBox.getChildren().addAll(hBox1, hBox2, hBox3);
+        vBox.setAlignment(Pos.CENTER);
+        toolBarHBox.getChildren().addAll(vBox, sell);
+
+    }
+
+    private void setSelectedItem(Item.ItemType selectedItem, Item.ItemType itemType) {
+        selectedItem = itemType;
+    }
+
 
     private void createUnitMenu(String name, int columnIndex, int rowIndex) {
         toolBarHBox.getChildren().clear();
@@ -264,7 +359,10 @@ public class GameMenu extends Application {
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 new BackgroundSize(1.0, 1.0, true, true, false, false))));
         HBox hBoxButtons = new HBox();
-        hBoxButtons.setTranslateX(1050);
+        //TODO: delete one of these
+//        hBoxButtons.setTranslateX(1050);
+        hBoxButtons.setTranslateX(950);
+
         hBoxButtons.setSpacing(10);
         hBoxButtons.setTranslateY(10);
         hBoxButtons.setPrefHeight(30);
