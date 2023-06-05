@@ -7,17 +7,8 @@ import Controller.MapMenuController;
 import View.Enums.Messages.BuildingMenuMessages;
 import View.Enums.Messages.MapMenuMessages;
 import javafx.application.Application;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
-import javafx.beans.binding.Binding;
-import javafx.beans.binding.Bindings;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
-import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
@@ -31,10 +22,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Properties;
 
 import static java.lang.Math.pow;
 
@@ -106,7 +94,6 @@ public class GameMenu extends Application {
         handleHover(gridPane);
         handleCheatMode(borderPane);
         handleClick(gridPane);
-//        handleDrag(gridPane);
         borderPane.setCenter(scrollPane);
         ToolBar toolBar = createToolbar();
         this.toolBar = toolBar;
@@ -117,22 +104,6 @@ public class GameMenu extends Application {
         primaryStage.setFullScreen(true);
         primaryStage.show();
     }
-//
-//    private void handleDrag(GridPane gridPane) {
-//        gridPane.addEventHandler(MouseDragEvent.MOUSE_DRAG_OVER, mouseDragEvent -> {
-//            Node drag = mouseDragEvent.getPickResult().getIntersectedNode();
-//            if (drag != gridPane) {
-//                int columnIndex = GridPane.getColumnIndex(drag);
-//                int rowIndex = GridPane.getRowIndex(drag);
-//                Rectangle cellBorder = new Rectangle(80, 80);
-//                cellBorder.setFill(Color.TRANSPARENT);
-//                cellBorder.setStroke(Color.DEEPSKYBLUE);
-//                cellBorder.setOpacity(0.5);
-//                cellBorder.setStrokeWidth(4);
-//                gridPane.add(cellBorder, columnIndex, rowIndex);
-//            }
-//        });
-//    }
 
     private void handleClick(GridPane gridPane) {
         gridPane.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
@@ -142,13 +113,13 @@ public class GameMenu extends Application {
                 for (Node child : children) {
                     if (child instanceof Rectangle) {
                         gridPane.getChildren().remove(child);
-                        break;
                     }
                 }
 
                 int columnIndex = GridPane.getColumnIndex(clickedNode);
                 int rowIndex = GridPane.getRowIndex(clickedNode);
-                Rectangle cellBorder = new Rectangle(80, 80, Color.TRANSPARENT);
+                Rectangle cellBorder = new Rectangle(80, 80);
+                cellBorder.setFill(Color.TRANSPARENT);
                 cellBorder.setStroke(Color.DEEPSKYBLUE);
                 cellBorder.setOpacity(0.5);
                 cellBorder.setStrokeWidth(4);
@@ -189,22 +160,18 @@ public class GameMenu extends Application {
                     int columnIndex = GridPane.getColumnIndex(node);
                     int rowIndex = GridPane.getRowIndex(node);
                     if (cheatMode) {
-                        if (mapMenuController.dropBuilding(columnIndex, rowIndex, db.getString()).
-                                equals(MapMenuMessages.SUCCESS)) {
+                        if (mapMenuController.dropBuilding(columnIndex + 1, rowIndex + 1, db.getString()).equals(MapMenuMessages.SUCCESS)) {
                             String path = getClass().getResource("/assets/Buildings/" +
                                     db.getString() + ".png").toExternalForm();
-                            ImageView imageView = new ImageView(new Image(path, 80,
-                                    80, false, false));
+                            ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
                             gridPane.add(imageView, columnIndex, rowIndex);
                         }
                     }
                     else {
-                        if (buildingMenuController.dropBuilding(columnIndex, rowIndex, db.getString()).
-                                equals(BuildingMenuMessages.SUCCESS)) {
+                        if (buildingMenuController.dropBuilding(columnIndex + 1, rowIndex + 1, db.getString()).equals(BuildingMenuMessages.SUCCESS)) {
                             String path = getClass().getResource("/assets/Buildings/" +
                                     db.getString() + ".png").toExternalForm();
-                            ImageView imageView = new ImageView(new Image(path, 80,
-                                    80, false, false));
+                            ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
                             gridPane.add(imageView, columnIndex, rowIndex);
                         }
                     }
@@ -248,8 +215,7 @@ public class GameMenu extends Application {
         toolBar.setBackground(new Background(new BackgroundImage(new Image(LoginMenu.class.getResource(
                 "/assets/ToolBar/menu.jpeg").toExternalForm()),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
-                new BackgroundSize(1.0, 1.0, true, true,
-                        false, false))));
+                new BackgroundSize(1.0, 1.0, true, true, false, false))));
         HBox hBoxButtons = new HBox();
         hBoxButtons.setTranslateX(1050);
         hBoxButtons.setSpacing(10);
@@ -259,28 +225,23 @@ public class GameMenu extends Application {
         Button button1 = new Button();
         button1.setTranslateY(110);
         button1.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
-                "/assets/ToolBar/Buttons/Gatehouse.png").toExternalForm(), 20,
-                20, false, false)));
+                "/assets/ToolBar/Buttons/Gatehouse.png").toExternalForm(), 20, 20, false, false)));
         Button button2 = new Button("");
         button2.setTranslateY(110);
         button2.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
-                "/assets/ToolBar/Buttons/Production.png").toExternalForm(), 20,
-                20, false, false)));
+                "/assets/ToolBar/Buttons/Production.png").toExternalForm(), 20, 20, false, false)));
         Button button3 = new Button("");
         button3.setTranslateY(110);
         button3.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
-                "/assets/ToolBar/Buttons/Farm.png").toExternalForm(), 20,
-                20, false, false)));
+                "/assets/ToolBar/Buttons/Mining.png").toExternalForm(), 20, 20, false, false)));
         Button button4 = new Button("");
         button4.setTranslateY(110);
         button4.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
-                "/assets/ToolBar/Buttons/Town.png").toExternalForm(), 20,
-                20, false, false)));
+                "/assets/ToolBar/Buttons/Storage.png").toExternalForm(), 20, 20, false, false)));
         Button button5 = new Button("");
         button5.setTranslateY(110);
         button5.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
-                "/assets/ToolBar/Buttons/Weapons.png").toExternalForm(), 20,
-                20, false, false)));
+                "/assets/ToolBar/Buttons/Defensive.png").toExternalForm(), 20, 20, false, false)));
         Button button6 = new Button("");
         button6.setTranslateY(110);
         button6.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
@@ -451,8 +412,7 @@ public class GameMenu extends Application {
         for (int i = 0; i < dataController.getProductionBuildingsSize(); i++) {
             path = getClass().getResource("/assets/Buildings/" +
                     dataController.getProductionBuildingNameByNumber(i) + ".png").toExternalForm();
-            ImageView imageView = new ImageView(new Image(path, 80, 80,
-                    false, false));
+            ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
             imageView.setId(dataController.getProductionBuildingNameByNumber(i));
             int finalI = i;
             imageView.setOnDragDetected((MouseEvent event) -> {
@@ -478,8 +438,7 @@ public class GameMenu extends Application {
         for (int i = 0; i < dataController.getGatehouseBuildingsSize(); i++) {
             path = getClass().getResource("/assets/Buildings/" +
                     dataController.getGatehouseBuildingNameByNumber(i) + ".png").toExternalForm();
-            ImageView imageView = new ImageView(new Image(path, 80, 80,
-                    false, false));
+            ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
             imageView.setId(dataController.getGatehouseBuildingNameByNumber(i));
             int finalI = i;
             imageView.setOnDragDetected((MouseEvent event) -> {
@@ -573,11 +532,9 @@ public class GameMenu extends Application {
         }
     }
 
-    private void createBuilding(String nameBuildingForHeadquarter, int xBuildingForHeadquarter,
-                                int yBuildingForHeadquarter, GridPane gridPane) {
+    private void createBuilding(String nameBuildingForHeadquarter, int xBuildingForHeadquarter, int yBuildingForHeadquarter, GridPane gridPane) {
         String url = getClass().getResource("/assets/Buildings/" + nameBuildingForHeadquarter +".png").toExternalForm();
-        ImageView imageView = new ImageView(new Image(url, 80, 80,
-                false, false));
+        ImageView imageView = new ImageView(new Image(url, 80, 80, false, false));
         imageView.setOnDragDetected(event -> {
             Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
             ClipboardContent content = new ClipboardContent();
@@ -589,15 +546,14 @@ public class GameMenu extends Application {
                 xBuildingForHeadquarter - 1, yBuildingForHeadquarter - 1);
     }
 
-    private void refreshToolTips() {
+    private void refreshToolBar() {
         ArrayList<Label> labels = new ArrayList<>();
         for (Node child : gridPane.getChildren()) {
             if (child instanceof Label) labels.add((Label) child);
         }
 
         for (Label label : labels) {
-            label.getTooltip().setText(controller.showDetails(
-                    GridPane.getColumnIndex(label)+1, GridPane.getRowIndex(label)+1));
+            label.getTooltip().setText(controller.showDetails(GridPane.getColumnIndex(label), GridPane.getRowIndex(label)));
         }
     }
 
