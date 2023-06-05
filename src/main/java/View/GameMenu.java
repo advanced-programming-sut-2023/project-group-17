@@ -172,9 +172,11 @@ public class GameMenu extends Application {
                             String path = getClass().getResource("/assets/Buildings/" +
                                     db.getString() + ".png").toExternalForm();
                             ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
+                            handleSelectBuilding(imageView, db.getString());
                             gridPane.add(imageView, columnIndex, rowIndex);
                         }
                     }
+                    refreshToolBar();
                     event.setDropCompleted(true);
                 } else {
                     event.setDropCompleted(false);
@@ -182,6 +184,22 @@ public class GameMenu extends Application {
                 event.consume();
             });
         }
+    }
+
+    private void handleSelectBuilding(ImageView imageView, String name) {
+        switch (dataController.getTypeBuilding(name)) {
+            case "production":
+                //TODO
+                break;
+            case "soldier production":
+                imageView.setOnMouseClicked(e -> createUnitMenu(name));
+                break;
+        }
+    }
+
+    private void createUnitMenu(String name) {
+        toolBarHBox.getChildren().clear();
+        System.out.println(dataController.getSoldierNames(name));
     }
 
     private void handleZoom(ScrollPane scrollPane) {

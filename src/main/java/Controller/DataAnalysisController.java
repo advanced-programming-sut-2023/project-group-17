@@ -1,6 +1,10 @@
 package Controller;
 
+import Model.Buildings.SoldierProduction;
 import Model.Database;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DataAnalysisController {
     public int getGatehouseBuildingsSize() {
@@ -53,5 +57,18 @@ public class DataAnalysisController {
 
     public String getStorageBuildingNameByNumber(int index) {
         return Database.getStorageBuildings().get(index).getBuildingName();
+    }
+
+    public String getTypeBuilding(String name) {
+        return Database.getBuildingDataByName(name).getCategory();
+    }
+
+    public ArrayList<String> getSoldierNames(String buildingName) {
+        SoldierProduction soldierProduction = Database.getSoldierProductionDataByName(buildingName);
+        ArrayList<String> soldiers = new ArrayList<>();
+        for (String soldier : soldierProduction.getSoldiersTrained().keySet()) {
+            soldiers.add(soldier);
+        }
+        return soldiers;
     }
 }
