@@ -43,10 +43,15 @@ public class MainMenuController {
         Database.setLoggedInUser(null);
     }
 
+    public String getLoggedInUser() {
+        return Database.getLoggedInUser().getUsername();
+    }
+
     public void addUsers(ArrayList<String> list) {
         Database.loadUsers();
         for (User user : Database.getUsers()) {
-            list.add(user.getUsername());
+            if (!user.getUsername().equals(Database.getLoggedInUser().getUsername()))
+                list.add(user.getUsername());
         }
     }
 
