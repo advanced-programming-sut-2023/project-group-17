@@ -231,25 +231,29 @@ public class GameMenu extends Application {
         Button button3 = new Button("");
         button3.setTranslateY(110);
         button3.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
-                "/assets/ToolBar/Buttons/Farm.png").toExternalForm(), 20, 20, false, false)));
+                "/assets/ToolBar/Buttons/Mining.png").toExternalForm(), 20, 20, false, false)));
         Button button4 = new Button("");
         button4.setTranslateY(110);
         button4.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
-                "/assets/ToolBar/Buttons/Town.png").toExternalForm(), 20, 20, false, false)));
+                "/assets/ToolBar/Buttons/Storage.png").toExternalForm(), 20, 20, false, false)));
         Button button5 = new Button("");
         button5.setTranslateY(110);
         button5.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
-                "/assets/ToolBar/Buttons/Weapons.png").toExternalForm(), 20, 20, false, false)));
+                "/assets/ToolBar/Buttons/Defensive.png").toExternalForm(), 20, 20, false, false)));
         Button button6 = new Button("");
         button6.setTranslateY(110);
         button6.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
-                "/assets/ToolBar/Buttons/Food.png").toExternalForm(), 20, 20, false, false)));
-        setOnActionButtons(button1, button2, button3, button4, button5, button6);
-        hBoxButtons.getChildren().addAll(button1, button2, button3, button4, button5, button6);
+                "/assets/ToolBar/Buttons/Other.png").toExternalForm(), 20, 20, false, false)));
+        Button button7 = new Button("");
+        button7.setTranslateY(110);
+        button7.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
+                "/assets/ToolBar/Buttons/Soldier.png").toExternalForm(), 20, 20, false, false)));
+        setOnActionButtons(button1, button2, button3, button4, button5, button6, button7);
+        hBoxButtons.getChildren().addAll(button1, button2, button3, button4, button5, button6, button7);
 
 //        toolBar.getItems().addAll(button1, button2, button3, button4, button5, button6);
         HBox hBox = new HBox();
-        hBox.setTranslateY(20); hBox.setTranslateX(40);
+        hBox.setTranslateY(20);
         this.toolBarHBox = hBox;
         toolBar.getItems().add(hBoxButtons);
         toolBar.getItems().add(hBox);
@@ -258,9 +262,145 @@ public class GameMenu extends Application {
         return toolBar;
     }
 
-    private void setOnActionButtons(Button button1, Button button2, Button button3, Button button4, Button button5, Button button6) {
+    private void setOnActionButtons(Button button1, Button button2, Button button3,
+                                    Button button4, Button button5, Button button6, Button button7) {
         button1.setOnAction(e -> openGatehouseBuildings());
         button2.setOnAction(e -> openProductionBuildings());
+        button3.setOnAction(e -> openMiningBuildings());
+        button4.setOnAction(e -> openStorageBuildings());
+        button5.setOnAction(e -> openDefensiveBuildings());
+        button6.setOnAction(e -> openOtherBuildings());
+        button7.setOnAction(e -> openSoldierBuildings());
+    }
+
+    private void openSoldierBuildings() {
+        String path = "";
+        toolBarHBox.getChildren().clear();
+        toolBarHBox.setSpacing(10);
+        for (int i = 0; i < dataController.getSoldierBuildingsSize(); i++) {
+            path = getClass().getResource("/assets/Buildings/" +
+                    dataController.getSoldierBuildingNameByNumber(i) + ".png").toExternalForm();
+            ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
+            imageView.setId(dataController.getSoldierBuildingNameByNumber(i));
+            int finalI = i;
+            imageView.setOnDragDetected((MouseEvent event) -> {
+
+                Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
+
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(imageView.getImage());
+                content.putString(dataController.getSoldierBuildingNameByNumber(finalI));
+                db.setContent(content);
+            });
+            imageView.setOnMouseDragged((MouseEvent event) -> {
+                event.setDragDetect(true);
+            });
+            toolBarHBox.getChildren().add(imageView);
+        }
+    }
+
+    private void openOtherBuildings() {
+        String path = "";
+        toolBarHBox.getChildren().clear();
+        toolBarHBox.setSpacing(10);
+        for (int i = 0; i < dataController.getOtherBuildingsSize(); i++) {
+            path = getClass().getResource("/assets/Buildings/" +
+                    dataController.getOtherBuildingNameByNumber(i) + ".png").toExternalForm();
+            ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
+            imageView.setId(dataController.getOtherBuildingNameByNumber(i));
+            int finalI = i;
+            imageView.setOnDragDetected((MouseEvent event) -> {
+
+                Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
+
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(imageView.getImage());
+                content.putString(dataController.getOtherBuildingNameByNumber(finalI));
+                db.setContent(content);
+            });
+            imageView.setOnMouseDragged((MouseEvent event) -> {
+                event.setDragDetect(true);
+            });
+            toolBarHBox.getChildren().add(imageView);
+        }
+    }
+
+    private void openDefensiveBuildings() {
+        String path = "";
+        toolBarHBox.getChildren().clear();
+        toolBarHBox.setSpacing(10);
+        for (int i = 0; i < dataController.getDefensiveBuildingsSize(); i++) {
+            path = getClass().getResource("/assets/Buildings/" +
+                    dataController.getDefensiveBuildingNameByNumber(i) + ".png").toExternalForm();
+            ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
+            imageView.setId(dataController.getDefensiveBuildingNameByNumber(i));
+            int finalI = i;
+            imageView.setOnDragDetected((MouseEvent event) -> {
+
+                Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
+
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(imageView.getImage());
+                content.putString(dataController.getDefensiveBuildingNameByNumber(finalI));
+                db.setContent(content);
+            });
+            imageView.setOnMouseDragged((MouseEvent event) -> {
+                event.setDragDetect(true);
+            });
+            toolBarHBox.getChildren().add(imageView);
+        }
+    }
+
+    private void openStorageBuildings() {
+        String path = "";
+        toolBarHBox.getChildren().clear();
+        toolBarHBox.setSpacing(10);
+        for (int i = 0; i < dataController.getStorageBuildingsSize(); i++) {
+            path = getClass().getResource("/assets/Buildings/" +
+                    dataController.getStorageBuildingNameByNumber(i) + ".png").toExternalForm();
+            ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
+            imageView.setId(dataController.getStorageBuildingNameByNumber(i));
+            int finalI = i;
+            imageView.setOnDragDetected((MouseEvent event) -> {
+
+                Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
+
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(imageView.getImage());
+                content.putString(dataController.getStorageBuildingNameByNumber(finalI));
+                db.setContent(content);
+            });
+            imageView.setOnMouseDragged((MouseEvent event) -> {
+                event.setDragDetect(true);
+            });
+            toolBarHBox.getChildren().add(imageView);
+        }
+    }
+
+    private void openMiningBuildings() {
+        String path = "";
+        toolBarHBox.getChildren().clear();
+        toolBarHBox.setSpacing(10);
+        for (int i = 0; i < dataController.getMiningBuildingsSize(); i++) {
+            path = getClass().getResource("/assets/Buildings/" +
+                    dataController.getMiningBuildingNameByNumber(i) + ".png").toExternalForm();
+            ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
+            imageView.setId(dataController.getMiningBuildingNameByNumber(i));
+            int finalI = i;
+            imageView.setOnDragDetected((MouseEvent event) -> {
+
+                Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
+
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(imageView.getImage());
+                content.putString(dataController.getMiningBuildingNameByNumber(finalI));
+                db.setContent(content);
+            });
+            imageView.setOnMouseDragged((MouseEvent event) -> {
+                event.setDragDetect(true);
+            });
+            toolBarHBox.getChildren().add(imageView);
+        }
     }
 
     private void openProductionBuildings() {
