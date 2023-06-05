@@ -203,7 +203,7 @@ public class GameMenu extends Application {
         for (int i = 0; i < soldiers.size(); i++) {
             String path = getClass().getResource("/assets/Soldiers/" +
                     soldiers.get(i) + ".png").toExternalForm();
-            ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
+            ImageView imageView = new ImageView(new Image(path, 60, 60, false, false));
             imageView.setId(soldiers.get(i));
             int finalI = i;
             imageView.setOnMouseClicked(e -> createSoldiers(soldiers.get(finalI), path, columnIndex, rowIndex));
@@ -216,7 +216,7 @@ public class GameMenu extends Application {
         if (cheatMode) {
             if (mapMenuController.dropUnit(dataController.getXHeadquarter(), dataController.getYHeadquarter() + 1,
                     soldierName, 0).equals(MapMenuMessages.SUCCESS)) {
-                ImageView imageView = new ImageView(new Image(path, 60, 60, false, false));
+                ImageView imageView = new ImageView(new Image(path, 70, 70, false, false));
                 gridPane.add(imageView, dataController.getXHeadquarter() - 1, dataController.getYHeadquarter());
             }
         }
@@ -302,7 +302,7 @@ public class GameMenu extends Application {
 
 //        toolBar.getItems().addAll(button1, button2, button3, button4, button5, button6);
         HBox hBox = new HBox();
-        hBox.setTranslateY(20);
+        hBox.setTranslateY(20); hBox.setTranslateX(-20);
         this.toolBarHBox = hBox;
         toolBar.getItems().add(hBoxButtons);
         toolBar.getItems().add(hBox);
