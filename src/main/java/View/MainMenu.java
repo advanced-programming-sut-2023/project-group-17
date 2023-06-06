@@ -44,11 +44,12 @@ public class MainMenu extends Application {
         ArrayList<String> list = new ArrayList<>();
         controller.addUsers(list);
         items.addAll(list);
+        users = controller.getLoggedInUser();
         CheckComboBox<String> control = new CheckComboBox<String>(items);
 
         control.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
             public void onChanged(ListChangeListener.Change<? extends String> c) {
-                users = "," + controller.getLoggedInUser();;
+                users = "," + controller.getLoggedInUser();
                 for (String checkedItem : control.getCheckModel().getCheckedItems()) {
                     users += "," + checkedItem;
                 }
