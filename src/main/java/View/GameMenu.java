@@ -10,7 +10,11 @@ import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.*;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
+import javafx.geometry.HPos;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -47,6 +51,7 @@ public class GameMenu extends Application {
     private HBox toolBarHBox;
     private BorderPane mainBorderPane;
     private ScrollPane scrollPane;
+    private Pane tradeMenuPane;
     private Rectangle selectedArea;
     private double startX, startY;
     private double startCol, startRow;
@@ -70,6 +75,12 @@ public class GameMenu extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        tradeMenuPane = FXMLLoader.load(getClass().getResource("/fxml/TradeMenu.fxml"));
+        tradeMenuPane.setBackground(new Background(new BackgroundImage(new Image(LoginMenu.class.getResource(
+                "/assets/Backgrounds/TradeMenu.jpg").toExternalForm()),
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+                new BackgroundSize(1.0, 1.0, true, true, false, false))));
+
 
         BorderPane borderPane = new BorderPane();
         gameMenuController.setFirstUser();
@@ -125,10 +136,10 @@ public class GameMenu extends Application {
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setPannable(true);
 
+        Image image = new Image(getClass().getResource("/assets/Texture/graveland.jpg").toExternalForm());
         for (int i = 0; i < numCols; i += 10) {
             for (int j = 0; j < numRows; j += 10) {
-                ImageView imageView = new ImageView(new Image(getClass().getResource(
-                        "/assets/Texture/graveland.jpg").toExternalForm()));
+                ImageView imageView = new ImageView(image);
                 imageView.setFitWidth(80 * Math.min(10, numCols - i));
                 imageView.setFitHeight(80 * Math.min(10, numRows - j));
                 gridPane.add(imageView, i, j, Math.min(10, numCols - i), Math.min(10, numRows - j));
@@ -430,7 +441,6 @@ public class GameMenu extends Application {
                 buy.setOnMouseClicked(event -> buyResource(item.get(finalI)));
                 sell.setOnMouseClicked(mouseEvent -> sellResource(item.get(finalI)));
             });
-//            Text text = new Text("" + item.get(i).getCost());
 
             if (i < 8) {
 //                hBoxes.get(0).getChildren().add(text);
@@ -449,6 +459,25 @@ public class GameMenu extends Application {
         vBox.getChildren().addAll(hBoxes.get(0), hBoxes.get(1), hBoxes.get(2), hBoxes.get(3), hBoxes.get(4), hBoxes.get(5));
         vBox.setAlignment(Pos.CENTER);
         toolBarHBox.getChildren().addAll(vBox1, vBox);
+
+
+        //TODO: trade o khoshgel konim:D
+        Button button = new Button("Trade");
+        button.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                mainBorderPane.setRight(tradeMenuPane);
+                TradeMenu tradeMenu = new TradeMenu(mainBorderPane, tradeMenuPane);
+//                try {
+//                    tradeMenu.start(Main.stage);
+//                } catch (Exception e) {
+//                    throw new RuntimeException(e);
+//                }
+            }
+        });
+        toolBarHBox.getChildren().add(button);
+        //
+
     }
 
     public ArrayList<HBox> getShopMenuHbox() {
@@ -934,6 +963,7 @@ public class GameMenu extends Application {
     private void createBuilding(String nameBuildingForHeadquarter, int xBuildingForHeadquarter, int yBuildingForHeadquarter, GridPane gridPane) {
         String url = getClass().getResource("/assets/Buildings/" + nameBuildingForHeadquarter +".png").toExternalForm();
         ImageView imageView = new ImageView(new Image(url, 80, 80, false, false));
+//        if (nameBuildingForHeadquarter.equals("stockpile")) imageView.setRotate(45);
         imageView.setOnDragDetected(event -> {
             Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
             ClipboardContent content = new ClipboardContent();
