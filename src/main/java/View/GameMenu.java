@@ -104,6 +104,7 @@ public class GameMenu extends Application {
 //        scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setPannable(true);
 
         for (int i = 0; i < numCols; i += 10) {
             for (int j = 0; j < numRows; j += 10) {
