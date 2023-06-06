@@ -194,6 +194,7 @@ public class MapCell {
     }
 
     public boolean isTraversable() {
+        //TODO drawbridge
         if (haveBuilding() && !(getBuilding() instanceof Trap)) return false;
 
         if (getTunnel() != null) return false;

@@ -10,9 +10,7 @@ import View.Enums.Messages.MapMenuMessages;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
-import javafx.geometry.HPos;
-import javafx.geometry.Pos;
-import javafx.geometry.VPos;
+import javafx.geometry.*;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -25,6 +23,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static java.lang.Math.pow;
 
@@ -38,6 +37,11 @@ public class GameMenu extends Application {
     private GridPane gridPane;
     private ToolBar toolBar;
     private HBox toolBarHBox;
+    private BorderPane mainBorderPane;
+    private Rectangle selectedArea;
+    private double initialX, initialY;
+    private double currentX, currentY;
+    private List<Node> selectedNodes;
     private boolean cheatMode;
 
     public GameMenu() {
@@ -46,7 +50,8 @@ public class GameMenu extends Application {
         this.dataController = new DataAnalysisController();
         this.buildingMenuController = new BuildingMenuController();
         this.mapMenuController = new MapMenuController();
-        cheatMode = false;
+        this.cheatMode = false;
+        this.selectedNodes = new ArrayList<>();
     }
 
     @Override
@@ -144,6 +149,59 @@ public class GameMenu extends Application {
         borderPane.setCenter(scrollPane);
         ToolBar toolBar = createToolbar();
         this.toolBar = toolBar;
+        this.mainBorderPane = borderPane;
+        gridPane.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
+            // Store the initial mouse press position
+//            if (!event.isShiftDown()) {
+//                for (Node node : gridPane.getChildren()) {
+//                    if (node instanceof Region) {
+//                        ((Region) node).setBorder(null);
+//                    }
+//                }
+//                return;
+//            }
+            initialX = event.getX();
+            initialY = event.getY();
+            event.consume();
+        });
+
+        gridPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, event -> {
+            // Determine the current mouse position during the drag
+            currentX = event.getX();
+            currentY = event.getY();
+            event.consume();
+        });
+
+        gridPane.addEventFilter(MouseEvent.MOUSE_RELEASED, event -> {
+            // Determine which nodes are within the selection area
+            Bounds selectionBounds = new BoundingBox(
+                    Math.min(initialX, currentX), // X coordinate of the top-left corner of the selection area
+                    Math.min(initialY, currentY), // Y coordinate of the top-left corner of the selection area
+                    Math.abs(currentX - initialX), // Width of the selection area
+                    Math.abs(currentY - initialY) // Height of the selection area
+            );
+
+            // Remove the border from all previously selected nodes
+            for (Node node : selectedNodes) {
+                if (node instanceof Region) {
+                    ((Region) node).setBorder(null);
+                }
+            }
+            selectedNodes.clear();
+
+            // Add a border to the selected nodes
+            for (Node node : gridPane.getChildren()) {
+                if (node.getBoundsInParent().intersects(selectionBounds)) {
+                    if (node instanceof Region) {
+                        ((Region) node).setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+                        selectedNodes.add(node);
+                    }
+                }
+            }
+            event.consume();
+        });
+
+//        selectFunction();
         setDropActionForGridPane();
 
         borderPane.setBottom(toolBar);
@@ -157,6 +215,60 @@ public class GameMenu extends Application {
         primaryStage.setFullScreen(true);
         primaryStage.show();
     }
+//
+//    private void selectFunction() {
+//        gridPane.setOnMousePressed(this::handleMousePressed);
+//        gridPane.setOnMouseDragged(this::handleMouseDragged);
+//        gridPane.setOnMouseReleased(this::handleMouseReleased);
+//    }
+//
+//    private void handleMousePressed(MouseEvent event) {
+//        if (!event.isShiftDown()) return;
+//        startX = event.getX();
+//        startY = event.getY();
+//
+//        selectedArea = new Rectangle(startX, startY, 0, 0);
+//        selectedArea.setOpacity(0);
+//        mainBorderPane.getChildren().add(selectedArea);
+//    }
+//
+//    private void handleMouseDragged(MouseEvent event) {
+//        if (selectedArea == null) return;
+//        double currentX = event.getX();
+//        double currentY = event.getY();
+//
+//        double minX = Math.min(startX, currentX);
+//        double minY = Math.min(startY, currentY);
+//        double maxX = Math.max(startX, currentX);
+//        double maxY = Math.max(startY, currentY);
+//
+//        selectedArea.setX(minX);
+//        selectedArea.setY(minY);
+//        selectedArea.setWidth(maxX - minX);
+//        selectedArea.setHeight(maxY - minY);
+//    }
+//
+//    private void handleMouseReleased(MouseEvent event) {
+//        if (selectedArea == null) return;
+//        Bounds selectionBounds = selectedArea.getBoundsInParent();
+//
+//        for (int i = 0; i < gridPane.getChildren().size(); i++) {
+//            System.out.println("hata inja");
+//            Node cellGrid = gridPane.getChildren().get(i);
+//            Bounds bounds = cellGrid.getBoundsInParent();
+//            if (bounds.intersects(selectionBounds)) {
+//                int columnIndex = GridPane.getColumnIndex(cellGrid);
+//                int rowIndex = GridPane.getRowIndex(cellGrid);
+//                Rectangle cellBorder = new Rectangle(80, 80, Color.TRANSPARENT);
+//                cellBorder.setStroke(Color.DEEPSKYBLUE);
+//                cellBorder.setOpacity(0.5);
+//                cellBorder.setStrokeWidth(4);
+//                gridPane.add(cellBorder, columnIndex, rowIndex);
+//            }
+//        }
+//        mainBorderPane.getChildren().remove(selectedArea);
+//        selectedArea = null;
+//    }
 
     private void handleClick(GridPane gridPane) {
         gridPane.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
