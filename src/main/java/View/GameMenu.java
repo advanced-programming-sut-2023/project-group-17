@@ -29,6 +29,7 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import static java.lang.Math.pow;
@@ -48,6 +49,8 @@ public class GameMenu extends Application {
     private ScrollPane scrollPane;
     private Rectangle selectedArea;
     private double startX, startY;
+    private double startCol, startRow;
+    private double endCol, endRow;
     private double initialX, initialY;
     private double currentX, currentY;
     private List<Node> selectedNodes;
@@ -177,7 +180,7 @@ public class GameMenu extends Application {
         primaryStage.setFullScreen(true);
         primaryStage.show();
     }
-//
+    //
     private void selectFunction() {
         gridPane.setOnMousePressed(this::handleMousePressed);
         gridPane.setOnMouseDragged(this::handleMouseDragged);
@@ -228,20 +231,49 @@ public class GameMenu extends Application {
             }
         }
         selectedNodes.clear();
+        startCol = 1000; startRow = 1000;
+        endCol = 0; endRow = 0;
         for (int i = 0; i < gridPane.getChildren().size(); i++) {
             Node cellGrid = gridPane.getChildren().get(i);
             Bounds bounds = cellGrid.getBoundsInParent();
             if (bounds.intersects(selectionBounds)) {
                 if (cellGrid instanceof Region) {
                     selectedNodes.add(cellGrid);
-                    ((Region) cellGrid).setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+                    startCol = Math.min(startCol, GridPane.getColumnIndex(cellGrid));
+                    startRow = Math.min(startRow, GridPane.getRowIndex(cellGrid));
+                    endCol = Math.max(endCol, GridPane.getColumnIndex(cellGrid));
+                    endRow = Math.max(endRow, GridPane.getRowIndex(cellGrid));
+                    ((Region) cellGrid).setBorder(new Border(new
+                            BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,
+                            BorderWidths.DEFAULT)));
                 }
             }
         }
+        showSelectedCells();
 
         scrollPane.setPannable(true);
         mainBorderPane.getChildren().remove(selectedArea);
         selectedArea = null;
+    }
+
+    private void showSelectedCells() {
+        toolBarHBox.getChildren().clear();
+        HashMap<String, Integer> soldiers = mapMenuController.
+                getSoldiers(startCol + 1, startRow + 1, endCol + 1, endRow + 1);
+        for (String soldier : soldiers.keySet()) {
+            HBox hBox = new HBox();
+            hBox.setSpacing(5);
+            Text text = new Text("\t" + soldiers.get(soldier) + "x");
+//            text.setStrokeWidth(30);
+            text.setFont(Font.font(15));
+            String path = getClass().getResource("/assets/Soldiers/" +
+                    soldier + ".png").toExternalForm();
+            ImageView imageView = new ImageView(new Image(path, 60, 60, false, false));
+            imageView.setId(soldier);
+            hBox.getChildren().addAll(text, imageView);
+            toolBarHBox.getChildren().add(hBox);
+        }
+        //TODO added selected soldiers to Unit menu
     }
 
     private void handleClick(GridPane gridPane) {
@@ -262,9 +294,12 @@ public class GameMenu extends Application {
                         break;
                     }
                 }
-
                 int columnIndex = GridPane.getColumnIndex(clickedNode);
                 int rowIndex = GridPane.getRowIndex(clickedNode);
+                startCol = columnIndex;
+                startRow = rowIndex;
+                endCol = columnIndex;
+                endRow = rowIndex;
                 Rectangle cellBorder = new Rectangle(80, 80, Color.TRANSPARENT);
                 cellBorder.setStroke(Color.DEEPSKYBLUE);
                 cellBorder.setOpacity(0.5);

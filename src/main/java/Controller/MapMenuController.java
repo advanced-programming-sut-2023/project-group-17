@@ -9,6 +9,7 @@ import Utils.CheckMapCell;
 import View.Enums.Messages.BuildingMenuMessages;
 import View.Enums.Messages.MapMenuMessages;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 public class MapMenuController {
@@ -242,5 +243,21 @@ public class MapMenuController {
         }
 
         return MapMenuMessages.SUCCESS;
+    }
+
+    public HashMap<String, Integer> getSoldiers(double startCol, double startRow, double endCol, double endRow) {
+        HashMap<String, Integer> soldiers = new HashMap<>();
+        for (int i = (int) startCol; i < endCol + 1; i++) {
+            for (int j = (int) startRow; j < endRow + 1; j++) {
+                MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(i, j);
+                for (Soldier soldier : mapCell.getSoldier()) {
+                    if (!soldier.getOwner().equals(Database.getCurrentUser())) continue;
+                    if (soldiers.containsKey(soldier.getName()))
+                        soldiers.put(soldier.getName(), soldiers.get(soldier.getName()) + 1);
+                    else soldiers.put(soldier.getName(), 1);
+                }
+            }
+        }
+        return soldiers;
     }
 }
