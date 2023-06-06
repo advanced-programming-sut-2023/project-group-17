@@ -181,7 +181,7 @@ public class GameMenu extends Application {
     }
 
     private void handleCheatMode(BorderPane borderPane) {
-        KeyCombination cheatCode = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY);
+        KeyCombination cheatCode = new KeyCodeCombination(KeyCode.Q, KeyCombination.CONTROL_ANY);
         borderPane.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {

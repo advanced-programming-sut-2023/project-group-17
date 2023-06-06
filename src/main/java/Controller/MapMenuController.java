@@ -6,6 +6,7 @@ import Model.MapCellItems.Rock;
 import Model.MapCellItems.Tree;
 import Model.People.Soldier;
 import Utils.CheckMapCell;
+import View.Enums.Messages.BuildingMenuMessages;
 import View.Enums.Messages.MapMenuMessages;
 
 import java.util.Objects;
@@ -206,11 +207,12 @@ public class MapMenuController {
         if (!CheckMapCell.mapCellEmptyByCoordinates(x, y)) return MapMenuMessages.CELL_IS_FULL;
 
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
-        if (mapCell.getMaterialMap().isWaterZone() ||
-                (type.equals("iron mine") && !mapCell.getMaterialMap().equals(MaterialMap.textureMap.STONE))
-                || (type.equals("pitch rig")) && !mapCell.getMaterialMap().equals(MaterialMap.textureMap.PLAIN)) {
+        if ((mapCell.getMaterialMap().isWaterZone() && !type.equals("drawbridge") )||
+                (!mapCell.getMaterialMap().isWaterZone() && type.equals("drawbridge"))
+                ||(type.equals("ironMine") && !mapCell.getMaterialMap().equals(MaterialMap.textureMap.STONE))
+                || (type.equals("pitchRig")) && !mapCell.getMaterialMap().equals(MaterialMap.textureMap.PLAIN))
             return MapMenuMessages.INAPPROPRIATE_TEXTURE;
-        }
+
 
         Building building = new Building(Database.getCurrentUser(),
                 Objects.requireNonNull(Database.getBuildingDataByName(type)), x, y);

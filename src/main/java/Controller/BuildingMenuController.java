@@ -33,9 +33,10 @@ public class BuildingMenuController {
 
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
 
-        if (mapCell.getMaterialMap().isWaterZone() ||
-        (type.equals("iron mine") && !mapCell.getMaterialMap().equals(MaterialMap.textureMap.STONE))
-        || (type.equals("pitch rig")) && !mapCell.getMaterialMap().equals(MaterialMap.textureMap.PLAIN))
+        if ((mapCell.getMaterialMap().isWaterZone() && !type.equals("drawbridge") )||
+        (!mapCell.getMaterialMap().isWaterZone() && type.equals("drawbridge"))
+        ||(type.equals("ironMine") && !mapCell.getMaterialMap().equals(MaterialMap.textureMap.STONE))
+        || (type.equals("pitchRig")) && !mapCell.getMaterialMap().equals(MaterialMap.textureMap.PLAIN))
             return BuildingMenuMessages.INAPPROPRIATE_TEXTURE;
 
         Building buildingSample = Database.getBuildingDataByName(type);
