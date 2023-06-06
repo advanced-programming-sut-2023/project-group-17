@@ -37,7 +37,9 @@ public class GameMenu extends Application {
     private ToolBar toolBar = new ToolBar();
     private HBox toolBarHBox;
     private BorderPane mainBorderPane;
+    private ScrollPane scrollPane;
     private Rectangle selectedArea;
+    private double startX, startY;
     private double initialX, initialY;
     private double currentX, currentY;
     private List<Node> selectedNodes;
@@ -147,81 +149,13 @@ public class GameMenu extends Application {
         handleHover(gridPane);
         handleCheatMode(borderPane);
         handleClick(gridPane);
+        this.scrollPane = scrollPane;
         borderPane.setCenter(scrollPane);
         ToolBar toolBar = createToolbar();
         this.toolBar = toolBar;
         this.mainBorderPane = borderPane;
-        gridPane.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
-            // Store the initial mouse press position
-//            if (!event.isShiftDown()) {
-//                for (Node node : gridPane.getChildren()) {
-//                    if (node instanceof Region) {
-//                        ((Region) node).setBorder(null);
-//                    }
-//                }
-//                return;
-//            }
-            initialX = event.getX();
-            initialY = event.getY();
-            event.consume();
-        });
 
-        gridPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, event -> {
-            // Determine the current mouse position during the drag
-            currentX = event.getX();
-            currentY = event.getY();
-            event.consume();
-        });
-
-        gridPane.addEventFilter(MouseEvent.MOUSE_RELEASED, event -> {
-            // Determine which nodes are within the selection area
-            Bounds selectionBounds = new BoundingBox(
-                    Math.min(initialX, currentX), // X coordinate of the top-left corner of the selection area
-                    Math.min(initialY, currentY), // Y coordinate of the top-left corner of the selection area
-                    Math.abs(currentX - initialX), // Width of the selection area
-                    Math.abs(currentY - initialY) // Height of the selection area
-            );
-
-            // Remove the border from all previously selected nodes
-            for (Node node : selectedNodes) {
-                if (node instanceof Region) {
-                    ((Region) node).setBorder(null);
-                }
-            }
-            selectedNodes.clear();
-            int minX = Integer.MAX_VALUE;
-            int minY = Integer.MAX_VALUE;
-            int maxX = 0;
-            int maxY = 0;
-            //TODO min x , y ye moshkel dare hamishe / 10 shode engar
-            // ehtemalan be khater image hast ke har 10 ta khone miofte
-
-// Add a border to the selected nodes
-            for (Node node : gridPane.getChildren()) {
-                if (node.getBoundsInParent().intersects(selectionBounds)) {
-                    Integer columnIndex = GridPane.getColumnIndex(node);
-                    Integer rowIndex = GridPane.getRowIndex(node);
-                    if (columnIndex != null) {
-                        minX = Math.min(minX, columnIndex);
-                        maxX = Math.max(maxX, columnIndex);
-                    }
-                    if (rowIndex != null) {
-                        minY = Math.min(minY, rowIndex);
-                        maxY = Math.max(maxY, rowIndex);
-                    }
-                    if (node instanceof Region) {
-                        ((Region) node).setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-                        selectedNodes.add(node);
-                    }
-                }
-            }
-            System.out.println(minX + "\t" + minY + "\t" + maxX + "\t" + maxY);
-//            System.out.println(selectionBounds);
-//            System.out.println(selectedNodes.get(0).getLayoutX());
-            event.consume();
-        });
-
-//        selectFunction();
+        selectFunction();
         setDropActionForGridPane();
 
         borderPane.setBottom(toolBar);
@@ -236,62 +170,81 @@ public class GameMenu extends Application {
         primaryStage.show();
     }
 //
-//    private void selectFunction() {
-//        gridPane.setOnMousePressed(this::handleMousePressed);
-//        gridPane.setOnMouseDragged(this::handleMouseDragged);
-//        gridPane.setOnMouseReleased(this::handleMouseReleased);
-//    }
-//
-//    private void handleMousePressed(MouseEvent event) {
-//        if (!event.isShiftDown()) return;
-//        startX = event.getX();
-//        startY = event.getY();
-//
-//        selectedArea = new Rectangle(startX, startY, 0, 0);
-//        selectedArea.setOpacity(0);
-//        mainBorderPane.getChildren().add(selectedArea);
-//    }
-//
-//    private void handleMouseDragged(MouseEvent event) {
-//        if (selectedArea == null) return;
-//        double currentX = event.getX();
-//        double currentY = event.getY();
-//
-//        double minX = Math.min(startX, currentX);
-//        double minY = Math.min(startY, currentY);
-//        double maxX = Math.max(startX, currentX);
-//        double maxY = Math.max(startY, currentY);
-//
-//        selectedArea.setX(minX);
-//        selectedArea.setY(minY);
-//        selectedArea.setWidth(maxX - minX);
-//        selectedArea.setHeight(maxY - minY);
-//    }
-//
-//    private void handleMouseReleased(MouseEvent event) {
-//        if (selectedArea == null) return;
-//        Bounds selectionBounds = selectedArea.getBoundsInParent();
-//
-//        for (int i = 0; i < gridPane.getChildren().size(); i++) {
-//            System.out.println("hata inja");
-//            Node cellGrid = gridPane.getChildren().get(i);
-//            Bounds bounds = cellGrid.getBoundsInParent();
-//            if (bounds.intersects(selectionBounds)) {
-//                int columnIndex = GridPane.getColumnIndex(cellGrid);
-//                int rowIndex = GridPane.getRowIndex(cellGrid);
-//                Rectangle cellBorder = new Rectangle(80, 80, Color.TRANSPARENT);
-//                cellBorder.setStroke(Color.DEEPSKYBLUE);
-//                cellBorder.setOpacity(0.5);
-//                cellBorder.setStrokeWidth(4);
-//                gridPane.add(cellBorder, columnIndex, rowIndex);
-//            }
-//        }
-//        mainBorderPane.getChildren().remove(selectedArea);
-//        selectedArea = null;
-//    }
+    private void selectFunction() {
+        gridPane.setOnMousePressed(this::handleMousePressed);
+        gridPane.setOnMouseDragged(this::handleMouseDragged);
+        gridPane.setOnMouseReleased(this::handleMouseReleased);
+    }
+
+    private void handleMousePressed(MouseEvent event) {
+        if (!event.isShiftDown()) return;
+        scrollPane.setPannable(false);
+        ObservableList<Node> children = gridPane.getChildren();
+        for (Node child : children) {
+            if (child instanceof Rectangle) {
+                gridPane.getChildren().remove(child);
+                break;
+            }
+        }
+        startX = event.getX();
+        startY = event.getY();
+
+        selectedArea = new Rectangle(startX, startY, 0, 0);
+        selectedArea.setOpacity(0);
+        mainBorderPane.getChildren().add(selectedArea);
+    }
+
+    private void handleMouseDragged(MouseEvent event) {
+        if (selectedArea == null) return;
+        double currentX = event.getX();
+        double currentY = event.getY();
+
+        double minX = Math.min(startX, currentX);
+        double minY = Math.min(startY, currentY);
+        double maxX = Math.max(startX, currentX);
+        double maxY = Math.max(startY, currentY);
+
+        selectedArea.setX(minX);
+        selectedArea.setY(minY);
+        selectedArea.setWidth(maxX - minX);
+        selectedArea.setHeight(maxY - minY);
+    }
+
+    private void handleMouseReleased(MouseEvent event) {
+        if (selectedArea == null) return;
+        Bounds selectionBounds = selectedArea.getBoundsInParent();
+
+        for (Node node : selectedNodes) {
+            if (node instanceof Region) {
+                ((Region) node).setBorder(null);
+            }
+        }
+        selectedNodes.clear();
+        for (int i = 0; i < gridPane.getChildren().size(); i++) {
+            Node cellGrid = gridPane.getChildren().get(i);
+            Bounds bounds = cellGrid.getBoundsInParent();
+            if (bounds.intersects(selectionBounds)) {
+                if (cellGrid instanceof Region) {
+                    selectedNodes.add(cellGrid);
+                    ((Region) cellGrid).setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+                }
+            }
+        }
+
+        scrollPane.setPannable(true);
+        mainBorderPane.getChildren().remove(selectedArea);
+        selectedArea = null;
+    }
 
     private void handleClick(GridPane gridPane) {
         gridPane.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+            if (mouseEvent.isShiftDown()) return;
+            for (Node node : selectedNodes) {
+                if (node instanceof Region) {
+                    ((Region) node).setBorder(null);
+                }
+            }
+            selectedNodes.clear();
             Node clickedNode = mouseEvent.getPickResult().getIntersectedNode();
             if (clickedNode != gridPane) {
                 ObservableList<Node> children = gridPane.getChildren();
