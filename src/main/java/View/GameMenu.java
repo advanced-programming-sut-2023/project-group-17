@@ -4,8 +4,11 @@ import Controller.*;
 import Model.Items.Item;
 import View.Enums.Messages.BuildingMenuMessages;
 import View.Enums.Messages.MapMenuMessages;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.*;
 import javafx.scene.Node;
@@ -16,11 +19,16 @@ import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static java.lang.Math.pow;
@@ -34,7 +42,7 @@ public class GameMenu extends Application {
     private ShopMenuController shopMenuController;
     private MapMenu mapMenu;
     private GridPane gridPane;
-    private ToolBar toolBar = new ToolBar();
+    private ToolBar toolBar;
     private HBox toolBarHBox;
     private BorderPane mainBorderPane;
     private ScrollPane scrollPane;
@@ -151,7 +159,7 @@ public class GameMenu extends Application {
         handleClick(gridPane);
         this.scrollPane = scrollPane;
         borderPane.setCenter(scrollPane);
-        ToolBar toolBar = createToolbar();
+        toolBar = createToolbar();
         this.toolBar = toolBar;
         this.mainBorderPane = borderPane;
 
@@ -351,19 +359,13 @@ public class GameMenu extends Application {
         toolBarHBox.getChildren().clear();
         Button buy = new Button("Buy"); buy.setDisable(true); buy.setPrefWidth(70);
         Button sell = new Button("Sell"); sell.setDisable(true); sell.setPrefWidth(70);
-        VBox vBox1 = new VBox(); vBox1.setSpacing(120);
-        vBox1.getChildren().addAll(buy, sell);
+        Text text = getText();
+        VBox vBox1 = new VBox(); vBox1.setSpacing(10); vBox1.setAlignment(Pos.CENTER);
+        vBox1.getChildren().addAll(buy, text, sell);
 
         ArrayList<Item.ItemType> item = dataController.getWeaponsName();
         VBox vBox = new VBox();
-        HBox hBox1 = new HBox(); hBox1.setSpacing(40);
-        HBox hBox2 = new HBox(); hBox2.setSpacing(10);
-        HBox hBox3 = new HBox(); hBox3.setSpacing(40);
-        HBox hBox4 = new HBox(); hBox4.setSpacing(10);
-        HBox hBox5 = new HBox(); hBox5.setSpacing(40);
-        HBox hBox6 = new HBox(); hBox6.setSpacing(10);
-
-        toolBar.getItems().get(0).setTranslateY(68);
+        ArrayList<HBox> hBoxes = getShopMenuHbox();
 
         for (int i = 0; i < item.size(); i++) {
             String path = getClass().getResource("/assets/Item/" +
@@ -372,51 +374,124 @@ public class GameMenu extends Application {
             imageView.setId(item.get(i).getName());
             int finalI = i;
             imageView.setOnMouseClicked(e -> {
+                text.setText(item.get(finalI).getName() + "\nbuy: " + (int)item.get(finalI).getCost() + "\nsell: " + (int)(item.get(finalI).getCost() * 0.8));
                 buy.setDisable(false); sell.setDisable(false);
                 buy.setOnMouseClicked(event -> buyResource(item.get(finalI)));
                 sell.setOnMouseClicked(mouseEvent -> sellResource(item.get(finalI)));
             });
-            Text text = new Text("" + item.get(i).getCost());
+//            Text text = new Text("" + item.get(i).getCost());
 
             if (i < 8) {
-                hBox1.getChildren().add(text);
-                hBox2.getChildren().add(imageView);
+//                hBoxes.get(0).getChildren().add(text);
+                hBoxes.get(1).getChildren().add(imageView);
             }
             else if (i < 16) {
-                hBox3.getChildren().add(text);
-                hBox4.getChildren().add(imageView);
+//                hBoxes.get(2).getChildren().add(text);
+                hBoxes.get(3).getChildren().add(imageView);
             }
             else {
-                hBox5.getChildren().add(text);
-                hBox6.getChildren().add(imageView);
+//                hBoxes.get(4).getChildren().add(text);
+                hBoxes.get(5).getChildren().add(imageView);
             }
-
-
         }
-        hBox6.setAlignment(Pos.CENTER); hBox5.setAlignment(Pos.CENTER);
-        vBox.getChildren().addAll(hBox1, hBox2, hBox3, hBox4, hBox5, hBox6);
+        hBoxes.get(5).setAlignment(Pos.CENTER); hBoxes.get(5).setAlignment(Pos.CENTER);
+        vBox.getChildren().addAll(hBoxes.get(0), hBoxes.get(1), hBoxes.get(2), hBoxes.get(3), hBoxes.get(4), hBoxes.get(5));
         vBox.setAlignment(Pos.CENTER);
         toolBarHBox.getChildren().addAll(vBox1, vBox);
     }
 
+    public ArrayList<HBox> getShopMenuHbox() {
+        ArrayList<HBox> hBoxes = new ArrayList<>();
+        HBox hBox1 = new HBox(); hBox1.setSpacing(40);
+        HBox hBox2 = new HBox(); hBox2.setSpacing(10);
+        HBox hBox3 = new HBox(); hBox3.setSpacing(40);
+        HBox hBox4 = new HBox(); hBox4.setSpacing(10);
+        HBox hBox5 = new HBox(); hBox5.setSpacing(40);
+        HBox hBox6 = new HBox(); hBox6.setSpacing(10);
+        Collections.addAll(hBoxes, hBox1, hBox2, hBox3, hBox4, hBox5, hBox6);
+        return hBoxes;
+    }
+
+    public Popup getPopup() {
+        Popup popup = new Popup();
+        popup.setAnchorX(580); popup.setAnchorY(300);
+        popup.centerOnScreen();
+        popup.setOpacity(0.7);
+        return popup;
+    }
+
+    public Timeline hidePopup(Popup popup) {
+        return new Timeline(new KeyFrame(Duration.seconds(1.5), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                popup.hide();
+            }
+        }));
+    }
+
+    public Label getLabel() {
+        Label label = new Label();
+        label.setTextFill(Color.WHITE);
+        label.setMinWidth(200);
+        label.setMinHeight(60);
+        label.setStyle("-fx-background-color: black;");
+        label.setAlignment(Pos.CENTER);
+        return label;
+    }
+
+    public Text getText() {
+        Text text = new Text();
+        text.setFill(Color.BLACK);
+        Font font = Font.font("serif", FontWeight.SEMI_BOLD, FontPosture.REGULAR, 12);
+        text.setFont(font);
+        return text;
+    }
+
     private void sellResource(Item.ItemType itemType) {
 //        System.out.println("sell : " + itemType.getName());
-        shopMenuController.sellItem(itemType.getName(), 1);
+        Popup popup = getPopup();
+        Label label = getLabel();
+        popup.getContent().add(label);
+        Timeline timeline = hidePopup(popup);
+
+        switch (shopMenuController.sellItem(itemType.getName(), 1)) {
+            case ITEM_DOES_NOT_EXISTS:
+                label.setText("Not Enough " + itemType.getName());
+                popup.show(Main.stage);
+                timeline.play();
+                break;
+            case SUCCESS:
+                label.setText(itemType.getName() + " Sold Successfully");
+                popup.show(Main.stage);
+                timeline.play();
+                break;
+        }
     }
 
     private void buyResource(Item.ItemType itemType) {
 //        System.out.println("buy : " + itemType.getName());
-        shopMenuController.buyItem(itemType.getName(), 1);
+        Popup popup = getPopup();
+        Label label = getLabel();
+        popup.getContent().add(label);
+        Timeline timeline = hidePopup(popup);
+
+        switch (shopMenuController.buyItem(itemType.getName(), 1)) {
+            case NOT_ENOUGH_COIN:
+                label.setText("Not Enough Coin");
+                popup.show(Main.stage);
+                timeline.play();
+                break;
+            case SUCCESS:
+                label.setText(itemType.getName() + " Bought Successfully");
+                popup.show(Main.stage);
+                timeline.play();
+                break;
+        }
     }
 
-    private void setSelectedItem(Item.ItemType selectedItem, Item.ItemType itemType) {
-        selectedItem = itemType;
-    }
 
 
     private void createUnitMenu(String name, int columnIndex, int rowIndex) {
-        toolBar.getItems().get(0).setTranslateY(10);
-
         toolBarHBox.getChildren().clear();
         ArrayList<String> soldiers = dataController.getSoldierNames(name);
         for (int i = 0; i < soldiers.size(); i++) {
@@ -476,6 +551,7 @@ public class GameMenu extends Application {
     }
 
     private ToolBar createToolbar() {
+        toolBar = new ToolBar();
         toolBar.setPrefHeight(150);
         toolBar.setBackground(new Background(new BackgroundImage(new Image(LoginMenu.class.getResource(
                 "/assets/ToolBar/menu.jpeg").toExternalForm()),
@@ -544,8 +620,6 @@ public class GameMenu extends Application {
     }
 
     private void openSoldierBuildings() {
-        toolBar.getItems().get(0).setTranslateY(10);
-
         String path = "";
         toolBarHBox.getChildren().clear();
         toolBarHBox.setSpacing(10);
@@ -572,8 +646,6 @@ public class GameMenu extends Application {
     }
 
     private void openOtherBuildings() {
-        toolBar.getItems().get(0).setTranslateY(10);
-
         String path = "";
         toolBarHBox.getChildren().clear();
         toolBarHBox.setSpacing(10);
@@ -604,8 +676,6 @@ public class GameMenu extends Application {
     }
 
     private void openDefensiveBuildings() {
-        toolBar.getItems().get(0).setTranslateY(10);
-
         String path = "";
         toolBarHBox.getChildren().clear();
         toolBarHBox.setSpacing(10);
@@ -632,8 +702,6 @@ public class GameMenu extends Application {
     }
 
     private void openStorageBuildings() {
-        toolBar.getItems().get(0).setTranslateY(10);
-
         String path = "";
         toolBarHBox.getChildren().clear();
         toolBarHBox.setSpacing(10);
@@ -660,8 +728,6 @@ public class GameMenu extends Application {
     }
 
     private void openMiningBuildings() {
-        toolBar.getItems().get(0).setTranslateY(10);
-
         String path = "";
         toolBarHBox.getChildren().clear();
         toolBarHBox.setSpacing(10);
@@ -688,8 +754,6 @@ public class GameMenu extends Application {
     }
 
     private void openProductionBuildings() {
-        toolBar.getItems().get(0).setTranslateY(10);
-
         String path = "";
         toolBarHBox.getChildren().clear();
         toolBarHBox.setSpacing(10);
@@ -716,8 +780,6 @@ public class GameMenu extends Application {
     }
 
     private void openGatehouseBuildings() {
-        toolBar.getItems().get(0).setTranslateY(10);
-
         String path = "";
         toolBarHBox.getChildren().clear();
         toolBarHBox.setSpacing(10);
