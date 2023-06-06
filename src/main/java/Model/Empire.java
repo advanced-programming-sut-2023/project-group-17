@@ -51,7 +51,7 @@ public class Empire {
         this.foodRate = 0;
         this.religionRate = 0;
         this.popularityRate = 0;
-        this.coins = 0;
+        this.coins = 2000;
         this.efficiency = 1;
         this.score = 0;
         addFoods();

@@ -1,9 +1,6 @@
 package View;
 
-import Controller.BuildingMenuController;
-import Controller.DataAnalysisController;
-import Controller.GameMenuController;
-import Controller.MapMenuController;
+import Controller.*;
 import Model.Items.Item;
 import View.Enums.Messages.BuildingMenuMessages;
 import View.Enums.Messages.MapMenuMessages;
@@ -19,6 +16,7 @@ import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -29,13 +27,14 @@ import static java.lang.Math.pow;
 
 public class GameMenu extends Application {
 
-    private GameMenuController controller;
+    private GameMenuController gameMenuController;
     private DataAnalysisController dataController;
     private BuildingMenuController buildingMenuController;
     private MapMenuController mapMenuController;
+    private ShopMenuController shopMenuController;
     private MapMenu mapMenu;
     private GridPane gridPane;
-    private ToolBar toolBar;
+    private ToolBar toolBar = new ToolBar();
     private HBox toolBarHBox;
     private BorderPane mainBorderPane;
     private Rectangle selectedArea;
@@ -45,11 +44,13 @@ public class GameMenu extends Application {
     private boolean cheatMode;
 
     public GameMenu() {
-        this.controller = new GameMenuController();
+        this.gameMenuController = new GameMenuController();
         this.mapMenu = new MapMenu();
         this.dataController = new DataAnalysisController();
         this.buildingMenuController = new BuildingMenuController();
         this.mapMenuController = new MapMenuController();
+        this.shopMenuController = new ShopMenuController();
+        cheatMode = false;
         this.cheatMode = false;
         this.selectedNodes = new ArrayList<>();
     }
@@ -58,13 +59,13 @@ public class GameMenu extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         BorderPane borderPane = new BorderPane();
-        controller.setFirstUser();
+        gameMenuController.setFirstUser();
 
         GridPane gridPane = new GridPane();
         this.gridPane = gridPane;
         gridPane.setGridLinesVisible(true);
-        final int numCols = controller.getWidthMap();
-        final int numRows = controller.getLengthMap();
+        final int numCols = gameMenuController.getWidthMap();
+        final int numRows = gameMenuController.getLengthMap();
         for (int i = 0; i < numCols; i++) {
             ColumnConstraints colConst = new ColumnConstraints();
             colConst.setPrefWidth(80);
@@ -378,13 +379,19 @@ public class GameMenu extends Application {
         toolBarHBox.getChildren().clear();
         Button buy = new Button("Buy"); buy.setDisable(true); buy.setPrefWidth(70);
         Button sell = new Button("Sell"); sell.setDisable(true); sell.setPrefWidth(70);
-        toolBarHBox.getChildren().addAll(buy);
+        VBox vBox1 = new VBox(); vBox1.setSpacing(120);
+        vBox1.getChildren().addAll(buy, sell);
+
         ArrayList<Item.ItemType> item = dataController.getWeaponsName();
         VBox vBox = new VBox();
-        HBox hBox1 = new HBox(); hBox1.setSpacing(10);
+        HBox hBox1 = new HBox(); hBox1.setSpacing(40);
         HBox hBox2 = new HBox(); hBox2.setSpacing(10);
-        HBox hBox3 = new HBox(); hBox3.setSpacing(10);
-//        Item.ItemType selectedItem = null;
+        HBox hBox3 = new HBox(); hBox3.setSpacing(40);
+        HBox hBox4 = new HBox(); hBox4.setSpacing(10);
+        HBox hBox5 = new HBox(); hBox5.setSpacing(40);
+        HBox hBox6 = new HBox(); hBox6.setSpacing(10);
+
+        toolBar.getItems().get(0).setTranslateY(68);
 
         for (int i = 0; i < item.size(); i++) {
             String path = getClass().getResource("/assets/Item/" +
@@ -392,19 +399,42 @@ public class GameMenu extends Application {
             ImageView imageView = new ImageView(new Image(path, 50, 50, false, false));
             imageView.setId(item.get(i).getName());
             int finalI = i;
-//            imageView.setOnMouseClicked(e -> setSelectedItem(selectedItem, item.get(finalI)));
+            imageView.setOnMouseClicked(e -> {
+                buy.setDisable(false); sell.setDisable(false);
+                buy.setOnMouseClicked(event -> buyResource(item.get(finalI)));
+                sell.setOnMouseClicked(mouseEvent -> sellResource(item.get(finalI)));
+            });
+            Text text = new Text("" + item.get(i).getCost());
 
-            if (i < 8) hBox1.getChildren().add(imageView);
-            else if (i < 16) hBox2.getChildren().add(imageView);
-            else hBox3.getChildren().add(imageView);
+            if (i < 8) {
+                hBox1.getChildren().add(text);
+                hBox2.getChildren().add(imageView);
+            }
+            else if (i < 16) {
+                hBox3.getChildren().add(text);
+                hBox4.getChildren().add(imageView);
+            }
+            else {
+                hBox5.getChildren().add(text);
+                hBox6.getChildren().add(imageView);
+            }
 
 
         }
-        hBox3.setAlignment(Pos.CENTER);
-        vBox.getChildren().addAll(hBox1, hBox2, hBox3);
+        hBox6.setAlignment(Pos.CENTER); hBox5.setAlignment(Pos.CENTER);
+        vBox.getChildren().addAll(hBox1, hBox2, hBox3, hBox4, hBox5, hBox6);
         vBox.setAlignment(Pos.CENTER);
-        toolBarHBox.getChildren().addAll(vBox, sell);
+        toolBarHBox.getChildren().addAll(vBox1, vBox);
+    }
 
+    private void sellResource(Item.ItemType itemType) {
+//        System.out.println("sell : " + itemType.getName());
+        shopMenuController.sellItem(itemType.getName(), 1);
+    }
+
+    private void buyResource(Item.ItemType itemType) {
+//        System.out.println("buy : " + itemType.getName());
+        shopMenuController.buyItem(itemType.getName(), 1);
     }
 
     private void setSelectedItem(Item.ItemType selectedItem, Item.ItemType itemType) {
@@ -413,6 +443,8 @@ public class GameMenu extends Application {
 
 
     private void createUnitMenu(String name, int columnIndex, int rowIndex) {
+        toolBar.getItems().get(0).setTranslateY(10);
+
         toolBarHBox.getChildren().clear();
         ArrayList<String> soldiers = dataController.getSoldierNames(name);
         for (int i = 0; i < soldiers.size(); i++) {
@@ -472,7 +504,6 @@ public class GameMenu extends Application {
     }
 
     private ToolBar createToolbar() {
-        ToolBar toolBar = new ToolBar();
         toolBar.setPrefHeight(150);
         toolBar.setBackground(new Background(new BackgroundImage(new Image(LoginMenu.class.getResource(
                 "/assets/ToolBar/menu.jpeg").toExternalForm()),
@@ -541,6 +572,8 @@ public class GameMenu extends Application {
     }
 
     private void openSoldierBuildings() {
+        toolBar.getItems().get(0).setTranslateY(10);
+
         String path = "";
         toolBarHBox.getChildren().clear();
         toolBarHBox.setSpacing(10);
@@ -567,6 +600,8 @@ public class GameMenu extends Application {
     }
 
     private void openOtherBuildings() {
+        toolBar.getItems().get(0).setTranslateY(10);
+
         String path = "";
         toolBarHBox.getChildren().clear();
         toolBarHBox.setSpacing(10);
@@ -597,6 +632,8 @@ public class GameMenu extends Application {
     }
 
     private void openDefensiveBuildings() {
+        toolBar.getItems().get(0).setTranslateY(10);
+
         String path = "";
         toolBarHBox.getChildren().clear();
         toolBarHBox.setSpacing(10);
@@ -623,6 +660,8 @@ public class GameMenu extends Application {
     }
 
     private void openStorageBuildings() {
+        toolBar.getItems().get(0).setTranslateY(10);
+
         String path = "";
         toolBarHBox.getChildren().clear();
         toolBarHBox.setSpacing(10);
@@ -649,6 +688,8 @@ public class GameMenu extends Application {
     }
 
     private void openMiningBuildings() {
+        toolBar.getItems().get(0).setTranslateY(10);
+
         String path = "";
         toolBarHBox.getChildren().clear();
         toolBarHBox.setSpacing(10);
@@ -675,6 +716,8 @@ public class GameMenu extends Application {
     }
 
     private void openProductionBuildings() {
+        toolBar.getItems().get(0).setTranslateY(10);
+
         String path = "";
         toolBarHBox.getChildren().clear();
         toolBarHBox.setSpacing(10);
@@ -701,6 +744,8 @@ public class GameMenu extends Application {
     }
 
     private void openGatehouseBuildings() {
+        toolBar.getItems().get(0).setTranslateY(10);
+
         String path = "";
         toolBarHBox.getChildren().clear();
         toolBarHBox.setSpacing(10);
@@ -783,7 +828,7 @@ public class GameMenu extends Application {
             for (int j = 0; j < gridPane.getRowCount(); j++) {
                 Label label = new Label();
                 label.setMaxSize(80, 80);
-                String details = controller.showDetails(i + 1, j + 1);
+                String details = gameMenuController.showDetails(i + 1, j + 1);
                 Tooltip tooltip = new Tooltip(details);
                 tooltip.setShowDelay(Duration.seconds(2));
                 tooltip.setHideDelay(Duration.seconds(1));
@@ -795,9 +840,9 @@ public class GameMenu extends Application {
     }
 
     private void setHeadQuarters(GridPane gridPane) {
-        for (int i = 0; i < controller.getNumberOfPlayers() * 3; i++) {
-            createBuilding(controller.getNameBuildingForHeadquarter(i), controller.getXBuildingForHeadquarter(i),
-                    controller.getYBuildingForHeadquarter(i), gridPane);
+        for (int i = 0; i < gameMenuController.getNumberOfPlayers() * 3; i++) {
+            createBuilding(gameMenuController.getNameBuildingForHeadquarter(i), gameMenuController.getXBuildingForHeadquarter(i),
+                    gameMenuController.getYBuildingForHeadquarter(i), gridPane);
         }
     }
 
@@ -822,7 +867,7 @@ public class GameMenu extends Application {
         }
 
         for (Label label : labels) {
-            label.getTooltip().setText(controller.showDetails(GridPane.getColumnIndex(label)+1, GridPane.getRowIndex(label)+1));
+            label.getTooltip().setText(gameMenuController.showDetails(GridPane.getColumnIndex(label)+1, GridPane.getRowIndex(label)+1));
         }
     }
 
