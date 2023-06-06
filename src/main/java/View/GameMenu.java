@@ -52,6 +52,8 @@ public class GameMenu extends Application {
     private BorderPane mainBorderPane;
     private ScrollPane scrollPane;
     private Pane tradeMenuPane;
+    private Pane newTradePane;
+    private Pane tradeHistoryPane;
     private Rectangle selectedArea;
     private double startX, startY;
     private double startCol, startRow;
@@ -75,11 +77,11 @@ public class GameMenu extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        tradeMenuPane = FXMLLoader.load(getClass().getResource("/fxml/TradeMenu.fxml"));
-        tradeMenuPane.setBackground(new Background(new BackgroundImage(new Image(LoginMenu.class.getResource(
-                "/assets/Backgrounds/TradeMenu.jpg").toExternalForm()),
-                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
-                new BackgroundSize(1.0, 1.0, true, true, false, false))));
+//        tradeMenuPane = FXMLLoader.load(getClass().getResource("/fxml/TradeMenu.fxml"));
+//        tradeMenuPane.setBackground(new Background(new BackgroundImage(new Image(LoginMenu.class.getResource(
+//                "/assets/Backgrounds/TradeMenu.jpg").toExternalForm()),
+//                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+//                new BackgroundSize(1.0, 1.0, true, true, false, false))));
 
 
         BorderPane borderPane = new BorderPane();
@@ -466,10 +468,16 @@ public class GameMenu extends Application {
         button.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                mainBorderPane.setRight(tradeMenuPane);
-                TradeMenu tradeMenu = new TradeMenu(mainBorderPane, tradeMenuPane);
+                try {
+                    handleTradeMenu();
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+//                mainBorderPane.setRight(tradeMenuPane);
+//                TradeMenu tradeMenu = new TradeMenu();
+//                tradeMenu.setMainBorderPane(mainBorderPane);
 //                try {
-//                    tradeMenu.start(Main.stage);
+//                    tradeMenu.start();
 //                } catch (Exception e) {
 //                    throw new RuntimeException(e);
 //                }
@@ -478,6 +486,54 @@ public class GameMenu extends Application {
         toolBarHBox.getChildren().add(button);
         //
 
+    }
+
+    private void handleTradeMenu() throws Exception{
+        tradeMenuPane = FXMLLoader.load(getClass().getResource("/fxml/TradeMenu.fxml"));
+        newTradePane = FXMLLoader.load(getClass().getResource("/fxml/NewTrade.fxml"));
+        tradeHistoryPane = FXMLLoader.load(getClass().getResource("/fxml/TradeHistory.fxml"));
+
+        Background background = new Background(new BackgroundImage(new Image(LoginMenu.class.getResource(
+                "/assets/Backgrounds/TradeMenu.jpg").toExternalForm()),
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+                new BackgroundSize(1.0, 1.0, true, true, false, false)));
+        newTradePane.setBackground(background);
+        tradeHistoryPane.setBackground(background);
+        tradeMenuPane.setBackground(background);
+
+        mainBorderPane.setRight(tradeMenuPane);
+        System.out.println(mainBorderPane.getChildren());
+    }
+
+    public void openNewTrade(MouseEvent mouseEvent) {
+        System.out.println(mainBorderPane.getChildren());
+
+        for (Node child : mainBorderPane.getChildren()) {
+            if (child.equals(tradeMenuPane)) {
+                mainBorderPane.getChildren().remove(child);
+                break;
+            }
+        }
+        mainBorderPane.getChildren().add(newTradePane);
+    }
+
+    public void openTradeHistory(MouseEvent mouseEvent) {
+        for (Node child : mainBorderPane.getChildren()) {
+            if (child.equals(tradeMenuPane)) {
+                mainBorderPane.getChildren().remove(child);
+                break;
+            }
+        }
+        mainBorderPane.getChildren().add(tradeHistoryPane);
+    }
+
+    public void closeTradeMenu(MouseEvent mouseEvent) {
+        for (Node child : mainBorderPane.getChildren()) {
+            if (child.equals(tradeMenuPane)) {
+                mainBorderPane.getChildren().remove(child);
+                break;
+            }
+        }
     }
 
     public ArrayList<HBox> getShopMenuHbox() {
