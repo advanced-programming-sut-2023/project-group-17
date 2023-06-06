@@ -189,16 +189,35 @@ public class GameMenu extends Application {
                 }
             }
             selectedNodes.clear();
+            int minX = Integer.MAX_VALUE;
+            int minY = Integer.MAX_VALUE;
+            int maxX = 0;
+            int maxY = 0;
+            //TODO min x , y ye moshkel dare hamishe / 10 shode engar
+            // ehtemalan be khater image hast ke har 10 ta khone miofte
 
-            // Add a border to the selected nodes
+// Add a border to the selected nodes
             for (Node node : gridPane.getChildren()) {
                 if (node.getBoundsInParent().intersects(selectionBounds)) {
+                    Integer columnIndex = GridPane.getColumnIndex(node);
+                    Integer rowIndex = GridPane.getRowIndex(node);
+                    if (columnIndex != null) {
+                        minX = Math.min(minX, columnIndex);
+                        maxX = Math.max(maxX, columnIndex);
+                    }
+                    if (rowIndex != null) {
+                        minY = Math.min(minY, rowIndex);
+                        maxY = Math.max(maxY, rowIndex);
+                    }
                     if (node instanceof Region) {
                         ((Region) node).setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
                         selectedNodes.add(node);
                     }
                 }
             }
+            System.out.println(minX + "\t" + minY + "\t" + maxX + "\t" + maxY);
+//            System.out.println(selectionBounds);
+//            System.out.println(selectedNodes.get(0).getLayoutX());
             event.consume();
         });
 
