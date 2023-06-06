@@ -261,19 +261,35 @@ public class GameMenu extends Application {
         HashMap<String, Integer> soldiers = mapMenuController.
                 getSoldiers(startCol + 1, startRow + 1, endCol + 1, endRow + 1);
         for (String soldier : soldiers.keySet()) {
+            VBox vBox = new VBox();
             HBox hBox = new HBox();
             hBox.setSpacing(5);
+            Slider slider = new Slider(0, soldiers.get(soldier), soldiers.get(soldier) + 1);
+            slider.setPrefWidth(90);
+            slider.setShowTickLabels(true);
+            slider.setShowTickMarks(true);
+            slider.setMajorTickUnit(1); // Set major tick unit to 1
+            slider.setMinorTickCount(0); // Set minor tick count to 0
+            slider.setBlockIncrement(1);
+
             Text text = new Text("\t" + soldiers.get(soldier) + "x");
 //            text.setStrokeWidth(30);
             text.setFont(Font.font(15));
             String path = getClass().getResource("/assets/Soldiers/" +
                     soldier + ".png").toExternalForm();
+            slider.valueProperty().addListener((observable, oldValue, newValue) -> {
+                int roundedValue = (int) Math.round(newValue.doubleValue());
+                slider.setValue(roundedValue);
+                text.setText("\t" + roundedValue + "x");
+            });
             ImageView imageView = new ImageView(new Image(path, 60, 60, false, false));
             imageView.setId(soldier);
             hBox.getChildren().addAll(text, imageView);
-            toolBarHBox.getChildren().add(hBox);
+            vBox.setSpacing(5);
+            vBox.getChildren().addAll(hBox, slider);
+            toolBarHBox.getChildren().add(vBox);
         }
-        //TODO added selected soldiers to Unit menu
+        //TODO added selected soldiers to Unit menu and change number of them with slider listener
     }
 
     private void handleClick(GridPane gridPane) {
