@@ -256,8 +256,8 @@ public class GameMenu extends Application {
 
     private void createShopMenu() {
         toolBarHBox.getChildren().clear();
-        Button buy = new Button("Buy"); buy.setDisable(true); buy.setPrefWidth(80);
-        Button sell = new Button("Sell"); sell.setDisable(true); sell.setPrefWidth(80);
+        Button buy = new Button("Buy"); buy.setDisable(true); buy.setPrefWidth(70);
+        Button sell = new Button("Sell"); sell.setDisable(true); sell.setPrefWidth(70);
         toolBarHBox.getChildren().addAll(buy);
         ArrayList<Item.ItemType> item = dataController.getWeaponsName();
         VBox vBox = new VBox();
@@ -269,7 +269,7 @@ public class GameMenu extends Application {
         for (int i = 0; i < item.size(); i++) {
             String path = getClass().getResource("/assets/Item/" +
                     item.get(i).getName() + ".png").toExternalForm();
-            ImageView imageView = new ImageView(new Image(path, 40, 40, false, false));
+            ImageView imageView = new ImageView(new Image(path, 50, 50, false, false));
             imageView.setId(item.get(i).getName());
             int finalI = i;
 //            imageView.setOnMouseClicked(e -> setSelectedItem(selectedItem, item.get(finalI)));
