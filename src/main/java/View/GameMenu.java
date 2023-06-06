@@ -211,11 +211,15 @@ public class GameMenu extends Application {
                     System.out.println("Dropped: " + db.getString());
                     int columnIndex = GridPane.getColumnIndex(node);
                     int rowIndex = GridPane.getRowIndex(node);
+                    ImageView imageView;
                     if (cheatMode) {
                         if (mapMenuController.dropBuilding(columnIndex + 1, rowIndex + 1, db.getString()).equals(MapMenuMessages.SUCCESS)) {
                             String path = getClass().getResource("/assets/Buildings/" +
                                     db.getString() + ".png").toExternalForm();
-                            ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
+                            if (db.getString().equals("oxTether"))
+                                imageView = new ImageView(new Image(path, 50, 50, false, false));
+                            else
+                                imageView = new ImageView(new Image(path, 80, 80, false, false));
                             gridPane.add(imageView, columnIndex, rowIndex);
                         }
                     }
@@ -223,7 +227,10 @@ public class GameMenu extends Application {
                         if (buildingMenuController.dropBuilding(columnIndex + 1, rowIndex + 1, db.getString()).equals(BuildingMenuMessages.SUCCESS)) {
                             String path = getClass().getResource("/assets/Buildings/" +
                                     db.getString() + ".png").toExternalForm();
-                            ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
+                            if (db.getString().equals("oxTether"))
+                                imageView = new ImageView(new Image(path, 50, 50, false, false));
+                            else
+                                imageView = new ImageView(new Image(path, 80, 80, false, false));
                             handleSelectBuilding(imageView, db.getString(), columnIndex, rowIndex);
                             gridPane.add(imageView, columnIndex, rowIndex);
                         }
@@ -453,7 +460,11 @@ public class GameMenu extends Application {
         for (int i = 0; i < dataController.getOtherBuildingsSize(); i++) {
             path = getClass().getResource("/assets/Buildings/" +
                     dataController.getOtherBuildingNameByNumber(i) + ".png").toExternalForm();
-            ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
+            ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));;
+//            if (dataController.getOtherBuildingNameByNumber(i).equals("oxTether") || dataController.getOtherBuildingNameByNumber(i).equals("drawbridge"))
+//                imageView = new ImageView(new Image(path, 60, 60, false, false));
+//            else
+//                imageView = new ImageView(new Image(path, 80, 80, false, false));
             imageView.setId(dataController.getOtherBuildingNameByNumber(i));
             int finalI = i;
             imageView.setOnDragDetected((MouseEvent event) -> {
