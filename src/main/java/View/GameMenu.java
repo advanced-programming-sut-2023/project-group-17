@@ -649,6 +649,7 @@ public class GameMenu extends Application {
     }
 
     private void createSoldiers(String soldierName, String path, int columnIndex, int rowIndex) {
+        removeFocus();
         if (cheatMode) {
             if (mapMenuController.dropUnit(dataController.getXHeadquarter(), dataController.getYHeadquarter() + 1,
                     soldierName, 0).equals(MapMenuMessages.SUCCESS)) {
@@ -822,6 +823,7 @@ public class GameMenu extends Application {
     }
 
     private void openSoldierBuildings() {
+        removeFocus();
         String path = "";
         toolBarHBox.getChildren().clear();
         toolBarHBox.setSpacing(10);
@@ -839,6 +841,7 @@ public class GameMenu extends Application {
                 content.putImage(imageView.getImage());
                 content.putString(dataController.getSoldierBuildingNameByNumber(finalI));
                 db.setContent(content);
+                removeFocus();
             });
             imageView.setOnMouseDragged((MouseEvent event) -> {
                 event.setDragDetect(true);
@@ -848,6 +851,7 @@ public class GameMenu extends Application {
     }
 
     private void openOtherBuildings() {
+        removeFocus();
         String path = "";
         toolBarHBox.getChildren().clear();
         toolBarHBox.setSpacing(10);
@@ -869,6 +873,7 @@ public class GameMenu extends Application {
                 content.putImage(imageView.getImage());
                 content.putString(dataController.getOtherBuildingNameByNumber(finalI));
                 db.setContent(content);
+                removeFocus();
             });
             imageView.setOnMouseDragged((MouseEvent event) -> {
                 event.setDragDetect(true);
@@ -878,6 +883,7 @@ public class GameMenu extends Application {
     }
 
     private void openDefensiveBuildings() {
+        removeFocus();
         String path = "";
         toolBarHBox.getChildren().clear();
         toolBarHBox.setSpacing(10);
@@ -895,6 +901,7 @@ public class GameMenu extends Application {
                 content.putImage(imageView.getImage());
                 content.putString(dataController.getDefensiveBuildingNameByNumber(finalI));
                 db.setContent(content);
+                removeFocus();
             });
             imageView.setOnMouseDragged((MouseEvent event) -> {
                 event.setDragDetect(true);
@@ -904,6 +911,7 @@ public class GameMenu extends Application {
     }
 
     private void openStorageBuildings() {
+        removeFocus();
         String path = "";
         toolBarHBox.getChildren().clear();
         toolBarHBox.setSpacing(10);
@@ -921,6 +929,7 @@ public class GameMenu extends Application {
                 content.putImage(imageView.getImage());
                 content.putString(dataController.getStorageBuildingNameByNumber(finalI));
                 db.setContent(content);
+                removeFocus();
             });
             imageView.setOnMouseDragged((MouseEvent event) -> {
                 event.setDragDetect(true);
@@ -930,6 +939,7 @@ public class GameMenu extends Application {
     }
 
     private void openMiningBuildings() {
+        removeFocus();
         String path = "";
         toolBarHBox.getChildren().clear();
         toolBarHBox.setSpacing(10);
@@ -947,6 +957,7 @@ public class GameMenu extends Application {
                 content.putImage(imageView.getImage());
                 content.putString(dataController.getMiningBuildingNameByNumber(finalI));
                 db.setContent(content);
+                removeFocus();
             });
             imageView.setOnMouseDragged((MouseEvent event) -> {
                 event.setDragDetect(true);
@@ -956,6 +967,7 @@ public class GameMenu extends Application {
     }
 
     private void openProductionBuildings() {
+        removeFocus();
         String path = "";
         toolBarHBox.getChildren().clear();
         toolBarHBox.setSpacing(10);
@@ -973,6 +985,7 @@ public class GameMenu extends Application {
                 content.putImage(imageView.getImage());
                 content.putString(dataController.getProductionBuildingNameByNumber(finalI));
                 db.setContent(content);
+                removeFocus();
             });
             imageView.setOnMouseDragged((MouseEvent event) -> {
                 event.setDragDetect(true);
@@ -982,6 +995,7 @@ public class GameMenu extends Application {
     }
 
     private void openGatehouseBuildings() {
+        removeFocus();
         String path = "";
         toolBarHBox.getChildren().clear();
         toolBarHBox.setSpacing(10);
@@ -999,63 +1013,22 @@ public class GameMenu extends Application {
                 content.putImage(imageView.getImage());
                 content.putString(dataController.getGatehouseBuildingNameByNumber(finalI));
                 db.setContent(content);
+                removeFocus();
             });
             imageView.setOnMouseDragged((MouseEvent event) -> {
                 event.setDragDetect(true);
             });
-
-
-//            imageView.setOnDragDetected(event -> {
-//                Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
-//                ClipboardContent content = new ClipboardContent();
-//                content.putImage(imageView.getImage());
-//                db.setContent(content);
-//                event.consume();
-//            });
-//            imageView.setOnDragOver(new EventHandler<DragEvent>() {
-//                public void handle(DragEvent event) {
-//                    if (event.getGestureSource() != imageView && event.getDragboard().hasFiles()) {
-//                        event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
-//                    }
-//                    event.consume();
-//                }
-//            });
-//            imageView.setOnDragDropped(new EventHandler<DragEvent>() {
-//                public void handle(DragEvent event) {
-//                    Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
-//                    ClipboardContent content = new ClipboardContent();
-//                    content.putImage(imageView.getImage());
-//                    db.setContent(content);
-//                    event.consume();
-//                }
-//            });
-//
-//            // Change the appearance of the node when the drag enters
-//            imageView.setOnDragEntered(event -> {
-//                if (event.getGestureSource() != imageView && event.getDragboard().hasFiles()) {
-//                    // You can change the appearance of the node here, e.g., change the background color
-//                }
-//            });
-//
-//            // Reset the appearance of the node when the drag exits
-//            imageView.setOnDragExited(event -> {
-//                // Reset the appearance of the node here, e.g., change the background color back to the original
-//            });
-
-//            imageView.setOnDragDropped(new EventHandler<DragEvent>() {
-//                @Override
-//                public void handle(DragEvent event) {
-//                    Dragboard db = event.getDragboard();
-//                    boolean success = false;
-//                    if (db.hasFiles()) {
-//                        // Handle the file drop here
-//                        success = true;
-//                    }
-//                    event.setDropCompleted(success);
-//                    event.consume();
-//                }
-//            });
             toolBarHBox.getChildren().add(imageView);
+        }
+    }
+
+    public void removeFocus() {
+        ObservableList<Node> children = gridPane.getChildren();
+        for (Node child : children) {
+            if (child instanceof Rectangle) {
+                gridPane.getChildren().remove(child);
+                break;
+            }
         }
     }
 
