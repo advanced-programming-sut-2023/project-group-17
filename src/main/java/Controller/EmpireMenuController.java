@@ -46,8 +46,7 @@ public class EmpireMenuController {
 
     public EmpireMenuMessages setFearRate(int fearRate) {
         if (fearRate < -5 || 5 < fearRate) return EmpireMenuMessages.INVALID_NUMBER;
-        Database.getCurrentUser().getEmpire().setTaxRate(fearRate);
-        System.out.println(fearRate);
+        Database.getCurrentUser().getEmpire().setFearRate(fearRate);
         return EmpireMenuMessages.SUCCESS;
     }
 
