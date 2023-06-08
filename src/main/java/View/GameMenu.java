@@ -347,10 +347,19 @@ public class GameMenu extends Application {
 
     private void handleCheatMode(BorderPane borderPane) {
         KeyCombination cheatCode = new KeyCodeCombination(KeyCode.Q, KeyCombination.CONTROL_ANY);
+        Popup popup = getPopup();
+        Label label = getLabel();
+        Timeline timeline = hidePopup(popup);
+        popup.getContent().add(label);
+
         borderPane.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
                 if (cheatCode.match(keyEvent)) {
+                    if (cheatMode) label.setText("Cheat Mode OFF");
+                    else label.setText("Cheat Mode ON");
+                    popup.show(Main.stage);
+                    timeline.play();
                     cheatMode = !cheatMode;
                     System.out.println(cheatMode);
                 }
@@ -707,7 +716,7 @@ public class GameMenu extends Application {
         HBox hBoxButtons = new HBox();
         //TODO: delete one of these
 //        hBoxButtons.setTranslateX(1050);
-        hBoxButtons.setTranslateX(950);
+        hBoxButtons.setTranslateX(920);
 
         hBoxButtons.setSpacing(10);
         hBoxButtons.setTranslateY(10);
@@ -759,10 +768,7 @@ public class GameMenu extends Application {
         button.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                Popup popup = new Popup();
-                popup.setAnchorX(580); popup.setAnchorY(300);
-                popup.centerOnScreen();
-                popup.setOpacity(0.7);
+                Popup popup = getPopup(); popup.setAnchorX(550); popup.setAnchorY(200);
                 VBox vBox = new VBox(); vBox.setSpacing(5); vBox.setStyle("-fx-background-color: black;");
                 Label fearLabel = getLabel();
                 HBox fear = new HBox(); fear.setSpacing(10);
