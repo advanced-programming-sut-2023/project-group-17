@@ -4,6 +4,7 @@ import Model.Database;
 import Model.Items.Food;
 import Model.User;
 import View.Enums.Messages.EmpireMenuMessages;
+import javafx.scene.control.Label;
 
 public class EmpireMenuController {
     public String showPopularity() {
@@ -64,5 +65,9 @@ public class EmpireMenuController {
 
     public double getTaxRate() {
         return Database.getCurrentUser().getEmpire().getTaxRate();
+    }
+
+    public double getReligiousRate() {
+        return Database.getCurrentUser().getEmpire().getReligionRate();
     }
 }

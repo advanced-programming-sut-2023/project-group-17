@@ -699,11 +699,11 @@ public class GameMenu extends Application {
                 "/assets/ToolBar/menu.jpeg").toExternalForm()),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 new BackgroundSize(1.0, 1.0, true, true, false, false))));
-//        Button button = new Button();
-//        button.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
-//                "/assets/ToolBar/Buttons/Empire.png").toExternalForm(), 20, 20, false, false)));
-//        toolBar.getItems().add(button);
-//        setOnActionEmpireButton(button);
+        Button button = new Button();
+        button.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
+                "/assets/ToolBar/Buttons/Empire.png").toExternalForm(), 20, 20, false, false)));
+        toolBar.getItems().add(button);
+        setOnActionEmpireButton(button);
         HBox hBoxButtons = new HBox();
         //TODO: delete one of these
 //        hBoxButtons.setTranslateX(1050);
@@ -763,14 +763,37 @@ public class GameMenu extends Application {
                 popup.setAnchorX(580); popup.setAnchorY(300);
                 popup.centerOnScreen();
                 popup.setOpacity(0.7);
+                VBox vBox = new VBox(); vBox.setSpacing(5); vBox.setStyle("-fx-background-color: black;");
                 Label fearLabel = getLabel();
-                HBox hBox = new HBox(); hBox.setSpacing(10);
+                HBox fear = new HBox(); fear.setSpacing(10);
                 double fearRate = empireMenuController.getFearRate();
                 fearLabel.setText("Fear :\t" + fearRate);
                 String faceImagePath = getPathFaceImage(fearRate);
                 ImageView imageView = new ImageView(new Image(faceImagePath, 20, 20, false, false));
-                hBox.getChildren().addAll(fearLabel, imageView);
-                popup.getContent().add(hBox);
+                fear.setAlignment(Pos.CENTER);
+                fear.getChildren().addAll(fearLabel, imageView);
+                HBox tax = new HBox(); tax.setSpacing(10);
+                Label taxLabel = getLabel();
+                double taxRate = empireMenuController.getTaxRate();
+                taxLabel.setText("Tax :\t" + taxRate);
+                faceImagePath = getPathFaceImage(taxRate);
+                ImageView taxImage = new ImageView(new Image(faceImagePath, 20, 20, false, false));
+                tax.getChildren().addAll(taxLabel, taxImage);
+                tax.setAlignment(Pos.CENTER);
+                HBox food = new HBox(); food.setSpacing(10);
+                Label foodLabel = getLabel();
+                double foodRate = empireMenuController.getFoodRate(); foodLabel.setText("Food :\t" + foodRate);
+                faceImagePath = getPathFaceImage(foodRate);
+                ImageView foodImage = new ImageView(new Image(faceImagePath, 20, 20, false, false));
+                food.getChildren().addAll(foodLabel, foodImage); food.setAlignment(Pos.CENTER);
+                HBox religious = new HBox(); religious.setSpacing(10);
+                Label religiousLabel = getLabel(); double religiousRate = empireMenuController.getReligiousRate();
+                religiousLabel.setText("Religious :\t" + religiousRate);
+                faceImagePath = getPathFaceImage(religiousRate);
+                ImageView religiousImage = new ImageView(new Image(faceImagePath, 20, 20, false, false));
+                religious.getChildren().addAll(religiousLabel, religiousImage); religious.setAlignment(Pos.CENTER);
+                vBox.getChildren().addAll(fear, tax, food, religious);
+                popup.getContent().add(vBox);
                 popup.show(Main.stage);
                 Timeline timeline = hidePopup(popup);
                 timeline.play();
@@ -780,11 +803,11 @@ public class GameMenu extends Application {
 
     private String getPathFaceImage(double rate) {
         if (rate > 0) return GameMenu.class.getResource(
-                "/assets/ToolBar/Buttons/Soldier.png").toExternalForm();
+                "/assets/EmpireFaces/Happy.PNG").toExternalForm();
         else if (rate == 0) return GameMenu.class.getResource(
-                "/assets/ToolBar/Buttons/Empire.png").toExternalForm();
+                "/assets/EmpireFaces/Poker.PNG").toExternalForm();
         else return GameMenu.class.getResource(
-                "/assets/ToolBar/Buttons/Empire.png").toExternalForm();
+                "/assets/EmpireFaces/Sad.PNG").toExternalForm();
     }
 
     private void setOnActionButtons(Button button1, Button button2, Button button3,
