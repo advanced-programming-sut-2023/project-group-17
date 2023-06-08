@@ -45,6 +45,7 @@ public class GameMenu extends Application {
     private BuildingMenuController buildingMenuController;
     private MapMenuController mapMenuController;
     private ShopMenuController shopMenuController;
+    private EmpireMenuController empireMenuController;
     private MapMenu mapMenu;
     private GridPane gridPane;
     private ToolBar toolBar;
@@ -70,6 +71,7 @@ public class GameMenu extends Application {
         this.buildingMenuController = new BuildingMenuController();
         this.mapMenuController = new MapMenuController();
         this.shopMenuController = new ShopMenuController();
+        this.empireMenuController = new EmpireMenuController();
         cheatMode = false;
         this.cheatMode = false;
         this.selectedNodes = new ArrayList<>();
@@ -167,7 +169,6 @@ public class GameMenu extends Application {
 
             }
         }
-        setHeadQuarters(gridPane);
         scrollPane.requestFocus();
         handleZoom(scrollPane);
         handleHover(gridPane);
@@ -180,6 +181,7 @@ public class GameMenu extends Application {
         this.mainBorderPane = borderPane;
 
         selectFunction();
+        setHeadQuarters(gridPane);
         setDropActionForGridPane();
 
         borderPane.setBottom(toolBar);
@@ -693,6 +695,11 @@ public class GameMenu extends Application {
                 "/assets/ToolBar/menu.jpeg").toExternalForm()),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 new BackgroundSize(1.0, 1.0, true, true, false, false))));
+//        Button button = new Button();
+//        button.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
+//                "/assets/ToolBar/Buttons/Empire.png").toExternalForm(), 20, 20, false, false)));
+//        toolBar.getItems().add(button);
+//        setOnActionEmpireButton(button);
         HBox hBoxButtons = new HBox();
         //TODO: delete one of these
 //        hBoxButtons.setTranslateX(1050);
@@ -742,6 +749,38 @@ public class GameMenu extends Application {
         openGatehouseBuildings();
 
         return toolBar;
+    }
+
+    private void setOnActionEmpireButton(Button button) {
+        button.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                Popup popup = new Popup();
+                popup.setAnchorX(580); popup.setAnchorY(300);
+                popup.centerOnScreen();
+                popup.setOpacity(0.7);
+                Label fearLabel = getLabel();
+                HBox hBox = new HBox(); hBox.setSpacing(10);
+                double fearRate = empireMenuController.getFearRate();
+                fearLabel.setText("Fear :\t" + fearRate);
+                String faceImagePath = getPathFaceImage(fearRate);
+                ImageView imageView = new ImageView(new Image(faceImagePath, 20, 20, false, false));
+                hBox.getChildren().addAll(fearLabel, imageView);
+                popup.getContent().add(hBox);
+                popup.show(Main.stage);
+                Timeline timeline = hidePopup(popup);
+                timeline.play();
+            }
+        });
+    }
+
+    private String getPathFaceImage(double rate) {
+        if (rate > 0) return GameMenu.class.getResource(
+                "/assets/ToolBar/Buttons/Soldier.png").toExternalForm();
+        else if (rate == 0) return GameMenu.class.getResource(
+                "/assets/ToolBar/Buttons/Empire.png").toExternalForm();
+        else return GameMenu.class.getResource(
+                "/assets/ToolBar/Buttons/Empire.png").toExternalForm();
     }
 
     private void setOnActionButtons(Button button1, Button button2, Button button3,
@@ -1019,16 +1058,62 @@ public class GameMenu extends Application {
     private void createBuilding(String nameBuildingForHeadquarter, int xBuildingForHeadquarter, int yBuildingForHeadquarter, GridPane gridPane) {
         String url = getClass().getResource("/assets/Buildings/" + nameBuildingForHeadquarter +".png").toExternalForm();
         ImageView imageView = new ImageView(new Image(url, 80, 80, false, false));
-//        if (nameBuildingForHeadquarter.equals("stockpile")) imageView.setRotate(45);
-        imageView.setOnDragDetected(event -> {
-            Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
-            ClipboardContent content = new ClipboardContent();
-            content.putImage(imageView.getImage());
-            db.setContent(content);
-            event.consume();
+        gridPane.add(imageView, xBuildingForHeadquarter - 1, yBuildingForHeadquarter - 1);
+        if (nameBuildingForHeadquarter.equals("smallStoneGatehouse")) {
+            imageView.setOnMouseClicked(e -> openEmpireMenu());
+        }
+    }
+
+    private void openEmpireMenu() {
+        toolBarHBox.getChildren().clear();
+        HBox fear = createSliderHBox("Fear", -5, 5);
+        HBox food = createSliderHBox("Food", -2, 2);
+        HBox tax = createSliderHBox("Tax", -3, 8);
+        toolBarHBox.getChildren().addAll(fear, food, tax);
+    }
+
+    private HBox createSliderHBox(String name, int i, int j) {
+        HBox hBox = new HBox();
+
+        Text text = new Text(name); text.setFont(Font.font(15));
+
+        Slider slider = new Slider(i, j, Math.abs(i) + Math.abs(j) + 1);
+        slider.setPrefWidth(175);
+        slider.setShowTickLabels(true);
+        slider.setShowTickMarks(true);
+        slider.setMajorTickUnit(1);
+        slider.setMinorTickCount(0);
+        slider.setBlockIncrement(1);
+        switch (name) {
+            case "Fear":
+                slider.setValue(empireMenuController.getFearRate());
+                break;
+            case "Food":
+                slider.setValue(empireMenuController.getFoodRate());
+                break;
+            case "Tax":
+                slider.setValue(empireMenuController.getTaxRate());
+                break;
+        }
+        slider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            int roundedValue = (int) Math.round(newValue.doubleValue());
+            slider.setValue(roundedValue);
+            switch (name) {
+                case "Fear":
+                    empireMenuController.setFearRate(roundedValue);
+                    break;
+                case "Food":
+                    empireMenuController.setFoodRate(roundedValue);
+                    break;
+                case "Tax":
+                    empireMenuController.setTaxRate(roundedValue);
+                    break;
+            }
         });
-        gridPane.add(imageView,
-                xBuildingForHeadquarter - 1, yBuildingForHeadquarter - 1);
+
+        hBox.getChildren().addAll(text, slider);
+
+        return hBox;
     }
 
     private void refreshToolBar() {
