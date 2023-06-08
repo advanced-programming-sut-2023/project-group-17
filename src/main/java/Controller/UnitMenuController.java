@@ -12,8 +12,10 @@ import Model.People.Soldier;
 import Model.People.Tunneler;
 import Utils.CheckMapCell;
 import View.Enums.Messages.UnitMenuMessages;
+import View.Main;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class UnitMenuController {
     //TODO faghat ye sarbaz harekat kard
@@ -380,5 +382,29 @@ public class UnitMenuController {
         }
 
         return UnitMenuMessages.INVALID_TYPE_OF_SELECTED_UNIT;
+    }
+
+    private int getNumberOfSoldier(String name) {
+        int number = 0;
+        for (Person person : selectedUnit) {
+            if (((Soldier)person).getName().equals(name)) number++;
+        }
+        return number;
+    }
+
+    public void setSelectedUnit(double startCol, double startRow, double endCol, double endRow, HashMap<String, Integer> soldiers) {
+        selectedUnit.clear();
+        Map map = Database.getCurrentMapGame();
+        for (java.util.Map.Entry<String, Integer> stringIntegerEntry : soldiers.entrySet()) {
+            for (int i = (int) startCol; i <= endCol; i++) {
+                for (int j = (int) startRow; j <= endRow; j++) {
+                    for (Soldier soldier : map.getMapCellByCoordinates(i, j).getSoldier()) {
+                        if (soldier.getName().equals(stringIntegerEntry.getKey()))
+                            if (getNumberOfSoldier(soldier.getName()) < stringIntegerEntry.getValue())
+                                selectedUnit.add(soldier);
+                    }
+                }
+            }
+        }
     }
 }
