@@ -43,6 +43,7 @@ public class GameMenu extends Application {
     private GameMenuController gameMenuController;
     private DataAnalysisController dataController;
     private BuildingMenuController buildingMenuController;
+    private UnitMenuController unitMenuController;
     private MapMenuController mapMenuController;
     private ShopMenuController shopMenuController;
     private EmpireMenuController empireMenuController;
@@ -72,6 +73,7 @@ public class GameMenu extends Application {
         this.mapMenuController = new MapMenuController();
         this.shopMenuController = new ShopMenuController();
         this.empireMenuController = new EmpireMenuController();
+        this.unitMenuController = new UnitMenuController();
         cheatMode = false;
         this.cheatMode = false;
         this.selectedNodes = new ArrayList<>();
@@ -295,6 +297,9 @@ public class GameMenu extends Application {
             slider.valueProperty().addListener((observable, oldValue, newValue) -> {
                 int roundedValue = (int) Math.round(newValue.doubleValue());
                 slider.setValue(roundedValue);
+                soldiers.put(soldier, roundedValue);
+                unitMenuController.setSelectedUnit(startCol + 1, startRow + 1,
+                        endCol + 1, endRow + 1, soldiers);
                 text.setText("\t" + roundedValue + "x");
             });
             ImageView imageView = new ImageView(new Image(path, 60, 60, false, false));
@@ -360,7 +365,6 @@ public class GameMenu extends Application {
                     if (event.getGestureSource() != node && event.getDragboard().hasString()) {
                         event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
                     }
-
                     event.consume();
                 }
             });
