@@ -10,7 +10,6 @@ import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
@@ -81,13 +80,6 @@ public class GameMenu extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-//        tradeMenuPane = FXMLLoader.load(getClass().getResource("/fxml/TradeMenu.fxml"));
-//        tradeMenuPane.setBackground(new Background(new BackgroundImage(new Image(LoginMenu.class.getResource(
-//                "/assets/Backgrounds/TradeMenu.jpg").toExternalForm()),
-//                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
-//                new BackgroundSize(1.0, 1.0, true, true, false, false))));
-
-
         BorderPane borderPane = new BorderPane();
         gameMenuController.setFirstUser();
 
@@ -436,6 +428,8 @@ public class GameMenu extends Application {
 
     private void createShopMenu() {
         toolBarHBox.getChildren().clear();
+        toolBarHBox.setTranslateX(-70);
+
         Button buy = new Button("Buy"); buy.setDisable(true); buy.setPrefWidth(70);
         Button sell = new Button("Sell"); sell.setDisable(true); sell.setPrefWidth(70);
         Text text = getText();
@@ -459,43 +453,22 @@ public class GameMenu extends Application {
                 sell.setOnMouseClicked(mouseEvent -> sellResource(item.get(finalI)));
             });
 
-            if (i < 8) {
-//                hBoxes.get(0).getChildren().add(text);
-                hBoxes.get(1).getChildren().add(imageView);
-            }
-            else if (i < 16) {
-//                hBoxes.get(2).getChildren().add(text);
-                hBoxes.get(3).getChildren().add(imageView);
-            }
-            else {
-//                hBoxes.get(4).getChildren().add(text);
-                hBoxes.get(5).getChildren().add(imageView);
-            }
+            if (i < 8) hBoxes.get(1).getChildren().add(imageView);
+            else if (i < 16) hBoxes.get(3).getChildren().add(imageView);
+            else hBoxes.get(5).getChildren().add(imageView);
         }
         hBoxes.get(5).setAlignment(Pos.CENTER); hBoxes.get(5).setAlignment(Pos.CENTER);
         vBox.getChildren().addAll(hBoxes.get(0), hBoxes.get(1), hBoxes.get(2), hBoxes.get(3), hBoxes.get(4), hBoxes.get(5));
         vBox.setAlignment(Pos.CENTER);
         toolBarHBox.getChildren().addAll(vBox1, vBox);
 
-
         //TODO: trade o khoshgel konim:D
         Button button = new Button("Trade");
-        button.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                try {
-                    handleTradeMenu();
-                }catch (Exception e) {
-                    e.printStackTrace();
-                }
-//                mainBorderPane.setRight(tradeMenuPane);
-//                TradeMenu tradeMenu = new TradeMenu();
-//                tradeMenu.setMainBorderPane(mainBorderPane);
-//                try {
-//                    tradeMenu.start();
-//                } catch (Exception e) {
-//                    throw new RuntimeException(e);
-//                }
+        button.setOnMouseClicked(mouseEvent -> {
+            try {
+                handleTradeMenu();
+            }catch (Exception e) {
+                e.printStackTrace();
             }
         });
         toolBarHBox.getChildren().add(button);
@@ -504,51 +477,32 @@ public class GameMenu extends Application {
     }
 
     private void handleTradeMenu() throws Exception{
-        tradeMenuPane = FXMLLoader.load(getClass().getResource("/fxml/TradeMenu.fxml"));
-        newTradePane = FXMLLoader.load(getClass().getResource("/fxml/NewTrade.fxml"));
-        tradeHistoryPane = FXMLLoader.load(getClass().getResource("/fxml/TradeHistory.fxml"));
+        toolBarHBox.getChildren().clear();
+        toolBarHBox.setTranslateX(150);
+        Text text = new Text("Trade Menu");
+        Font font = Font.font("Showcard Gothic", FontWeight.SEMI_BOLD, FontPosture.REGULAR, 16);
+        text.setFont(font);
 
-        Background background = new Background(new BackgroundImage(new Image(LoginMenu.class.getResource(
-                "/assets/Backgrounds/TradeMenu.jpg").toExternalForm()),
-                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
-                new BackgroundSize(1.0, 1.0, true, true, false, false)));
-        newTradePane.setBackground(background);
-        tradeHistoryPane.setBackground(background);
-        tradeMenuPane.setBackground(background);
+        Button backButton = new Button("Back"); backButton.setPrefWidth(70);
+        Button newButton = new Button("New"); newButton.setPrefWidth(70);
+        Button historyButton = new Button("History"); historyButton.setPrefWidth(70);
+        HBox hBox = new HBox(newButton, historyButton); hBox.setSpacing(20); hBox.setAlignment(Pos.CENTER);
+        HBox hBox1 = new HBox(backButton); hBox1.setAlignment(Pos.CENTER);
+        VBox vBox = new VBox(text, hBox, hBox1); vBox.setSpacing(20); vBox.setAlignment(Pos.CENTER);
+        toolBarHBox.setAlignment(Pos.CENTER);
+        toolBarHBox.getChildren().addAll(vBox);
 
-        mainBorderPane.setRight(tradeMenuPane);
-        System.out.println(mainBorderPane.getChildren());
+        backButton.setOnMouseClicked(mouseEvent -> createShopMenu());
+        newButton.setOnMouseClicked(mouseEvent -> handleNewTrade());
+        historyButton.setOnMouseClicked(mouseEvent -> handleTradeHistory());
     }
 
-    public void openNewTrade(MouseEvent mouseEvent) {
-        System.out.println(mainBorderPane.getChildren());
-
-        for (Node child : mainBorderPane.getChildren()) {
-            if (child.equals(tradeMenuPane)) {
-                mainBorderPane.getChildren().remove(child);
-                break;
-            }
-        }
-        mainBorderPane.getChildren().add(newTradePane);
+    private void handleNewTrade() {
+        //TODO
     }
 
-    public void openTradeHistory(MouseEvent mouseEvent) {
-        for (Node child : mainBorderPane.getChildren()) {
-            if (child.equals(tradeMenuPane)) {
-                mainBorderPane.getChildren().remove(child);
-                break;
-            }
-        }
-        mainBorderPane.getChildren().add(tradeHistoryPane);
-    }
-
-    public void closeTradeMenu(MouseEvent mouseEvent) {
-        for (Node child : mainBorderPane.getChildren()) {
-            if (child.equals(tradeMenuPane)) {
-                mainBorderPane.getChildren().remove(child);
-                break;
-            }
-        }
+    private void handleTradeHistory() {
+        //TODO
     }
 
     public ArrayList<HBox> getShopMenuHbox() {
