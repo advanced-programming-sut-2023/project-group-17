@@ -735,11 +735,11 @@ public class GameMenu extends Application {
                 gridPane.add(imageView, dataController.getXHeadquarter() - 1, dataController.getYHeadquarter());
             }
         }
-        System.out.println(UnitMenuController.soldierImageViewHashMap);
-        for (Soldier soldier : UnitMenuController.soldierImageViewHashMap.keySet()) {
-            new Timeline(new KeyFrame(Duration.seconds(2),
-                    e -> gridPane.getChildren().remove(UnitMenuController.soldierImageViewHashMap.get(soldier)))).play();
-        }
+//        System.out.println(UnitMenuController.soldierImageViewHashMap);
+//        for (Soldier soldier : UnitMenuController.soldierImageViewHashMap.keySet()) {
+//            new Timeline(new KeyFrame(Duration.seconds(2),
+//                    e -> gridPane.getChildren().remove(UnitMenuController.soldierImageViewHashMap.get(soldier)))).play();
+//        }
         refreshToolBar();
     }
 
