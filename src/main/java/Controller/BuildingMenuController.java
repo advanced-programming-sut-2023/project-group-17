@@ -13,6 +13,7 @@ import View.EmpireMenu;
 import View.Enums.Messages.BuildingMenuMessages;
 import View.GameMenu;
 import View.ShopMenu;
+import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
 
@@ -83,7 +84,7 @@ public class BuildingMenuController {
                     if (counter == buildingSample.getNumberOfWorkers().get(peopleType)) break;
                 }
             }
-            else makeUnits(currentUser, mapCell, numberOfWorkers, newBuilding, peopleType, null);
+            else makeUnits(currentUser, mapCell, numberOfWorkers, newBuilding, peopleType, null, null);
         }
 
         return BuildingMenuMessages.SUCCESS;
@@ -169,7 +170,7 @@ public class BuildingMenuController {
         return null;
     }
 
-    private void makeUnits(User currentUser, MapCell mapCell, int numberOfWorkers, Building building, PeopleType type, Soldier soldier) {
+    private void makeUnits(User currentUser, MapCell mapCell, int numberOfWorkers, Building building, PeopleType type, Soldier soldier, ImageView imageView) {
 
         int counterToWorker = 0;
 
@@ -179,9 +180,10 @@ public class BuildingMenuController {
             }
             currentUser.getEmpire().getNormalPeople().remove(normalPeople);
             Person person;
-            if (type.equals(PeopleType.SOLDIER))
+            if (type.equals(PeopleType.SOLDIER)) {
                 person = new Soldier(normalPeople.getOwner(), soldier);
-            else
+                UnitMenuController.soldierImageViewHashMap.put((Soldier)person, imageView);
+            } else
                 person = new Worker(normalPeople.getOwner(), building);
             mapCell.addPeople(person);
             counterToWorker++;
@@ -211,7 +213,7 @@ public class BuildingMenuController {
         return BuildingMenuMessages.SUCCESS;
     }
 
-    public BuildingMenuMessages createUnit(int columnIndex, int rowIndex,String type, int count) {
+    public BuildingMenuMessages createUnit(int columnIndex, int rowIndex, String type, int count, ImageView imageView) {
 
         User currentUser = Database.getCurrentUser();
         Soldier sampleSoldier = Database.getSoldierDataByName(type);
@@ -243,7 +245,7 @@ public class BuildingMenuController {
 //            return BuildingMenuMessages.INVALID_TYPE_BUILDING;
 //        }
 
-        makeUnits(currentUser, mapCell, count, selectedBuilding, PeopleType.SOLDIER, sampleSoldier);
+        makeUnits(currentUser, mapCell, count, selectedBuilding, PeopleType.SOLDIER, sampleSoldier, imageView);
 
         return BuildingMenuMessages.SUCCESS;
     }

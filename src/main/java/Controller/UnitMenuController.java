@@ -13,6 +13,7 @@ import Model.People.Tunneler;
 import Utils.CheckMapCell;
 import View.Enums.Messages.UnitMenuMessages;
 import View.Main;
+import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import java.util.HashMap;
 public class UnitMenuController {
     //TODO faghat ye sarbaz harekat kard
     public static ArrayList<Person> selectedUnit = new ArrayList<>();
+    public static HashMap<Soldier, ImageView> soldierImageViewHashMap = new HashMap<>();
     public UnitMenuMessages selectUnit(int x, int y) {
         if(!Utils.CheckMapCell.validationOfX(x)) return UnitMenuMessages.X_OUT_OF_BOUNDS;
         if(!Utils.CheckMapCell.validationOfY(y)) return UnitMenuMessages.Y_OUT_OF_BOUNDS;

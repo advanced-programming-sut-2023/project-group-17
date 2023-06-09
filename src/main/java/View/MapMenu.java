@@ -252,28 +252,28 @@ public class MapMenu extends Menu{
         int y = Integer.parseInt(matcher.group("y"));
         String type = Menu.handleDoubleQuote(matcher.group("type"));
         int count = Integer.parseInt(matcher.group("count"));
-        switch (controller.dropUnit(x, y, type, count)) {
-            case SUCCESS:
-                System.out.println("Unit dropped successfully");
-                break;
-            case X_OUT_OF_BOUNDS:
-                System.out.println("Drop unit failed : Coordinate of x is out of bounds");
-                break;
-            case Y_OUT_OF_BOUNDS:
-                System.out.println("Drop unit failed : Coordinate of y is out of bounds");
-                break;
-            case INVALID_TYPE:
-                System.out.println("Drop unit failed : Invalid type");
-                break;
-            case INVALID_NUMBER:
-                System.out.println("Drop unit failed : Invalid number");
-                break;
-            case CELL_IS_FULL:
-                System.out.println("Drop unit failed : Cell is full");
-                break;
-            case INAPPROPRIATE_TEXTURE:
-                System.out.println("Drop unit failed : Inappropriate cell texture");
-                break;
-        }
+//        switch (controller.dropUnit(x, y, type, count)) {
+//            case SUCCESS:
+//                System.out.println("Unit dropped successfully");
+//                break;
+//            case X_OUT_OF_BOUNDS:
+//                System.out.println("Drop unit failed : Coordinate of x is out of bounds");
+//                break;
+//            case Y_OUT_OF_BOUNDS:
+//                System.out.println("Drop unit failed : Coordinate of y is out of bounds");
+//                break;
+//            case INVALID_TYPE:
+//                System.out.println("Drop unit failed : Invalid type");
+//                break;
+//            case INVALID_NUMBER:
+//                System.out.println("Drop unit failed : Invalid number");
+//                break;
+//            case CELL_IS_FULL:
+//                System.out.println("Drop unit failed : Cell is full");
+//                break;
+//            case INAPPROPRIATE_TEXTURE:
+//                System.out.println("Drop unit failed : Inappropriate cell texture");
+//                break;
+//        }
     }
 }

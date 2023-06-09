@@ -8,6 +8,7 @@ import Model.People.Soldier;
 import Utils.CheckMapCell;
 import View.Enums.Messages.BuildingMenuMessages;
 import View.Enums.Messages.MapMenuMessages;
+import javafx.scene.image.ImageView;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -223,7 +224,7 @@ public class MapMenuController {
         return MapMenuMessages.SUCCESS;
     }
 
-    public MapMenuMessages dropUnit(int x, int y, String type, int count) {
+    public MapMenuMessages dropUnit(int x, int y, String type, int count, ImageView imageView) {
 
         if (!CheckMapCell.validationOfX(x)) return MapMenuMessages.X_OUT_OF_BOUNDS;
         if (!CheckMapCell.validationOfY(y)) return MapMenuMessages.Y_OUT_OF_BOUNDS;
@@ -240,6 +241,7 @@ public class MapMenuController {
             Database.getCurrentUser().getEmpire().addPopulation(soldier);
             mapCell.addPeople(soldier);
             soldier.setCoordinates(mapCell.getX(), mapCell.getY());
+            UnitMenuController.soldierImageViewHashMap.put(soldier, imageView);
         }
 
         return MapMenuMessages.SUCCESS;

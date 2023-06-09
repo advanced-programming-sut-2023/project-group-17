@@ -3,6 +3,7 @@ package View;
 import Controller.*;
 import Model.Items.Item;
 import Model.People.Person;
+import Model.People.Soldier;
 import View.Enums.Messages.BuildingMenuMessages;
 import View.Enums.Messages.MapMenuMessages;
 import View.Enums.Messages.UnitMenuMessages;
@@ -720,20 +721,24 @@ public class GameMenu extends Application {
 
     private void createSoldiers(String soldierName, String path, int columnIndex, int rowIndex) {
         removeFocus();
+        ImageView imageView = new ImageView(new Image(path, 70, 70, false, false));
         if (cheatMode) {
             if (mapMenuController.dropUnit(dataController.getXHeadquarter(), dataController.getYHeadquarter() + 1,
-                    soldierName, 0).equals(MapMenuMessages.SUCCESS)) {
-                ImageView imageView = new ImageView(new Image(path, 70, 70, false, false));
+                    soldierName, 0, imageView).equals(MapMenuMessages.SUCCESS)) {
                 gridPane.add(imageView, dataController.getXHeadquarter() - 1, dataController.getYHeadquarter());
             }
         }
         else {
             if (buildingMenuController.createUnit(dataController.getXHeadquarter(),
-                    dataController.getYHeadquarter() + 1, soldierName, 1)
+                    dataController.getYHeadquarter() + 1, soldierName, 1, imageView)
                     .equals(BuildingMenuMessages.SUCCESS)) {
-                ImageView imageView = new ImageView(new Image(path, 60, 60, false, false));
                 gridPane.add(imageView, dataController.getXHeadquarter() - 1, dataController.getYHeadquarter());
             }
+        }
+        System.out.println(UnitMenuController.soldierImageViewHashMap);
+        for (Soldier soldier : UnitMenuController.soldierImageViewHashMap.keySet()) {
+            new Timeline(new KeyFrame(Duration.seconds(2),
+                    e -> gridPane.getChildren().remove(UnitMenuController.soldierImageViewHashMap.get(soldier)))).play();
         }
         refreshToolBar();
     }
