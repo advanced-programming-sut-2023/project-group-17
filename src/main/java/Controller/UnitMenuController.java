@@ -47,9 +47,9 @@ public class UnitMenuController {
             person.setDestination(mapCell);
         }
 
-        if (selectedUnit.size() > 0) {
-            selectedUnit.subList(0, selectedUnit.size()).clear();
-        }
+//        if (selectedUnit.size() > 0) {
+//            selectedUnit.subList(0, selectedUnit.size()).clear();
+//        }
         return UnitMenuMessages.SUCCESS;
     }
 

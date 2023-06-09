@@ -11,6 +11,7 @@ import Model.People.King;
 import Model.People.Person;
 import Model.People.Soldier;
 import Utils.CheckMapCell;
+import Utils.Pair;
 import View.Enums.Messages.GameMenuMessages;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -90,7 +91,8 @@ public class GameMenuController {
         removeDestroyedAttackToolsAndMethods();
     }
 
-    private void applyMoves() {
+    public HashMap<Person, ArrayList<ArrayList<Pair>>> applyMoves() {
+        HashMap<Person, ArrayList<ArrayList<Pair>>> hashMap = new HashMap<>();
         Map map = Database.getCurrentMapGame();
         MapCell mapCell;
         ArrayList<MapCell> path = null;
@@ -105,8 +107,16 @@ public class GameMenuController {
                         break;
                     }
                 }
+                //System.out.println(path);
                 for (int z = 0; z < mapCell.getPeople().size(); z++) {
                     if (mapCell.getPeople().get(z).getDestination() != null) {
+                        ArrayList<ArrayList<Pair>> arrayList = new ArrayList<>();
+                        ArrayList<Pair> pairs = new ArrayList<>();
+                        for (MapCell cell : path) {
+                            pairs.add(new Pair(cell.getX()-1, cell.getY()-1));
+                        }
+                        arrayList.add(pairs);
+                        hashMap.put(mapCell.getPeople().get(z), arrayList);
 //                        path = MoveController.aStarSearch(map, mapCell.getX(),
 //                                mapCell.getY(), mapCell.getPeople().get(z).getDestination().getX(),
 //                                mapCell.getPeople().get(z).getDestination().getY());
@@ -127,6 +137,7 @@ public class GameMenuController {
                 }
             }
         }
+        return hashMap;
     }
 
     private void movePerson(Person person, ArrayList<MapCell> path) {
@@ -935,5 +946,39 @@ public class GameMenuController {
 
     public void setFirstUser() {
         Database.setCurrentUser(Database.getUsersInTheGame().get(0));
+    }
+
+    public HashMap<Person, ArrayList<ArrayList<Pair>>> getCellsForMoving() {
+        HashMap<Person, ArrayList<ArrayList<Pair>>> hashMap = new HashMap<>();
+        Map map = Database.getCurrentMapGame();
+        MapCell mapCell;
+        ArrayList<MapCell> path = null;
+        AttackToolsAndMethods attackToolsAndMethods = null;
+        for (int i = 1; i <= map.getWidth(); i++) {
+            for (int j = 1; j <= map.getLength(); j++) {
+                mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(i, j);
+                for (Person person : mapCell.getPeople()) {
+                    if (person.getDestination() != null) {
+                        path = MoveController.aStarSearch(map, mapCell.getX(),
+                                mapCell.getY(), person.getDestination().getX(), person.getDestination().getY());
+                        break;
+                    }
+                }
+                for (int z = 0; z < mapCell.getPeople().size(); z++) {
+                    if (mapCell.getPeople().get(z).getDestination() != null) {
+                        ArrayList<ArrayList<Pair>> arrayList = new ArrayList<>();
+                        ArrayList<Pair> pairs = new ArrayList<>();
+                        for (MapCell cell : path) {
+                            pairs.add(new Pair(cell.getX()-1, cell.getY()-1));
+                        }
+                        arrayList.add(pairs);
+                        hashMap.put(mapCell.getPeople().get(z), arrayList);
+                    }
+                }
+            }
+        }
+        System.out.println(path);
+        //TODO for attacking tools and methods
+        return hashMap;
     }
 }

@@ -2,11 +2,15 @@ package View;
 
 import Controller.*;
 import Model.Items.Item;
+import Model.People.Person;
 import View.Enums.Messages.BuildingMenuMessages;
 import View.Enums.Messages.MapMenuMessages;
+import View.Enums.Messages.UnitMenuMessages;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -29,12 +33,16 @@ import javafx.scene.text.Text;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import Utils.Pair;
+import org.controlsfx.tools.Utils;
+import Utils.CheckValidation;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import static java.lang.Math.addExact;
 import static java.lang.Math.pow;
 
 public class GameMenu extends Application {
@@ -63,6 +71,7 @@ public class GameMenu extends Application {
     private double currentX, currentY;
     private List<Node> selectedNodes;
     private boolean cheatMode;
+    private static int goalX, goalY;
 
     public GameMenu() {
         this.gameMenuController = new GameMenuController();
@@ -267,6 +276,7 @@ public class GameMenu extends Application {
 
     private void showSelectedCells() {
         toolBarHBox.getChildren().clear();
+        Button button = new Button();
         HashMap<String, Integer> soldiers = mapMenuController.
                 getSoldiers(startCol + 1, startRow + 1, endCol + 1, endRow + 1);
         for (String soldier : soldiers.keySet()) {
@@ -301,8 +311,106 @@ public class GameMenu extends Application {
             vBox.getChildren().addAll(hBox, slider);
             toolBarHBox.getChildren().add(vBox);
         }
-        //TODO added selected soldiers to Unit menu and change number of them with slider listener
+        button.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
+                "/assets/ToolBar/Buttons/unitMenu.png").toExternalForm(), 20, 20, false, false)));
+        toolBarHBox.getChildren().add(button);
+        button.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (soldiers.size() > 0) handleMove();
+            }
+        });
+//        if (soldiers.size() > 0) handleMove(startCol, startRow, endCol, endRow);
     }
+
+    private void handleMove() {
+        ArrayList<Button> buttons = new ArrayList<>();
+        Button move = new Button("move unit");
+        move.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                moveUnit();
+            }
+        });
+        Button patrolUnit = new Button("patrol unit");
+        Button attackEnemy = new Button("attack enemy");
+        Button setMode = new Button("set mode");
+        Button airAttack = new Button("airAttack");
+        Button pourOil = new Button("pour oil");
+        Button digTunnel = new Button("dig tunnel");
+        Button buildEquipment = new Button("build equipment");
+        Button disbandUnit = new Button("disband unit");
+        Button digMoat = new Button("dig moat");
+        Button fillMoat = new Button("fill moat");
+        Collections.addAll(buttons, move, patrolUnit, attackEnemy, setMode, airAttack, pourOil, digTunnel,
+                buildEquipment, disbandUnit, digMoat, fillMoat);
+        for (Button button : buttons) {
+            button.setPrefWidth(130);
+        }
+        toolBarHBox.getChildren().clear();
+        for (int i = 0; i < 9; i+=3) {
+            VBox vBox = new VBox(buttons.get(i), buttons.get(i+1), buttons.get(i+2));
+            vBox.setSpacing(10);
+            toolBarHBox.getChildren().add(vBox);
+        }
+        VBox vBox = new VBox(digMoat, fillMoat);
+        vBox.setSpacing(10);
+        toolBarHBox.getChildren().add(vBox);
+    }
+
+    private void moveUnit() {
+        toolBarHBox.getChildren().clear();
+        TextField x = new TextField();
+        x.setPromptText("destination x");
+        TextField y = new TextField();
+        y.setPromptText("destination y");
+        Button done = new Button("move");
+        HBox hBox = new HBox(x, y, done);
+        toolBarHBox.getChildren().add(hBox);
+        x.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!y.getText().equals("") && !y.getText().equals("-") && !newValue.equals("-") && !newValue.equals("")) {
+                    UnitMenuMessages unitMenuMessages = unitMenuController.
+                            moveUnitTo(Integer.parseInt(newValue), Integer.parseInt(y.getText()));
+                    if (unitMenuMessages.equals(UnitMenuMessages.X_OUT_OF_BOUNDS) ||
+                            unitMenuMessages.equals(UnitMenuMessages.NOT_TRAVERSABLE))
+                        done.setDisable(true);
+                    else if (unitMenuMessages.equals(UnitMenuMessages.SUCCESS)) done.setDisable(false);
+                }
+            }
+        });
+        y.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!x.getText().equals("") && !x.getText().equals("-") && !newValue.equals("-") && !newValue.equals("")) {
+                    UnitMenuMessages unitMenuMessages = unitMenuController.
+                            moveUnitTo(Integer.parseInt(x.getText()), Integer.parseInt(newValue));
+                    if (unitMenuMessages.equals(UnitMenuMessages.Y_OUT_OF_BOUNDS) ||
+                            unitMenuMessages.equals(UnitMenuMessages.NOT_TRAVERSABLE))
+                        done.setDisable(true);
+                    else if (unitMenuMessages.equals(UnitMenuMessages.SUCCESS)) {
+                        done.setDisable(false);
+                    }
+                }
+            }
+        });
+        Popup popup = getPopup();
+        Label label = getLabel();
+        popup.getContent().add(label);
+
+        Timeline timeline = hidePopup(popup);
+        done.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                label.setText("Destination set");
+                popup.show(Main.stage);
+                timeline.play();
+            }
+        });
+    }
+
+
 
     private void handleClick(GridPane gridPane) {
         gridPane.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
@@ -473,7 +581,6 @@ public class GameMenu extends Application {
         });
         toolBarHBox.getChildren().add(button);
         //
-
     }
 
     private void handleTradeMenu() throws Exception{
@@ -713,10 +820,27 @@ public class GameMenu extends Application {
         hBox.setTranslateY(20); hBox.setTranslateX(-20);
         this.toolBarHBox = hBox;
         toolBar.getItems().add(hBoxButtons);
+        Button button8 = new Button("next turn");
+        toolBar.getItems().add(button8);
+        button8.setTranslateY(-55); button8.setTranslateX(1000);
+        button8.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                nextTurn();
+            }
+        });
         toolBar.getItems().add(hBox);
         openGatehouseBuildings();
 
         return toolBar;
+    }
+
+    private void nextTurn() {
+        //TODO
+//        gameMenuController.nextTurn();
+        HashMap<Person, ArrayList<ArrayList<Pair>>> hashMap = gameMenuController.applyMoves();
+        refreshToolBar();
+
     }
 
     private void setOnActionEmpireButton(Button button) {
