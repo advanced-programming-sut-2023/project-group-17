@@ -782,8 +782,8 @@ public class GameMenu extends Application {
         setOnActionEmpireButton(button);
         HBox hBoxButtons = new HBox();
         //TODO: delete one of these
-//        hBoxButtons.setTranslateX(1050);
-        hBoxButtons.setTranslateX(920);
+        hBoxButtons.setTranslateX(1050);
+//        hBoxButtons.setTranslateX(920);
 
         hBoxButtons.setSpacing(10);
         hBoxButtons.setTranslateY(10);
@@ -822,7 +822,8 @@ public class GameMenu extends Application {
 
 //        toolBar.getItems().addAll(button1, button2, button3, button4, button5, button6);
         HBox hBox = new HBox();
-        hBox.setTranslateY(20); hBox.setTranslateX(-20);
+//        hBox.setTranslateY(20); hBox.setTranslateX(-20);
+        hBox.setTranslateY(20); hBox.setTranslateX(-140);
         this.toolBarHBox = hBox;
         toolBar.getItems().add(hBoxButtons);
         Button button8 = new Button("next turn");
