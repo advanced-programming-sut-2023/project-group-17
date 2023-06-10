@@ -318,6 +318,8 @@ public class GameMenu extends Application {
                 if (soldiers.size() > 0) handleMove();
             }
         });
+        unitMenuController.setSelectedUnit(startCol + 1, startRow + 1,
+                endCol + 1, endRow + 1, soldiers);
 //        if (soldiers.size() > 0) handleMove(startCol, startRow, endCol, endRow);
     }
 
