@@ -13,6 +13,8 @@ import Model.People.Soldier;
 import Utils.CheckMapCell;
 import Utils.Pair;
 import View.Enums.Messages.GameMenuMessages;
+import javafx.scene.image.ImageView;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -91,8 +93,8 @@ public class GameMenuController {
         removeDestroyedAttackToolsAndMethods();
     }
 
-    public HashMap<Person, ArrayList<ArrayList<Pair>>> applyMoves() {
-        HashMap<Person, ArrayList<ArrayList<Pair>>> hashMap = new HashMap<>();
+    public HashMap<ImageView, ArrayList<ArrayList<Pair>>> applyMoves() {
+        HashMap<ImageView, ArrayList<ArrayList<Pair>>> hashMap = new HashMap<>();
         Map map = Database.getCurrentMapGame();
         MapCell mapCell;
         ArrayList<MapCell> path = null;
@@ -116,7 +118,7 @@ public class GameMenuController {
                             pairs.add(new Pair(cell.getX()-1, cell.getY()-1));
                         }
                         arrayList.add(pairs);
-                        hashMap.put(mapCell.getPeople().get(z), arrayList);
+                        hashMap.put(UnitMenuController.soldierImageViewHashMap.get(mapCell.getPeople().get(z)), arrayList);
 //                        path = MoveController.aStarSearch(map, mapCell.getX(),
 //                                mapCell.getY(), mapCell.getPeople().get(z).getDestination().getX(),
 //                                mapCell.getPeople().get(z).getDestination().getY());
@@ -948,8 +950,8 @@ public class GameMenuController {
         Database.setCurrentUser(Database.getUsersInTheGame().get(0));
     }
 
-    public HashMap<Person, ArrayList<ArrayList<Pair>>> getCellsForMoving() {
-        HashMap<Person, ArrayList<ArrayList<Pair>>> hashMap = new HashMap<>();
+    public HashMap<ImageView, ArrayList<ArrayList<Pair>>> getCellsForMoving() {
+        HashMap<javafx.scene.image.ImageView, ArrayList<ArrayList<Pair>>> hashMap = new HashMap<>();
         Map map = Database.getCurrentMapGame();
         MapCell mapCell;
         ArrayList<MapCell> path = null;
@@ -972,7 +974,7 @@ public class GameMenuController {
                             pairs.add(new Pair(cell.getX()-1, cell.getY()-1));
                         }
                         arrayList.add(pairs);
-                        hashMap.put(mapCell.getPeople().get(z), arrayList);
+                        hashMap.put(UnitMenuController.soldierImageViewHashMap.get(mapCell.getPeople().get(z)), arrayList);
                     }
                 }
             }

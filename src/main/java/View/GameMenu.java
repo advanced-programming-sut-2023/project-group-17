@@ -38,10 +38,7 @@ import Utils.Pair;
 import org.controlsfx.tools.Utils;
 import Utils.CheckValidation;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import static java.lang.Math.addExact;
 import static java.lang.Math.pow;
@@ -844,9 +841,11 @@ public class GameMenu extends Application {
     private void nextTurn() {
         //TODO
 //        gameMenuController.nextTurn();
-        HashMap<Person, ArrayList<ArrayList<Pair>>> hashMap = gameMenuController.applyMoves();
+        HashMap<ImageView, ArrayList<ArrayList<Pair>>> hashMap = gameMenuController.applyMoves();
+        for (Map.Entry<ImageView, ArrayList<ArrayList<Pair>>> imageViewArrayListEntry : hashMap.entrySet()) {
+            new MoveAnimation(imageViewArrayListEntry.getKey(), gridPane, imageViewArrayListEntry.getValue().get(0)).play();
+        }
         refreshToolBar();
-
     }
 
     private void setOnActionEmpireButton(Button button) {
