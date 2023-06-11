@@ -1,8 +1,10 @@
 package Controller;
 
+import Model.Buildings.Building;
 import Model.Buildings.SoldierProduction;
 import Model.Database;
 import Model.Items.Item;
+import Model.People.Soldier;
 
 import java.util.ArrayList;
 
@@ -106,5 +108,19 @@ public class DataAnalysisController {
         item.add(Item.ItemType.BREAD);
         item.add(Item.ItemType.APPLE);
         return item;
+    }
+
+    public boolean isSoldierName(String name) {
+        for (Soldier soldier : Database.getAllSoldiers()) {
+            if (soldier.getName().equals(name)) return true;
+        }
+        return false;
+    }
+
+    public boolean isBuildingName(String name) {
+        for (Building building : Database.getBuildings()) {
+            if (building.getBuildingName().equals(name)) return true;
+        }
+        return false;
     }
 }

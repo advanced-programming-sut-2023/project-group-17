@@ -69,6 +69,7 @@ public class GameMenu extends Application {
     private double currentX, currentY;
     private List<Node> selectedNodes;
     private boolean cheatMode;
+    private HashMap<String, Integer> soldiers;
     private static int goalX, goalY;
 
     public GameMenu() {
@@ -83,6 +84,7 @@ public class GameMenu extends Application {
         cheatMode = false;
         this.cheatMode = false;
         this.selectedNodes = new ArrayList<>();
+        this.soldiers = new HashMap<>();
     }
 
     @Override
@@ -298,6 +300,7 @@ public class GameMenu extends Application {
                 int roundedValue = (int) Math.round(newValue.doubleValue());
                 slider.setValue(roundedValue);
                 soldiers.put(soldier, roundedValue);
+                this.soldiers = soldiers;
                 unitMenuController.setSelectedUnit(startCol + 1, startRow + 1,
                         endCol + 1, endRow + 1, soldiers);
                 text.setText("\t" + roundedValue + "x");
@@ -318,6 +321,8 @@ public class GameMenu extends Application {
                 if (soldiers.size() > 0) handleMove();
             }
         });
+        this.soldiers = soldiers;
+        System.out.println(this.soldiers);
         unitMenuController.setSelectedUnit(startCol + 1, startRow + 1,
                 endCol + 1, endRow + 1, soldiers);
 //        if (soldiers.size() > 0) handleMove(startCol, startRow, endCol, endRow);
@@ -406,6 +411,8 @@ public class GameMenu extends Application {
                 label.setText("Destination set");
                 popup.show(Main.stage);
                 timeline.play();
+                soldiers.clear();
+                openGatehouseBuildings();
             }
         });
     }
@@ -485,27 +492,49 @@ public class GameMenu extends Application {
                     int columnIndex = GridPane.getColumnIndex(node);
                     int rowIndex = GridPane.getRowIndex(node);
                     ImageView imageView;
-                    if (cheatMode) {
-                        if (mapMenuController.dropBuilding(columnIndex + 1, rowIndex + 1, db.getString()).equals(MapMenuMessages.SUCCESS)) {
-                            String path = getClass().getResource("/assets/Buildings/" +
-                                    db.getString() + ".png").toExternalForm();
-                            if (db.getString().equals("oxTether"))
-                                imageView = new ImageView(new Image(path, 50, 50, false, false));
-                            else
-                                imageView = new ImageView(new Image(path, 80, 80, false, false));
-                            gridPane.add(imageView, columnIndex, rowIndex);
+                    System.out.println(soldiers.size());
+                    Popup popup = getPopup();
+                    Label label = getLabel();
+                    popup.getContent().add(label);
+                    Timeline timeline = hidePopup(popup);
+                    if (dataController.isSoldierName(db.getString()) && soldiers.size() > 0) {
+                        UnitMenuMessages unitMenuMessages = unitMenuController.
+                                moveUnitTo(columnIndex + 1, rowIndex + 1);
+                        if (unitMenuMessages.equals(UnitMenuMessages.SUCCESS)) {
+                            label.setText("Destination set");
+                            popup.show(Main.stage);
+                            timeline.play();
+                            soldiers.clear();
+                            openGatehouseBuildings();
+                        } else {
+                            label.setText("Destination set failed");
+                            popup.show(Main.stage);
+                            timeline.play();
                         }
                     }
-                    else {
-                        if (buildingMenuController.dropBuilding(columnIndex + 1, rowIndex + 1, db.getString()).equals(BuildingMenuMessages.SUCCESS)) {
-                            String path = getClass().getResource("/assets/Buildings/" +
-                                    db.getString() + ".png").toExternalForm();
-                            if (db.getString().equals("oxTether"))
-                                imageView = new ImageView(new Image(path, 50, 50, false, false));
-                            else
-                                imageView = new ImageView(new Image(path, 80, 80, false, false));
-                            handleSelectBuilding(imageView, db.getString(), columnIndex, rowIndex);
-                            gridPane.add(imageView, columnIndex, rowIndex);
+                    else if (dataController.isBuildingName(db.getString())) {
+                        if (cheatMode) {
+                            if (mapMenuController.dropBuilding(columnIndex + 1, rowIndex + 1, db.getString()).equals(MapMenuMessages.SUCCESS)) {
+                                String path = getClass().getResource("/assets/Buildings/" +
+                                        db.getString() + ".png").toExternalForm();
+                                if (db.getString().equals("oxTether"))
+                                    imageView = new ImageView(new Image(path, 50, 50, false, false));
+                                else
+                                    imageView = new ImageView(new Image(path, 80, 80, false, false));
+                                gridPane.add(imageView, columnIndex, rowIndex);
+                            }
+                        }
+                        else {
+                            if (buildingMenuController.dropBuilding(columnIndex + 1, rowIndex + 1, db.getString()).equals(BuildingMenuMessages.SUCCESS)) {
+                                String path = getClass().getResource("/assets/Buildings/" +
+                                        db.getString() + ".png").toExternalForm();
+                                if (db.getString().equals("oxTether"))
+                                    imageView = new ImageView(new Image(path, 50, 50, false, false));
+                                else
+                                    imageView = new ImageView(new Image(path, 80, 80, false, false));
+                                handleSelectBuilding(imageView, db.getString(), columnIndex, rowIndex);
+                                gridPane.add(imageView, columnIndex, rowIndex);
+                            }
                         }
                     }
                     refreshToolBar();
@@ -721,6 +750,20 @@ public class GameMenu extends Application {
     private void createSoldiers(String soldierName, String path, int columnIndex, int rowIndex) {
         removeFocus();
         ImageView imageView = new ImageView(new Image(path, 70, 70, false, false));
+        imageView.setOnDragDetected((MouseEvent event) -> {
+            if (soldiers.size() > 0) {
+                Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
+
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(imageView.getImage());
+                content.putString(soldierName);
+                db.setContent(content);
+                removeFocus();
+            }
+        });
+        imageView.setOnMouseDragged((MouseEvent event) -> {
+            event.setDragDetect(true);
+        });
         if (cheatMode) {
             if (mapMenuController.dropUnit(dataController.getXHeadquarter(), dataController.getYHeadquarter() + 1,
                     soldierName, 0, imageView).equals(MapMenuMessages.SUCCESS)) {
