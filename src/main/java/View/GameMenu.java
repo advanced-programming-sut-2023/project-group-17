@@ -560,7 +560,9 @@ public class GameMenu extends Application {
 
     private void createShopMenu() {
         toolBarHBox.getChildren().clear();
-        toolBarHBox.setTranslateX(-70);
+        //TODO: delete one of these comments
+//        toolBarHBox.setTranslateX(-70);
+        toolBarHBox.setTranslateX(-140);
 
         Button buy = new Button("Buy"); buy.setDisable(true); buy.setPrefWidth(70);
         Button sell = new Button("Sell"); sell.setDisable(true); sell.setPrefWidth(70);
@@ -607,9 +609,13 @@ public class GameMenu extends Application {
         //
     }
 
-    private void handleTradeMenu() throws Exception{
+    private void handleTradeMenu() {
         toolBarHBox.getChildren().clear();
-        toolBarHBox.setTranslateX(150);
+
+        //TODO: delete one of these comments
+        toolBarHBox.setTranslateX(90);
+//        toolBarHBox.setTranslateX(150);
+
         Text text = new Text("Trade Menu");
         Font font = Font.font("Showcard Gothic", FontWeight.SEMI_BOLD, FontPosture.REGULAR, 16);
         text.setFont(font);
@@ -869,7 +875,7 @@ public class GameMenu extends Application {
         toolBar.getItems().add(button8);
         button8.setTranslateY(-55);
 //        button8.setTranslateX(1000);
-        button8.setTranslateX(900);
+        button8.setTranslateX(850);
         button8.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
