@@ -2,8 +2,7 @@ package View;
 
 import Controller.*;
 import Model.Items.Item;
-import Model.People.Person;
-import Model.People.Soldier;
+import Utils.Pair;
 import View.Enums.Messages.BuildingMenuMessages;
 import View.Enums.Messages.MapMenuMessages;
 import View.Enums.Messages.UnitMenuMessages;
@@ -34,13 +33,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import Utils.Pair;
-import org.controlsfx.tools.Utils;
-import Utils.CheckValidation;
 
 import java.util.*;
 
-import static java.lang.Math.addExact;
 import static java.lang.Math.pow;
 
 public class GameMenu extends Application {
@@ -629,15 +624,15 @@ public class GameMenu extends Application {
         toolBarHBox.getChildren().addAll(vBox);
 
         backButton.setOnMouseClicked(mouseEvent -> createShopMenu());
-        newButton.setOnMouseClicked(mouseEvent -> handleNewTrade());
-        historyButton.setOnMouseClicked(mouseEvent -> handleTradeHistory());
+        newButton.setOnMouseClicked(mouseEvent -> openNewTrade());
+        historyButton.setOnMouseClicked(mouseEvent -> openTradeHistory());
     }
 
-    private void handleNewTrade() {
+    private void openNewTrade() {
         //TODO
     }
 
-    private void handleTradeHistory() {
+    private void openTradeHistory() {
         //TODO
     }
 
@@ -824,8 +819,8 @@ public class GameMenu extends Application {
         setOnActionEmpireButton(button);
         HBox hBoxButtons = new HBox();
         //TODO: delete one of these
-        hBoxButtons.setTranslateX(1050);
-//        hBoxButtons.setTranslateX(920);
+//        hBoxButtons.setTranslateX(1050);
+        hBoxButtons.setTranslateX(920);
 
         hBoxButtons.setSpacing(10);
         hBoxButtons.setTranslateY(10);
@@ -864,13 +859,17 @@ public class GameMenu extends Application {
 
 //        toolBar.getItems().addAll(button1, button2, button3, button4, button5, button6);
         HBox hBox = new HBox();
+
 //        hBox.setTranslateY(20); hBox.setTranslateX(-20);
         hBox.setTranslateY(20); hBox.setTranslateX(-140);
+
         this.toolBarHBox = hBox;
         toolBar.getItems().add(hBoxButtons);
         Button button8 = new Button("next turn");
         toolBar.getItems().add(button8);
-        button8.setTranslateY(-55); button8.setTranslateX(1000);
+        button8.setTranslateY(-55);
+//        button8.setTranslateX(1000);
+        button8.setTranslateX(900);
         button8.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
