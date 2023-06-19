@@ -891,9 +891,15 @@ public class GameMenu extends Application {
     private void nextTurn() {
         //TODO
 //        gameMenuController.nextTurn();
+        openGatehouseBuildings();
         HashMap<ImageView, ArrayList<ArrayList<Pair>>> hashMap = gameMenuController.applyMoves();
         for (Map.Entry<ImageView, ArrayList<ArrayList<Pair>>> imageViewArrayListEntry : hashMap.entrySet()) {
             new MoveAnimation(imageViewArrayListEntry.getKey(), gridPane, imageViewArrayListEntry.getValue().get(0)).play();
+        }
+        gameMenuController.nextTurnView();
+        ArrayList<ImageView> deadBodies = gameMenuController.removeDeadBodies();
+        for (ImageView deadBody : deadBodies) {
+            gridPane.getChildren().remove(deadBody);
         }
         refreshToolBar();
     }
@@ -1198,7 +1204,8 @@ public class GameMenu extends Application {
         String url = getClass().getResource("/assets/Buildings/" + nameBuildingForHeadquarter +".png").toExternalForm();
         ImageView imageView = new ImageView(new Image(url, 80, 80, false, false));
         gridPane.add(imageView, xBuildingForHeadquarter - 1, yBuildingForHeadquarter - 1);
-        if (nameBuildingForHeadquarter.equals("smallStoneGatehouse")) {
+        if (nameBuildingForHeadquarter.equals("smallStoneGatehouse") && buildingMenuController.
+                isThisUserBuilding(xBuildingForHeadquarter - 1, yBuildingForHeadquarter - 1)) {
             imageView.setOnMouseClicked(e -> openEmpireMenu());
         }
     }

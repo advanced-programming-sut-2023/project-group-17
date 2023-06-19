@@ -378,4 +378,9 @@ public class BuildingMenuController {
             }
         }
     }
+
+    public boolean isThisUserBuilding(int i, int j) {
+        return Database.getCurrentMapGame().getMapCellByCoordinates(i, j).getBuilding().
+                getOwner().equals(Database.getCurrentUser());
+    }
 }

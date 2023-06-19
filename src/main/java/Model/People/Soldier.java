@@ -16,6 +16,7 @@ public class Soldier extends Person {
     private boolean digMoat;
     private int attackRange;
     private double cost;
+    private boolean moved;
     public Soldier(User owner, Soldier soldier) {
         super(owner, soldier.getHp());
         this.name = soldier.name;
@@ -30,6 +31,7 @@ public class Soldier extends Person {
         this.status = UnitAttributes.Status.STANDING.getStatus();
         this.attackRange = soldier.attackRange;
         this.cost = soldier.cost;
+        this.moved = false;
     }
 
     public String getName() {
@@ -94,6 +96,14 @@ public class Soldier extends Person {
 
     public void changeSpeed(int amount) {
         this.speed += amount;
+    }
+
+    public boolean isMoved() {
+        return moved;
+    }
+
+    public void setMoved(boolean moved) {
+        this.moved = moved;
     }
 
     @Override

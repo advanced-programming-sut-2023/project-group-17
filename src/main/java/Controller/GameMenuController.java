@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 import static Controller.UnitMenuController.selectedUnit;
+import static Controller.UnitMenuController.soldierImageViewHashMap;
 
 public class GameMenuController {
     public GameMenuMessages chooseMapGame(int id) {
@@ -46,6 +47,30 @@ public class GameMenuController {
         Database.getAllMaps().add(map);
         Database.setCurrentMapGame(map);
         return GameMenuMessages.SUCCESS;
+    }
+
+    public void nextTurnView() {
+        Database.increaseTurnsPassed();
+        if(Database.getTurnsPassed() % Database.getUsersInTheGame().size() == 0) {
+            for (User user : Database.getUsersInTheGame()) {
+                changePopularity(user.getEmpire());
+                handleFearRate(user.getEmpire());
+                getTax(user.getEmpire());
+                giveFood(user.getEmpire());
+            }
+            findSiegeTower();
+            for (User user : Database.getUsersInTheGame()) {
+                if(user.getEmpire().getBuildingByName("drawbridge") != null)
+                    handleDrawBridge(user.getEmpire().getBuildingByName("drawbridge"));
+            }
+            applyDamages();
+            clearDestroyedThings();
+        }
+        buildingsFunctionsEachTurn();
+        int index = Database.getUsersInTheGame().indexOf(Database.getCurrentUser());
+        int size = Database.getUsersInTheGame().size();
+        Database.setCurrentUser(Database.getUsersInTheGame().get((index + 1) % size));
+        if (Database.getCurrentUser().getEmpire().getKing() == null) nextTurn();
     }
 
     public boolean nextTurn() {
@@ -88,7 +113,7 @@ public class GameMenuController {
     }
 
     private void clearDestroyedThings() {
-        removeDeadBodies();
+//        removeDeadBodies();
         removeDestroyedBuildings();
         removeDestroyedAttackToolsAndMethods();
     }
@@ -244,15 +269,18 @@ public class GameMenuController {
         }
     }
 
-    public void removeDeadBodies() {
+    public ArrayList<ImageView> removeDeadBodies() {
+        ArrayList<ImageView> deadBodies = new ArrayList<>();
         for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
             for (int i = mapCell.getPeople().size() - 1; i >= 0; i--) {
                 if(mapCell.getPeople().get(i).getHp() <= 0) {
                     mapCell.getPeople().get(i).getOwner().getEmpire().removePerson(mapCell.getPeople().get(i));
+                    deadBodies.add(soldierImageViewHashMap.get((Soldier) mapCell.getPeople().get(i)));
                     mapCell.removePerson(mapCell.getPeople().get(i));
                 }
             }
         }
+        return deadBodies;
     }
 
     public void applyDamageToBuildings() {
