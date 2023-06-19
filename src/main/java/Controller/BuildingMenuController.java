@@ -11,7 +11,6 @@ import Model.People.*;
 import Utils.CheckMapCell;
 import View.EmpireMenu;
 import View.Enums.Messages.BuildingMenuMessages;
-import View.GameMenu;
 import View.ShopMenu;
 import javafx.scene.image.ImageView;
 
@@ -379,6 +378,7 @@ public class BuildingMenuController {
         }
     }
 
+    //TODO: coordinates x = 1 , y = 1 null pointer exception mikhore
     public boolean isThisUserBuilding(int i, int j) {
         return Database.getCurrentMapGame().getMapCellByCoordinates(i, j).getBuilding().
                 getOwner().equals(Database.getCurrentUser());

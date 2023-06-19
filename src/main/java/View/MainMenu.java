@@ -1,13 +1,11 @@
 package View;
 
 import Controller.MainMenuController;
-import View.Enums.Commands.MainMenuCommands;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -16,7 +14,6 @@ import javafx.stage.Stage;
 import org.controlsfx.control.CheckComboBox;
 
 import java.util.ArrayList;
-import java.util.regex.Matcher;
 
 import static View.Main.stage;
 
@@ -44,12 +41,12 @@ public class MainMenu extends Application {
         ArrayList<String> list = new ArrayList<>();
         controller.addUsers(list);
         items.addAll(list);
-        users = controller.getLoggedInUser();
+        users = controller.getLoggedInUserUsername();
         CheckComboBox<String> control = new CheckComboBox<String>(items);
 
         control.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
             public void onChanged(ListChangeListener.Change<? extends String> c) {
-                users = "," + controller.getLoggedInUser();
+                users = "," + controller.getLoggedInUserUsername();
                 for (String checkedItem : control.getCheckModel().getCheckedItems()) {
                     users += "," + checkedItem;
                 }
