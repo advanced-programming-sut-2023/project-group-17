@@ -38,6 +38,7 @@ import javafx.util.Duration;
 import org.controlsfx.control.CheckComboBox;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.lang.Math.pow;
 
@@ -581,7 +582,7 @@ public class GameMenu extends Application {
         VBox vBox = new VBox();
         ArrayList<HBox> hBoxes = getShopAndTradeMenuHbox();
 
-        addItemImage(item, text, buy, sell, hBoxes, vBox, 50);
+//        addItemImage(item, text, buy, sell, hBoxes, vBox, 50);
 
 
         toolBarHBox.getChildren().addAll(vBox1, vBox);
@@ -599,7 +600,8 @@ public class GameMenu extends Application {
         //
     }
 
-    private void addItemImage(ArrayList<Item.ItemType> item, Text text, Button button1, Button button2, ArrayList<HBox> hBoxes, VBox vBox, int size) {
+    private void addItemImage(ArrayList<Item.ItemType> item, Text text, Button button1,
+                            Button button2, ArrayList<HBox> hBoxes, VBox vBox, AtomicInteger amountValue, Text amountText, int size) {
         for (int i = 0; i < item.size(); i++) {
             String path = getClass().getResource("/assets/Item/" +
                     item.get(i).getName() + ".png").toExternalForm();
@@ -607,14 +609,20 @@ public class GameMenu extends Application {
             imageView.setId(item.get(i).getName());
             int finalI = i;
             imageView.setOnMouseClicked(e -> {
-                if (size == 50)
+                if (size == 50) {
                     text.setText(item.get(finalI).getName() + "\nbuy: " + (int)item.get(finalI).getCost() +
                             "\nsell: " + (int)(item.get(finalI).getCost() * 0.8));
-                else
+                    button1.setDisable(false); button2.setDisable(false);
+
+                    button1.setOnMouseClicked(event -> buyResource(item.get(finalI)));
+                    button2.setOnMouseClicked(mouseEvent -> sellResource(item.get(finalI)));
+                }
+                else {
+                    resetAmountValue(amountValue, amountText);
                     text.setText(item.get(finalI).getName());
-                button1.setDisable(false); button2.setDisable(false);
-                button1.setOnMouseClicked(event -> buyResource(item.get(finalI)));
-                button2.setOnMouseClicked(mouseEvent -> sellResource(item.get(finalI)));
+                    //button1 donate
+                }
+
             });
 
             if (i < 8) hBoxes.get(1).getChildren().add(imageView);
@@ -625,6 +633,11 @@ public class GameMenu extends Application {
 //        hBoxes.get(5).setAlignment(Pos.CENTER);
         vBox.getChildren().addAll(hBoxes.get(0), hBoxes.get(1), hBoxes.get(2), hBoxes.get(3), hBoxes.get(4), hBoxes.get(5));
         vBox.setAlignment(Pos.CENTER);
+    }
+
+    private void resetAmountValue(AtomicInteger amountValue, Text amountText) {
+        amountValue.getAndSet(1);
+        amountText.setText(String.valueOf(amountValue));
     }
 
 
@@ -684,12 +697,15 @@ public class GameMenu extends Application {
 
 
         Text text = getText();
+        Text amountText = getText();
+        HBox hBox1 = new HBox(text, amountText); hBox1.setSpacing(10);
+        AtomicInteger amountValue = new AtomicInteger();
         ArrayList<Item.ItemType> item = dataController.getItemsName();
         VBox vBox = new VBox();
         ArrayList<HBox> hBoxes = getShopAndTradeMenuHbox();
         Button donate = new Button("Donate");
         Button request = new Button("Request");
-        addItemImage(item, text, donate, request, hBoxes, vBox, 40);
+        addItemImage(item, text, donate, request, hBoxes, vBox, amountValue, amountText, 40);
 
 
 //        hBox.getChildren().add(vBoxButtons);
@@ -697,12 +713,48 @@ public class GameMenu extends Application {
         textField.setPromptText("Enter Your Message");
         HBox hBox = new HBox(backButton, donate, request); hBox.setSpacing(8);
 //        vBoxButtons.getChildren().addAll(backButton, control, textField, text, hBox);
-        vBoxButtons.getChildren().addAll(text, control, textField, hBox);
+        vBoxButtons.getChildren().addAll(hBox1, control, textField, hBox);
 //        vBox.getChildren().add(vBoxButtons);
         toolBarHBox.getChildren().addAll(vBox, vBoxButtons);
 
 
+        KeyCombination increaseItem = new KeyCodeCombination(KeyCode.EQUALS, KeyCombination.SHIFT_ANY);
+        KeyCombination decreaseItem = new KeyCodeCombination(KeyCode.MINUS, KeyCombination.SHIFT_ANY);
+
+
+        mainBorderPane.setOnKeyPressed(keyEvent -> {
+            if (!text.getText().equals(""))
+                if (increaseItem.match(keyEvent)) {
+//                    int tmpAmount = amountValue.get();
+//                    tmpAmount++;
+                    amountValue.getAndIncrement();
+                    amountText.setText(String.valueOf(amountValue));
+                    System.out.println("increase");
+                    System.out.println("amount : " + amountValue);
+//                        incrementAmount(amountValue, amountText);
+                }
+                else if (decreaseItem.match(keyEvent)) {
+                    if (amountValue.get() > 1) {
+                        amountValue.getAndDecrement();
+                        amountText.setText(String.valueOf(amountValue));
+                        System.out.println("decrease");
+                        System.out.println("amount : " + amountValue);
+                    }
+//                        decrementAmount(amountValue, amountText);
+                }
+        });
+
         backButton.setOnMouseClicked(mouseEvent -> handleTradeMenu());
+    }
+
+    private void decrementAmount(int amountValue, Text amountText) {
+        amountValue++;
+        amountText.setText(String.valueOf(amountValue));
+    }
+
+    private void incrementAmount(int amountValue, Text amountText) {
+        amountValue--;
+        amountText.setText(String.valueOf(amountValue));
     }
 
     private void addUsersToTradeList(ArrayList<String> list) {
