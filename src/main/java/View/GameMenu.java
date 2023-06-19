@@ -579,30 +579,11 @@ public class GameMenu extends Application {
 
         ArrayList<Item.ItemType> item = dataController.getItemsName();
         VBox vBox = new VBox();
-        ArrayList<HBox> hBoxes = getShopMenuHbox();
+        ArrayList<HBox> hBoxes = getShopAndTradeMenuHbox();
 
-        addItemImage(item, text, buy, sell, hBoxes, 50);
+        addItemImage(item, text, buy, sell, hBoxes, vBox, 50);
 
-//        for (int i = 0; i < item.size(); i++) {
-//            String path = getClass().getResource("/assets/Item/" +
-//                    item.get(i).getName() + ".png").toExternalForm();
-//            ImageView imageView = new ImageView(new Image(path, 50, 50, false, false));
-//            imageView.setId(item.get(i).getName());
-//            int finalI = i;
-//            imageView.setOnMouseClicked(e -> {
-//                text.setText(item.get(finalI).getName() + "\nbuy: " + (int)item.get(finalI).getCost() + "\nsell: " + (int)(item.get(finalI).getCost() * 0.8));
-//                buy.setDisable(false); sell.setDisable(false);
-//                buy.setOnMouseClicked(event -> buyResource(item.get(finalI)));
-//                sell.setOnMouseClicked(mouseEvent -> sellResource(item.get(finalI)));
-//            });
-//
-//            if (i < 8) hBoxes.get(1).getChildren().add(imageView);
-//            else if (i < 16) hBoxes.get(3).getChildren().add(imageView);
-//            else hBoxes.get(5).getChildren().add(imageView);
-//        }
-        hBoxes.get(5).setAlignment(Pos.CENTER); hBoxes.get(5).setAlignment(Pos.CENTER);
-        vBox.getChildren().addAll(hBoxes.get(0), hBoxes.get(1), hBoxes.get(2), hBoxes.get(3), hBoxes.get(4), hBoxes.get(5));
-        vBox.setAlignment(Pos.CENTER);
+
         toolBarHBox.getChildren().addAll(vBox1, vBox);
 
         //TODO: trade o khoshgel konim:D
@@ -618,7 +599,7 @@ public class GameMenu extends Application {
         //
     }
 
-    private void addItemImage(ArrayList<Item.ItemType> item, Text text, Button buy, Button sell, ArrayList<HBox> hBoxes, int size) {
+    private void addItemImage(ArrayList<Item.ItemType> item, Text text, Button button1, Button button2, ArrayList<HBox> hBoxes, VBox vBox, int size) {
         for (int i = 0; i < item.size(); i++) {
             String path = getClass().getResource("/assets/Item/" +
                     item.get(i).getName() + ".png").toExternalForm();
@@ -626,16 +607,24 @@ public class GameMenu extends Application {
             imageView.setId(item.get(i).getName());
             int finalI = i;
             imageView.setOnMouseClicked(e -> {
-                text.setText(item.get(finalI).getName() + "\nbuy: " + (int)item.get(finalI).getCost() + "\nsell: " + (int)(item.get(finalI).getCost() * 0.8));
-                buy.setDisable(false); sell.setDisable(false);
-                buy.setOnMouseClicked(event -> buyResource(item.get(finalI)));
-                sell.setOnMouseClicked(mouseEvent -> sellResource(item.get(finalI)));
+                if (size == 50)
+                    text.setText(item.get(finalI).getName() + "\nbuy: " + (int)item.get(finalI).getCost() +
+                            "\nsell: " + (int)(item.get(finalI).getCost() * 0.8));
+                else
+                    text.setText(item.get(finalI).getName());
+                button1.setDisable(false); button2.setDisable(false);
+                button1.setOnMouseClicked(event -> buyResource(item.get(finalI)));
+                button2.setOnMouseClicked(mouseEvent -> sellResource(item.get(finalI)));
             });
 
             if (i < 8) hBoxes.get(1).getChildren().add(imageView);
             else if (i < 16) hBoxes.get(3).getChildren().add(imageView);
             else hBoxes.get(5).getChildren().add(imageView);
         }
+        hBoxes.get(5).setAlignment(Pos.CENTER);
+//        hBoxes.get(5).setAlignment(Pos.CENTER);
+        vBox.getChildren().addAll(hBoxes.get(0), hBoxes.get(1), hBoxes.get(2), hBoxes.get(3), hBoxes.get(4), hBoxes.get(5));
+        vBox.setAlignment(Pos.CENTER);
     }
 
 
@@ -665,11 +654,15 @@ public class GameMenu extends Application {
     }
 
     private void openNewTrade() {
-        //TODO
         toolBarHBox.getChildren().clear();
-        HBox hBox = new HBox();
-        Button backButton = new Button("Back"); backButton.setPrefWidth(70);
-        VBox vBoxBackButton = new VBox(backButton); vBoxBackButton.setAlignment(Pos.TOP_LEFT);
+
+        //TODO: delete one of these comments
+//        toolBarHBox.setTranslateX(-70);
+        toolBarHBox.setTranslateX(-148);
+
+//        HBox hBox = new HBox();
+        Button backButton = new Button("Back"); backButton.setPrefWidth(50);
+        VBox vBoxButtons = new VBox(); vBoxButtons.setSpacing(5);
 
 
 //        String usernames = "";
@@ -690,12 +683,23 @@ public class GameMenu extends Application {
         });
 
 
+        Text text = getText();
+        ArrayList<Item.ItemType> item = dataController.getItemsName();
+        VBox vBox = new VBox();
+        ArrayList<HBox> hBoxes = getShopAndTradeMenuHbox();
         Button donate = new Button("Donate");
         Button request = new Button("Request");
+        addItemImage(item, text, donate, request, hBoxes, vBox, 40);
 
 
-        hBox.getChildren().add(vBoxBackButton);
-        toolBarHBox.getChildren().addAll(hBox, control);
+//        hBox.getChildren().add(vBoxButtons);
+        TextField textField = new TextField();
+        textField.setPromptText("Enter Your Message");
+        HBox hBox = new HBox(backButton, donate, request); hBox.setSpacing(8);
+//        vBoxButtons.getChildren().addAll(backButton, control, textField, text, hBox);
+        vBoxButtons.getChildren().addAll(text, control, textField, hBox);
+//        vBox.getChildren().add(vBoxButtons);
+        toolBarHBox.getChildren().addAll(vBox, vBoxButtons);
 
 
         backButton.setOnMouseClicked(mouseEvent -> handleTradeMenu());
@@ -726,7 +730,7 @@ public class GameMenu extends Application {
         backButton.setOnMouseClicked(mouseEvent -> handleTradeMenu());
     }
 
-    public ArrayList<HBox> getShopMenuHbox() {
+    public ArrayList<HBox> getShopAndTradeMenuHbox() {
         ArrayList<HBox> hBoxes = new ArrayList<>();
         HBox hBox1 = new HBox(); hBox1.setSpacing(40);
         HBox hBox2 = new HBox(); hBox2.setSpacing(10);
