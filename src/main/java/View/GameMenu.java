@@ -6,6 +6,7 @@ import Utils.Pair;
 import View.Enums.Messages.BuildingMenuMessages;
 import View.Enums.Messages.MapMenuMessages;
 import View.Enums.Messages.UnitMenuMessages;
+import View.Enums.Types.TradeType;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -52,6 +53,7 @@ public class GameMenu extends Application {
     private ShopMenuController shopMenuController;
     private EmpireMenuController empireMenuController;
     private MainMenuController mainMenuController;
+    private TradeMenuController tradeMenuController;
     private MapMenu mapMenu;
     private GridPane gridPane;
     private ToolBar toolBar;
@@ -83,6 +85,7 @@ public class GameMenu extends Application {
         this.empireMenuController = new EmpireMenuController();
         this.unitMenuController = new UnitMenuController();
         this.mainMenuController = new MainMenuController();
+        this.tradeMenuController = new TradeMenuController();
         cheatMode = false;
         this.cheatMode = false;
         this.selectedNodes = new ArrayList<>();
@@ -583,7 +586,7 @@ public class GameMenu extends Application {
         VBox vBox = new VBox();
         ArrayList<HBox> hBoxes = getShopAndTradeMenuHbox();
 
-//        addItemImage(item, text, buy, sell, hBoxes, vBox, 50);
+        addItemImage(item, text, buy, sell, hBoxes, vBox, null, null, null, 45);
 
 
         toolBarHBox.getChildren().addAll(vBox1, vBox);
@@ -601,8 +604,8 @@ public class GameMenu extends Application {
         //
     }
 
-    private void addItemImage(ArrayList<Item.ItemType> item, Text text, Button button1,
-                            Button button2, ArrayList<HBox> hBoxes, VBox vBox, AtomicInteger amountValue, Text amountText, int size) {
+    private void addItemImage(ArrayList<Item.ItemType> item, Text text, Button button1, Button button2,
+                              ArrayList<HBox> hBoxes, VBox vBox, AtomicInteger amountValue, Text amountText, String message, int size) {
         for (int i = 0; i < item.size(); i++) {
             String path = getClass().getResource("/assets/Item/" +
                     item.get(i).getName() + ".png").toExternalForm();
@@ -610,7 +613,7 @@ public class GameMenu extends Application {
             imageView.setId(item.get(i).getName());
             int finalI = i;
             imageView.setOnMouseClicked(e -> {
-                if (size == 50) {
+                if (size == 45) {
                     text.setText(item.get(finalI).getName() + "\nbuy: " + (int)item.get(finalI).getCost() +
                             "\nsell: " + (int)(item.get(finalI).getCost() * 0.8));
                     button1.setDisable(false); button2.setDisable(false);
@@ -621,6 +624,9 @@ public class GameMenu extends Application {
                 else {
                     resetAmountValue(amountValue, amountText);
                     text.setText(item.get(finalI).getName());
+                    button1.setDisable(false); button2.setDisable(false);
+                    button1.setOnMouseClicked(mouseEvent -> donateResource(amountValue, item.get(finalI), message));
+                    button2.setOnMouseClicked(mouseEvent -> requestResource(amountValue, item.get(finalI), message));
                     //button1 donate
                 }
 
@@ -678,6 +684,10 @@ public class GameMenu extends Application {
         Button backButton = new Button("Back"); backButton.setPrefWidth(50);
         VBox vBoxButtons = new VBox(); vBoxButtons.setSpacing(5);
 
+        Button donate = new Button("Donate"); donate.setDisable(true);
+        Button request = new Button("Request"); request.setDisable(true);
+        TextField messageTextField = new TextField();
+        messageTextField.setPromptText("Enter Your Message");
 
 //        String usernames = "";
         ObservableList<String> items = FXCollections.observableArrayList();
@@ -692,29 +702,28 @@ public class GameMenu extends Application {
 //                MainMenu.users = "," + mainMenuController.getLoggedInUserUsername();
             sendTradeTo = "";
             for (String checkedItem : control.getCheckModel().getCheckedItems())
-                sendTradeTo += "," + checkedItem;
+                sendTradeTo += checkedItem + ",";
 //                System.out.println("send trade to " + sendTradeTo);
         });
 
 
         Text text = getText();
         Text amountText = getText();
-        HBox hBox1 = new HBox(text, amountText); hBox1.setSpacing(10);
         AtomicInteger amountValue = new AtomicInteger();
+        HBox hBox1 = new HBox(text, amountText); hBox1.setSpacing(10);
+
         ArrayList<Item.ItemType> item = dataController.getItemsName();
         VBox vBox = new VBox();
         ArrayList<HBox> hBoxes = getShopAndTradeMenuHbox();
-        Button donate = new Button("Donate");
-        Button request = new Button("Request");
-        addItemImage(item, text, donate, request, hBoxes, vBox, amountValue, amountText, 40);
 
+        addItemImage(item, text, donate, request, hBoxes, vBox,
+                amountValue, amountText, messageTextField.getText(), 40);
 
 //        hBox.getChildren().add(vBoxButtons);
-        TextField textField = new TextField();
-        textField.setPromptText("Enter Your Message");
+
         HBox hBox = new HBox(backButton, donate, request); hBox.setSpacing(8);
 //        vBoxButtons.getChildren().addAll(backButton, control, textField, text, hBox);
-        vBoxButtons.getChildren().addAll(hBox1, control, textField, hBox);
+        vBoxButtons.getChildren().addAll(hBox1, control, messageTextField, hBox);
 //        vBox.getChildren().add(vBoxButtons);
         toolBarHBox.getChildren().addAll(vBox, vBoxButtons);
 
@@ -726,42 +735,77 @@ public class GameMenu extends Application {
         mainBorderPane.setOnKeyPressed(keyEvent -> {
             if (!text.getText().equals(""))
                 if (increaseItem.match(keyEvent)) {
-//                    int tmpAmount = amountValue.get();
-//                    tmpAmount++;
                     amountValue.getAndIncrement();
                     amountText.setText(String.valueOf(amountValue));
-                    System.out.println("increase");
-                    System.out.println("amount : " + amountValue);
+//                    System.out.println("increase");
+//                    System.out.println("amount : " + amountValue);
 //                        incrementAmount(amountValue, amountText);
                 }
                 else if (decreaseItem.match(keyEvent)) {
                     if (amountValue.get() > 1) {
                         amountValue.getAndDecrement();
                         amountText.setText(String.valueOf(amountValue));
-                        System.out.println("decrease");
-                        System.out.println("amount : " + amountValue);
+//                        System.out.println("decrease");
+//                        System.out.println("amount : " + amountValue);
                     }
 //                        decrementAmount(amountValue, amountText);
                 }
         });
 
+
         backButton.setOnMouseClicked(mouseEvent -> handleTradeMenu());
     }
 
-    private void decrementAmount(int amountValue, Text amountText) {
-        amountValue++;
-        amountText.setText(String.valueOf(amountValue));
+    private void donateResource(AtomicInteger amountValue, Item.ItemType itemType, String message) {
+        Popup popup = getPopup();
+        Label label = getLabel();
+        popup.getContent().add(label);
+        Timeline timeline = hidePopup(popup);
+
+        switch (tradeMenuController.tradeRequest(itemType.getName(), amountValue.get(), message, sendTradeTo, TradeType.DONATE)) {
+            case SUCCESS:
+                label.setText("Item Donated Successfully");
+                popup.show(Main.stage);
+                timeline.play();
+                break;
+            case INSUFFICIENT_ITEM_AMOUNT:
+                label.setText("Insufficient Item Amount");
+                popup.show(Main.stage);
+                timeline.play();
+                break;
+            case NO_USER_SELECTED:
+                label.setText("No User is Selected!");
+                popup.show(Main.stage);
+                timeline.play();
+                break;
+
+        }
     }
 
-    private void incrementAmount(int amountValue, Text amountText) {
-        amountValue--;
-        amountText.setText(String.valueOf(amountValue));
+    private void requestResource(AtomicInteger amountValue, Item.ItemType itemType, String message) {
+        Popup popup = getPopup();
+        Label label = getLabel();
+        popup.getContent().add(label);
+        Timeline timeline = hidePopup(popup);
+
+        switch (tradeMenuController.tradeRequest(itemType.getName(), amountValue.get(), message, sendTradeTo, TradeType.REQUEST)) {
+            case SUCCESS:
+                label.setText("Request Sent Successfully");
+                popup.show(Main.stage);
+                timeline.play();
+                break;
+            case NO_USER_SELECTED:
+                label.setText("No User is Selected!");
+                popup.show(Main.stage);
+                timeline.play();
+                break;
+        }
     }
 
     private void addUsersToTradeList(ArrayList<String> list) {
         String[] users = MainMenu.users.split(",");
         for (String user : users) {
-            if (!user.equals(mainMenuController.getLoggedInUserUsername()))
+            if (!user.equals(mainMenuController.getCurrentUserUsername()))
                 list.add(user);
         }
     }

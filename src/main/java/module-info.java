@@ -21,4 +21,5 @@ module StrongHold {
     exports Model.MapGeneration;
     opens Model.MapGeneration to com.google.gson;
     exports View;
+    exports View.Enums.Types;
 }

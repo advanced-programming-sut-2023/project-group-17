@@ -7,5 +7,6 @@ public enum TradeMenuMessages {
     INVALID_AMOUNT,
     INVALID_PRICE,
     ID_DOES_NOT_EXISTS,
-    USERNAME_DOES_NOT_EXIST;
+    NO_USER_SELECTED
+    ;
 }

@@ -1,6 +1,7 @@
 package Model;
 
 import Model.Items.Item;
+import View.Enums.Types.TradeType;
 
 public class TradeRequest {
     private final User senderUser;
@@ -8,18 +9,20 @@ public class TradeRequest {
     private final int id;
     private final Item.ItemType itemType;
     private final int itemAmount;
-    private final int price;
+//    private final int price;
     private final String sentMessage;
     private String acceptMessage;
+    private TradeType tradeType;
     boolean isAccepted = false;
     boolean isSeen = false;
 
-    public TradeRequest(User senderUser, Item.ItemType itemType, int itemAmount, int price, String sentMessage) {
+    public TradeRequest(User senderUser, Item.ItemType itemType, int itemAmount, String sentMessage, TradeType tradeType) {
         this.senderUser = senderUser;
         this.itemType = itemType;
         this.itemAmount = itemAmount;
-        this.price = price;
+//        this.price = price;
         this.sentMessage = sentMessage;
+        this.tradeType = tradeType;
         this.id = idCount;
         idCount++;
     }
@@ -36,6 +39,14 @@ public class TradeRequest {
         return senderUser;
     }
 
+    public TradeType getTradeType() {
+        return tradeType;
+    }
+
+    public void setTradeType(TradeType tradeType) {
+        this.tradeType = tradeType;
+    }
+
     public int getId() {
         return id;
     }
@@ -48,9 +59,9 @@ public class TradeRequest {
         return itemAmount;
     }
 
-    public int getPrice() {
-        return price;
-    }
+//    public int getPrice() {
+//        return price;
+//    }
 
     public String getSentMessage() {
         return sentMessage;
