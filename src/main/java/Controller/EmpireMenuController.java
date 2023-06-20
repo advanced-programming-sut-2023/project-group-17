@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Database;
+import Model.Empire;
 import Model.Items.Food;
 import Model.User;
 import View.Enums.Messages.EmpireMenuMessages;
@@ -68,5 +69,91 @@ public class EmpireMenuController {
 
     public double getReligiousRate() {
         return Database.getCurrentUser().getEmpire().getReligionRate();
+    }
+
+    public double getPopularityRate() {
+        return Database.getCurrentUser().getEmpire().getPopularityRate();
+    }
+
+    public int getPopularityGrowth() {
+        Empire empire = Database.getCurrentUser().getEmpire();
+        int changeAmount = 0;
+        changeAmount += empire.getFoodDiversity()-1 + foodRateEffect(empire) + taxRateEffect(empire) +
+                empire.getReligionRate() + fearRateEffect(empire);
+
+        return changeAmount;
+    }
+
+    private int fearRateEffect(Empire empire) {
+        switch (empire.getFearRate()) {
+            case -5:
+                return -5;
+            case -4:
+                return -4;
+            case -3:
+                return -3;
+            case -2:
+                return -2;
+            case -1:
+                return -1;
+            case 1:
+                return 1;
+            case 2:
+                return 2;
+            case 3:
+                return 3;
+            case 4:
+                return 4;
+            case 5:
+                return 5;
+            default:
+                return 0;
+        }
+    }
+
+    private int taxRateEffect(Empire empire) {
+        switch (empire.getTaxRate()) {
+            case -3:
+                return 7;
+            case -2:
+                return 5;
+            case -1:
+                return 3;
+            case 0:
+                return 1;
+            case 1:
+                return -2;
+            case 2:
+                return -4;
+            case 3:
+                return -6;
+            case 4:
+                return -8;
+            case 5:
+                return -12;
+            case 6:
+                return -16;
+            case 7:
+                return -20;
+            case 8:
+                return -24;
+            default:
+                return 0;
+        }
+    }
+
+    private int foodRateEffect(Empire empire) {
+        switch (empire.getFoodRate()) {
+            case -2:
+                return -8;
+            case -1:
+                return -4;
+            case 1:
+                return 4;
+            case 2:
+                return 8;
+            default:
+                return 0;
+        }
     }
 }

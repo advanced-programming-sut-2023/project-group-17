@@ -1199,7 +1199,17 @@ public class GameMenu extends Application {
                 faceImagePath = getPathFaceImage(religiousRate, "religious");
                 ImageView religiousImage = new ImageView(new Image(faceImagePath, 20, 20, false, false));
                 religious.getChildren().addAll(religiousLabel, religiousImage); religious.setAlignment(Pos.CENTER);
-                vBox.getChildren().addAll(fear, tax, food, religious);
+                HBox popularity = new HBox(); popularity.setSpacing(10);
+                Label popularityLabel = getLabel(); double popularityRate = empireMenuController.getPopularityRate();
+                popularityLabel.setText("popularity :\t" + popularityRate); popularityLabel.setStyle("");
+                faceImagePath = getPathFaceImage(popularityRate, "pop");
+                ImageView popularityImage = new ImageView(new Image(faceImagePath, 20, 20, false, false));
+                popularity.getChildren().addAll(popularityLabel, popularityImage); popularity.setAlignment(Pos.CENTER);
+                HBox popularityGrowth = new HBox(); popularity.setSpacing(10);
+                Label popularityGrowthLabel = getLabel(); double popularityGrowthRate = empireMenuController.getPopularityGrowth();
+                popularityGrowthLabel.setText("\t\tpopularity growth :\t" + popularityGrowthRate); popularityLabel.setStyle("");
+                popularityGrowth.getChildren().addAll(popularityGrowthLabel); popularity.setAlignment(Pos.CENTER);
+                vBox.getChildren().addAll(fear, tax, food, religious, popularity, popularityGrowth);
                 popup.getContent().add(vBox);
                 popup.show(Main.stage);
                 Timeline timeline = hidePopup(popup);
@@ -1209,7 +1219,7 @@ public class GameMenu extends Application {
     }
 
     private String getPathFaceImage(double rate, String subject) {
-        if (subject.equals("food") || subject.equals("religious")) {
+        if (subject.equals("food") || subject.equals("religious") || subject.equals("pop")) {
             if (rate > 0) return GameMenu.class.getResource(
                     "/assets/EmpireFaces/Happy.PNG").toExternalForm();
             else if (rate == 0) return GameMenu.class.getResource(
