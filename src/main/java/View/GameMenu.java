@@ -1358,13 +1358,14 @@ public class GameMenu extends Application {
         gridPane.add(imageView, xBuildingForHeadquarter - 1, yBuildingForHeadquarter - 1);
 //        System.out.println(xBuildingForHeadquarter);
 //        System.out.println(yBuildingForHeadquarter);
-        if (nameBuildingForHeadquarter.equals("smallStoneGatehouse") && buildingMenuController.
-                isThisUserBuilding(xBuildingForHeadquarter - 1, yBuildingForHeadquarter - 1)) {
-            imageView.setOnMouseClicked(e -> openEmpireMenu());
+        if (nameBuildingForHeadquarter.equals("smallStoneGatehouse")) {
+            imageView.setOnMouseClicked(e -> openEmpireMenu(xBuildingForHeadquarter, yBuildingForHeadquarter));
         }
     }
 
-    private void openEmpireMenu() {
+    private void openEmpireMenu(int xBuildingForHeadquarter, int yBuildingForHeadquarter) {
+        if (!buildingMenuController.isThisUserBuilding(xBuildingForHeadquarter - 1, yBuildingForHeadquarter - 1))
+            return;
         toolBarHBox.getChildren().clear();
         VBox vBox = new VBox(); vBox.setAlignment(Pos.CENTER_RIGHT); vBox.setSpacing(5);
         HBox fear = createSliderHBox("\t\t\tFear", -5, 5);
