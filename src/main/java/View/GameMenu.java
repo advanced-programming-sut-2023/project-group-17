@@ -188,8 +188,9 @@ public class GameMenu extends Application {
 //        borderPane.setBottom(miniMap);
 //        setHeadQuarters(miniMap);
         //
-
         primaryStage.getScene().setRoot(borderPane);
+        primaryStage.getScene().getStylesheets().add(getClass().getResource("/CSS/Slider.css").toExternalForm());
+        primaryStage.getScene().getStylesheets().add(getClass().getResource("/CSS/PopUp.css").toExternalForm());
         primaryStage.setFullScreen(true);
         primaryStage.show();
     }
@@ -657,6 +658,7 @@ public class GameMenu extends Application {
     public Popup getPopup() {
         Popup popup = new Popup();
         popup.setAnchorX(580); popup.setAnchorY(300);
+        popup.getScene().getRoot().getStyleClass().add("popup-style");
         popup.centerOnScreen();
         popup.setOpacity(0.7);
         return popup;
@@ -676,7 +678,7 @@ public class GameMenu extends Application {
         label.setTextFill(Color.WHITE);
         label.setMinWidth(200);
         label.setMinHeight(60);
-        label.setStyle("-fx-background-color: black;");
+//        label.setStyle("-fx-background-color: black;");
         label.setAlignment(Pos.CENTER);
         return label;
     }
@@ -909,33 +911,33 @@ public class GameMenu extends Application {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 Popup popup = getPopup(); popup.setAnchorX(550); popup.setAnchorY(200);
-                VBox vBox = new VBox(); vBox.setSpacing(5); vBox.setStyle("-fx-background-color: black;");
-                Label fearLabel = getLabel();
+                VBox vBox = new VBox(); vBox.setSpacing(5);
+                Label fearLabel = getLabel(); fearLabel.setStyle("");
                 HBox fear = new HBox(); fear.setSpacing(10);
                 double fearRate = empireMenuController.getFearRate();
                 fearLabel.setText("Fear :\t" + fearRate);
-                String faceImagePath = getPathFaceImage(fearRate);
+                String faceImagePath = getPathFaceImage(fearRate, "fear");
                 ImageView imageView = new ImageView(new Image(faceImagePath, 20, 20, false, false));
                 fear.setAlignment(Pos.CENTER);
                 fear.getChildren().addAll(fearLabel, imageView);
                 HBox tax = new HBox(); tax.setSpacing(10);
-                Label taxLabel = getLabel();
+                Label taxLabel = getLabel(); taxLabel.setStyle("");
                 double taxRate = empireMenuController.getTaxRate();
                 taxLabel.setText("Tax :\t" + taxRate);
-                faceImagePath = getPathFaceImage(taxRate);
+                faceImagePath = getPathFaceImage(taxRate, "tax");
                 ImageView taxImage = new ImageView(new Image(faceImagePath, 20, 20, false, false));
                 tax.getChildren().addAll(taxLabel, taxImage);
                 tax.setAlignment(Pos.CENTER);
                 HBox food = new HBox(); food.setSpacing(10);
-                Label foodLabel = getLabel();
+                Label foodLabel = getLabel(); foodLabel.setStyle("");
                 double foodRate = empireMenuController.getFoodRate(); foodLabel.setText("Food :\t" + foodRate);
-                faceImagePath = getPathFaceImage(foodRate);
+                faceImagePath = getPathFaceImage(foodRate, "food");
                 ImageView foodImage = new ImageView(new Image(faceImagePath, 20, 20, false, false));
                 food.getChildren().addAll(foodLabel, foodImage); food.setAlignment(Pos.CENTER);
                 HBox religious = new HBox(); religious.setSpacing(10);
                 Label religiousLabel = getLabel(); double religiousRate = empireMenuController.getReligiousRate();
-                religiousLabel.setText("Religious :\t" + religiousRate);
-                faceImagePath = getPathFaceImage(religiousRate);
+                religiousLabel.setText("Religious :\t" + religiousRate); religiousLabel.setStyle("");
+                faceImagePath = getPathFaceImage(religiousRate, "religious");
                 ImageView religiousImage = new ImageView(new Image(faceImagePath, 20, 20, false, false));
                 religious.getChildren().addAll(religiousLabel, religiousImage); religious.setAlignment(Pos.CENTER);
                 vBox.getChildren().addAll(fear, tax, food, religious);
@@ -947,13 +949,23 @@ public class GameMenu extends Application {
         });
     }
 
-    private String getPathFaceImage(double rate) {
-        if (rate > 0) return GameMenu.class.getResource(
-                "/assets/EmpireFaces/Happy.PNG").toExternalForm();
-        else if (rate == 0) return GameMenu.class.getResource(
-                "/assets/EmpireFaces/Poker.PNG").toExternalForm();
-        else return GameMenu.class.getResource(
-                "/assets/EmpireFaces/Sad.PNG").toExternalForm();
+    private String getPathFaceImage(double rate, String subject) {
+        if (subject.equals("food") || subject.equals("religious")) {
+            if (rate > 0) return GameMenu.class.getResource(
+                    "/assets/EmpireFaces/Happy.PNG").toExternalForm();
+            else if (rate == 0) return GameMenu.class.getResource(
+                    "/assets/EmpireFaces/Poker.PNG").toExternalForm();
+            else return GameMenu.class.getResource(
+                        "/assets/EmpireFaces/Sad.PNG").toExternalForm();
+        }
+        else {
+            if (rate > 0) return GameMenu.class.getResource(
+                    "/assets/EmpireFaces/Sad.PNG").toExternalForm();
+            else if (rate == 0) return GameMenu.class.getResource(
+                    "/assets/EmpireFaces/Poker.PNG").toExternalForm();
+            else return GameMenu.class.getResource(
+                        "/assets/EmpireFaces/Happy.PNG").toExternalForm();
+        }
     }
 
     private void setOnActionButtons(Button button1, Button button2, Button button3,
@@ -1204,6 +1216,8 @@ public class GameMenu extends Application {
         String url = getClass().getResource("/assets/Buildings/" + nameBuildingForHeadquarter +".png").toExternalForm();
         ImageView imageView = new ImageView(new Image(url, 80, 80, false, false));
         gridPane.add(imageView, xBuildingForHeadquarter - 1, yBuildingForHeadquarter - 1);
+//        System.out.println(xBuildingForHeadquarter);
+//        System.out.println(yBuildingForHeadquarter);
         if (nameBuildingForHeadquarter.equals("smallStoneGatehouse") && buildingMenuController.
                 isThisUserBuilding(xBuildingForHeadquarter - 1, yBuildingForHeadquarter - 1)) {
             imageView.setOnMouseClicked(e -> openEmpireMenu());
@@ -1212,32 +1226,35 @@ public class GameMenu extends Application {
 
     private void openEmpireMenu() {
         toolBarHBox.getChildren().clear();
-        HBox fear = createSliderHBox("Fear", -5, 5);
-        HBox food = createSliderHBox("Food", -2, 2);
-        HBox tax = createSliderHBox("Tax", -3, 8);
-        toolBarHBox.getChildren().addAll(fear, food, tax);
+        VBox vBox = new VBox(); vBox.setAlignment(Pos.CENTER_RIGHT); vBox.setSpacing(5);
+        HBox fear = createSliderHBox("\t\t\tFear", -5, 5);
+        HBox food = createSliderHBox("\t\t\tFood", -2, 2);
+        HBox tax = createSliderHBox("\t\t\tTax", -3, 8);
+        vBox.getChildren().addAll(fear, food, tax);
+        toolBarHBox.setAlignment(Pos.CENTER);
+        toolBarHBox.getChildren().addAll(vBox);
     }
 
     private HBox createSliderHBox(String name, int i, int j) {
-        HBox hBox = new HBox();
+        HBox hBox = new HBox(); hBox.setAlignment(Pos.CENTER_RIGHT); hBox.setSpacing(15);
 
         Text text = new Text(name); text.setFont(Font.font(15));
 
         Slider slider = new Slider(i, j, Math.abs(i) + Math.abs(j) + 1);
-        slider.setPrefWidth(175);
+        slider.setPrefWidth(200);
         slider.setShowTickLabels(true);
         slider.setShowTickMarks(true);
         slider.setMajorTickUnit(1);
         slider.setMinorTickCount(0);
         slider.setBlockIncrement(1);
         switch (name) {
-            case "Fear":
+            case "\t\t\tFear":
                 slider.setValue(empireMenuController.getFearRate());
                 break;
-            case "Food":
+            case "\t\t\tFood":
                 slider.setValue(empireMenuController.getFoodRate());
                 break;
-            case "Tax":
+            case "\t\t\tTax":
                 slider.setValue(empireMenuController.getTaxRate());
                 break;
         }
@@ -1245,13 +1262,13 @@ public class GameMenu extends Application {
             int roundedValue = (int) Math.round(newValue.doubleValue());
             slider.setValue(roundedValue);
             switch (name) {
-                case "Fear":
+                case "\t\t\tFear":
                     empireMenuController.setFearRate(roundedValue);
                     break;
-                case "Food":
+                case "\t\t\tFood":
                     empireMenuController.setFoodRate(roundedValue);
                     break;
-                case "Tax":
+                case "\t\t\tTax":
                     empireMenuController.setTaxRate(roundedValue);
                     break;
             }
