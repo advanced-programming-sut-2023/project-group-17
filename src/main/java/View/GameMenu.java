@@ -37,6 +37,9 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.controlsfx.control.CheckComboBox;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -69,7 +72,9 @@ public class GameMenu extends Application {
     private double endCol, endRow;
     private double initialX, initialY;
     private double currentX, currentY;
-    private List<Node> selectedNodes;
+    private boolean copy;
+//    private List<Node> selectedNodes;
+    ObservableList<Node> selectedNodes = FXCollections.observableList(new ArrayList<Node>());
     private boolean cheatMode;
     private HashMap<String, Integer> soldiers;
     private static int goalX, goalY;
@@ -88,8 +93,9 @@ public class GameMenu extends Application {
         this.tradeMenuController = new TradeMenuController();
         cheatMode = false;
         this.cheatMode = false;
-        this.selectedNodes = new ArrayList<>();
+//        this.selectedNodes = new ArrayList<>();
         this.soldiers = new HashMap<>();
+        this.copy = false;
         sendTradeTo = "";
     }
 
@@ -192,6 +198,10 @@ public class GameMenu extends Application {
         selectFunction();
         setHeadQuarters(gridPane);
         setDropActionForGridPane();
+        selectedNodes.addListener((ListChangeListener<Node>) change -> {
+            copy = selectedNodes.size() > 0;
+        });
+        enableCopyPasteShortCut();
 
         borderPane.setBottom(toolBar);
         //
@@ -205,6 +215,28 @@ public class GameMenu extends Application {
         primaryStage.setFullScreen(true);
         primaryStage.show();
     }
+
+    private void enableCopyPasteShortCut() {
+        KeyCombination copyKey = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY);
+        scrollPane.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (copyKey.match(event) && copy) {
+                    String text = mapMenuController.getData(startCol + 1, startRow + 1,
+                            endCol + 1, endRow + 1);
+
+                    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+
+                    StringSelection selection = new StringSelection(text);
+
+                    clipboard.setContents(selection, null);
+
+                    System.out.println("Text copied to clipboard: " + text);
+                }
+            }
+        });
+    }
+
     //
     private void selectFunction() {
         gridPane.setOnMousePressed(this::handleMousePressed);
@@ -1365,6 +1397,12 @@ public class GameMenu extends Application {
     }
 
     public void removeFocus() {
+        for (Node node : selectedNodes) {
+            if (node instanceof Region) {
+                ((Region) node).setBorder(null);
+            }
+        }
+        selectedNodes.clear();
         ObservableList<Node> children = gridPane.getChildren();
         for (Node child : children) {
             if (child instanceof Rectangle) {

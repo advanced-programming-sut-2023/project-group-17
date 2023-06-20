@@ -262,4 +262,15 @@ public class MapMenuController {
         }
         return soldiers;
     }
+
+    public String getData(double startCol, double startRow, double endCol, double endRow) {
+        String data = "";
+        for (int i = (int) startCol; i < endCol + 1; i++) {
+            for (int j = (int) startRow; j < endRow + 1; j++) {
+                data += showDetails(i, j);
+            }
+        }
+    return data;
+    }
 }
+
