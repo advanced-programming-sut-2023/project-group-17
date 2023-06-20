@@ -272,5 +272,15 @@ public class MapMenuController {
         }
     return data;
     }
+
+
+    public String dropViaPaste(int droppedX, int droppedY, int copyX, int copyY) {
+        MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(copyX, copyY);
+        if (mapCell.getBuilding() == null || !mapCell.getBuilding().getOwner().equals(Database.getCurrentUser()))
+            return null;
+        if (dropBuilding(droppedX, droppedY, mapCell.getBuilding().getBuildingName()).equals(MapMenuMessages.SUCCESS))
+            return mapCell.getBuilding().getBuildingName();
+        return null;
+    }
 }
 

@@ -70,15 +70,17 @@ public class GameMenu extends Application {
     private double startX, startY;
     private double startCol, startRow;
     private double endCol, endRow;
-    private double initialX, initialY;
-    private double currentX, currentY;
+    private double copyXStart, copyYStart;
+    private double copyXEnd, copyYEnd;
     private boolean copy;
+    private boolean paste;
 //    private List<Node> selectedNodes;
     ObservableList<Node> selectedNodes = FXCollections.observableList(new ArrayList<Node>());
     private boolean cheatMode;
     private HashMap<String, Integer> soldiers;
     private static int goalX, goalY;
     private static String sendTradeTo;
+    private Node focusNode;
 
     public GameMenu() {
         this.gameMenuController = new GameMenuController();
@@ -96,6 +98,7 @@ public class GameMenu extends Application {
 //        this.selectedNodes = new ArrayList<>();
         this.soldiers = new HashMap<>();
         this.copy = false;
+        this.paste = false;
         sendTradeTo = "";
     }
 
@@ -218,6 +221,7 @@ public class GameMenu extends Application {
 
     private void enableCopyPasteShortCut() {
         KeyCombination copyKey = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY);
+        KeyCombination pasteKey = new KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_ANY);
         scrollPane.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -230,8 +234,44 @@ public class GameMenu extends Application {
                     StringSelection selection = new StringSelection(text);
 
                     clipboard.setContents(selection, null);
+                    copyXStart = startCol; copyXEnd = endCol;
+                    copyYStart = startRow; copyYEnd = endRow;
+                    paste = true;
 
-                    System.out.println("Text copied to clipboard: " + text);
+//                    System.out.println("Text copied to clipboard: " + text);
+                }
+                if (pasteKey.match(event) && paste && focusNode != null) {
+                    int columnIndex = GridPane.getColumnIndex(focusNode);
+                    int rowIndex = GridPane.getRowIndex(focusNode);
+//                    System.out.println("col index : " + columnIndex);
+//                    System.out.println("row index : " + rowIndex);
+//                    System.out.println("x start copy : " + copyXStart);
+//                    System.out.println("y start copy : " + copyYStart);
+//                    System.out.println("x end copy : " + copyXEnd);
+//                    System.out.println("y end copy : " + copyYEnd);
+                    ImageView imageView;
+                    for (int i = (int) copyXStart; i < (int) copyXEnd + 1; i++) {
+                        for (int j = (int) copyYStart; j < (int) copyYEnd + 1; j++) {
+                            int x = (int) (i - copyXStart);
+                            int y = (int) (j - copyYStart);
+                            String droppedBuilding = null;
+                            if (cheatMode)
+                                droppedBuilding = mapMenuController.dropViaPaste(columnIndex + x + 1,
+                                        y + rowIndex + 1, i + 1, j + 1);
+                            else
+                                droppedBuilding = buildingMenuController.dropViaPaste(columnIndex + x + 1,
+                                    y + rowIndex + 1, i + 1, j + 1);
+                            if (droppedBuilding != null) {
+                                String path = getClass().getResource("/assets/Buildings/" +
+                                        droppedBuilding + ".png").toExternalForm();
+                                if (droppedBuilding.equals("oxTether"))
+                                    imageView = new ImageView(new Image(path, 50, 50, false, false));
+                                else
+                                    imageView = new ImageView(new Image(path, 80, 80, false, false));
+                                handleSelectBuilding(imageView, droppedBuilding, columnIndex + x, rowIndex + y);
+                                gridPane.add(imageView, columnIndex + x, rowIndex + y);                            }
+                        }
+                    }
                 }
             }
         });
@@ -476,6 +516,7 @@ public class GameMenu extends Application {
                         break;
                     }
                 }
+                focusNode = clickedNode;
                 int columnIndex = GridPane.getColumnIndex(clickedNode);
                 int rowIndex = GridPane.getRowIndex(clickedNode);
                 startCol = columnIndex;
@@ -560,6 +601,7 @@ public class GameMenu extends Application {
                                     imageView = new ImageView(new Image(path, 50, 50, false, false));
                                 else
                                     imageView = new ImageView(new Image(path, 80, 80, false, false));
+                                handleSelectBuilding(imageView, db.getString(), columnIndex, rowIndex);
                                 gridPane.add(imageView, columnIndex, rowIndex);
                             }
                         }
@@ -1403,6 +1445,7 @@ public class GameMenu extends Application {
             }
         }
         selectedNodes.clear();
+        focusNode = null;
         ObservableList<Node> children = gridPane.getChildren();
         for (Node child : children) {
             if (child instanceof Rectangle) {

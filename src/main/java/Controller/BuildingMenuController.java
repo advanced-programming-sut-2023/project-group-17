@@ -389,4 +389,13 @@ public class BuildingMenuController {
         return Database.getCurrentMapGame().getMapCellByCoordinates(i, j).getBuilding().
                 getOwner().equals(Database.getCurrentUser());
     }
+
+    public String dropViaPaste(int droppedX, int droppedY, int copyX, int copyY) {
+        MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(copyX, copyY);
+        if (mapCell.getBuilding() == null || !mapCell.getBuilding().getOwner().equals(Database.getCurrentUser()))
+            return null;
+        if (dropBuilding(droppedX, droppedY, mapCell.getBuilding().getBuildingName()).equals(BuildingMenuMessages.SUCCESS))
+            return mapCell.getBuilding().getBuildingName();
+        return null;
+    }
 }
