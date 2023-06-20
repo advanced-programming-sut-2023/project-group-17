@@ -70,7 +70,7 @@ public class GameMenuController {
         int index = Database.getUsersInTheGame().indexOf(Database.getCurrentUser());
         int size = Database.getUsersInTheGame().size();
         Database.setCurrentUser(Database.getUsersInTheGame().get((index + 1) % size));
-        if (Database.getCurrentUser().getEmpire().getKing() == null) nextTurn();
+        if (Database.getCurrentUser().getEmpire().getKing() == null) nextTurnView();
     }
 
     public boolean nextTurn() {
@@ -275,7 +275,7 @@ public class GameMenuController {
             for (int i = mapCell.getPeople().size() - 1; i >= 0; i--) {
                 if(mapCell.getPeople().get(i).getHp() <= 0) {
                     mapCell.getPeople().get(i).getOwner().getEmpire().removePerson(mapCell.getPeople().get(i));
-                    deadBodies.add(soldierImageViewHashMap.get((Soldier) mapCell.getPeople().get(i)));
+                    deadBodies.add(soldierImageViewHashMap.get(mapCell.getPeople().get(i)));
                     mapCell.removePerson(mapCell.getPeople().get(i));
                 }
             }
