@@ -876,6 +876,7 @@ public class GameMenu extends Application {
 
 
     private void createUnitMenu(String name, int columnIndex, int rowIndex) {
+        if (!buildingMenuController.isThisUserBuilding(columnIndex + 1, rowIndex + 1)) return;
         toolBarHBox.getChildren().clear();
         ArrayList<String> soldiers = dataController.getSoldierNames(name);
         for (int i = 0; i < soldiers.size(); i++) {
@@ -1364,7 +1365,7 @@ public class GameMenu extends Application {
     }
 
     private void openEmpireMenu(int xBuildingForHeadquarter, int yBuildingForHeadquarter) {
-        if (!buildingMenuController.isThisUserBuilding(xBuildingForHeadquarter - 1, yBuildingForHeadquarter - 1))
+        if (!buildingMenuController.isThisUserBuilding(xBuildingForHeadquarter, yBuildingForHeadquarter))
             return;
         toolBarHBox.getChildren().clear();
         VBox vBox = new VBox(); vBox.setAlignment(Pos.CENTER_RIGHT); vBox.setSpacing(5);

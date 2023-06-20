@@ -85,6 +85,8 @@ public class BuildingMenuController {
             }
             else makeUnits(currentUser, mapCell, numberOfWorkers, newBuilding, peopleType, null, null);
         }
+//        System.out.println("x : " + x + "\ty : " + y);
+//        System.out.println(Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getBuilding().getOwner().getUsername());
 
         return BuildingMenuMessages.SUCCESS;
     }
@@ -380,6 +382,10 @@ public class BuildingMenuController {
 
     //TODO: coordinates x = 1 , y = 1 null pointer exception mikhore
     public boolean isThisUserBuilding(int i, int j) {
+//        System.out.println("i : " + i + "\tj : " + j);
+//        System.out.println("Current user : " + Database.getCurrentUser().getUsername());
+//        System.out.println("Building owner : " + Database.getCurrentMapGame().getMapCellByCoordinates(i, j).getBuilding().
+//                getOwner().getUsername());
         return Database.getCurrentMapGame().getMapCellByCoordinates(i, j).getBuilding().
                 getOwner().equals(Database.getCurrentUser());
     }
