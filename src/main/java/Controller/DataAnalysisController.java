@@ -83,7 +83,7 @@ public class DataAnalysisController {
         return Database.getCurrentUser().getEmpire().getHeadquarter().getY();
     }
 
-    public ArrayList<Item.ItemType> getWeaponsName() {
+    public ArrayList<Item.ItemType> getItemsName() {
         ArrayList<Item.ItemType> item = new ArrayList<>();
         item.add(Item.ItemType.BOW);
         item.add(Item.ItemType.CROSSBOW);

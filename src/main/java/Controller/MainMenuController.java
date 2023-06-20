@@ -1,10 +1,7 @@
 package Controller;
 
 import Model.*;
-import View.Enums.Messages.GameMenuMessages;
 import View.Enums.Messages.MainMenuMessages;
-import View.Main;
-import View.Menu;
 
 import java.util.ArrayList;
 
@@ -43,7 +40,7 @@ public class MainMenuController {
         Database.setLoggedInUser(null);
     }
 
-    public String getLoggedInUser() {
+    public String getLoggedInUserUsername() {
         return Database.getLoggedInUser().getUsername();
     }
 

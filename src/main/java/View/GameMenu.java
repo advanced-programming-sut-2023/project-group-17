@@ -11,6 +11,8 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -33,8 +35,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.controlsfx.control.CheckComboBox;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.lang.Math.pow;
 
@@ -47,6 +51,7 @@ public class GameMenu extends Application {
     private MapMenuController mapMenuController;
     private ShopMenuController shopMenuController;
     private EmpireMenuController empireMenuController;
+    private MainMenuController mainMenuController;
     private MapMenu mapMenu;
     private GridPane gridPane;
     private ToolBar toolBar;
@@ -66,6 +71,7 @@ public class GameMenu extends Application {
     private boolean cheatMode;
     private HashMap<String, Integer> soldiers;
     private static int goalX, goalY;
+    private static String sendTradeTo;
 
     public GameMenu() {
         this.gameMenuController = new GameMenuController();
@@ -76,10 +82,12 @@ public class GameMenu extends Application {
         this.shopMenuController = new ShopMenuController();
         this.empireMenuController = new EmpireMenuController();
         this.unitMenuController = new UnitMenuController();
+        this.mainMenuController = new MainMenuController();
         cheatMode = false;
         this.cheatMode = false;
         this.selectedNodes = new ArrayList<>();
         this.soldiers = new HashMap<>();
+        sendTradeTo = "";
     }
 
     @Override
@@ -571,30 +579,13 @@ public class GameMenu extends Application {
         VBox vBox1 = new VBox(); vBox1.setSpacing(10); vBox1.setAlignment(Pos.CENTER);
         vBox1.getChildren().addAll(buy, text, sell);
 
-        ArrayList<Item.ItemType> item = dataController.getWeaponsName();
+        ArrayList<Item.ItemType> item = dataController.getItemsName();
         VBox vBox = new VBox();
-        ArrayList<HBox> hBoxes = getShopMenuHbox();
+        ArrayList<HBox> hBoxes = getShopAndTradeMenuHbox();
 
-        for (int i = 0; i < item.size(); i++) {
-            String path = getClass().getResource("/assets/Item/" +
-                    item.get(i).getName() + ".png").toExternalForm();
-            ImageView imageView = new ImageView(new Image(path, 50, 50, false, false));
-            imageView.setId(item.get(i).getName());
-            int finalI = i;
-            imageView.setOnMouseClicked(e -> {
-                text.setText(item.get(finalI).getName() + "\nbuy: " + (int)item.get(finalI).getCost() + "\nsell: " + (int)(item.get(finalI).getCost() * 0.8));
-                buy.setDisable(false); sell.setDisable(false);
-                buy.setOnMouseClicked(event -> buyResource(item.get(finalI)));
-                sell.setOnMouseClicked(mouseEvent -> sellResource(item.get(finalI)));
-            });
+//        addItemImage(item, text, buy, sell, hBoxes, vBox, 50);
 
-            if (i < 8) hBoxes.get(1).getChildren().add(imageView);
-            else if (i < 16) hBoxes.get(3).getChildren().add(imageView);
-            else hBoxes.get(5).getChildren().add(imageView);
-        }
-        hBoxes.get(5).setAlignment(Pos.CENTER); hBoxes.get(5).setAlignment(Pos.CENTER);
-        vBox.getChildren().addAll(hBoxes.get(0), hBoxes.get(1), hBoxes.get(2), hBoxes.get(3), hBoxes.get(4), hBoxes.get(5));
-        vBox.setAlignment(Pos.CENTER);
+
         toolBarHBox.getChildren().addAll(vBox1, vBox);
 
         //TODO: trade o khoshgel konim:D
@@ -609,6 +600,47 @@ public class GameMenu extends Application {
         toolBarHBox.getChildren().add(button);
         //
     }
+
+    private void addItemImage(ArrayList<Item.ItemType> item, Text text, Button button1,
+                            Button button2, ArrayList<HBox> hBoxes, VBox vBox, AtomicInteger amountValue, Text amountText, int size) {
+        for (int i = 0; i < item.size(); i++) {
+            String path = getClass().getResource("/assets/Item/" +
+                    item.get(i).getName() + ".png").toExternalForm();
+            ImageView imageView = new ImageView(new Image(path, size, size, false, false));
+            imageView.setId(item.get(i).getName());
+            int finalI = i;
+            imageView.setOnMouseClicked(e -> {
+                if (size == 50) {
+                    text.setText(item.get(finalI).getName() + "\nbuy: " + (int)item.get(finalI).getCost() +
+                            "\nsell: " + (int)(item.get(finalI).getCost() * 0.8));
+                    button1.setDisable(false); button2.setDisable(false);
+
+                    button1.setOnMouseClicked(event -> buyResource(item.get(finalI)));
+                    button2.setOnMouseClicked(mouseEvent -> sellResource(item.get(finalI)));
+                }
+                else {
+                    resetAmountValue(amountValue, amountText);
+                    text.setText(item.get(finalI).getName());
+                    //button1 donate
+                }
+
+            });
+
+            if (i < 8) hBoxes.get(1).getChildren().add(imageView);
+            else if (i < 16) hBoxes.get(3).getChildren().add(imageView);
+            else hBoxes.get(5).getChildren().add(imageView);
+        }
+        hBoxes.get(5).setAlignment(Pos.CENTER);
+//        hBoxes.get(5).setAlignment(Pos.CENTER);
+        vBox.getChildren().addAll(hBoxes.get(0), hBoxes.get(1), hBoxes.get(2), hBoxes.get(3), hBoxes.get(4), hBoxes.get(5));
+        vBox.setAlignment(Pos.CENTER);
+    }
+
+    private void resetAmountValue(AtomicInteger amountValue, Text amountText) {
+        amountValue.getAndSet(1);
+        amountText.setText(String.valueOf(amountValue));
+    }
+
 
     private void handleTradeMenu() {
         toolBarHBox.getChildren().clear();
@@ -636,14 +668,122 @@ public class GameMenu extends Application {
     }
 
     private void openNewTrade() {
-        //TODO
+        toolBarHBox.getChildren().clear();
+
+        //TODO: delete one of these comments
+//        toolBarHBox.setTranslateX(-70);
+        toolBarHBox.setTranslateX(-148);
+
+//        HBox hBox = new HBox();
+        Button backButton = new Button("Back"); backButton.setPrefWidth(50);
+        VBox vBoxButtons = new VBox(); vBoxButtons.setSpacing(5);
+
+
+//        String usernames = "";
+        ObservableList<String> items = FXCollections.observableArrayList();
+        ArrayList<String> list = new ArrayList<>();
+        addUsersToTradeList(list);
+//        mainMenuController.addUsers(list);
+        items.addAll(list);
+//        users = controller.getLoggedInUser();
+        CheckComboBox<String> control = new CheckComboBox<>(items);
+
+        control.getCheckModel().getCheckedItems().addListener((ListChangeListener<String>) c -> {
+//                MainMenu.users = "," + mainMenuController.getLoggedInUserUsername();
+            sendTradeTo = "";
+            for (String checkedItem : control.getCheckModel().getCheckedItems())
+                sendTradeTo += "," + checkedItem;
+//                System.out.println("send trade to " + sendTradeTo);
+        });
+
+
+        Text text = getText();
+        Text amountText = getText();
+        HBox hBox1 = new HBox(text, amountText); hBox1.setSpacing(10);
+        AtomicInteger amountValue = new AtomicInteger();
+        ArrayList<Item.ItemType> item = dataController.getItemsName();
+        VBox vBox = new VBox();
+        ArrayList<HBox> hBoxes = getShopAndTradeMenuHbox();
+        Button donate = new Button("Donate");
+        Button request = new Button("Request");
+        addItemImage(item, text, donate, request, hBoxes, vBox, amountValue, amountText, 40);
+
+
+//        hBox.getChildren().add(vBoxButtons);
+        TextField textField = new TextField();
+        textField.setPromptText("Enter Your Message");
+        HBox hBox = new HBox(backButton, donate, request); hBox.setSpacing(8);
+//        vBoxButtons.getChildren().addAll(backButton, control, textField, text, hBox);
+        vBoxButtons.getChildren().addAll(hBox1, control, textField, hBox);
+//        vBox.getChildren().add(vBoxButtons);
+        toolBarHBox.getChildren().addAll(vBox, vBoxButtons);
+
+
+        KeyCombination increaseItem = new KeyCodeCombination(KeyCode.EQUALS, KeyCombination.SHIFT_ANY);
+        KeyCombination decreaseItem = new KeyCodeCombination(KeyCode.MINUS, KeyCombination.SHIFT_ANY);
+
+
+        mainBorderPane.setOnKeyPressed(keyEvent -> {
+            if (!text.getText().equals(""))
+                if (increaseItem.match(keyEvent)) {
+//                    int tmpAmount = amountValue.get();
+//                    tmpAmount++;
+                    amountValue.getAndIncrement();
+                    amountText.setText(String.valueOf(amountValue));
+                    System.out.println("increase");
+                    System.out.println("amount : " + amountValue);
+//                        incrementAmount(amountValue, amountText);
+                }
+                else if (decreaseItem.match(keyEvent)) {
+                    if (amountValue.get() > 1) {
+                        amountValue.getAndDecrement();
+                        amountText.setText(String.valueOf(amountValue));
+                        System.out.println("decrease");
+                        System.out.println("amount : " + amountValue);
+                    }
+//                        decrementAmount(amountValue, amountText);
+                }
+        });
+
+        backButton.setOnMouseClicked(mouseEvent -> handleTradeMenu());
+    }
+
+    private void decrementAmount(int amountValue, Text amountText) {
+        amountValue++;
+        amountText.setText(String.valueOf(amountValue));
+    }
+
+    private void incrementAmount(int amountValue, Text amountText) {
+        amountValue--;
+        amountText.setText(String.valueOf(amountValue));
+    }
+
+    private void addUsersToTradeList(ArrayList<String> list) {
+        String[] users = MainMenu.users.split(",");
+        for (String user : users) {
+            if (!user.equals(mainMenuController.getLoggedInUserUsername()))
+                list.add(user);
+        }
     }
 
     private void openTradeHistory() {
         //TODO
+        toolBarHBox.getChildren().clear();
+        Button backButton = new Button("Back"); backButton.setPrefWidth(70);
+        VBox vBoxBack = new VBox(backButton);
+
+
+
+
+
+        HBox hBox = new HBox(vBoxBack);
+        toolBarHBox.getChildren().add(hBox);
+
+
+        backButton.setOnMouseClicked(mouseEvent -> handleTradeMenu());
     }
 
-    public ArrayList<HBox> getShopMenuHbox() {
+    public ArrayList<HBox> getShopAndTradeMenuHbox() {
         ArrayList<HBox> hBoxes = new ArrayList<>();
         HBox hBox1 = new HBox(); hBox1.setSpacing(40);
         HBox hBox2 = new HBox(); hBox2.setSpacing(10);
