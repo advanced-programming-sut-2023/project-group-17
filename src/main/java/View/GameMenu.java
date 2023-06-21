@@ -1144,6 +1144,7 @@ public class GameMenu extends Application {
                                 gridPane.add(imageView, columnIndex + x, rowIndex + y);                            }
                         }
                     }
+                    refreshToolBar();
                 }
             }
         });
@@ -1156,11 +1157,18 @@ public class GameMenu extends Application {
                 "/assets/ToolBar/menu.jpeg").toExternalForm()),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 new BackgroundSize(1.0, 1.0, true, true, false, false))));
-        Button button = new Button();
-        button.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
+        VBox vBox = new VBox();
+        vBox.setAlignment(Pos.CENTER_LEFT);
+        Button populationButton = new Button();
+        populationButton.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
+                "/assets/ToolBar/Buttons/population.png").toExternalForm(), 20, 20, false, false)));
+        populationButton.setOnMouseClicked(e -> populationPopUp());
+        Button empireButton = new Button();
+        empireButton.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
                 "/assets/ToolBar/Buttons/Empire.png").toExternalForm(), 20, 20, false, false)));
-        toolBar.getItems().add(button);
-        setOnActionEmpireButton(button);
+        setOnActionEmpireButton(empireButton);
+        vBox.getChildren().addAll(empireButton, populationButton);
+        toolBar.getItems().add(vBox);
         HBox hBoxButtons = new HBox();
         //TODO: delete one of these
 //        hBoxButtons.setTranslateX(1050);
@@ -1224,6 +1232,27 @@ public class GameMenu extends Application {
         openGatehouseBuildings();
 
         return toolBar;
+    }
+
+    private void populationPopUp() {
+        Popup popup = getPopup(); popup.setAnchorX(550); popup.setAnchorY(200);
+        VBox vBox = new VBox(); vBox.setSpacing(5);
+        HBox coinHBox = getPopulationHBox("Coin", empireMenuController.getCoin());
+        HBox populationHBox = getPopulationHBox("Population", empireMenuController.getPopulation());
+        vBox.getChildren().addAll(coinHBox, populationHBox);
+        popup.getContent().add(vBox);
+        popup.show(Main.stage);
+        Timeline timeline = hidePopup(popup);
+        timeline.play();
+    }
+
+    private HBox getPopulationHBox(String name, double amount) {
+        HBox hBox = new HBox();
+        hBox.setAlignment(Pos.CENTER);
+        Label label = getLabel();
+        label.setText(name + " :\t" + amount);
+        hBox.getChildren().add(label);
+        return hBox;
     }
 
     private void nextTurn() {

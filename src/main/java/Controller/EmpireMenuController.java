@@ -156,4 +156,12 @@ public class EmpireMenuController {
                 return 0;
         }
     }
+
+    public double getCoin() {
+        return Database.getCurrentUser().getEmpire().getCoins();
+    }
+
+    public double getPopulation() {
+        return Database.getCurrentUser().getEmpire().getNormalPeople().size();
+    }
 }
