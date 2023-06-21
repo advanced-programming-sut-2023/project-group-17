@@ -22,6 +22,10 @@ import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -37,12 +41,14 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.controlsfx.control.CheckComboBox;
-import java.awt.Toolkit;
+
+import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
-
-import java.security.spec.RSAOtherPrimeInfo;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.lang.Math.pow;
@@ -715,6 +721,7 @@ public class GameMenu extends Application {
             imageView.setId(item.get(i).getName());
             int finalI = i;
             imageView.setOnMouseClicked(e -> {
+                mainBorderPane.requestFocus();
                 if (size == 45) {
                     text.setText(item.get(finalI).getName() + "\nbuy: " + (int)item.get(finalI).getCost() +
                             "\nsell: " + (int)(item.get(finalI).getCost() * 0.8));
@@ -943,7 +950,11 @@ public class GameMenu extends Application {
 
     public Popup getPopup() {
         Popup popup = new Popup();
-        popup.setAnchorX(580); popup.setAnchorY(300);
+
+        //TODO: delete one of these comments
+//        popup.setAnchorX(580); popup.setAnchorY(300);
+        popup.setAnchorX(540); popup.setAnchorY(250);
+
         popup.getScene().getRoot().getStyleClass().add("popup-style");
         popup.centerOnScreen();
         popup.setOpacity(0.7);

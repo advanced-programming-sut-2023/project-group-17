@@ -24,16 +24,13 @@ public class TradeMenuController {
                 itemType, itemAmount, message, type);
 
         String[] users = user.split(",");
-//        for (String s : users) {
-//            System.out.println("user : " + s);
-//        }
 
         Database.getCurrentUser().getEmpire().addSentTradeRequests(tradeRequest);
         for (String sendToUser : users) {
-//            System.out.println("username => " + Database.getUserByUsername(sendToUser).getUsername());
-//            System.out.println("current user empire => " + Database.getCurrentUser().getEmpire());
-//            System.out.println(Database.getUserInTheGameByUsername(sendToUser).getUsername() + " empire : " + Database.getUserInTheGameByUsername(sendToUser).getEmpire());
             Database.getUserInTheGameByUsername(sendToUser).getEmpire().addReceivedTradeRequests(tradeRequest);
+            if (type.equals(TradeType.DONATE)) {
+                changeResourceAmount(Database.getUserInTheGameByUsername(sendToUser).getEmpire(), Database.getCurrentUser().getEmpire(), itemAmount, itemName);
+            }
         }
 
 //        for (User user1 : Database.getUsersInTheGame()) {
@@ -45,36 +42,61 @@ public class TradeMenuController {
         return TradeMenuMessages.SUCCESS;
     }
 
-    public TradeMenuMessages acceptTrade(int id, String message) {
+    public TradeMenuMessages acceptRequest(int id, String message) {
         Empire receiverEmpire = Database.getCurrentUser().getEmpire();
-        if(receiverEmpire.getReceivedRequestById(id) == null) return TradeMenuMessages.ID_DOES_NOT_EXISTS;
+//        if(receiverEmpire.getReceivedRequestById(id) == null) return TradeMenuMessages.ID_DOES_NOT_EXISTS;
 
         TradeRequest request = receiverEmpire.getReceivedRequestById(id);
         Empire senderEmpire = request.getSenderUser().getEmpire();
-        String itemName = request.getItemType().getName();
         int amount = request.getItemAmount();
+        String itemName = request.getItemType().getName();
+
+        changeResourceAmount(receiverEmpire, senderEmpire, amount, itemName);
 //        double price = request.getPrice();
 
-        switch (Item.getItemByName(itemName)) {
-            case RESOURCE:
-                receiverEmpire.getResourceByName(itemName).changeNumber(-amount);
-                senderEmpire.getResourceByName(itemName).changeNumber(amount);
-                break;
-            case FOOD:
-                receiverEmpire.getFoodByName(itemName).changeNumber(-amount);
-                senderEmpire.getFoodByName(itemName).changeNumber(amount);
-                break;
-            case WEAPON:
-                receiverEmpire.getWeaponByName(itemName).changeNumber(-amount);
-                senderEmpire.getWeaponByName(itemName).changeNumber(amount);
-                break;
-        }
+//        switch (Item.getItemByName(itemName)) {
+//            case RESOURCE:
+//                receiverEmpire.getResourceByName(itemName).changeNumber(-amount);
+//                senderEmpire.getResourceByName(itemName).changeNumber(amount);
+//                break;
+//            case FOOD:
+//                receiverEmpire.getFoodByName(itemName).changeNumber(-amount);
+//                senderEmpire.getFoodByName(itemName).changeNumber(amount);
+//                break;
+//            case WEAPON:
+//                receiverEmpire.getWeaponByName(itemName).changeNumber(-amount);
+//                senderEmpire.getWeaponByName(itemName).changeNumber(amount);
+//                break;
+//        }
 
 //        senderEmpire.changeCoins(-price);
 //        receiverEmpire.changeCoins(price);
         receiverEmpire.getReceivedRequestById(id).setAcceptMessage(message);
         receiverEmpire.getReceivedRequestById(id).setAccepted();
         return TradeMenuMessages.SUCCESS;
+    }
+
+    public void changeResourceAmount(Empire receiverEmpire, Empire senderEmpire, int amount, String itemName) {
+        switch (Item.getItemByName(itemName)) {
+            case RESOURCE:
+                receiverEmpire.getResourceByName(itemName).changeNumber(amount);
+                senderEmpire.getResourceByName(itemName).changeNumber(-amount);
+                System.out.println("receiver : " + receiverEmpire.getResourceByName(itemName).getNumber());
+                System.out.println("sender : " + senderEmpire.getResourceByName(itemName).getNumber());
+                break;
+            case FOOD:
+                receiverEmpire.getFoodByName(itemName).changeNumber(amount);
+                senderEmpire.getFoodByName(itemName).changeNumber(-amount);
+                System.out.println("receiver : " + receiverEmpire.getFoodByName(itemName).getNumber());
+                System.out.println("sender : " + senderEmpire.getFoodByName(itemName).getNumber());
+                break;
+            case WEAPON:
+                receiverEmpire.getWeaponByName(itemName).changeNumber(amount);
+                senderEmpire.getWeaponByName(itemName).changeNumber(-amount);
+                System.out.println("receiver : " + receiverEmpire.getWeaponByName(itemName).getNumber());
+                System.out.println("sender : " + senderEmpire.getWeaponByName(itemName).getNumber());
+                break;
+        }
     }
 
     public String showUsersInTheGame() {

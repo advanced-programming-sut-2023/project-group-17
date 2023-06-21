@@ -31,12 +31,15 @@ public class ShopMenuController {
         switch (Item.getItemByName(itemName)) {
             case RESOURCE:
                 empire.getResourceByName(itemName).changeNumber(amount);
+                System.out.println(itemName + " : " + empire.getResourceByName(itemName).getNumber());
                 break;
             case FOOD:
                 empire.getFoodByName(itemName).changeNumber(amount);
+                System.out.println(itemName + " : " + empire.getFoodByName(itemName).getNumber());
                 break;
             case WEAPON:
                 empire.getWeaponByName(itemName).changeNumber(amount);
+                System.out.println(itemName + " : " + empire.getWeaponByName(itemName).getNumber());
                 break;
         }
         System.out.println("after coin : " + empire.getCoins());
@@ -59,11 +62,14 @@ public class ShopMenuController {
         switch (Item.getItemByName(itemName)) {
             case RESOURCE:
                 empire.getResourceByName(itemName).changeNumber(-amount);
+                System.out.println(itemName + " : " + empire.getResourceByName(itemName).getNumber());
                 break;
             case WEAPON:
                 empire.getWeaponByName(itemName).changeNumber(-amount);
+                System.out.println(itemName + " : " + empire.getWeaponByName(itemName).getNumber());
                 break;
             case FOOD:
+                System.out.println(itemName + " : " + empire.getFoodByName(itemName).getNumber());
                 empire.getFoodByName(itemName).changeNumber(-amount);
                 break;
         }
