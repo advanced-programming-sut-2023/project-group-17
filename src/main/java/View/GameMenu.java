@@ -41,6 +41,7 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 
+import java.security.spec.RSAOtherPrimeInfo;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -221,6 +222,7 @@ public class GameMenu extends Application {
     }
 
     private void moveShortcut(GridPane gridPane) {
+        gridPane.requestFocus();
         gridPane.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -516,7 +518,7 @@ public class GameMenu extends Application {
                 label.setText("Destination set");
                 popup.show(Main.stage);
                 timeline.play();
-                soldiers.clear();
+//                soldiers.clear();
                 openGatehouseBuildings();
             }
         });
@@ -610,7 +612,7 @@ public class GameMenu extends Application {
                             label.setText("Destination set");
                             popup.show(Main.stage);
                             timeline.play();
-                            soldiers.clear();
+//                            soldiers.clear();
                             openGatehouseBuildings();
                         } else {
                             label.setText("Destination set failed");
@@ -1081,7 +1083,6 @@ public class GameMenu extends Application {
         scrollPane.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                System.out.println(event.getCode().getName());
                 double zoomFactor = 1.05;
                 if (zoomInKeyCombination.match(event)) {
                     if (gridPane.getScaleX() != pow(zoomFactor, 6)) {
@@ -1145,6 +1146,22 @@ public class GameMenu extends Application {
                         }
                     }
                     refreshToolBar();
+                }
+                else if (event.getCode().equals(KeyCode.M)) {
+                    if (soldiers.size() != 0 && focusNode != null) {
+                        int colIndex = GridPane.getColumnIndex(focusNode) + 1;
+                        int rowIndex = GridPane.getRowIndex(focusNode) + 1;
+                        unitMenuController.moveUnitTo(colIndex, rowIndex);
+                        Popup popup = getPopup();
+                        Label label = getLabel();
+                        popup.getContent().add(label);
+                        Timeline timeline = hidePopup(popup);
+                        label.setText("Destination set");
+                        popup.show(Main.stage);
+                        timeline.play();
+//                    soldiers.clear();
+                        openGatehouseBuildings();
+                    }
                 }
             }
         });
