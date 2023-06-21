@@ -192,6 +192,7 @@ public class GameMenu extends Application {
         handleHover(gridPane);
         handleCheatMode(borderPane);
         handleClick(gridPane);
+        moveShortcut(gridPane);
         this.scrollPane = scrollPane;
         borderPane.setCenter(scrollPane);
         toolBar = createToolbar();
@@ -204,7 +205,7 @@ public class GameMenu extends Application {
         selectedNodes.addListener((ListChangeListener<Node>) change -> {
             copy = selectedNodes.size() > 0;
         });
-        enableCopyPasteShortCut();
+//        enableCopyPasteShortCut();
 
         borderPane.setBottom(toolBar);
         //
@@ -217,6 +218,18 @@ public class GameMenu extends Application {
         primaryStage.getScene().getStylesheets().add(getClass().getResource("/CSS/PopUp.css").toExternalForm());
         primaryStage.setFullScreen(true);
         primaryStage.show();
+    }
+
+    private void moveShortcut(GridPane gridPane) {
+        gridPane.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode().equals(KeyCode.M)) {
+                    System.out.println(soldiers);
+                    System.out.println(selectedNodes.get(1));
+                }
+            }
+        });
     }
 
     private void enableCopyPasteShortCut() {
@@ -397,7 +410,9 @@ public class GameMenu extends Application {
         button.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if (soldiers.size() > 0) handleMove();
+                if (soldiers.size() > 0) {
+                    handleMove();
+                }
             }
         });
         this.soldiers = soldiers;
@@ -408,6 +423,17 @@ public class GameMenu extends Application {
     }
 
     private void handleMove() {
+//        gridPane.requestFocus();
+//        gridPane.setOnKeyPressed(new EventHandler<KeyEvent>() {
+//            @Override
+//            public void handle(KeyEvent event) {
+//                if (event.getCode().equals(KeyCode.M)) {
+//                    System.out.println("yes shortcut");
+//                    System.out.println(selectedNodes);
+//                }
+//            }
+//        });
+
         ArrayList<Button> buttons = new ArrayList<>();
         Button move = new Button("move unit");
         move.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -1050,9 +1076,12 @@ public class GameMenu extends Application {
     private void handleZoom(ScrollPane scrollPane) {
         KeyCombination zoomInKeyCombination = new KeyCodeCombination(KeyCode.EQUALS, KeyCombination.CONTROL_DOWN);
         KeyCombination zoomOutKeyCombination = new KeyCodeCombination(KeyCode.MINUS, KeyCombination.CONTROL_DOWN);
+        KeyCombination copyKey = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY);
+        KeyCombination pasteKey = new KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_ANY);
         scrollPane.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
+                System.out.println(event.getCode().getName());
                 double zoomFactor = 1.05;
                 if (zoomInKeyCombination.match(event)) {
                     if (gridPane.getScaleX() != pow(zoomFactor, 6)) {
@@ -1066,6 +1095,54 @@ public class GameMenu extends Application {
                         gridPane.setScaleX(gridPane.getScaleX() / zoomFactor);
                         gridPane.setScaleY(gridPane.getScaleY() / zoomFactor);
                         event.consume();
+                    }
+                }
+                else if (copyKey.match(event) && copy) {
+                    String text = mapMenuController.getData(startCol + 1, startRow + 1,
+                            endCol + 1, endRow + 1);
+
+                    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+
+                    StringSelection selection = new StringSelection(text);
+
+                    clipboard.setContents(selection, null);
+                    copyXStart = startCol; copyXEnd = endCol;
+                    copyYStart = startRow; copyYEnd = endRow;
+                    paste = true;
+
+//                    System.out.println("Text copied to clipboard: " + text);
+                }
+                else if (pasteKey.match(event) && paste && focusNode != null) {
+                    int columnIndex = GridPane.getColumnIndex(focusNode);
+                    int rowIndex = GridPane.getRowIndex(focusNode);
+//                    System.out.println("col index : " + columnIndex);
+//                    System.out.println("row index : " + rowIndex);
+//                    System.out.println("x start copy : " + copyXStart);
+//                    System.out.println("y start copy : " + copyYStart);
+//                    System.out.println("x end copy : " + copyXEnd);
+//                    System.out.println("y end copy : " + copyYEnd);
+                    ImageView imageView;
+                    for (int i = (int) copyXStart; i < (int) copyXEnd + 1; i++) {
+                        for (int j = (int) copyYStart; j < (int) copyYEnd + 1; j++) {
+                            int x = (int) (i - copyXStart);
+                            int y = (int) (j - copyYStart);
+                            String droppedBuilding = null;
+                            if (cheatMode)
+                                droppedBuilding = mapMenuController.dropViaPaste(columnIndex + x + 1,
+                                        y + rowIndex + 1, i + 1, j + 1);
+                            else
+                                droppedBuilding = buildingMenuController.dropViaPaste(columnIndex + x + 1,
+                                        y + rowIndex + 1, i + 1, j + 1);
+                            if (droppedBuilding != null) {
+                                String path = getClass().getResource("/assets/Buildings/" +
+                                        droppedBuilding + ".png").toExternalForm();
+                                if (droppedBuilding.equals("oxTether"))
+                                    imageView = new ImageView(new Image(path, 50, 50, false, false));
+                                else
+                                    imageView = new ImageView(new Image(path, 80, 80, false, false));
+                                handleSelectBuilding(imageView, droppedBuilding, columnIndex + x, rowIndex + y);
+                                gridPane.add(imageView, columnIndex + x, rowIndex + y);                            }
+                        }
                     }
                 }
             }

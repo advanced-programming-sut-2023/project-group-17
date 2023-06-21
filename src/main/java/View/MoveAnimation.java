@@ -2,15 +2,16 @@ package View;
 
 import Model.People.Person;
 import Utils.Pair;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
-import javafx.animation.Transition;
+import javafx.animation.*;
 import javafx.event.ActionEvent;
+import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import javafx.util.Duration;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.util.ArrayList;
 
 public class MoveAnimation extends Transition {
@@ -49,6 +50,9 @@ public class MoveAnimation extends Transition {
 
     @Override
     protected void interpolate(double frac) {
+        for (int i = 0; i < 3; i++) {
+
+        }
         this.timeline.play();
     }
 }
