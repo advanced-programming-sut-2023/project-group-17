@@ -230,7 +230,7 @@ public class MapMenuController {
             Empire empire = user.getEmpire();
             int xHeadquarter = empire.getHeadquarter().getX();
             int yHeadquarter = empire.getHeadquarter().getY();
-            if (Math.sqrt(Math.pow((xHeadquarter - x), 2) + Math.pow((yHeadquarter - y), 2)) <= 5 &&
+            if (Math.sqrt(Math.pow((xHeadquarter - x), 2) + Math.pow((yHeadquarter - y), 2)) <= 4 &&
                     !Database.getCurrentUser().getUsername().equals(user.getUsername())) {
                 empire.poison();
             }
