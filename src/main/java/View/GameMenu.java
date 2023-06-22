@@ -1279,7 +1279,7 @@ public class GameMenu extends Application {
         Button empireButton = new Button(); empireButton.setStyle("-fx-background-color: #9d8c6e");
         empireButton.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
                 "/assets/ToolBar/Buttons/Empire.png").toExternalForm(), 20, 20, false, false)));
-        setOnActionEmpireButton(empireButton);
+        empireButton.setOnMouseClicked(e -> empirePopUp());
         vBox.getChildren().addAll(empireButton, populationButton);
         toolBar.getItems().add(vBox);
         HBox hBoxButtons = new HBox();
@@ -1393,57 +1393,52 @@ public class GameMenu extends Application {
         refreshToolBar();
     }
 
-    private void setOnActionEmpireButton(Button button) {
-        button.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                Popup popup = getPopup(); popup.setAnchorX(550); popup.setAnchorY(200);
-                VBox vBox = new VBox(); vBox.setSpacing(5);
-                Label fearLabel = getLabel(); fearLabel.setStyle("");
-                HBox fear = new HBox(); fear.setSpacing(10);
-                double fearRate = empireMenuController.getFearRate();
-                fearLabel.setText("Fear :\t" + fearRate);
-                String faceImagePath = getPathFaceImage(fearRate, "fear");
-                ImageView imageView = new ImageView(new Image(faceImagePath, 20, 20, false, false));
-                fear.setAlignment(Pos.CENTER);
-                fear.getChildren().addAll(fearLabel, imageView);
-                HBox tax = new HBox(); tax.setSpacing(10);
-                Label taxLabel = getLabel(); taxLabel.setStyle("");
-                double taxRate = empireMenuController.getTaxRate();
-                taxLabel.setText("Tax :\t" + taxRate);
-                faceImagePath = getPathFaceImage(taxRate, "tax");
-                ImageView taxImage = new ImageView(new Image(faceImagePath, 20, 20, false, false));
-                tax.getChildren().addAll(taxLabel, taxImage);
-                tax.setAlignment(Pos.CENTER);
-                HBox food = new HBox(); food.setSpacing(10);
-                Label foodLabel = getLabel(); foodLabel.setStyle("");
-                double foodRate = empireMenuController.getFoodRate(); foodLabel.setText("Food :\t" + foodRate);
-                faceImagePath = getPathFaceImage(foodRate, "food");
-                ImageView foodImage = new ImageView(new Image(faceImagePath, 20, 20, false, false));
-                food.getChildren().addAll(foodLabel, foodImage); food.setAlignment(Pos.CENTER);
-                HBox religious = new HBox(); religious.setSpacing(10);
-                Label religiousLabel = getLabel(); double religiousRate = empireMenuController.getReligiousRate();
-                religiousLabel.setText("Religious :\t" + religiousRate); religiousLabel.setStyle("");
-                faceImagePath = getPathFaceImage(religiousRate, "religious");
-                ImageView religiousImage = new ImageView(new Image(faceImagePath, 20, 20, false, false));
-                religious.getChildren().addAll(religiousLabel, religiousImage); religious.setAlignment(Pos.CENTER);
-                HBox popularity = new HBox(); popularity.setSpacing(10);
-                Label popularityLabel = getLabel(); double popularityRate = empireMenuController.getPopularityRate();
-                popularityLabel.setText("popularity :\t" + popularityRate); popularityLabel.setStyle("");
-                faceImagePath = getPathFaceImage(popularityRate, "pop");
-                ImageView popularityImage = new ImageView(new Image(faceImagePath, 20, 20, false, false));
-                popularity.getChildren().addAll(popularityLabel, popularityImage); popularity.setAlignment(Pos.CENTER);
-                HBox popularityGrowth = new HBox(); popularity.setSpacing(10);
-                Label popularityGrowthLabel = getLabel(); double popularityGrowthRate = empireMenuController.getPopularityGrowth();
-                popularityGrowthLabel.setText("\t\tpopularity growth :\t" + popularityGrowthRate); popularityLabel.setStyle("");
-                popularityGrowth.getChildren().addAll(popularityGrowthLabel); popularity.setAlignment(Pos.CENTER);
-                vBox.getChildren().addAll(fear, tax, food, religious, popularity, popularityGrowth);
-                popup.getContent().add(vBox);
-                popup.show(Main.stage);
-                Timeline timeline = hidePopup(popup);
-                timeline.play();
-            }
-        });
+    private void empirePopUp() {
+        Popup popup = getPopup(); popup.setAnchorX(550); popup.setAnchorY(200);
+        VBox vBox = new VBox(); vBox.setSpacing(5);
+        Label fearLabel = getLabel(); fearLabel.setStyle("");
+        HBox fear = new HBox(); fear.setSpacing(10);
+        double fearRate = empireMenuController.getFearRate();
+        fearLabel.setText("Fear :\t" + fearRate);
+        String faceImagePath = getPathFaceImage(fearRate, "fear");
+        ImageView imageView = new ImageView(new Image(faceImagePath, 20, 20, false, false));
+        fear.setAlignment(Pos.CENTER);
+        fear.getChildren().addAll(fearLabel, imageView);
+        HBox tax = new HBox(); tax.setSpacing(10);
+        Label taxLabel = getLabel(); taxLabel.setStyle("");
+        double taxRate = empireMenuController.getTaxRate();
+        taxLabel.setText("Tax :\t" + taxRate);
+        faceImagePath = getPathFaceImage(taxRate, "tax");
+        ImageView taxImage = new ImageView(new Image(faceImagePath, 20, 20, false, false));
+        tax.getChildren().addAll(taxLabel, taxImage);
+        tax.setAlignment(Pos.CENTER);
+        HBox food = new HBox(); food.setSpacing(10);
+        Label foodLabel = getLabel(); foodLabel.setStyle("");
+        double foodRate = empireMenuController.getFoodRate(); foodLabel.setText("Food :\t" + foodRate);
+        faceImagePath = getPathFaceImage(foodRate, "food");
+        ImageView foodImage = new ImageView(new Image(faceImagePath, 20, 20, false, false));
+        food.getChildren().addAll(foodLabel, foodImage); food.setAlignment(Pos.CENTER);
+        HBox religious = new HBox(); religious.setSpacing(10);
+        Label religiousLabel = getLabel(); double religiousRate = empireMenuController.getReligiousRate();
+        religiousLabel.setText("Religious :\t" + religiousRate); religiousLabel.setStyle("");
+        faceImagePath = getPathFaceImage(religiousRate, "religious");
+        ImageView religiousImage = new ImageView(new Image(faceImagePath, 20, 20, false, false));
+        religious.getChildren().addAll(religiousLabel, religiousImage); religious.setAlignment(Pos.CENTER);
+        HBox popularity = new HBox(); popularity.setSpacing(10);
+        Label popularityLabel = getLabel(); double popularityRate = empireMenuController.getPopularityRate();
+        popularityLabel.setText("popularity :\t" + popularityRate); popularityLabel.setStyle("");
+        faceImagePath = getPathFaceImage(popularityRate, "pop");
+        ImageView popularityImage = new ImageView(new Image(faceImagePath, 20, 20, false, false));
+        popularity.getChildren().addAll(popularityLabel, popularityImage); popularity.setAlignment(Pos.CENTER);
+        HBox popularityGrowth = new HBox(); popularity.setSpacing(10);
+        Label popularityGrowthLabel = getLabel(); double popularityGrowthRate = empireMenuController.getPopularityGrowth();
+        popularityGrowthLabel.setText("\t\tpopularity growth :\t" + popularityGrowthRate); popularityLabel.setStyle("");
+        popularityGrowth.getChildren().addAll(popularityGrowthLabel); popularity.setAlignment(Pos.CENTER);
+        vBox.getChildren().addAll(fear, tax, food, religious, popularity, popularityGrowth);
+        popup.getContent().add(vBox);
+        popup.show(Main.stage);
+        Timeline timeline = hidePopup(popup);
+        timeline.play();
     }
 
     private String getPathFaceImage(double rate, String subject) {
