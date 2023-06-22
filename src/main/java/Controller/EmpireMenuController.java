@@ -158,7 +158,7 @@ public class EmpireMenuController {
     }
 
     public double getCoin() {
-        return Database.getCurrentUser().getEmpire().getCoins();
+        return Database.getCurrentUser().getEmpire().getCoins() + Database.getCurrentUser().getEmpire().getResourceByName("gold").getNumber();
     }
 
     public double getPopulation() {
