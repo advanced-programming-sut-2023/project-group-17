@@ -89,6 +89,8 @@ public class GameMenu extends Application {
     private static String sendTradeTo;
     private Node focusNode;
     private HashMap<ImageView, Integer> poisonCells;
+    private TextField messageTextField;
+    private TextField idTextField;
 
     public GameMenu() {
         this.gameMenuController = new GameMenuController();
@@ -291,6 +293,8 @@ public class GameMenu extends Application {
                                         droppedBuilding + ".png").toExternalForm();
                                 if (droppedBuilding.equals("oxTether"))
                                     imageView = new ImageView(new Image(path, 50, 50, false, false));
+                                else if (droppedBuilding.equals("mill"))
+                                    imageView = new ImageView(new Image(path, 40, 80, false, false));
                                 else
                                     imageView = new ImageView(new Image(path, 80, 80, false, false));
                                 handleSelectBuilding(imageView, droppedBuilding, columnIndex + x, rowIndex + y);
@@ -417,7 +421,7 @@ public class GameMenu extends Application {
             toolBarHBox.getChildren().add(vBox);
         }
         button.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
-                "/assets/ToolBar/Buttons/unitMenu.png").toExternalForm(), 20, 20, false, false)));
+                "/assets/ToolBar/Buttons1/unitMenu.png").toExternalForm(), 20, 20, false, false)));
         toolBarHBox.getChildren().add(button);
         button.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -645,7 +649,10 @@ public class GameMenu extends Application {
                                         gridPane.add(imageView, columnIndex, rowIndex);
                                     }
                                     imageView = new ImageView(new Image(path, 50, 50, false, false));
-                                } else
+                                }
+                                else if (db.getString().equals("mill"))
+                                    imageView = new ImageView(new Image(path, 40, 80, false, false));
+                                else
                                     imageView = new ImageView(new Image(path, 80, 80, false, false));
                                 handleSelectBuilding(imageView, db.getString(), columnIndex, rowIndex);
                                 gridPane.add(imageView, columnIndex, rowIndex);
@@ -666,6 +673,8 @@ public class GameMenu extends Application {
                                     }
                                     imageView = new ImageView(new Image(path, 50, 50, false, false));
                                 }
+                                else if (db.getString().equals("mill"))
+                                    imageView = new ImageView(new Image(path, 40, 80, false, false));
                                 else
                                     imageView = new ImageView(new Image(path, 80, 80, false, false));
                                 handleSelectBuilding(imageView, db.getString(), columnIndex, rowIndex);
@@ -734,7 +743,7 @@ public class GameMenu extends Application {
     }
 
     private void addItemImage(ArrayList<Item.ItemType> item, Text text, Button button1, Button button2,
-                              ArrayList<HBox> hBoxes, VBox vBox, AtomicInteger amountValue, Text amountText, String message, int size) {
+                              ArrayList<HBox> hBoxes, VBox vBox, AtomicInteger amountValue, Text amountText, TextField textField, int size) {
         for (int i = 0; i < item.size(); i++) {
             String path = getClass().getResource("/assets/Item/" +
                     item.get(i).getName() + ".png").toExternalForm();
@@ -755,8 +764,14 @@ public class GameMenu extends Application {
                     resetAmountValue(amountValue, amountText);
                     text.setText(item.get(finalI).getName());
                     button1.setDisable(false); button2.setDisable(false);
-                    button1.setOnMouseClicked(mouseEvent -> donateResource(amountValue, item.get(finalI), message));
-                    button2.setOnMouseClicked(mouseEvent -> requestResource(amountValue, item.get(finalI), message));
+                    button1.setOnMouseClicked(mouseEvent -> {
+                        donateResource(amountValue, item.get(finalI));
+                        textField.clear();
+                    });
+                    button2.setOnMouseClicked(mouseEvent -> {
+                        requestResource(amountValue, item.get(finalI));
+                        textField.clear();
+                    });
                     //button1 donate
                 }
 
@@ -816,7 +831,7 @@ public class GameMenu extends Application {
 
         Button donate = new Button("Donate"); donate.setDisable(true); donate.setPrefWidth(65); donate.getStyleClass().add("button-style");
         Button request = new Button("Request"); request.setDisable(true); request.setPrefWidth(65); request.getStyleClass().add("button-style");
-        TextField messageTextField = new TextField(); messageTextField.getStyleClass().add("button-style");
+        messageTextField = new TextField(); messageTextField.getStyleClass().add("button-style");
         messageTextField.setPromptText("Enter Your Message");
 
 //        String usernames = "";
@@ -847,7 +862,7 @@ public class GameMenu extends Application {
         ArrayList<HBox> hBoxes = getShopAndTradeMenuHbox();
 
         addItemImage(item, text, donate, request, hBoxes, vBox,
-                amountValue, amountText, messageTextField.getText(), 38);
+                amountValue, amountText, messageTextField, 38);
 
 //        hBox.getChildren().add(vBoxButtons);
 
@@ -886,13 +901,13 @@ public class GameMenu extends Application {
         backButton.setOnMouseClicked(mouseEvent -> handleTradeMenu());
     }
 
-    private void donateResource(AtomicInteger amountValue, Item.ItemType itemType, String message) {
+    private void donateResource(AtomicInteger amountValue, Item.ItemType itemType) {
         Popup popup = getPopup();
         Label label = getLabel();
         popup.getContent().add(label);
         Timeline timeline = hidePopup(popup);
 
-        switch (tradeMenuController.tradeRequest(itemType.getName(), amountValue.get(), message, sendTradeTo, TradeType.DONATE)) {
+        switch (tradeMenuController.tradeRequest(itemType.getName(), amountValue.get(), messageTextField.getText(), sendTradeTo, TradeType.DONATE)) {
             case SUCCESS:
                 label.setText("Item Donated Successfully");
                 popup.show(Main.stage);
@@ -912,13 +927,13 @@ public class GameMenu extends Application {
         }
     }
 
-    private void requestResource(AtomicInteger amountValue, Item.ItemType itemType, String message) {
+    private void requestResource(AtomicInteger amountValue, Item.ItemType itemType) {
         Popup popup = getPopup();
         Label label = getLabel();
         popup.getContent().add(label);
         Timeline timeline = hidePopup(popup);
 
-        switch (tradeMenuController.tradeRequest(itemType.getName(), amountValue.get(), message, sendTradeTo, TradeType.REQUEST)) {
+        switch (tradeMenuController.tradeRequest(itemType.getName(), amountValue.get(), messageTextField.getText(), sendTradeTo, TradeType.REQUEST)) {
             case SUCCESS:
                 label.setText("Request Sent Successfully");
                 popup.show(Main.stage);
@@ -941,20 +956,67 @@ public class GameMenu extends Application {
     }
 
     private void openTradeHistory() {
-        //TODO
         toolBarHBox.getChildren().clear();
-        Button backButton = new Button("Back"); backButton.setPrefWidth(70);
-        VBox vBoxBack = new VBox(backButton);
+        VBox vBox = new VBox(); vBox.setSpacing(8);
 
+        Button backButton = new Button("Back"); backButton.setPrefWidth(60); backButton.getStyleClass().add("button-style");
+        Button acceptRequestButton = new Button("Accept"); acceptRequestButton.getStyleClass().add("button-style");
+        idTextField = new TextField(); idTextField.getStyleClass().add("button-style");
+        idTextField.setPrefWidth(50); idTextField.setPromptText("Id");
 
+        Text tradeRequest = new Text();
+        tradeRequest.setText(tradeMenuController.tradeList()); tradeRequest.setFont(new Font("Goudy Old Style", 13));
 
+        HBox hBox = new HBox(idTextField, acceptRequestButton, backButton); hBox.setSpacing(8); hBox.setTranslateX(220);
+        vBox.getChildren().addAll(tradeRequest, hBox);
 
-
-        HBox hBox = new HBox(vBoxBack);
-        toolBarHBox.getChildren().add(hBox);
-
+//        HBox hBox = new HBox(vBoxBack);
+        toolBarHBox.getChildren().add(vBox); toolBarHBox.setTranslateX(-148);
+        toolBarHBox.setAlignment(Pos.CENTER);
 
         backButton.setOnMouseClicked(mouseEvent -> handleTradeMenu());
+        acceptRequestButton.setOnMouseClicked(mouseEvent -> acceptRequest(idTextField));
+    }
+
+    private void acceptRequest(TextField idTextField) {
+        Popup popup = getPopup();
+        Label label = getLabel();
+        popup.getContent().add(label);
+        Timeline timeline = hidePopup(popup);
+
+        if (idTextField.getText().equals("")) {
+            label.setText("Improper Id!");
+            popup.show(Main.stage);
+            timeline.play();
+        }
+
+        switch (tradeMenuController.acceptRequest(idTextField.getText())) {
+            case IMPROPER_ID:
+                label.setText("Invalid Id format");
+                popup.show(Main.stage);
+                timeline.play();
+                break;
+            case SUCCESS:
+                label.setText("Item Donated Successfully");
+                popup.show(Main.stage);
+                timeline.play();
+                break;
+            case INVALID_TRADE_TYPE:
+                label.setText("Invalid Trade Type");
+                popup.show(Main.stage);
+                timeline.play();
+                break;
+            case INSUFFICIENT_ITEM_AMOUNT:
+                label.setText("Insufficient Item Amount");
+                popup.show(Main.stage);
+                timeline.play();
+                break;
+            case ID_DOES_NOT_EXISTS:
+                label.setText("Id Does Not Exist");
+                popup.show(Main.stage);
+                timeline.play();
+                break;
+        }
     }
 
     public ArrayList<HBox> getShopAndTradeMenuHbox() {
@@ -1171,6 +1233,8 @@ public class GameMenu extends Application {
                                         droppedBuilding + ".png").toExternalForm();
                                 if (droppedBuilding.equals("oxTether"))
                                     imageView = new ImageView(new Image(path, 50, 50, false, false));
+                                else if (droppedBuilding.equals("mill"))
+                                    imageView = new ImageView(new Image(path, 40, 80, false, false));
                                 else
                                     imageView = new ImageView(new Image(path, 80, 80, false, false));
                                 handleSelectBuilding(imageView, droppedBuilding, columnIndex + x, rowIndex + y);
@@ -1206,13 +1270,13 @@ public class GameMenu extends Application {
                 "/assets/ToolBar/menu.jpeg").toExternalForm()),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 new BackgroundSize(1.0, 1.0, true, true, false, false))));
-        VBox vBox = new VBox();
+        VBox vBox = new VBox(); vBox.setSpacing(5);
         vBox.setAlignment(Pos.CENTER_LEFT);
-        Button populationButton = new Button();
+        Button populationButton = new Button(); populationButton.setStyle("-fx-background-color: #9d8c6e");
         populationButton.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
                 "/assets/ToolBar/Buttons/population.png").toExternalForm(), 20, 20, false, false)));
         populationButton.setOnMouseClicked(e -> populationPopUp());
-        Button empireButton = new Button();
+        Button empireButton = new Button(); empireButton.setStyle("-fx-background-color: #9d8c6e");
         empireButton.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
                 "/assets/ToolBar/Buttons/Empire.png").toExternalForm(), 20, 20, false, false)));
         setOnActionEmpireButton(empireButton);
@@ -1228,31 +1292,31 @@ public class GameMenu extends Application {
         hBoxButtons.setPrefHeight(30);
 
         Button button1 = new Button();
-        button1.setTranslateY(110);
+        button1.setTranslateY(110); button1.setStyle("-fx-background-color: #9d8c6e");
         button1.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
                 "/assets/ToolBar/Buttons/Gatehouse.png").toExternalForm(), 20, 20, false, false)));
         Button button2 = new Button("");
-        button2.setTranslateY(110);
+        button2.setTranslateY(110); button2.setStyle("-fx-background-color: #9d8c6e");
         button2.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
                 "/assets/ToolBar/Buttons/Production.png").toExternalForm(), 20, 20, false, false)));
         Button button3 = new Button("");
-        button3.setTranslateY(110);
+        button3.setTranslateY(110); button3.setStyle("-fx-background-color: #9d8c6e");
         button3.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
                 "/assets/ToolBar/Buttons/Mining.png").toExternalForm(), 20, 20, false, false)));
         Button button4 = new Button("");
-        button4.setTranslateY(110);
+        button4.setTranslateY(110); button4.setStyle("-fx-background-color: #9d8c6e");
         button4.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
                 "/assets/ToolBar/Buttons/Storage.png").toExternalForm(), 20, 20, false, false)));
         Button button5 = new Button("");
-        button5.setTranslateY(110);
+        button5.setTranslateY(110); button5.setStyle("-fx-background-color: #9d8c6e");
         button5.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
                 "/assets/ToolBar/Buttons/Defensive.png").toExternalForm(), 20, 20, false, false)));
         Button button6 = new Button("");
-        button6.setTranslateY(110);
+        button6.setTranslateY(110); button6.setStyle("-fx-background-color: #9d8c6e");
         button6.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
                 "/assets/ToolBar/Buttons/Other.png").toExternalForm(), 20, 20, false, false)));
         Button button7 = new Button("");
-        button7.setTranslateY(110);
+        button7.setTranslateY(110); button7.setStyle("-fx-background-color: #9d8c6e");
         button7.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
                 "/assets/ToolBar/Buttons/Soldier.png").toExternalForm(), 20, 20, false, false)));
         setOnActionButtons(button1, button2, button3, button4, button5, button6, button7);
@@ -1266,7 +1330,7 @@ public class GameMenu extends Application {
 
         this.toolBarHBox = hBox;
         toolBar.getItems().add(hBoxButtons);
-        Button button8 = new Button("next turn");
+        Button button8 = new Button("next turn"); button8.getStyleClass().add("button-style");
         toolBar.getItems().add(button8);
         button8.setTranslateY(-55);
 //        button8.setTranslateX(1000);
@@ -1416,7 +1480,7 @@ public class GameMenu extends Application {
         removeFocus();
         String path = "";
         toolBarHBox.getChildren().clear();
-        toolBarHBox.setSpacing(10);
+        toolBarHBox.setSpacing(25);
         for (int i = 0; i < dataController.getSoldierBuildingsSize(); i++) {
             path = getClass().getResource("/assets/Buildings/" +
                     dataController.getSoldierBuildingNameByNumber(i) + ".png").toExternalForm();
@@ -1444,7 +1508,7 @@ public class GameMenu extends Application {
         removeFocus();
         String path = "";
         toolBarHBox.getChildren().clear();
-        toolBarHBox.setSpacing(10);
+        toolBarHBox.setSpacing(25);
         for (int i = 0; i < dataController.getOtherBuildingsSize(); i++) {
             path = getClass().getResource("/assets/Buildings/" +
                     dataController.getOtherBuildingNameByNumber(i) + ".png").toExternalForm();
@@ -1504,7 +1568,7 @@ public class GameMenu extends Application {
         removeFocus();
         String path = "";
         toolBarHBox.getChildren().clear();
-        toolBarHBox.setSpacing(10);
+        toolBarHBox.setSpacing(25);
         for (int i = 0; i < dataController.getStorageBuildingsSize(); i++) {
             path = getClass().getResource("/assets/Buildings/" +
                     dataController.getStorageBuildingNameByNumber(i) + ".png").toExternalForm();
@@ -1533,7 +1597,11 @@ public class GameMenu extends Application {
         String path = "";
         toolBarHBox.getChildren().clear();
         toolBarHBox.setSpacing(10);
+        VBox vBox = new VBox(); vBox.setSpacing(-15); vBox.setAlignment(Pos.CENTER);
+        HBox hBox1 = new HBox(); hBox1.setSpacing(20); hBox1.setAlignment(Pos.CENTER);
+        HBox hBox2 = new HBox(); hBox2.setSpacing(20); hBox2.setAlignment(Pos.CENTER);
         for (int i = 0; i < dataController.getMiningBuildingsSize(); i++) {
+            System.out.println("building : " + dataController.getMiningBuildingNameByNumber(i));
             path = getClass().getResource("/assets/Buildings/" +
                     dataController.getMiningBuildingNameByNumber(i) + ".png").toExternalForm();
             ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
@@ -1552,8 +1620,12 @@ public class GameMenu extends Application {
             imageView.setOnMouseDragged((MouseEvent event) -> {
                 event.setDragDetect(true);
             });
-            toolBarHBox.getChildren().add(imageView);
+            if (i < 4) hBox1.getChildren().add(imageView);
+            else hBox2.getChildren().add(imageView);
+//            toolBarHBox.getChildren().add(imageView);
         }
+        vBox.getChildren().addAll(hBox2, hBox1);
+        toolBarHBox.getChildren().add(vBox); toolBarHBox.setAlignment(Pos.CENTER);
     }
 
     private void openProductionBuildings() {
@@ -1561,10 +1633,20 @@ public class GameMenu extends Application {
         String path = "";
         toolBarHBox.getChildren().clear();
         toolBarHBox.setSpacing(10);
+        VBox vBox = new VBox(); vBox.setSpacing(-2); vBox.setAlignment(Pos.CENTER);
+        HBox hBox1 = new HBox(); hBox1.setSpacing(35); hBox1.setAlignment(Pos.CENTER);
+        HBox hBox2 = new HBox(); hBox2.setSpacing(35); hBox2.setAlignment(Pos.CENTER);
         for (int i = 0; i < dataController.getProductionBuildingsSize(); i++) {
+            System.out.println("production building : " + dataController.getProductionBuildingNameByNumber(i));
             path = getClass().getResource("/assets/Buildings/" +
                     dataController.getProductionBuildingNameByNumber(i) + ".png").toExternalForm();
-            ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
+            ImageView imageView;
+            if (dataController.getProductionBuildingNameByNumber(i).equals("mill"))
+                imageView = new ImageView(new Image(path, 38, 75, false, false));
+            else if (dataController.getProductionBuildingNameByNumber(i).equals("poleturner"))
+                imageView = new ImageView(new Image(path, 55, 55, false, false));
+            else
+                imageView = new ImageView(new Image(path, 75, 75, false, false));
             imageView.setId(dataController.getProductionBuildingNameByNumber(i));
             int finalI = i;
             imageView.setOnDragDetected((MouseEvent event) -> {
@@ -1580,15 +1662,19 @@ public class GameMenu extends Application {
             imageView.setOnMouseDragged((MouseEvent event) -> {
                 event.setDragDetect(true);
             });
-            toolBarHBox.getChildren().add(imageView);
+//            toolBarHBox.getChildren().add(imageView);
+            if (i < dataController.getProductionBuildingsSize()/2) hBox1.getChildren().add(imageView);
+            else hBox2.getChildren().add(imageView);
         }
+        vBox.getChildren().addAll(hBox1, hBox2);
+        toolBarHBox.getChildren().add(vBox); toolBarHBox.setAlignment(Pos.CENTER);
     }
 
     private void openGatehouseBuildings() {
         removeFocus();
         String path = "";
         toolBarHBox.getChildren().clear();
-        toolBarHBox.setSpacing(10);
+        toolBarHBox.setSpacing(25);
         for (int i = 0; i < dataController.getGatehouseBuildingsSize(); i++) {
             path = getClass().getResource("/assets/Buildings/" +
                     dataController.getGatehouseBuildingNameByNumber(i) + ".png").toExternalForm();
@@ -1610,6 +1696,7 @@ public class GameMenu extends Application {
             });
             toolBarHBox.getChildren().add(imageView);
         }
+
     }
 
     public void removeFocus() {

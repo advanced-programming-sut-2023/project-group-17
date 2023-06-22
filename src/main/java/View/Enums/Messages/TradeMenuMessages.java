@@ -7,6 +7,8 @@ public enum TradeMenuMessages {
     INVALID_AMOUNT,
     INVALID_PRICE,
     ID_DOES_NOT_EXISTS,
+    IMPROPER_ID,
+    INVALID_TRADE_TYPE,
     NO_USER_SELECTED
     ;
 }
