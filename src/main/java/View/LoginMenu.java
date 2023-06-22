@@ -13,6 +13,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -22,6 +23,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class LoginMenu extends Application {
+    private static Pane pane;
 
     public TextField username;
     public PasswordField password;
@@ -36,9 +38,18 @@ public class LoginMenu extends Application {
     public TextField forgotPasswordUsername;
     public Text forgotPasswordUsernameError;
     public Button loginButton;
+    public ImageView CaptchaImageView;
+    public TextField CaptchaTextField;
+    public Button ResetCaptchaButton;
+    public Button ConfirmCaptchaButton;
     private LoginMenuController controller;
+    private ImageView imageView;
+    private Captcha captcha;
     public LoginMenu() {
         controller = new LoginMenuController();
+        this.captcha = new Captcha();
+        this.CaptchaImageView = new ImageView(new Image(getClass().getResource
+                ("/Captcha/" + captcha.getAnswer() + ".png").toExternalForm(), 120, 80, false, false));
     }
     @Override
     public void start(Stage stage) throws Exception {
@@ -48,9 +59,18 @@ public class LoginMenu extends Application {
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 new BackgroundSize(1.0, 1.0, true, true, false, false))));
 
+        LoginMenu.pane = pane;
+        setCaptcha();
         stage.getScene().setRoot(pane);
         stage.setFullScreen(true);
         stage.show();
+    }
+
+    private void setCaptcha() {
+        imageView = new ImageView(new Image(getClass().getResource
+                ("/Captcha/" + captcha.getAnswer() + ".png").toExternalForm(), 120, 80, false, false));
+        imageView.setX(755); imageView.setY(559);
+        pane.getChildren().add(imageView);
     }
 
     @FXML
@@ -110,7 +130,7 @@ public class LoginMenu extends Application {
                         forgotPasswordUsername.getText()).getPasswordRecoveryAnswer().equals(securityQuestionAnswer.getText()));
             }
         });
-
+        loginButton.setDisable(true);
     }
 
     public void forgotPassword() {
@@ -255,6 +275,15 @@ public class LoginMenu extends Application {
                 popup.hide();
             }
         }));
+    }
+
+    public void resetCaptcha(MouseEvent mouseEvent) {
+        captcha.generateNewCaptcha();
+        setCaptcha();
+    }
+
+    public void checkCaptcha(MouseEvent mouseEvent) {
+        loginButton.setDisable(!CaptchaTextField.getText().equals(String.valueOf(captcha.getAnswer())));
     }
 
 

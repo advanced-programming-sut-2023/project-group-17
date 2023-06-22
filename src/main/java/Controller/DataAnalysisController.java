@@ -123,4 +123,8 @@ public class DataAnalysisController {
         }
         return false;
     }
+
+    public ArrayList<String> getCaptchas() {
+        return Database.getCaptcha();
+    }
 }

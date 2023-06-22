@@ -18,6 +18,7 @@ public class Main extends Application{
         Pane pane = new Pane();
         stage.setScene(new Scene(pane));
         Main.stage = stage;
+        controller.loadCaptcha();
         if (controller.checkStayLoggedIn()) new MainMenu().start(stage);
         else new LoginMenu().start(stage);
     }

@@ -106,4 +106,8 @@ public class LoginMenuController {
     public User getUserByUsername(String username) {
         return Database.getUserByUsername(username);
     }
+
+    public void loadCaptcha() {
+        Database.loadCaptcha();
+    }
 }

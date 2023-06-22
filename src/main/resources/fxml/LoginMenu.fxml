@@ -5,25 +5,30 @@
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="668.0" prefWidth="1016.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.LoginMenu">
+<AnchorPane prefHeight="1000.0" prefWidth="1016.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.LoginMenu">
    <children>
       <TextField fx:id="username" layoutX="670.0" layoutY="227.0" promptText="Username" />
       <PasswordField fx:id="password" layoutX="670.0" layoutY="282.0" promptText="Password" />
-      <Button fx:id="loginButton" layoutX="722.0" layoutY="334.0" mnemonicParsing="false" onMouseClicked="#login" text="Login"/>
-      <Hyperlink layoutX="783.0" layoutY="534.0" onMouseClicked="#enterSignupMenu" text="Sign In" />
-      <Text layoutX="653.0" layoutY="550.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Don't Have an Account?" />
+      <Button fx:id="loginButton" layoutX="722.0" layoutY="334.0" mnemonicParsing="false" onMouseClicked="#login" text="Login" />
+      <Hyperlink layoutX="784.0" layoutY="654.0" onMouseClicked="#enterSignupMenu" text="Sign In" />
+      <Text layoutX="654.0" layoutY="670.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Don't Have an Account?" />
       <CheckBox fx:id="forgotPassword" layoutX="690.0" layoutY="384.0" mnemonicParsing="false" onAction="#forgotPassword" text="Forgot Password" />
       <Text fx:id="securityQuestion" layoutX="586.0" layoutY="437.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" wrappingWidth="167.99993896484375" />
       <TextField fx:id="securityQuestionAnswer" layoutX="754.0" layoutY="420.0" prefHeight="25.0" prefWidth="103.0" promptText="Security Answer" visible="false" />
-      <PasswordField fx:id="newPassword" layoutX="670.0" layoutY="460.0" promptText="New Password" visible="false" disable="true"/>
-      <Button fx:id="submitButton" layoutX="718.0" layoutY="497.0" mnemonicParsing="false" onMouseClicked="#submit" text="Submit" visible="false"/>
+      <PasswordField fx:id="newPassword" disable="true" layoutX="670.0" layoutY="460.0" promptText="New Password" visible="false" />
+      <Button fx:id="submitButton" layoutX="718.0" layoutY="497.0" mnemonicParsing="false" onMouseClicked="#submit" text="Submit" visible="false" />
       <Text fx:id="newPasswordError" layoutX="844.0" layoutY="477.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
       <Text fx:id="usernameError" layoutX="848.0" layoutY="244.0" strokeType="OUTSIDE" strokeWidth="0.0" />
       <Text fx:id="passwordError" layoutX="848.0" layoutY="299.0" strokeType="OUTSIDE" strokeWidth="0.0" />
       <TextField fx:id="forgotPasswordUsername" layoutX="671.0" layoutY="380.0" promptText="Username" visible="false" />
       <Text fx:id="forgotPasswordUsernameError" layoutX="846.0" layoutY="397.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+<!--      <ImageView fx:id="CaptchaImageView" fitHeight="71.0" fitWidth="92.0" layoutX="755.0" layoutY="559.0" pickOnBounds="true" preserveRatio="true" />-->
+      <TextField fx:id="CaptchaTextField" layoutX="597.0" layoutY="564.0" prefHeight="26.0" prefWidth="115.0" />
+      <Button fx:id="ResetCaptchaButton" layoutX="662.0" layoutY="607.0" mnemonicParsing="false" text="Reset" onMouseClicked="#resetCaptcha"/>
+      <Button fx:id="ConfirmCaptchaButton" layoutX="597.0" layoutY="608.0" mnemonicParsing="false" text="Confirm" onMouseClicked="#checkCaptcha"/>
    </children>
 </AnchorPane>
