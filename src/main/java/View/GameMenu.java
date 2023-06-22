@@ -419,7 +419,7 @@ public class GameMenu extends Application {
             toolBarHBox.getChildren().add(vBox);
         }
         button.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
-                "/assets/ToolBar/Buttons/unitMenu.png").toExternalForm(), 20, 20, false, false)));
+                "/assets/ToolBar/Buttons1/unitMenu.png").toExternalForm(), 20, 20, false, false)));
         toolBarHBox.getChildren().add(button);
         button.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -1261,13 +1261,13 @@ public class GameMenu extends Application {
                 "/assets/ToolBar/menu.jpeg").toExternalForm()),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 new BackgroundSize(1.0, 1.0, true, true, false, false))));
-        VBox vBox = new VBox();
+        VBox vBox = new VBox(); vBox.setSpacing(5);
         vBox.setAlignment(Pos.CENTER_LEFT);
-        Button populationButton = new Button();
+        Button populationButton = new Button(); populationButton.setStyle("-fx-background-color: #9d8c6e");
         populationButton.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
                 "/assets/ToolBar/Buttons/population.png").toExternalForm(), 20, 20, false, false)));
         populationButton.setOnMouseClicked(e -> populationPopUp());
-        Button empireButton = new Button();
+        Button empireButton = new Button(); empireButton.setStyle("-fx-background-color: #9d8c6e");
         empireButton.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
                 "/assets/ToolBar/Buttons/Empire.png").toExternalForm(), 20, 20, false, false)));
         setOnActionEmpireButton(empireButton);
@@ -1283,31 +1283,31 @@ public class GameMenu extends Application {
         hBoxButtons.setPrefHeight(30);
 
         Button button1 = new Button();
-        button1.setTranslateY(110);
+        button1.setTranslateY(110); button1.setStyle("-fx-background-color: #9d8c6e");
         button1.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
                 "/assets/ToolBar/Buttons/Gatehouse.png").toExternalForm(), 20, 20, false, false)));
         Button button2 = new Button("");
-        button2.setTranslateY(110);
+        button2.setTranslateY(110); button2.setStyle("-fx-background-color: #9d8c6e");
         button2.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
                 "/assets/ToolBar/Buttons/Production.png").toExternalForm(), 20, 20, false, false)));
         Button button3 = new Button("");
-        button3.setTranslateY(110);
+        button3.setTranslateY(110); button3.setStyle("-fx-background-color: #9d8c6e");
         button3.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
                 "/assets/ToolBar/Buttons/Mining.png").toExternalForm(), 20, 20, false, false)));
         Button button4 = new Button("");
-        button4.setTranslateY(110);
+        button4.setTranslateY(110); button4.setStyle("-fx-background-color: #9d8c6e");
         button4.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
                 "/assets/ToolBar/Buttons/Storage.png").toExternalForm(), 20, 20, false, false)));
         Button button5 = new Button("");
-        button5.setTranslateY(110);
+        button5.setTranslateY(110); button5.setStyle("-fx-background-color: #9d8c6e");
         button5.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
                 "/assets/ToolBar/Buttons/Defensive.png").toExternalForm(), 20, 20, false, false)));
         Button button6 = new Button("");
-        button6.setTranslateY(110);
+        button6.setTranslateY(110); button6.setStyle("-fx-background-color: #9d8c6e");
         button6.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
                 "/assets/ToolBar/Buttons/Other.png").toExternalForm(), 20, 20, false, false)));
         Button button7 = new Button("");
-        button7.setTranslateY(110);
+        button7.setTranslateY(110); button7.setStyle("-fx-background-color: #9d8c6e");
         button7.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
                 "/assets/ToolBar/Buttons/Soldier.png").toExternalForm(), 20, 20, false, false)));
         setOnActionButtons(button1, button2, button3, button4, button5, button6, button7);
