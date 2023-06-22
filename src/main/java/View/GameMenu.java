@@ -225,6 +225,8 @@ public class GameMenu extends Application {
         primaryStage.getScene().setRoot(borderPane);
         primaryStage.getScene().getStylesheets().add(getClass().getResource("/CSS/Slider.css").toExternalForm());
         primaryStage.getScene().getStylesheets().add(getClass().getResource("/CSS/PopUp.css").toExternalForm());
+        primaryStage.getScene().getStylesheets().add(getClass().getResource("/CSS/Button.css").toExternalForm());
+//        primaryStage.getScene().getStylesheets().add(getClass().getResource("/CSS/CheckComboBox.css").toExternalForm());
         primaryStage.setFullScreen(true);
         primaryStage.show();
     }
@@ -703,8 +705,8 @@ public class GameMenu extends Application {
 //        toolBarHBox.setTranslateX(-70);
         toolBarHBox.setTranslateX(-140);
 
-        Button buy = new Button("Buy"); buy.setDisable(true); buy.setPrefWidth(70);
-        Button sell = new Button("Sell"); sell.setDisable(true); sell.setPrefWidth(70);
+        Button buy = new Button("Buy"); buy.setDisable(true); buy.setPrefWidth(65); buy.getStyleClass().add("button-style");
+        Button sell = new Button("Sell"); sell.setDisable(true); sell.setPrefWidth(65); sell.getStyleClass().add("button-style");
         Text text = getText();
         VBox vBox1 = new VBox(); vBox1.setSpacing(10); vBox1.setAlignment(Pos.CENTER);
         vBox1.getChildren().addAll(buy, text, sell);
@@ -719,7 +721,7 @@ public class GameMenu extends Application {
         toolBarHBox.getChildren().addAll(vBox1, vBox);
 
         //TODO: trade o khoshgel konim:D
-        Button button = new Button("Trade");
+        Button button = new Button("Trade"); button.setPrefWidth(62); button.getStyleClass().add("button-style");
         button.setOnMouseClicked(mouseEvent -> {
             try {
                 handleTradeMenu();
@@ -787,9 +789,9 @@ public class GameMenu extends Application {
         Font font = Font.font("Showcard Gothic", FontWeight.SEMI_BOLD, FontPosture.REGULAR, 16);
         text.setFont(font);
 
-        Button backButton = new Button("Back"); backButton.setPrefWidth(70);
-        Button newButton = new Button("New"); newButton.setPrefWidth(70);
-        Button historyButton = new Button("History"); historyButton.setPrefWidth(70);
+        Button backButton = new Button("Back"); backButton.setPrefWidth(70); backButton.getStyleClass().add("button-style");
+        Button newButton = new Button("New"); newButton.setPrefWidth(70); newButton.getStyleClass().add("button-style");
+        Button historyButton = new Button("History"); historyButton.setPrefWidth(70); historyButton.getStyleClass().add("button-style");
         HBox hBox = new HBox(newButton, historyButton); hBox.setSpacing(20); hBox.setAlignment(Pos.CENTER);
         HBox hBox1 = new HBox(backButton); hBox1.setAlignment(Pos.CENTER);
         VBox vBox = new VBox(text, hBox, hBox1); vBox.setSpacing(20); vBox.setAlignment(Pos.CENTER);
@@ -809,12 +811,12 @@ public class GameMenu extends Application {
         toolBarHBox.setTranslateX(-148);
 
 //        HBox hBox = new HBox();
-        Button backButton = new Button("Back"); backButton.setPrefWidth(50);
+        Button backButton = new Button("Back"); backButton.setPrefWidth(50); backButton.getStyleClass().add("button-style");
         VBox vBoxButtons = new VBox(); vBoxButtons.setSpacing(5);
 
-        Button donate = new Button("Donate"); donate.setDisable(true);
-        Button request = new Button("Request"); request.setDisable(true);
-        TextField messageTextField = new TextField();
+        Button donate = new Button("Donate"); donate.setDisable(true); donate.setPrefWidth(65); donate.getStyleClass().add("button-style");
+        Button request = new Button("Request"); request.setDisable(true); request.setPrefWidth(65); request.getStyleClass().add("button-style");
+        TextField messageTextField = new TextField(); messageTextField.getStyleClass().add("button-style");
         messageTextField.setPromptText("Enter Your Message");
 
 //        String usernames = "";
@@ -845,7 +847,7 @@ public class GameMenu extends Application {
         ArrayList<HBox> hBoxes = getShopAndTradeMenuHbox();
 
         addItemImage(item, text, donate, request, hBoxes, vBox,
-                amountValue, amountText, messageTextField.getText(), 40);
+                amountValue, amountText, messageTextField.getText(), 38);
 
 //        hBox.getChildren().add(vBoxButtons);
 

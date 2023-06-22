@@ -1,0 +1,28 @@
+/*.button {*/
+/*    background-color: #d5c4a1;*/
+/*    color: #fff;*/
+/*    border: none;*/
+/*    padding: 10px 20px;*/
+/*    font-size: 16px;*/
+/*    cursor: pointer;*/
+/*    text-shadow: 1px 1px #000;*/
+/*    box-shadow: 2px 2px #000;*/
+/*}*/
+
+.button-style {
+    -fx-background-color: #9d8c6e;
+    -fx-text-fill: #000000;
+
+    -fx-border-color: transparent;
+    -fx-padding: 4px 12px;
+    -fx-font-size: 12px;
+    -fx-font-family: "Goudy Old Style", serif;
+    -fx-cursor: hand;
+    -fx-text-shadow: 1px 1px #000;
+    -fx-box-shadow: 1px 1px #000;
+    -fx-prompt-text-fill: #3f3d3d;
+}
+
+button:hover {
+    background-color: #bfa67a;
+}
