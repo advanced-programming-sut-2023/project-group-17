@@ -293,6 +293,8 @@ public class GameMenu extends Application {
                                         droppedBuilding + ".png").toExternalForm();
                                 if (droppedBuilding.equals("oxTether"))
                                     imageView = new ImageView(new Image(path, 50, 50, false, false));
+                                else if (droppedBuilding.equals("mill"))
+                                    imageView = new ImageView(new Image(path, 40, 80, false, false));
                                 else
                                     imageView = new ImageView(new Image(path, 80, 80, false, false));
                                 handleSelectBuilding(imageView, droppedBuilding, columnIndex + x, rowIndex + y);
@@ -647,7 +649,10 @@ public class GameMenu extends Application {
                                         gridPane.add(imageView, columnIndex, rowIndex);
                                     }
                                     imageView = new ImageView(new Image(path, 50, 50, false, false));
-                                } else
+                                }
+                                else if (db.getString().equals("mill"))
+                                    imageView = new ImageView(new Image(path, 40, 80, false, false));
+                                else
                                     imageView = new ImageView(new Image(path, 80, 80, false, false));
                                 handleSelectBuilding(imageView, db.getString(), columnIndex, rowIndex);
                                 gridPane.add(imageView, columnIndex, rowIndex);
@@ -668,6 +673,8 @@ public class GameMenu extends Application {
                                     }
                                     imageView = new ImageView(new Image(path, 50, 50, false, false));
                                 }
+                                else if (db.getString().equals("mill"))
+                                    imageView = new ImageView(new Image(path, 40, 80, false, false));
                                 else
                                     imageView = new ImageView(new Image(path, 80, 80, false, false));
                                 handleSelectBuilding(imageView, db.getString(), columnIndex, rowIndex);
@@ -1226,6 +1233,8 @@ public class GameMenu extends Application {
                                         droppedBuilding + ".png").toExternalForm();
                                 if (droppedBuilding.equals("oxTether"))
                                     imageView = new ImageView(new Image(path, 50, 50, false, false));
+                                else if (droppedBuilding.equals("mill"))
+                                    imageView = new ImageView(new Image(path, 40, 80, false, false));
                                 else
                                     imageView = new ImageView(new Image(path, 80, 80, false, false));
                                 handleSelectBuilding(imageView, droppedBuilding, columnIndex + x, rowIndex + y);
@@ -1471,7 +1480,7 @@ public class GameMenu extends Application {
         removeFocus();
         String path = "";
         toolBarHBox.getChildren().clear();
-        toolBarHBox.setSpacing(10);
+        toolBarHBox.setSpacing(25);
         for (int i = 0; i < dataController.getSoldierBuildingsSize(); i++) {
             path = getClass().getResource("/assets/Buildings/" +
                     dataController.getSoldierBuildingNameByNumber(i) + ".png").toExternalForm();
@@ -1499,7 +1508,7 @@ public class GameMenu extends Application {
         removeFocus();
         String path = "";
         toolBarHBox.getChildren().clear();
-        toolBarHBox.setSpacing(10);
+        toolBarHBox.setSpacing(25);
         for (int i = 0; i < dataController.getOtherBuildingsSize(); i++) {
             path = getClass().getResource("/assets/Buildings/" +
                     dataController.getOtherBuildingNameByNumber(i) + ".png").toExternalForm();
@@ -1559,7 +1568,7 @@ public class GameMenu extends Application {
         removeFocus();
         String path = "";
         toolBarHBox.getChildren().clear();
-        toolBarHBox.setSpacing(10);
+        toolBarHBox.setSpacing(25);
         for (int i = 0; i < dataController.getStorageBuildingsSize(); i++) {
             path = getClass().getResource("/assets/Buildings/" +
                     dataController.getStorageBuildingNameByNumber(i) + ".png").toExternalForm();
@@ -1588,7 +1597,11 @@ public class GameMenu extends Application {
         String path = "";
         toolBarHBox.getChildren().clear();
         toolBarHBox.setSpacing(10);
+        VBox vBox = new VBox(); vBox.setSpacing(-15); vBox.setAlignment(Pos.CENTER);
+        HBox hBox1 = new HBox(); hBox1.setSpacing(20); hBox1.setAlignment(Pos.CENTER);
+        HBox hBox2 = new HBox(); hBox2.setSpacing(20); hBox2.setAlignment(Pos.CENTER);
         for (int i = 0; i < dataController.getMiningBuildingsSize(); i++) {
+            System.out.println("building : " + dataController.getMiningBuildingNameByNumber(i));
             path = getClass().getResource("/assets/Buildings/" +
                     dataController.getMiningBuildingNameByNumber(i) + ".png").toExternalForm();
             ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
@@ -1607,8 +1620,12 @@ public class GameMenu extends Application {
             imageView.setOnMouseDragged((MouseEvent event) -> {
                 event.setDragDetect(true);
             });
-            toolBarHBox.getChildren().add(imageView);
+            if (i < 4) hBox1.getChildren().add(imageView);
+            else hBox2.getChildren().add(imageView);
+//            toolBarHBox.getChildren().add(imageView);
         }
+        vBox.getChildren().addAll(hBox2, hBox1);
+        toolBarHBox.getChildren().add(vBox); toolBarHBox.setAlignment(Pos.CENTER);
     }
 
     private void openProductionBuildings() {
@@ -1616,10 +1633,20 @@ public class GameMenu extends Application {
         String path = "";
         toolBarHBox.getChildren().clear();
         toolBarHBox.setSpacing(10);
+        VBox vBox = new VBox(); vBox.setSpacing(-2); vBox.setAlignment(Pos.CENTER);
+        HBox hBox1 = new HBox(); hBox1.setSpacing(35); hBox1.setAlignment(Pos.CENTER);
+        HBox hBox2 = new HBox(); hBox2.setSpacing(35); hBox2.setAlignment(Pos.CENTER);
         for (int i = 0; i < dataController.getProductionBuildingsSize(); i++) {
+            System.out.println("production building : " + dataController.getProductionBuildingNameByNumber(i));
             path = getClass().getResource("/assets/Buildings/" +
                     dataController.getProductionBuildingNameByNumber(i) + ".png").toExternalForm();
-            ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
+            ImageView imageView;
+            if (dataController.getProductionBuildingNameByNumber(i).equals("mill"))
+                imageView = new ImageView(new Image(path, 38, 75, false, false));
+            else if (dataController.getProductionBuildingNameByNumber(i).equals("poleturner"))
+                imageView = new ImageView(new Image(path, 55, 55, false, false));
+            else
+                imageView = new ImageView(new Image(path, 75, 75, false, false));
             imageView.setId(dataController.getProductionBuildingNameByNumber(i));
             int finalI = i;
             imageView.setOnDragDetected((MouseEvent event) -> {
@@ -1635,15 +1662,19 @@ public class GameMenu extends Application {
             imageView.setOnMouseDragged((MouseEvent event) -> {
                 event.setDragDetect(true);
             });
-            toolBarHBox.getChildren().add(imageView);
+//            toolBarHBox.getChildren().add(imageView);
+            if (i < dataController.getProductionBuildingsSize()/2) hBox1.getChildren().add(imageView);
+            else hBox2.getChildren().add(imageView);
         }
+        vBox.getChildren().addAll(hBox1, hBox2);
+        toolBarHBox.getChildren().add(vBox); toolBarHBox.setAlignment(Pos.CENTER);
     }
 
     private void openGatehouseBuildings() {
         removeFocus();
         String path = "";
         toolBarHBox.getChildren().clear();
-        toolBarHBox.setSpacing(10);
+        toolBarHBox.setSpacing(25);
         for (int i = 0; i < dataController.getGatehouseBuildingsSize(); i++) {
             path = getClass().getResource("/assets/Buildings/" +
                     dataController.getGatehouseBuildingNameByNumber(i) + ".png").toExternalForm();
@@ -1665,6 +1696,7 @@ public class GameMenu extends Application {
             });
             toolBarHBox.getChildren().add(imageView);
         }
+
     }
 
     public void removeFocus() {
