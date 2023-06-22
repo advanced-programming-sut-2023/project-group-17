@@ -89,6 +89,8 @@ public class GameMenu extends Application {
     private static String sendTradeTo;
     private Node focusNode;
     private HashMap<ImageView, Integer> poisonCells;
+    private TextField messageTextField;
+    private TextField idTextField;
 
     public GameMenu() {
         this.gameMenuController = new GameMenuController();
@@ -734,7 +736,7 @@ public class GameMenu extends Application {
     }
 
     private void addItemImage(ArrayList<Item.ItemType> item, Text text, Button button1, Button button2,
-                              ArrayList<HBox> hBoxes, VBox vBox, AtomicInteger amountValue, Text amountText, String message, int size) {
+                              ArrayList<HBox> hBoxes, VBox vBox, AtomicInteger amountValue, Text amountText, TextField textField, int size) {
         for (int i = 0; i < item.size(); i++) {
             String path = getClass().getResource("/assets/Item/" +
                     item.get(i).getName() + ".png").toExternalForm();
@@ -755,8 +757,14 @@ public class GameMenu extends Application {
                     resetAmountValue(amountValue, amountText);
                     text.setText(item.get(finalI).getName());
                     button1.setDisable(false); button2.setDisable(false);
-                    button1.setOnMouseClicked(mouseEvent -> donateResource(amountValue, item.get(finalI), message));
-                    button2.setOnMouseClicked(mouseEvent -> requestResource(amountValue, item.get(finalI), message));
+                    button1.setOnMouseClicked(mouseEvent -> {
+                        donateResource(amountValue, item.get(finalI));
+                        textField.clear();
+                    });
+                    button2.setOnMouseClicked(mouseEvent -> {
+                        requestResource(amountValue, item.get(finalI));
+                        textField.clear();
+                    });
                     //button1 donate
                 }
 
@@ -816,7 +824,7 @@ public class GameMenu extends Application {
 
         Button donate = new Button("Donate"); donate.setDisable(true); donate.setPrefWidth(65); donate.getStyleClass().add("button-style");
         Button request = new Button("Request"); request.setDisable(true); request.setPrefWidth(65); request.getStyleClass().add("button-style");
-        TextField messageTextField = new TextField(); messageTextField.getStyleClass().add("button-style");
+        messageTextField = new TextField(); messageTextField.getStyleClass().add("button-style");
         messageTextField.setPromptText("Enter Your Message");
 
 //        String usernames = "";
@@ -847,7 +855,7 @@ public class GameMenu extends Application {
         ArrayList<HBox> hBoxes = getShopAndTradeMenuHbox();
 
         addItemImage(item, text, donate, request, hBoxes, vBox,
-                amountValue, amountText, messageTextField.getText(), 38);
+                amountValue, amountText, messageTextField, 38);
 
 //        hBox.getChildren().add(vBoxButtons);
 
@@ -886,13 +894,13 @@ public class GameMenu extends Application {
         backButton.setOnMouseClicked(mouseEvent -> handleTradeMenu());
     }
 
-    private void donateResource(AtomicInteger amountValue, Item.ItemType itemType, String message) {
+    private void donateResource(AtomicInteger amountValue, Item.ItemType itemType) {
         Popup popup = getPopup();
         Label label = getLabel();
         popup.getContent().add(label);
         Timeline timeline = hidePopup(popup);
 
-        switch (tradeMenuController.tradeRequest(itemType.getName(), amountValue.get(), message, sendTradeTo, TradeType.DONATE)) {
+        switch (tradeMenuController.tradeRequest(itemType.getName(), amountValue.get(), messageTextField.getText(), sendTradeTo, TradeType.DONATE)) {
             case SUCCESS:
                 label.setText("Item Donated Successfully");
                 popup.show(Main.stage);
@@ -912,13 +920,13 @@ public class GameMenu extends Application {
         }
     }
 
-    private void requestResource(AtomicInteger amountValue, Item.ItemType itemType, String message) {
+    private void requestResource(AtomicInteger amountValue, Item.ItemType itemType) {
         Popup popup = getPopup();
         Label label = getLabel();
         popup.getContent().add(label);
         Timeline timeline = hidePopup(popup);
 
-        switch (tradeMenuController.tradeRequest(itemType.getName(), amountValue.get(), message, sendTradeTo, TradeType.REQUEST)) {
+        switch (tradeMenuController.tradeRequest(itemType.getName(), amountValue.get(), messageTextField.getText(), sendTradeTo, TradeType.REQUEST)) {
             case SUCCESS:
                 label.setText("Request Sent Successfully");
                 popup.show(Main.stage);
@@ -941,20 +949,67 @@ public class GameMenu extends Application {
     }
 
     private void openTradeHistory() {
-        //TODO
         toolBarHBox.getChildren().clear();
-        Button backButton = new Button("Back"); backButton.setPrefWidth(70);
-        VBox vBoxBack = new VBox(backButton);
+        VBox vBox = new VBox(); vBox.setSpacing(8);
 
+        Button backButton = new Button("Back"); backButton.setPrefWidth(60); backButton.getStyleClass().add("button-style");
+        Button acceptRequestButton = new Button("Accept"); acceptRequestButton.getStyleClass().add("button-style");
+        idTextField = new TextField(); idTextField.getStyleClass().add("button-style");
+        idTextField.setPrefWidth(50); idTextField.setPromptText("Id");
 
+        Text tradeRequest = new Text();
+        tradeRequest.setText(tradeMenuController.tradeList()); tradeRequest.setFont(new Font("Goudy Old Style", 13));
 
+        HBox hBox = new HBox(idTextField, acceptRequestButton, backButton); hBox.setSpacing(8); hBox.setTranslateX(220);
+        vBox.getChildren().addAll(tradeRequest, hBox);
 
-
-        HBox hBox = new HBox(vBoxBack);
-        toolBarHBox.getChildren().add(hBox);
-
+//        HBox hBox = new HBox(vBoxBack);
+        toolBarHBox.getChildren().add(vBox); toolBarHBox.setTranslateX(-148);
+        toolBarHBox.setAlignment(Pos.CENTER);
 
         backButton.setOnMouseClicked(mouseEvent -> handleTradeMenu());
+        acceptRequestButton.setOnMouseClicked(mouseEvent -> acceptRequest(idTextField));
+    }
+
+    private void acceptRequest(TextField idTextField) {
+        Popup popup = getPopup();
+        Label label = getLabel();
+        popup.getContent().add(label);
+        Timeline timeline = hidePopup(popup);
+
+        if (idTextField.getText().equals("")) {
+            label.setText("Improper Id!");
+            popup.show(Main.stage);
+            timeline.play();
+        }
+
+        switch (tradeMenuController.acceptRequest(idTextField.getText())) {
+            case IMPROPER_ID:
+                label.setText("Invalid Id format");
+                popup.show(Main.stage);
+                timeline.play();
+                break;
+            case SUCCESS:
+                label.setText("Item Donated Successfully");
+                popup.show(Main.stage);
+                timeline.play();
+                break;
+            case INVALID_TRADE_TYPE:
+                label.setText("Invalid Trade Type");
+                popup.show(Main.stage);
+                timeline.play();
+                break;
+            case INSUFFICIENT_ITEM_AMOUNT:
+                label.setText("Insufficient Item Amount");
+                popup.show(Main.stage);
+                timeline.play();
+                break;
+            case ID_DOES_NOT_EXISTS:
+                label.setText("Id Does Not Exist");
+                popup.show(Main.stage);
+                timeline.play();
+                break;
+        }
     }
 
     public ArrayList<HBox> getShopAndTradeMenuHbox() {
@@ -1266,7 +1321,7 @@ public class GameMenu extends Application {
 
         this.toolBarHBox = hBox;
         toolBar.getItems().add(hBoxButtons);
-        Button button8 = new Button("next turn");
+        Button button8 = new Button("next turn"); button8.getStyleClass().add("button-style");
         toolBar.getItems().add(button8);
         button8.setTranslateY(-55);
 //        button8.setTranslateX(1000);

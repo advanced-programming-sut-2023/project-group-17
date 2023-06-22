@@ -16,6 +16,8 @@ public class TradeMenuController {
 //        if(price < 0) return TradeMenuMessages.INVALID_PRICE;
         if (user.equals("")) return TradeMenuMessages.NO_USER_SELECTED;
 
+        System.out.println("message : " + message);
+
         item = Item.getAvailableItems(itemName);
         if((item == null || item.getNumber() < itemAmount) && type.equals(TradeType.DONATE)) return TradeMenuMessages.INSUFFICIENT_ITEM_AMOUNT;
 
@@ -42,14 +44,21 @@ public class TradeMenuController {
         return TradeMenuMessages.SUCCESS;
     }
 
-    public TradeMenuMessages acceptRequest(int id, String message) {
-        Empire receiverEmpire = Database.getCurrentUser().getEmpire();
-//        if(receiverEmpire.getReceivedRequestById(id) == null) return TradeMenuMessages.ID_DOES_NOT_EXISTS;
+    public TradeMenuMessages acceptRequest(String id) {
+        if (!isInteger(id)) return TradeMenuMessages.IMPROPER_ID;
 
-        TradeRequest request = receiverEmpire.getReceivedRequestById(id);
-        Empire senderEmpire = request.getSenderUser().getEmpire();
+        Empire senderEmpire = Database.getCurrentUser().getEmpire();
+        if(senderEmpire.getReceivedRequestById(Integer.parseInt(id)) == null) return TradeMenuMessages.ID_DOES_NOT_EXISTS;
+
+        TradeRequest request = senderEmpire.getReceivedRequestById(Integer.parseInt(id));
+        Empire receiverEmpire = request.getSenderUser().getEmpire();
         int amount = request.getItemAmount();
         String itemName = request.getItemType().getName();
+
+        if (request.getTradeType().equals(TradeType.DONATE)) return TradeMenuMessages.INVALID_TRADE_TYPE;
+
+        if (Item.getAvailableItems(request.getItemType().getName()).getNumber() < amount)
+            return TradeMenuMessages.INSUFFICIENT_ITEM_AMOUNT;
 
         changeResourceAmount(receiverEmpire, senderEmpire, amount, itemName);
 //        double price = request.getPrice();
@@ -71,9 +80,21 @@ public class TradeMenuController {
 
 //        senderEmpire.changeCoins(-price);
 //        receiverEmpire.changeCoins(price);
-        receiverEmpire.getReceivedRequestById(id).setAcceptMessage(message);
-        receiverEmpire.getReceivedRequestById(id).setAccepted();
+
+//        receiverEmpire.getReceivedRequestById(id).setAcceptMessage(message);
+//        receiverEmpire.getReceivedRequestById(id).setAccepted();
         return TradeMenuMessages.SUCCESS;
+    }
+
+    public static boolean isInteger(String id) {
+        try {
+            Integer.parseInt(id);
+        } catch(NumberFormatException e) {
+            return false;
+        } catch(NullPointerException e) {
+            return false;
+        }
+        return true;
     }
 
     public void changeResourceAmount(Empire receiverEmpire, Empire senderEmpire, int amount, String itemName) {
@@ -112,56 +133,64 @@ public class TradeMenuController {
         return result;
     }
 
-//    public String tradeList() {
-//        String result = "";
-//
-//        for (TradeRequest request : Database.getCurrentUser().getEmpire().getReceivedTradeRequests()) {
-//            result += receivedTradeToString(request);
+//    public int getNumberOfReceivedTrade() {
+//        int counter = 0;
+//        for (TradeRequest receivedTradeRequest : Database.getCurrentUser().getEmpire().getReceivedTradeRequests()) {
+//            counter++;
 //        }
-//
-//        return result;
+//        return counter;
 //    }
 
-//    public String tradeHistory() {
-//        String result = "";
-//
-//        result += "Accepted Requests: " + "\n";
-//        for (TradeRequest request : Database.getCurrentUser().getEmpire().getReceivedTradeRequests()) {
-//            if(request.isAccepted())
-//                result += receivedTradeToString(request);
-//        }
-//
-//        result += "Sent Requests: " + "\n";
-//        for (TradeRequest request : Database.getCurrentUser().getEmpire().getSentTradeRequests()) {
-//            result += sentTradeToString(request);
-//        }
-//
-//        return result;
-//    }
-//
-//    public String showRequestsNotification() {
-//        String result = "";
-//
-//        for (TradeRequest request : Database.getCurrentUser().getEmpire().getReceivedTradeRequests()) {
-//            if(!request.isSeen()){
-//                result += "id " + request.getId() + ") from " + request.getSenderUser() +
-//                        " | message: " + request.getSentMessage() + "\n";
-//                request.setSeen();
-//            }
-//        }
-//
-//        return result;
-//    }
+    public String tradeList() {
+        String result = "";
 
-//    public String receivedTradeToString(TradeRequest request){
-//        return "id " + request.getId() + ") from " + request.getSenderUser().getUsername() + " | resource type: " +
-//                request.getItemType() + " | amount: " + request.getItemAmount() +
-//                " | price: " + request.getPrice() + " | message: " + request.getSentMessage() + "\n";
-//    }
+        for (TradeRequest request : Database.getCurrentUser().getEmpire().getReceivedTradeRequests()) {
+                result += receivedTradeToString(request);
+        }
 
-//    public String sentTradeToString(TradeRequest request){
-//        return "id " + request.getId() + " | resource type: " +
-//                request.getItemType() + " | amount: " + request.getItemAmount() +
-//                " | price: " + request.getPrice() + " | message: " + request.getSentMessage() + "\n";
-//    }
+        return result;
+    }
+
+    public String tradeHistory() {
+        String result = "";
+
+        result += "Accepted Requests: " + "\n";
+        for (TradeRequest request : Database.getCurrentUser().getEmpire().getReceivedTradeRequests()) {
+            if(request.isAccepted())
+                result += receivedTradeToString(request);
+        }
+
+        result += "Sent Requests: " + "\n";
+        for (TradeRequest request : Database.getCurrentUser().getEmpire().getSentTradeRequests()) {
+            result += sentTradeToString(request);
+        }
+
+        return result;
+    }
+
+    public String showRequestsNotification() {
+        String result = "";
+
+        for (TradeRequest request : Database.getCurrentUser().getEmpire().getReceivedTradeRequests()) {
+            if(!request.isSeen()){
+                result += "id " + request.getId() + ") from " + request.getSenderUser() +
+                        " | message: " + request.getSentMessage() + "\n";
+                request.setSeen();
+            }
+        }
+
+        return result;
+    }
+
+    public String receivedTradeToString(TradeRequest request){
+        return request.getId() + ") from " + request.getSenderUser().getUsername() + ", resource: " +
+                request.getItemType().getName() + ", amount: " + request.getItemAmount() +
+               ", type: " + request.getTradeType() + ", message: " + request.getSentMessage() + "\n";
+    }
+
+    public String sentTradeToString(TradeRequest request){
+        return "id " + request.getId() + " | resource type: " +
+                request.getItemType() + " | amount: " + request.getItemAmount() +
+                " | message: " + request.getSentMessage() + "\n";
+    }
 }
