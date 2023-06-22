@@ -127,4 +127,11 @@ public class DataAnalysisController {
     public ArrayList<String> getCaptchas() {
         return Database.getCaptcha();
     }
+
+    public Building getCurrentUserBuildingByName(String name) {
+        for (Building building : Database.getCurrentUser().getEmpire().getBuildings()) {
+            if (building.getBuildingName().equals(name)) return building;
+        }
+        return null;
+    }
 }

@@ -532,7 +532,7 @@ public class GameMenu extends Application {
                 label.setText("Destination set");
                 popup.show(Main.stage);
                 timeline.play();
-//                soldiers.clear();
+                soldiers.clear();
                 openGatehouseBuildings();
             }
         });
@@ -626,7 +626,7 @@ public class GameMenu extends Application {
                             label.setText("Destination set");
                             popup.show(Main.stage);
                             timeline.play();
-//                            soldiers.clear();
+                            soldiers.clear();
                             openGatehouseBuildings();
                         } else {
                             label.setText("Destination set failed");
@@ -1174,6 +1174,11 @@ public class GameMenu extends Application {
         KeyCombination zoomOutKeyCombination = new KeyCodeCombination(KeyCode.MINUS, KeyCombination.CONTROL_DOWN);
         KeyCombination copyKey = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY);
         KeyCombination pasteKey = new KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_ANY);
+        KeyCombination openShopMenu = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_ANY);
+        KeyCombination openTrade = new KeyCodeCombination(KeyCode.T, KeyCombination.CONTROL_ANY);
+        KeyCombination populationPopup = new KeyCodeCombination(KeyCode.P, KeyCombination.CONTROL_ANY);
+        KeyCombination empirePopup = new KeyCodeCombination(KeyCode.E, KeyCombination.CONTROL_ANY);
+        KeyCombination empireMenu = new KeyCodeCombination(KeyCode.E, KeyCombination.SHIFT_ANY);
         scrollPane.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -1255,8 +1260,27 @@ public class GameMenu extends Application {
                         label.setText("Destination set");
                         popup.show(Main.stage);
                         timeline.play();
-//                    soldiers.clear();
+                    soldiers.clear();
                         openGatehouseBuildings();
+                    }
+                }
+                else if (openShopMenu.match(event)) {
+                    if (dataController.getCurrentUserBuildingByName("market") != null) createShopMenu();
+                }
+                else if (openTrade.match(event)) {
+                    if (dataController.getCurrentUserBuildingByName("market") != null) handleTradeMenu();
+                }
+                else if (populationPopup.match(event)) {
+                    populationPopUp();
+                }
+                else if (empirePopup.match(event)) {
+                    empirePopUp();
+                }
+                else if (empireMenu.match(event)) {
+                    if (dataController.getCurrentUserBuildingByName("smallStoneGatehouse") != null) {
+                        int x = dataController.getCurrentUserBuildingByName("smallStoneGatehouse").getX() - 1;
+                        int y = dataController.getCurrentUserBuildingByName("smallStoneGatehouse").getY() - 1;
+                        openEmpireMenu(x, y);
                     }
                 }
             }
