@@ -220,8 +220,21 @@ public class MapMenuController {
                 Objects.requireNonNull(Database.getBuildingDataByName(type)), x, y);
 
         mapCell.addBuilding(building);
+        if (building.getBuildingName().equals("oxTether")) nearEnemyGatehouse(x, y);
 
         return MapMenuMessages.SUCCESS;
+    }
+
+    private void nearEnemyGatehouse(int x, int y) {
+        for (User user : Database.getUsersInTheGame()) {
+            Empire empire = user.getEmpire();
+            int xHeadquarter = empire.getHeadquarter().getX();
+            int yHeadquarter = empire.getHeadquarter().getY();
+            if (Math.sqrt(Math.pow((xHeadquarter - x), 2) + Math.pow((yHeadquarter - y), 2)) <= 5 &&
+                    !Database.getCurrentUser().getUsername().equals(user.getUsername())) {
+                empire.poison();
+            }
+        }
     }
 
     public MapMenuMessages dropUnit(int x, int y, String type, int count, ImageView imageView) {

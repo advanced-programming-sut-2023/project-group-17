@@ -8,6 +8,7 @@ import Model.MapCellItems.MapCellItems;
 import Model.MapCellItems.Wall;
 import Model.MapGeneration.MapOrganizer;
 import Model.People.King;
+import Model.People.NormalPeople;
 import Model.People.Person;
 import Model.People.Soldier;
 import Utils.CheckMapCell;
@@ -65,6 +66,7 @@ public class GameMenuController {
             }
             applyDamages();
             clearDestroyedThings();
+            checkSickness();
         }
         buildingsFunctionsEachTurn();
         int index = Database.getUsersInTheGame().indexOf(Database.getCurrentUser());
@@ -72,6 +74,22 @@ public class GameMenuController {
         Database.setCurrentUser(Database.getUsersInTheGame().get((index + 1) % size));
         System.out.println(Database.getCurrentUser().getUsername());
         if (Database.getCurrentUser().getEmpire().getKing() == null) nextTurnView();
+    }
+
+    private void checkSickness() {
+        for (User user : Database.getUsersInTheGame()) {
+            Empire empire = user.getEmpire();
+            if (empire.isPoison()) {
+                int counter  = 0;
+                for (NormalPeople normalPerson : empire.getNormalPeople()) {
+                    empire.removePerson(normalPerson);
+                    counter++;
+                    if (counter == 2) break;
+                }
+                empire.increasePoisonRound();
+                if (empire.getPoisonRound() > 1) empire.unPoison();
+            }
+        }
     }
 
     public boolean nextTurn() {
@@ -1011,5 +1029,9 @@ public class GameMenuController {
         System.out.println(path);
         //TODO for attacking tools and methods
         return hashMap;
+    }
+
+    public boolean nextRound() {
+        return Database.getTurnsPassed() % Database.getUsersInTheGame().size() == 0;
     }
 }

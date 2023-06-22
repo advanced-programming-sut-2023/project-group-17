@@ -88,6 +88,7 @@ public class GameMenu extends Application {
     private static int goalX, goalY;
     private static String sendTradeTo;
     private Node focusNode;
+    private HashMap<ImageView, Integer> poisonCells;
 
     public GameMenu() {
         this.gameMenuController = new GameMenuController();
@@ -107,6 +108,7 @@ public class GameMenu extends Application {
         this.copy = false;
         this.paste = false;
         sendTradeTo = "";
+        this.poisonCells = new HashMap<>();
     }
 
     @Override
@@ -631,9 +633,17 @@ public class GameMenu extends Application {
                             if (mapMenuController.dropBuilding(columnIndex + 1, rowIndex + 1, db.getString()).equals(MapMenuMessages.SUCCESS)) {
                                 String path = getClass().getResource("/assets/Buildings/" +
                                         db.getString() + ".png").toExternalForm();
-                                if (db.getString().equals("oxTether"))
+                                if (db.getString().equals("oxTether")) {
+                                    if (buildingMenuController.poisonCell(columnIndex + 1, rowIndex + 1)) {
+                                        String poisonPath = getClass().getResource("/assets/Texture/grass.jpg")
+                                                .toExternalForm();
+                                        imageView = new ImageView(new Image
+                                                (poisonPath, 70, 70, false, false));
+                                        poisonCells.put(imageView, 0);
+                                        gridPane.add(imageView, columnIndex, rowIndex);
+                                    }
                                     imageView = new ImageView(new Image(path, 50, 50, false, false));
-                                else
+                                } else
                                     imageView = new ImageView(new Image(path, 80, 80, false, false));
                                 handleSelectBuilding(imageView, db.getString(), columnIndex, rowIndex);
                                 gridPane.add(imageView, columnIndex, rowIndex);
@@ -643,8 +653,17 @@ public class GameMenu extends Application {
                             if (buildingMenuController.dropBuilding(columnIndex + 1, rowIndex + 1, db.getString()).equals(BuildingMenuMessages.SUCCESS)) {
                                 String path = getClass().getResource("/assets/Buildings/" +
                                         db.getString() + ".png").toExternalForm();
-                                if (db.getString().equals("oxTether"))
+                                if (db.getString().equals("oxTether")) {
+                                    if (buildingMenuController.poisonCell(columnIndex + 1, rowIndex + 1)) {
+                                        String poisonPath = getClass().getResource("/assets/Texture/grass.jpg")
+                                                .toExternalForm();
+                                        imageView = new ImageView(new Image
+                                                (poisonPath, 70, 70, false, false));
+                                        poisonCells.put(imageView, 0);
+                                        gridPane.add(imageView, columnIndex, rowIndex);
+                                    }
                                     imageView = new ImageView(new Image(path, 50, 50, false, false));
+                                }
                                 else
                                     imageView = new ImageView(new Image(path, 80, 80, false, false));
                                 handleSelectBuilding(imageView, db.getString(), columnIndex, rowIndex);
@@ -1295,6 +1314,15 @@ public class GameMenu extends Application {
         ArrayList<ImageView> deadBodies = gameMenuController.removeDeadBodies();
         for (ImageView deadBody : deadBodies) {
             gridPane.getChildren().remove(deadBody);
+        }
+        if (gameMenuController.nextRound()) {
+            for (ImageView imageView : poisonCells.keySet()) {
+                poisonCells.put(imageView, poisonCells.get(imageView) + 1);
+                if (poisonCells.get(imageView) > 1) {
+                    gridPane.getChildren().remove(imageView);
+                    poisonCells.remove(imageView);
+                }
+            }
         }
         refreshToolBar();
     }

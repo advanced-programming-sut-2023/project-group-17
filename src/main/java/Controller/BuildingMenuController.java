@@ -87,9 +87,23 @@ public class BuildingMenuController {
         }
 //        System.out.println("x : " + x + "\ty : " + y);
 //        System.out.println(Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getBuilding().getOwner().getUsername());
+        if (buildingSample.getBuildingName().equals("oxTether")) nearEnemyGatehouse(x, y);
 
         return BuildingMenuMessages.SUCCESS;
     }
+
+    private void nearEnemyGatehouse(int x, int y) {
+        for (User user : Database.getUsersInTheGame()) {
+            Empire empire = user.getEmpire();
+            int xHeadquarter = empire.getHeadquarter().getX();
+            int yHeadquarter = empire.getHeadquarter().getY();
+            if (Math.sqrt(Math.pow((xHeadquarter - x), 2) + Math.pow((yHeadquarter - y), 2)) <= 5 &&
+                    !Database.getCurrentUser().getUsername().equals(user.getUsername())) {
+                empire.poison();
+            }
+        }
+    }
+
     public BuildingMenuMessages dropWall(String thickness, String height, int x, int y) {
 
         if (!CheckMapCell.validationOfX(x)) return BuildingMenuMessages.X_OUT_OF_BOUNDS;
@@ -397,5 +411,18 @@ public class BuildingMenuController {
         if (dropBuilding(droppedX, droppedY, mapCell.getBuilding().getBuildingName()).equals(BuildingMenuMessages.SUCCESS))
             return mapCell.getBuilding().getBuildingName();
         return null;
+    }
+
+    public boolean poisonCell(int x, int y) {
+        for (User user : Database.getUsersInTheGame()) {
+            Empire empire = user.getEmpire();
+            int xHeadquarter = empire.getHeadquarter().getX();
+            int yHeadquarter = empire.getHeadquarter().getY();
+            if (Math.sqrt(Math.pow((xHeadquarter - x), 2) + Math.pow((yHeadquarter - y), 2)) <= 5 &&
+                    !Database.getCurrentUser().getUsername().equals(user.getUsername())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

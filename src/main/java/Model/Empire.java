@@ -34,6 +34,8 @@ public class Empire {
     private double efficiency;
     private MapCell headquarter;
     private double score;
+    private boolean poison;
+    private int poisonRound;
     public Empire(User owner, empireColors empireColor) {
         this.owner = owner;
         this.foods = new ArrayList<Food>();
@@ -60,6 +62,7 @@ public class Empire {
         addAnimals();
         this.empireColor = empireColor;
         this.numberOfKingsKilled = 0;
+        this.poison = false;
     }
 
     public empireColors getEmpireColor() {
@@ -420,5 +423,27 @@ public class Empire {
         for (Animal animal1 : animals) {
             if (animal1.equals(animal)) animal1.changeNumber(-number);
         }
+    }
+
+    public void poison() {
+        this.poison = true;
+        this.poisonRound = 0;
+    }
+
+    public boolean isPoison() {
+        return poison;
+    }
+
+    public int getPoisonRound() {
+        return poisonRound;
+    }
+
+    public void unPoison() {
+        this.poison = false;
+        this.poisonRound = 0;
+    }
+
+    public void increasePoisonRound() {
+        this.poisonRound++;
     }
 }
