@@ -1604,7 +1604,7 @@ public class GameMenu extends Application {
             System.out.println("building : " + dataController.getMiningBuildingNameByNumber(i));
             path = getClass().getResource("/assets/Buildings/" +
                     dataController.getMiningBuildingNameByNumber(i) + ".png").toExternalForm();
-            ImageView imageView = new ImageView(new Image(path, 80, 80, false, false));
+            ImageView imageView = new ImageView(new Image(path, 70, 70, false, false));
             imageView.setId(dataController.getMiningBuildingNameByNumber(i));
             int finalI = i;
             imageView.setOnDragDetected((MouseEvent event) -> {
@@ -1633,20 +1633,20 @@ public class GameMenu extends Application {
         String path = "";
         toolBarHBox.getChildren().clear();
         toolBarHBox.setSpacing(10);
-        VBox vBox = new VBox(); vBox.setSpacing(-2); vBox.setAlignment(Pos.CENTER);
-        HBox hBox1 = new HBox(); hBox1.setSpacing(35); hBox1.setAlignment(Pos.CENTER);
-        HBox hBox2 = new HBox(); hBox2.setSpacing(35); hBox2.setAlignment(Pos.CENTER);
+//        VBox vBox = new VBox(); vBox.setSpacing(-2); vBox.setAlignment(Pos.CENTER);
+//        HBox hBox1 = new HBox(); hBox1.setSpacing(25); hBox1.setAlignment(Pos.CENTER);
+//        HBox hBox2 = new HBox(); hBox2.setSpacing(25); hBox2.setAlignment(Pos.CENTER);
         for (int i = 0; i < dataController.getProductionBuildingsSize(); i++) {
             System.out.println("production building : " + dataController.getProductionBuildingNameByNumber(i));
             path = getClass().getResource("/assets/Buildings/" +
                     dataController.getProductionBuildingNameByNumber(i) + ".png").toExternalForm();
             ImageView imageView;
             if (dataController.getProductionBuildingNameByNumber(i).equals("mill"))
-                imageView = new ImageView(new Image(path, 38, 75, false, false));
+                imageView = new ImageView(new Image(path, 35, 70, false, false));
             else if (dataController.getProductionBuildingNameByNumber(i).equals("poleturner"))
                 imageView = new ImageView(new Image(path, 55, 55, false, false));
             else
-                imageView = new ImageView(new Image(path, 75, 75, false, false));
+                imageView = new ImageView(new Image(path, 70, 70, false, false));
             imageView.setId(dataController.getProductionBuildingNameByNumber(i));
             int finalI = i;
             imageView.setOnDragDetected((MouseEvent event) -> {
@@ -1662,12 +1662,13 @@ public class GameMenu extends Application {
             imageView.setOnMouseDragged((MouseEvent event) -> {
                 event.setDragDetect(true);
             });
-//            toolBarHBox.getChildren().add(imageView);
-            if (i < dataController.getProductionBuildingsSize()/2) hBox1.getChildren().add(imageView);
-            else hBox2.getChildren().add(imageView);
+            toolBarHBox.getChildren().add(imageView);
+//            if (i < dataController.getProductionBuildingsSize()/2) hBox1.getChildren().add(imageView);
+//            else hBox2.getChildren().add(imageView);
         }
-        vBox.getChildren().addAll(hBox1, hBox2);
-        toolBarHBox.getChildren().add(vBox); toolBarHBox.setAlignment(Pos.CENTER);
+//        vBox.getChildren().addAll(hBox1, hBox2);
+//        toolBarHBox.getChildren().add(vBox);
+//        toolBarHBox.setAlignment(Pos.CENTER);
     }
 
     private void openGatehouseBuildings() {
