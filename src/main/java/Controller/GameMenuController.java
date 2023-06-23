@@ -145,7 +145,7 @@ public class GameMenuController {
 
     private void clearDestroyedThings() {
 //        removeDeadBodies();
-        removeDestroyedBuildings();
+//        removeDestroyedBuildings();
         removeDestroyedAttackToolsAndMethods();
     }
 
@@ -387,13 +387,17 @@ public class GameMenuController {
         }
     }
 
-    public void removeDestroyedBuildings() {
+    public ArrayList<ImageView> removeDestroyedBuildings() {
+        ArrayList<ImageView> imageViews = new ArrayList<>();
         for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
             if(mapCell.getBuilding() != null && mapCell.getBuilding().getBuildingHp() <= 0) {
+                imageViews.add(BuildingMenuController.buildingImageViewHashMap.get(mapCell.getBuilding()));
+                BuildingMenuController.buildingImageViewHashMap.remove(mapCell.getBuilding());
                 mapCell.getBuilding().getOwner().getEmpire().removeBuilding(mapCell.getBuilding());
                 mapCell.setBuilding(null);
             }
         }
+        return imageViews;
     }
 
     public void findSiegeTower() {

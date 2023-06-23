@@ -260,67 +260,6 @@ public class GameMenu extends Application {
             }
         });
     }
-
-    private void enableCopyPasteShortCut() {
-        KeyCombination copyKey = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY);
-        KeyCombination pasteKey = new KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_ANY);
-        scrollPane.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if (copyKey.match(event) && copy) {
-                    String text = mapMenuController.getData(startCol + 1, startRow + 1,
-                            endCol + 1, endRow + 1);
-
-                    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-
-                    StringSelection selection = new StringSelection(text);
-
-                    clipboard.setContents(selection, null);
-                    copyXStart = startCol; copyXEnd = endCol;
-                    copyYStart = startRow; copyYEnd = endRow;
-                    paste = true;
-
-//                    System.out.println("Text copied to clipboard: " + text);
-                }
-                if (pasteKey.match(event) && paste && focusNode != null) {
-                    int columnIndex = GridPane.getColumnIndex(focusNode);
-                    int rowIndex = GridPane.getRowIndex(focusNode);
-//                    System.out.println("col index : " + columnIndex);
-//                    System.out.println("row index : " + rowIndex);
-//                    System.out.println("x start copy : " + copyXStart);
-//                    System.out.println("y start copy : " + copyYStart);
-//                    System.out.println("x end copy : " + copyXEnd);
-//                    System.out.println("y end copy : " + copyYEnd);
-                    ImageView imageView;
-                    for (int i = (int) copyXStart; i < (int) copyXEnd + 1; i++) {
-                        for (int j = (int) copyYStart; j < (int) copyYEnd + 1; j++) {
-                            int x = (int) (i - copyXStart);
-                            int y = (int) (j - copyYStart);
-                            String droppedBuilding = null;
-                            if (cheatMode)
-                                droppedBuilding = mapMenuController.dropViaPaste(columnIndex + x + 1,
-                                        y + rowIndex + 1, i + 1, j + 1);
-                            else
-                                droppedBuilding = buildingMenuController.dropViaPaste(columnIndex + x + 1,
-                                    y + rowIndex + 1, i + 1, j + 1);
-                            if (droppedBuilding != null) {
-                                String path = getClass().getResource("/assets/Buildings/" +
-                                        droppedBuilding + ".png").toExternalForm();
-                                if (droppedBuilding.equals("oxTether"))
-                                    imageView = new ImageView(new Image(path, 50, 50, false, false));
-                                else if (droppedBuilding.equals("mill"))
-                                    imageView = new ImageView(new Image(path, 40, 80, false, false));
-                                else
-                                    imageView = new ImageView(new Image(path, 80, 80, false, false));
-                                handleSelectBuilding(imageView, droppedBuilding, columnIndex + x, rowIndex + y);
-                                gridPane.add(imageView, columnIndex + x, rowIndex + y);                            }
-                        }
-                    }
-                }
-            }
-        });
-    }
-
     //
     private void selectFunction() {
         gridPane.setOnMousePressed(this::handleMousePressed);
@@ -650,48 +589,56 @@ public class GameMenu extends Application {
                         }
                     }
                     else if (dataController.isBuildingName(db.getString())) {
+                        String path = getClass().getResource("/assets/Buildings/" +
+                                db.getString() + ".png").toExternalForm();
+                        if (db.getString().equals("oxTether")) {
+                            imageView = new ImageView(new Image(path, 50, 50, false, false));
+                        } else if (db.getString().equals("mill"))
+                            imageView = new ImageView(new Image(path, 40, 80, false, false));
+                        else
+                            imageView = new ImageView(new Image(path, 80, 80, false, false));
                         if (cheatMode) {
-                            if (mapMenuController.dropBuilding(columnIndex + 1, rowIndex + 1, db.getString()).equals(MapMenuMessages.SUCCESS)) {
-                                String path = getClass().getResource("/assets/Buildings/" +
-                                        db.getString() + ".png").toExternalForm();
+                            if (mapMenuController.dropBuilding(columnIndex + 1, rowIndex + 1, db.getString(), imageView).equals(MapMenuMessages.SUCCESS)) {
+//                                String path = getClass().getResource("/assets/Buildings/" +
+//                                        db.getString() + ".png").toExternalForm();
                                 if (db.getString().equals("oxTether")) {
                                     if (buildingMenuController.poisonCell(columnIndex + 1, rowIndex + 1)) {
                                         String poisonPath = getClass().getResource("/assets/Texture/grass.jpg")
                                                 .toExternalForm();
-                                        imageView = new ImageView(new Image
+                                        ImageView poison = new ImageView(new Image
                                                 (poisonPath, 70, 70, false, false));
-                                        poisonCells.put(imageView, 0);
-                                        gridPane.add(imageView, columnIndex, rowIndex);
+                                        poisonCells.put(poison, 0);
+                                        gridPane.add(poison, columnIndex, rowIndex);
                                     }
-                                    imageView = new ImageView(new Image(path, 50, 50, false, false));
+//                                    imageView = new ImageView(new Image(path, 50, 50, false, false));
                                 }
-                                else if (db.getString().equals("mill"))
-                                    imageView = new ImageView(new Image(path, 40, 80, false, false));
-                                else
-                                    imageView = new ImageView(new Image(path, 80, 80, false, false));
+//                                else if (db.getString().equals("mill"))
+//                                    imageView = new ImageView(new Image(path, 40, 80, false, false));
+//                                else
+//                                    imageView = new ImageView(new Image(path, 80, 80, false, false));
                                 handleSelectBuilding(imageView, db.getString(), columnIndex, rowIndex);
                                 gridPane.add(imageView, columnIndex, rowIndex);
                             }
                         }
                         else {
-                            if (buildingMenuController.dropBuilding(columnIndex + 1, rowIndex + 1, db.getString()).equals(BuildingMenuMessages.SUCCESS)) {
-                                String path = getClass().getResource("/assets/Buildings/" +
-                                        db.getString() + ".png").toExternalForm();
+                            if (buildingMenuController.dropBuilding(columnIndex + 1, rowIndex + 1, db.getString(), imageView).equals(BuildingMenuMessages.SUCCESS)) {
+//                                String path = getClass().getResource("/assets/Buildings/" +
+//                                        db.getString() + ".png").toExternalForm();
                                 if (db.getString().equals("oxTether")) {
                                     if (buildingMenuController.poisonCell(columnIndex + 1, rowIndex + 1)) {
                                         String poisonPath = getClass().getResource("/assets/Texture/grass.jpg")
                                                 .toExternalForm();
-                                        imageView = new ImageView(new Image
+                                        ImageView poison = new ImageView(new Image
                                                 (poisonPath, 70, 70, false, false));
-                                        poisonCells.put(imageView, 0);
-                                        gridPane.add(imageView, columnIndex, rowIndex);
+                                        poisonCells.put(poison, 0);
+                                        gridPane.add(poison, columnIndex, rowIndex);
                                     }
-                                    imageView = new ImageView(new Image(path, 50, 50, false, false));
+//                                    imageView = new ImageView(new Image(path, 50, 50, false, false));
                                 }
-                                else if (db.getString().equals("mill"))
-                                    imageView = new ImageView(new Image(path, 40, 80, false, false));
-                                else
-                                    imageView = new ImageView(new Image(path, 80, 80, false, false));
+//                                else if (db.getString().equals("mill"))
+//                                    imageView = new ImageView(new Image(path, 40, 80, false, false));
+//                                else
+//                                    imageView = new ImageView(new Image(path, 80, 80, false, false));
                                 handleSelectBuilding(imageView, db.getString(), columnIndex, rowIndex);
                                 gridPane.add(imageView, columnIndex, rowIndex);
                             }
@@ -1242,12 +1189,7 @@ public class GameMenu extends Application {
                             int x = (int) (i - copyXStart);
                             int y = (int) (j - copyYStart);
                             String droppedBuilding = null;
-                            if (cheatMode)
-                                droppedBuilding = mapMenuController.dropViaPaste(columnIndex + x + 1,
-                                        y + rowIndex + 1, i + 1, j + 1);
-                            else
-                                droppedBuilding = buildingMenuController.dropViaPaste(columnIndex + x + 1,
-                                        y + rowIndex + 1, i + 1, j + 1);
+                            droppedBuilding = mapMenuController.getBuildingName(i + 1, j + 1);
                             if (droppedBuilding != null) {
                                 String path = getClass().getResource("/assets/Buildings/" +
                                         droppedBuilding + ".png").toExternalForm();
@@ -1257,6 +1199,13 @@ public class GameMenu extends Application {
                                     imageView = new ImageView(new Image(path, 40, 80, false, false));
                                 else
                                     imageView = new ImageView(new Image(path, 80, 80, false, false));
+
+                                if (cheatMode)
+                                    droppedBuilding = mapMenuController.dropViaPaste(columnIndex + x + 1,
+                                            y + rowIndex + 1, i + 1, j + 1, imageView);
+                                else
+                                    droppedBuilding = buildingMenuController.dropViaPaste(columnIndex + x + 1,
+                                            y + rowIndex + 1, i + 1, j + 1, imageView);
                                 handleSelectBuilding(imageView, droppedBuilding, columnIndex + x, rowIndex + y);
                                 gridPane.add(imageView, columnIndex + x, rowIndex + y);                            }
                         }
@@ -1438,6 +1387,10 @@ public class GameMenu extends Application {
                 Image(getClass().getResource("/assets/Texture/fire.png").toExternalForm(), 50, 50, false, false));
             gridPane.add(imageView, pair.getCol(), pair.getRow());
             fires.add(imageView);
+        }
+        ArrayList<ImageView> destroyedBuildings = gameMenuController.removeDestroyedBuildings();
+        for (ImageView destroyedBuilding : destroyedBuildings) {
+            gridPane.getChildren().remove(destroyedBuilding);
         }
         refreshToolBar();
     }
@@ -1790,6 +1743,7 @@ public class GameMenu extends Application {
         gridPane.add(imageView, xBuildingForHeadquarter - 1, yBuildingForHeadquarter - 1);
 //        System.out.println(xBuildingForHeadquarter);
 //        System.out.println(yBuildingForHeadquarter);
+        buildingMenuController.setImageForBuildings(imageView, xBuildingForHeadquarter, yBuildingForHeadquarter);
         if (nameBuildingForHeadquarter.equals("smallStoneGatehouse")) {
             imageView.setOnMouseClicked(e -> openEmpireMenu(xBuildingForHeadquarter, yBuildingForHeadquarter));
         }

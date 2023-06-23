@@ -6,6 +6,7 @@ import Model.MapCellItems.Rock;
 import Model.MapCellItems.Tree;
 import Model.People.Soldier;
 import Utils.CheckMapCell;
+import View.BuildingMenu;
 import View.Enums.Messages.BuildingMenuMessages;
 import View.Enums.Messages.MapMenuMessages;
 import javafx.scene.image.ImageView;
@@ -207,7 +208,7 @@ public class MapMenuController {
         return MapMenuMessages.SUCCESS;
     }
 
-    public MapMenuMessages dropBuilding(int x, int y, String type) {
+    public MapMenuMessages dropBuilding(int x, int y, String type, ImageView imageView) {
 
         if (!CheckMapCell.validationOfX(x)) return MapMenuMessages.X_OUT_OF_BOUNDS;
         if (!CheckMapCell.validationOfY(y)) return MapMenuMessages.Y_OUT_OF_BOUNDS;
@@ -234,6 +235,7 @@ public class MapMenuController {
 
         mapCell.addBuilding(building);
         if (building.getBuildingName().equals("oxTether")) nearEnemyGatehouse(x, y);
+        BuildingMenuController.buildingImageViewHashMap.put(building, imageView);
 
         return MapMenuMessages.SUCCESS;
     }
@@ -300,13 +302,20 @@ public class MapMenuController {
     }
 
 
-    public String dropViaPaste(int droppedX, int droppedY, int copyX, int copyY) {
+    public String dropViaPaste(int droppedX, int droppedY, int copyX, int copyY, ImageView imageView) {
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(copyX, copyY);
         if (mapCell.getBuilding() == null || !mapCell.getBuilding().getOwner().equals(Database.getCurrentUser()))
             return null;
-        if (dropBuilding(droppedX, droppedY, mapCell.getBuilding().getBuildingName()).equals(MapMenuMessages.SUCCESS))
+        if (dropBuilding(droppedX, droppedY, mapCell.getBuilding().getBuildingName(), imageView).equals(MapMenuMessages.SUCCESS))
             return mapCell.getBuilding().getBuildingName();
         return null;
+    }
+
+    public String getBuildingName(int copyX, int copyY) {
+        MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(copyX, copyY);
+        if (mapCell.getBuilding() == null || !mapCell.getBuilding().getOwner().equals(Database.getCurrentUser()))
+            return null;
+        else return mapCell.getBuilding().getBuildingName();
     }
 }
 

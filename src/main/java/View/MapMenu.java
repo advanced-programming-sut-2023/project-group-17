@@ -220,26 +220,26 @@ public class MapMenu extends Menu{
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
         String type = Menu.handleDoubleQuote(matcher.group("type"));
-        switch (controller.dropBuilding(x, y, type)) {
-            case SUCCESS:
-                System.out.println("Building dropped successfully");
-                break;
-            case X_OUT_OF_BOUNDS:
-                System.out.println("Drop building failed : Coordinate of x is out of bounds");
-                break;
-            case Y_OUT_OF_BOUNDS:
-                System.out.println("Drop building failed : Coordinate of y is out of bounds");
-                break;
-            case INVALID_TYPE:
-                System.out.println("Drop building failed : Invalid type");
-                break;
-            case CELL_IS_FULL:
-                System.out.println("Drop building failed : Cell is full");
-                break;
-            case INAPPROPRIATE_TEXTURE:
-                System.out.println("Drop building failed : Inappropriate cell texture");
-                break;
-        }
+//        switch (controller.dropBuilding(x, y, type)) {
+//            case SUCCESS:
+//                System.out.println("Building dropped successfully");
+//                break;
+//            case X_OUT_OF_BOUNDS:
+//                System.out.println("Drop building failed : Coordinate of x is out of bounds");
+//                break;
+//            case Y_OUT_OF_BOUNDS:
+//                System.out.println("Drop building failed : Coordinate of y is out of bounds");
+//                break;
+//            case INVALID_TYPE:
+//                System.out.println("Drop building failed : Invalid type");
+//                break;
+//            case CELL_IS_FULL:
+//                System.out.println("Drop building failed : Cell is full");
+//                break;
+//            case INAPPROPRIATE_TEXTURE:
+//                System.out.println("Drop building failed : Inappropriate cell texture");
+//                break;
+//        }
     }
 
     private void dropUnit(Matcher matcher) {

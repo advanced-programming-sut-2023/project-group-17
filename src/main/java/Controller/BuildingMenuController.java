@@ -17,13 +17,15 @@ import View.ShopMenu;
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class BuildingMenuController {
+    public static HashMap<Building, ImageView> buildingImageViewHashMap = new HashMap<>();
     public Building selectedBuilding = null;
     public int x = 0;
     public int y = 0;
 
-    public BuildingMenuMessages dropBuilding(int x, int y, String type) {
+    public BuildingMenuMessages dropBuilding(int x, int y, String type, ImageView imageView) {
 
         if (!CheckMapCell.validationOfX(x)) return BuildingMenuMessages.X_OUT_OF_BOUNDS;
 
@@ -98,6 +100,7 @@ public class BuildingMenuController {
 //        System.out.println("x : " + x + "\ty : " + y);
 //        System.out.println(Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getBuilding().getOwner().getUsername());
         if (buildingSample.getBuildingName().equals("oxTether")) nearEnemyGatehouse(x, y);
+        buildingImageViewHashMap.put(newBuilding, imageView);
 
         return BuildingMenuMessages.SUCCESS;
     }
@@ -414,11 +417,11 @@ public class BuildingMenuController {
                 getOwner().equals(Database.getCurrentUser());
     }
 
-    public String dropViaPaste(int droppedX, int droppedY, int copyX, int copyY) {
+    public String dropViaPaste(int droppedX, int droppedY, int copyX, int copyY, ImageView imageView) {
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(copyX, copyY);
         if (mapCell.getBuilding() == null || !mapCell.getBuilding().getOwner().equals(Database.getCurrentUser()))
             return null;
-        if (dropBuilding(droppedX, droppedY, mapCell.getBuilding().getBuildingName()).equals(BuildingMenuMessages.SUCCESS))
+        if (dropBuilding(droppedX, droppedY, mapCell.getBuilding().getBuildingName(), imageView).equals(BuildingMenuMessages.SUCCESS))
             return mapCell.getBuilding().getBuildingName();
         return null;
     }
@@ -448,5 +451,10 @@ public class BuildingMenuController {
             }
         }
         return pairs;
+    }
+
+    public void setImageForBuildings(ImageView imageView, int xBuildingForHeadquarter, int yBuildingForHeadquarter) {
+        MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(xBuildingForHeadquarter, yBuildingForHeadquarter);
+        buildingImageViewHashMap.put(mapCell.getBuilding(), imageView);
     }
 }
