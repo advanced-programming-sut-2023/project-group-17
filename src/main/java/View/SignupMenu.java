@@ -9,11 +9,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -27,6 +25,7 @@ import java.util.Random;
 import static View.Main.stage;
 
 public class SignupMenu extends Application {
+    private static Pane pane;
     public static String securityQuestionSelected;
     private static int questionNumber;
     public TextField slogan;
@@ -47,11 +46,18 @@ public class SignupMenu extends Application {
     public Text emailError;
     public Text nicknameError;
     public Text answerError;
+    public Button ResetCaptchaButton;
+    public Button ConfirmCaptchaButton;
+    public TextField CaptchaTextField;
+    public Button signUpButton;
     private Random random = new Random();
     private SignupMenuController controller;
+    private ImageView imageView;
+    private Captcha captcha;
 
     public SignupMenu() {
         controller = new SignupMenuController();
+        this.captcha = new Captcha();
     }
 
     @Override
@@ -61,9 +67,20 @@ public class SignupMenu extends Application {
                 "/assets/Backgrounds/LoginBackground.PNG").toExternalForm()),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 new BackgroundSize(1.0, 1.0, true, true, false, false))));
+
+        SignupMenu.pane = pane;
+        setCaptcha();
+
         stage.getScene().setRoot(pane);
         stage.setFullScreen(true);
         stage.show();
+    }
+
+    private void setCaptcha() {
+        imageView = new ImageView(new Image(getClass().getResource
+                ("/Captcha/" + captcha.getAnswer() + ".png").toExternalForm(), 120, 80, false, false));
+        imageView.setX(727); imageView.setY(720);
+        pane.getChildren().add(imageView);
     }
 
     @FXML
@@ -125,7 +142,7 @@ public class SignupMenu extends Application {
                 emailError.setText("");
             }
         });
-
+        signUpButton.setDisable(true);
     }
 
     public void showPassword(ActionEvent actionEvent) {
@@ -212,6 +229,15 @@ public class SignupMenu extends Application {
 
     public void enterLoginMenu(MouseEvent mouseEvent) throws Exception{
         new LoginMenu().start(Main.stage);
+    }
+
+    public void resetCaptcha(MouseEvent mouseEvent) {
+        this.captcha = new Captcha();
+        setCaptcha();
+    }
+
+    public void checkCaptcha(MouseEvent mouseEvent) {
+        signUpButton.setDisable(!CaptchaTextField.getText().equals(String.valueOf(captcha.getAnswer())));
     }
 
 
