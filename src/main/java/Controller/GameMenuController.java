@@ -170,17 +170,19 @@ public class GameMenuController {
                     if (mapCell.getPeople().get(z).getDestination() != null) {
                         ArrayList<ArrayList<Pair>> arrayList = new ArrayList<>();
                         ArrayList<Pair> pairs = new ArrayList<>();
-                        for (MapCell cell : path) {
-                            pairs.add(new Pair(cell.getX()-1, cell.getY()-1));
-                        }
-                        arrayList.add(pairs);
-                        hashMap.put(UnitMenuController.soldierImageViewHashMap.get(mapCell.getPeople().get(z)), arrayList);
+                        if (path != null) {
+                            for (MapCell cell : path) {
+                                pairs.add(new Pair(cell.getX() - 1, cell.getY() - 1));
+                            }
+                            arrayList.add(pairs);
+                            hashMap.put(UnitMenuController.soldierImageViewHashMap.get(mapCell.getPeople().get(z)), arrayList);
 //                        path = MoveController.aStarSearch(map, mapCell.getX(),
 //                                mapCell.getY(), mapCell.getPeople().get(z).getDestination().getX(),
 //                                mapCell.getPeople().get(z).getDestination().getY());
 //                        if (path != null) {
-                        movePerson(mapCell.getPeople().get(z), path);
-                        z--;
+                            movePerson(mapCell.getPeople().get(z), path);
+                            z--;
+                        }
 //                        }
                     }
                 }
