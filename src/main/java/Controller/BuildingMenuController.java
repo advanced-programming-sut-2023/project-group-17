@@ -9,6 +9,7 @@ import Model.MapCellItems.Stair;
 import Model.MapCellItems.Wall;
 import Model.People.*;
 import Utils.CheckMapCell;
+import Utils.Pair;
 import View.EmpireMenu;
 import View.Enums.Messages.BuildingMenuMessages;
 import View.Enums.Messages.MapMenuMessages;
@@ -75,6 +76,7 @@ public class BuildingMenuController {
         }
 
         Building newBuilding = getTypeBuildings(currentUser, buildingSample, x, y);
+//        newBuilding.setOnFire(true);
         mapCell.addBuilding(newBuilding);
         currentUser.getEmpire().addBuilding(newBuilding);
 
@@ -432,5 +434,19 @@ public class BuildingMenuController {
             }
         }
         return false;
+    }
+
+    public ArrayList<Pair> getBuildingsOnFire() {
+        ArrayList<Pair> pairs = new ArrayList<>();
+        for (int i = 0; i < Database.getCurrentMapGame().getWidth(); i++) {
+            for (int j = 0; j < Database.getCurrentMapGame().getLength(); j++) {
+                MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(i + 1, j + 1);
+                if (mapCell.haveBuilding() && mapCell.getBuilding().isOnFire()) {
+                    Pair pair = new Pair(i, j);
+                    pairs.add(pair);
+                }
+            }
+        }
+        return pairs;
     }
 }

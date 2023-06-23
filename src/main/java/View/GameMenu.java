@@ -91,6 +91,7 @@ public class GameMenu extends Application {
     private HashMap<ImageView, Integer> poisonCells;
     private TextField messageTextField;
     private TextField idTextField;
+    private ArrayList<ImageView> fires;
 
     public GameMenu() {
         this.gameMenuController = new GameMenuController();
@@ -111,6 +112,7 @@ public class GameMenu extends Application {
         this.paste = false;
         sendTradeTo = "";
         this.poisonCells = new HashMap<>();
+        this.fires = new ArrayList<>();
     }
 
     @Override
@@ -1408,6 +1410,9 @@ public class GameMenu extends Application {
     private void nextTurn() {
         //TODO
 //        gameMenuController.nextTurn();
+        for (ImageView fire : fires) {
+            gridPane.getChildren().remove(fire);
+        }
         openGatehouseBuildings();
         HashMap<ImageView, ArrayList<ArrayList<Pair>>> hashMap = gameMenuController.applyMoves();
         for (Map.Entry<ImageView, ArrayList<ArrayList<Pair>>> imageViewArrayListEntry : hashMap.entrySet()) {
@@ -1426,6 +1431,13 @@ public class GameMenu extends Application {
                     poisonCells.remove(imageView);
                 }
             }
+        }
+        ArrayList<Pair> buildingsOnFire = buildingMenuController.getBuildingsOnFire();
+        for (Pair pair : buildingsOnFire) {
+            ImageView imageView = new ImageView(new
+                Image(getClass().getResource("/assets/Texture/fire.png").toExternalForm(), 50, 50, false, false));
+            gridPane.add(imageView, pair.getCol(), pair.getRow());
+            fires.add(imageView);
         }
         refreshToolBar();
     }
