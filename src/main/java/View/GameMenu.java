@@ -1381,16 +1381,16 @@ public class GameMenu extends Application {
                 }
             }
         }
+        ArrayList<ImageView> destroyedBuildings = gameMenuController.removeDestroyedBuildings();
+        for (ImageView destroyedBuilding : destroyedBuildings) {
+            gridPane.getChildren().remove(destroyedBuilding);
+        }
         ArrayList<Pair> buildingsOnFire = buildingMenuController.getBuildingsOnFire();
         for (Pair pair : buildingsOnFire) {
             ImageView imageView = new ImageView(new
                 Image(getClass().getResource("/assets/Texture/fire.png").toExternalForm(), 50, 50, false, false));
             gridPane.add(imageView, pair.getCol(), pair.getRow());
             fires.add(imageView);
-        }
-        ArrayList<ImageView> destroyedBuildings = gameMenuController.removeDestroyedBuildings();
-        for (ImageView destroyedBuilding : destroyedBuildings) {
-            gridPane.getChildren().remove(destroyedBuilding);
         }
         refreshToolBar();
     }
