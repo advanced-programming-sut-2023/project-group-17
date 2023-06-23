@@ -126,6 +126,12 @@ public class MapMenuController {
         if (!CheckMapCell.mapCellEmptyByCoordinates(x, y)) return MapMenuMessages.CELL_IS_FULL;
         if (Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getSoldier().size() != 0)
             return MapMenuMessages.CELL_IS_FULL;
+        for (User user : Database.getUsersInTheGame()) {
+            Empire empire = user.getEmpire();
+            int xSet = empire.getHeadquarter().getX();
+            int ySet = empire.getHeadquarter().getY() + 1;
+            if (x == xSet && y == ySet) return MapMenuMessages.CELL_IS_FULL;
+        }
 
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
         mapCell.setMaterialMap(MaterialMap.getTextureMap(type));
@@ -207,6 +213,13 @@ public class MapMenuController {
         if (!CheckMapCell.validationOfY(y)) return MapMenuMessages.Y_OUT_OF_BOUNDS;
         if (Database.getBuildingDataByName(type) == null) return MapMenuMessages.INVALID_TYPE;
         if (!CheckMapCell.mapCellEmptyByCoordinates(x, y)) return MapMenuMessages.CELL_IS_FULL;
+
+        for (User user : Database.getUsersInTheGame()) {
+            Empire empire = user.getEmpire();
+            int xSet = empire.getHeadquarter().getX();
+            int ySet = empire.getHeadquarter().getY() + 1;
+            if (x == xSet && y == ySet) return MapMenuMessages.CELL_IS_FULL;
+        }
 
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
         if ((mapCell.getMaterialMap().isWaterZone() && !type.equals("drawbridge") )||

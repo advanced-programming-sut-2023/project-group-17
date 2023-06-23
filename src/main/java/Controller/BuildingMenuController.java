@@ -11,6 +11,7 @@ import Model.People.*;
 import Utils.CheckMapCell;
 import View.EmpireMenu;
 import View.Enums.Messages.BuildingMenuMessages;
+import View.Enums.Messages.MapMenuMessages;
 import View.ShopMenu;
 import javafx.scene.image.ImageView;
 
@@ -30,6 +31,13 @@ public class BuildingMenuController {
         if (Database.getBuildingDataByName(type) == null) return BuildingMenuMessages.INVALID_TYPE;
 
         if (!CheckMapCell.mapCellEmptyByCoordinates(x, y)) return BuildingMenuMessages.CELL_IS_FULL;
+
+        for (User user : Database.getUsersInTheGame()) {
+            Empire empire = user.getEmpire();
+            int xSet = empire.getHeadquarter().getX();
+            int ySet = empire.getHeadquarter().getY() + 1;
+            if (x == xSet && y == ySet) return BuildingMenuMessages.CELL_IS_FULL;
+        }
 
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
 

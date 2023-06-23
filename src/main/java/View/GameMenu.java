@@ -198,6 +198,7 @@ public class GameMenu extends Application {
 
             }
         }
+//        createSea();
         scrollPane.requestFocus();
         handleZoom(scrollPane);
         handleHover(gridPane);
@@ -231,6 +232,18 @@ public class GameMenu extends Application {
 //        primaryStage.getScene().getStylesheets().add(getClass().getResource("/CSS/CheckComboBox.css").toExternalForm());
         primaryStage.setFullScreen(true);
         primaryStage.show();
+    }
+
+    private void createSea() {
+        for (int i = 6; i < 9; i++) {
+            for (int j = 8; j < 12; j++) {
+                Image sea = new Image(getClass().getResource("/assets/Texture/sea.png").toExternalForm(), 80, 80, false, false);
+                ImageView imageView = new ImageView(sea);
+//        imageView.setRotate(45);
+                if (mapMenuController.setTextureOfOneBlock(i + 1, j + 1, "sea").equals(MapMenuMessages.SUCCESS))
+                    gridPane.add(imageView, i, j);
+            }
+        }
     }
 
     private void moveShortcut(GridPane gridPane) {
