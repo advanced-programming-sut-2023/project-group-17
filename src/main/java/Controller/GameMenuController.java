@@ -82,7 +82,7 @@ public class GameMenuController {
             Empire empire = user.getEmpire();
             for (Building building : empire.getBuildings()) {
                 if (building.isOnFire()) {
-                    building.changeBuildingHp(-50);
+                    building.changeBuildingHp(-40);
                 }
             }
         }

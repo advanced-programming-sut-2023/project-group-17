@@ -1080,6 +1080,7 @@ public class GameMenu extends Application {
     private void createUnitMenu(String name, int columnIndex, int rowIndex) {
         if (!buildingMenuController.isThisUserBuilding(columnIndex + 1, rowIndex + 1)) return;
         toolBarHBox.getChildren().clear();
+        toolBarHBox.setSpacing(0);
         ArrayList<String> soldiers = dataController.getSoldierNames(name);
         for (int i = 0; i < soldiers.size(); i++) {
             String path = getClass().getResource("/assets/Soldiers/" +
