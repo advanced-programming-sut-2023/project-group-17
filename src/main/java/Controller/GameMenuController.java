@@ -65,6 +65,7 @@ public class GameMenuController {
                     handleDrawBridge(user.getEmpire().getBuildingByName("drawbridge"));
             }
             applyDamages();
+            checkFire();
             clearDestroyedThings();
             checkSickness();
         }
@@ -74,6 +75,17 @@ public class GameMenuController {
         Database.setCurrentUser(Database.getUsersInTheGame().get((index + 1) % size));
         System.out.println(Database.getCurrentUser().getUsername());
         if (Database.getCurrentUser().getEmpire().getKing() == null) nextTurnView();
+    }
+
+    private void checkFire() {
+        for (User user : Database.getUsersInTheGame()) {
+            Empire empire = user.getEmpire();
+            for (Building building : empire.getBuildings()) {
+                if (building.isOnFire()) {
+                    building.changeBuildingHp(-50);
+                }
+            }
+        }
     }
 
     private void checkSickness() {
@@ -307,6 +319,7 @@ public class GameMenuController {
         for (MapCell mapCell : Database.getCurrentMapGame().getMapCells()) {
             startX = mapCell.getX();
             startY = mapCell.getY();
+//            System.out.println("starX : " + startX + " startY : " + startY);
             if(mapCell.getBuilding() != null) {
                 if(mapCell.getBuilding() instanceof DefensiveBuilding)
                     applyDamageDefensiveBuildings(startX, startY, mapCell, ((DefensiveBuilding) mapCell.getBuilding()).getDefenceRange());
@@ -325,8 +338,11 @@ public class GameMenuController {
 
                     distance = ((int) Math.sqrt(Math.pow(startX - x, 2) + Math.pow(startY - y, 2)));
                     for (Soldier soldier : Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getSoldier()) {
-                        if (!soldier.getOwner().equals(mapCell.getBuilding().getOwner()) && soldier.getAttackRange() >= distance)
+                        if (!soldier.getOwner().equals(mapCell.getBuilding().getOwner()) && soldier.getAttackRange() >= distance) {
+                            if (soldier.getName().equals("fireThrower"))
+                                mapCell.getBuilding().setOnFire(true);
                             mapCell.getBuilding().changeBuildingHp(-soldier.getAttackRating());
+                        }
                     }
                 }
             }
@@ -352,17 +368,25 @@ public class GameMenuController {
     }
 
     public void applyDamageOtherBuildings(int startX, int startY, MapCell mapCell) {
+        System.out.println("omadam to apply damage");
         int range;
+        System.out.println("mapcell soldier : " + mapCell.getSoldier());
         for (Soldier soldier : mapCell.getSoldier()) {
+            System.out.println("soldier omadam, soldier name : " + soldier.getName());
             range = getRangeByStatus(soldier);
+            System.out.println("range soldier : " + range);
             for (int i = 0; i < range; i++) {
                 for (int x = startX - i; x < startX + i + 1; x++) {
                     for (int y = startY - i; y < startY + i + 1; y++) {
                         if (!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y)) continue;
-
                         Building building = Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getBuilding();
-                        if (building != null && !soldier.getOwner().equals(building.getOwner()))
+                        System.out.println("building harif : " + building.getBuildingName());
+                        if (building != null && !soldier.getOwner().equals(building.getOwner())) {
+                            if (soldier.getName().equals("fireThrower"))
+                                building.setOnFire(true);
                             building.changeBuildingHp(-soldier.getAttackRating());
+                            System.out.println( building.getBuildingName()+ ", building hp : " + building.getBuildingHp());
+                        }
                     }
                 }
             }

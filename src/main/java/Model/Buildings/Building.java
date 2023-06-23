@@ -15,6 +15,7 @@ public class Building {
     private final HashMap<PeopleType, Integer> numberOfWorkers;
     private int x;
     private int y;
+    private boolean onFire;
 
     public Building(User owner, Building building, int x, int y) {
         this.owner = owner;
@@ -25,6 +26,7 @@ public class Building {
         this.category = building.getCategory();
         this.x = x;
         this.y = y;
+        this.onFire = false;
     }
 
     public User getOwner() {
@@ -72,6 +74,14 @@ public class Building {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public boolean isOnFire() {
+        return onFire;
+    }
+
+    public void setOnFire(boolean onFire) {
+        this.onFire = onFire;
     }
 
     @Override

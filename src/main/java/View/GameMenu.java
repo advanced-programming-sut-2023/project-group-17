@@ -434,7 +434,7 @@ public class GameMenu extends Application {
             toolBarHBox.getChildren().add(vBox);
         }
         button.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
-                "/assets/ToolBar/Buttons1/unitMenu.png").toExternalForm(), 20, 20, false, false)));
+                "/assets/ToolBar/Buttons/unitMenu.png").toExternalForm(), 20, 20, false, false)));
         toolBarHBox.getChildren().add(button);
         button.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
