@@ -120,99 +120,34 @@ public class GameMenu extends Application {
         BorderPane borderPane = new BorderPane();
         gameMenuController.setFirstUser();
 
-        GridPane gridPane = new GridPane();
+        GridPane gridPane = new GridPane(); gridPane.setGridLinesVisible(true);
         this.gridPane = gridPane;
-        gridPane.setGridLinesVisible(true);
-        final int numCols = gameMenuController.getWidthMap();
-        final int numRows = gameMenuController.getLengthMap();
-        for (int i = 0; i < numCols; i++) {
-            ColumnConstraints colConst = new ColumnConstraints();
-            colConst.setPrefWidth(80);
-            colConst.setHalignment(HPos.CENTER);
-            gridPane.getColumnConstraints().add(colConst);
-        }
-        for (int i = 0; i < numRows; i++) {
-            RowConstraints rowConst = new RowConstraints();
-            rowConst.setPrefHeight(80);
-            rowConst.setValignment(VPos.CENTER);
-            gridPane.getRowConstraints().add(rowConst);
-        }
-
-        //
-//
-//        // Set up the mini-map GridPane
-//        GridPane miniMap = new GridPane();
-//        final int miniCols = numCols / 10;
-//        final int miniRows = numRows / 10;
-//        for (int i = 0; i < miniCols; i++) {
-//            ColumnConstraints colConst = new ColumnConstraints();
-//            colConst.setPrefWidth(8);
-//            colConst.setHalignment(HPos.CENTER);
-//            miniMap.getColumnConstraints().add(colConst);
-//        }
-//        for (int i = 0; i < miniRows; i++) {
-//            RowConstraints rowConst = new RowConstraints();
-//            rowConst.setPrefHeight(8);
-//            rowConst.setValignment(VPos.CENTER);
-//            miniMap.getRowConstraints().add(rowConst);
-//        }
-//
-//
-//
-        //
 
 
-
-        ScrollPane scrollPane = new ScrollPane(gridPane);
-
+        ScrollPane scrollPane = new ScrollPane(gridPane); scrollPane.setPannable(true);
 //        scrollPane.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
 //        scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scrollPane.setPannable(true);
 
-        Image image = new Image(getClass().getResource("/assets/Texture/graveland.png").toExternalForm());
-        for (int i = 0; i < numCols; i += 10) {
-            for (int j = 0; j < numRows; j += 10) {
-                ImageView imageView = new ImageView(image);
-                imageView.setFitWidth(80 * Math.min(10, numCols - i));
-                imageView.setFitHeight(80 * Math.min(10, numRows - j));
-                gridPane.add(imageView, i, j, Math.min(10, numCols - i), Math.min(10, numRows - j));
-                imageView.setOpacity(0.8);
+        final int numCols = gameMenuController.getWidthMap();
+        final int numRows = gameMenuController.getLengthMap();
 
-                //
-
-//                if (i % 100 == 0 && j % 100 == 0) {
-//                    ImageView miniImageView = new ImageView(new Image(getClass().getResource(
-//                            "/assets/Texture/graveland.jpg").toExternalForm()));
-//                    miniImageView.setFitWidth(8 * Math.min(10, miniCols - i / 10));
-//                    miniImageView.setFitHeight(8 * Math.min(10, miniRows - j / 10));
-//                    miniMap.add(miniImageView, i / 10, j / 10);
-//                    miniImageView.setOnMouseClicked(event -> {
-//                        double x = event.getX() / miniImageView.getBoundsInLocal().getWidth() * numCols;
-//                        double y = event.getY() / miniImageView.getBoundsInLocal().getHeight() * numRows;
-////                        gridPane.scrollTo(x, y, ScrollPane.ScrollBarPolicy.NEVER, ScrollPane.ScrollBarPolicy.NEVER);
-//                    });
-//                }
-
-
-                //
-
-            }
-        }
-//        createSea();
+        handleMap(numCols, numRows, gridPane);
         scrollPane.requestFocus();
         handleZoom(scrollPane);
         handleHover(gridPane);
         handleCheatMode(borderPane);
         handleClick(gridPane);
         moveShortcut(gridPane);
-        this.scrollPane = scrollPane;
         borderPane.setCenter(scrollPane);
         toolBar = createToolbar();
+
+        this.scrollPane = scrollPane;
         this.toolBar = toolBar;
         this.mainBorderPane = borderPane;
 
+//        handleMiniMap(gridPane, scrollPane, borderPane);
         selectFunction();
         setHeadQuarters(gridPane);
         setDropActionForGridPane();
@@ -222,11 +157,6 @@ public class GameMenu extends Application {
 //        enableCopyPasteShortCut();
 
         borderPane.setBottom(toolBar);
-        //
-//        miniMap.setCenterShape(true);
-//        borderPane.setBottom(miniMap);
-//        setHeadQuarters(miniMap);
-        //
         primaryStage.getScene().setRoot(borderPane);
         primaryStage.getScene().getStylesheets().add(getClass().getResource("/CSS/Slider.css").toExternalForm());
         primaryStage.getScene().getStylesheets().add(getClass().getResource("/CSS/PopUp.css").toExternalForm());
@@ -241,12 +171,48 @@ public class GameMenu extends Application {
             for (int j = (int) startRow; j < endRow + 1; j++) {
                 Image newTexture = new Image(getClass().getResource("/assets/Texture/" + texture + ".png").toExternalForm(), 80, 80, false, false);
                 ImageView imageView = new ImageView(newTexture);
-//        imageView.setRotate(45);
                 if (mapMenuController.setTextureOfOneBlock(i + 1, j + 1, texture).equals(MapMenuMessages.SUCCESS))
                     gridPane.add(imageView, i, j);
             }
         }
     }
+    private ImageView getMiniMap() {
+        ImageView miniMap = new ImageView(new Image(getClass().getResource("/assets/Texture/MiniMap.png").toExternalForm(), 142, 142, false, false));
+        miniMap.setOnMouseClicked(mouseEvent -> {
+            double xRatio = mouseEvent.getX() / miniMap.getBoundsInLocal().getWidth();
+            double yRatio = mouseEvent.getY() / miniMap.getBoundsInLocal().getHeight();
+            scrollPane.setVvalue(xRatio);
+            scrollPane.setHvalue(yRatio);
+        });
+        return miniMap;
+    }
+
+    private void handleMap(int numCols, int numRows, GridPane gridPane) {
+        for (int i = 0; i < numCols; i++) {
+            ColumnConstraints colConst = new ColumnConstraints();
+            colConst.setPrefWidth(80);
+            colConst.setHalignment(HPos.CENTER);
+            gridPane.getColumnConstraints().add(colConst);
+        }
+        for (int i = 0; i < numRows; i++) {
+            RowConstraints rowConst = new RowConstraints();
+            rowConst.setPrefHeight(80);
+            rowConst.setValignment(VPos.CENTER);
+            gridPane.getRowConstraints().add(rowConst);
+        }
+        Image image = new Image(getClass().getResource("/assets/Texture/graveland.png").toExternalForm());
+        for (int i = 0; i < numCols; i += 10) {
+            for (int j = 0; j < numRows; j += 10) {
+                ImageView imageView = new ImageView(image);
+                imageView.setFitWidth(80 * Math.min(10, numCols - i));
+                imageView.setFitHeight(80 * Math.min(10, numRows - j));
+                gridPane.add(imageView, i, j, Math.min(10, numCols - i), Math.min(10, numRows - j));
+                imageView.setOpacity(0.8);
+
+            }
+        }
+    }
+
 
     private void moveShortcut(GridPane gridPane) {
         gridPane.requestFocus();
@@ -719,8 +685,8 @@ public class GameMenu extends Application {
     private void createShopMenu() {
         toolBarHBox.getChildren().clear();
         //TODO: delete one of these comments
-//        toolBarHBox.setTranslateX(-70);
-        toolBarHBox.setTranslateX(-140);
+//        toolBarHBox.setTranslateX(-270);
+        toolBarHBox.setTranslateX(-345);
 
         Button buy = new Button("Buy"); buy.setDisable(true); buy.setPrefWidth(65); buy.getStyleClass().add("button-style");
         Button sell = new Button("Sell"); sell.setDisable(true); sell.setPrefWidth(65); sell.getStyleClass().add("button-style");
@@ -805,8 +771,8 @@ public class GameMenu extends Application {
         toolBarHBox.getChildren().clear();
 
         //TODO: delete one of these comments
-        toolBarHBox.setTranslateX(90);
-//        toolBarHBox.setTranslateX(150);
+        toolBarHBox.setTranslateX(-110);
+//        toolBarHBox.setTranslateX(-50);
 
         Text text = new Text("Trade Menu");
         Font font = Font.font("Showcard Gothic", FontWeight.SEMI_BOLD, FontPosture.REGULAR, 16);
@@ -830,8 +796,8 @@ public class GameMenu extends Application {
         toolBarHBox.getChildren().clear();
 
         //TODO: delete one of these comments
-//        toolBarHBox.setTranslateX(-70);
-        toolBarHBox.setTranslateX(-148);
+//        toolBarHBox.setTranslateX(-270);
+        toolBarHBox.setTranslateX(-348);
 
 //        HBox hBox = new HBox();
         Button backButton = new Button("Back"); backButton.setPrefWidth(50); backButton.getStyleClass().add("button-style");
@@ -979,7 +945,7 @@ public class GameMenu extends Application {
         vBox.getChildren().addAll(tradeRequest, hBox);
 
 //        HBox hBox = new HBox(vBoxBack);
-        toolBarHBox.getChildren().add(vBox); toolBarHBox.setTranslateX(-148);
+        toolBarHBox.getChildren().add(vBox); toolBarHBox.setTranslateX(-350);
         toolBarHBox.setAlignment(Pos.CENTER);
 
         backButton.setOnMouseClicked(mouseEvent -> handleTradeMenu());
@@ -1316,15 +1282,18 @@ public class GameMenu extends Application {
                 "/assets/ToolBar/Buttons/Empire.png").toExternalForm(), 20, 20, false, false)));
         empireButton.setOnMouseClicked(e -> empirePopUp());
         vBox.getChildren().addAll(empireButton, populationButton);
-        toolBar.getItems().add(vBox);
-        HBox hBoxButtons = new HBox();
-        //TODO: delete one of these
-//        hBoxButtons.setTranslateX(1050);
-        hBoxButtons.setTranslateX(920);
 
-        hBoxButtons.setSpacing(10);
-        hBoxButtons.setTranslateY(10);
-        hBoxButtons.setPrefHeight(30);
+        ImageView miniMap = getMiniMap();
+        HBox hBox1 = new HBox(vBox, miniMap); hBox1.setSpacing(50);
+
+        toolBar.getItems().addAll(hBox1);
+        HBox hBoxButtons = new HBox();
+
+        //TODO: delete one of these
+//        hBoxButtons.setTranslateX(850);
+        hBoxButtons.setTranslateX(720);
+
+        hBoxButtons.setSpacing(10); hBoxButtons.setTranslateY(10); hBoxButtons.setPrefHeight(30);
 
         Button button1 = new Button();
         button1.setTranslateY(110); button1.setStyle("-fx-background-color: #9d8c6e");
@@ -1720,6 +1689,10 @@ public class GameMenu extends Application {
         String path = "";
         toolBarHBox.getChildren().clear();
         toolBarHBox.setSpacing(25);
+
+        //TODO: delete one of these comments
+        toolBarHBox.setTranslateX(-330);
+//        toolBarHBox.setTranslateX(-130);
         for (int i = 0; i < dataController.getGatehouseBuildingsSize(); i++) {
             path = getClass().getResource("/assets/Buildings/" +
                     dataController.getGatehouseBuildingNameByNumber(i) + ".png").toExternalForm();
