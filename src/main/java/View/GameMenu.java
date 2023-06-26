@@ -434,6 +434,8 @@ public class GameMenu extends Application {
         setButton.setOnMouseClicked(e -> changeTexture(comboBox.getValue()));
         removeHover();
         handleHover(gridPane);
+        setDropActionForGridPane();
+        scrollPane.requestFocus();
     }
 
     private void handleMove() {
