@@ -171,7 +171,7 @@ public class GameMenu extends Application {
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setPannable(true);
 
-        Image image = new Image(getClass().getResource("/assets/Texture/graveland.jpg").toExternalForm());
+        Image image = new Image(getClass().getResource("/assets/Texture/graveland.png").toExternalForm());
         for (int i = 0; i < numCols; i += 10) {
             for (int j = 0; j < numRows; j += 10) {
                 ImageView imageView = new ImageView(image);
@@ -236,13 +236,13 @@ public class GameMenu extends Application {
         primaryStage.show();
     }
 
-    private void createSea() {
-        for (int i = 6; i < 9; i++) {
-            for (int j = 8; j < 12; j++) {
-                Image sea = new Image(getClass().getResource("/assets/Texture/sea.png").toExternalForm(), 80, 80, false, false);
-                ImageView imageView = new ImageView(sea);
+    private void changeTexture(String texture) {
+        for (int i = (int) startCol; i < endCol + 1; i++) {
+            for (int j = (int) startRow; j < endRow + 1; j++) {
+                Image newTexture = new Image(getClass().getResource("/assets/Texture/" + texture + ".png").toExternalForm(), 80, 80, false, false);
+                ImageView imageView = new ImageView(newTexture);
 //        imageView.setRotate(45);
-                if (mapMenuController.setTextureOfOneBlock(i + 1, j + 1, "sea").equals(MapMenuMessages.SUCCESS))
+                if (mapMenuController.setTextureOfOneBlock(i + 1, j + 1, texture).equals(MapMenuMessages.SUCCESS))
                     gridPane.add(imageView, i, j);
             }
         }
@@ -338,6 +338,9 @@ public class GameMenu extends Application {
 
     private void showSelectedCells() {
         toolBarHBox.getChildren().clear();
+        Button changeTexture = new Button();
+        changeTexture.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
+                "/assets/ToolBar/Buttons/Texture.png").toExternalForm(), 20, 20, false, false)));
         Button button = new Button();
         HashMap<String, Integer> soldiers = mapMenuController.
                 getSoldiers(startCol + 1, startRow + 1, endCol + 1, endRow + 1);
@@ -376,7 +379,8 @@ public class GameMenu extends Application {
         }
         button.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
                 "/assets/ToolBar/Buttons/unitMenu.png").toExternalForm(), 20, 20, false, false)));
-        toolBarHBox.getChildren().add(button);
+        toolBarHBox.getChildren().addAll(button, changeTexture);
+        changeTexture.setOnMouseClicked(e -> openTextureMenu());
         button.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -390,6 +394,46 @@ public class GameMenu extends Application {
         unitMenuController.setSelectedUnit(startCol + 1, startRow + 1,
                 endCol + 1, endRow + 1, soldiers);
 //        if (soldiers.size() > 0) handleMove(startCol, startRow, endCol, endRow);
+    }
+
+    private void openTextureMenu() {
+        toolBarHBox.getChildren().clear();
+        Button setButton = new Button("Set"); setButton.setDisable(true);
+
+        ComboBox<String> comboBox = new ComboBox<>();
+        ObservableList<String> items = FXCollections.observableArrayList();
+        items.addAll("sea", "rock", "moat", "graveland");
+        comboBox.setItems(items);
+
+        PopupControl popup = new PopupControl();
+        ListView<String> listView = new ListView<>();
+        listView.setItems(items);
+        popup.getScene().setRoot(listView);
+
+        comboBox.setOnAction(event -> {
+            if (comboBox.getSelectionModel().getSelectedIndex() != -1) {
+                listView.setPrefHeight(200); // Set the preferred height of the ListView
+                listView.setMaxHeight(200); // Set the maximum height of the ListView
+                listView.setMinHeight(200); // Set the minimum height of the ListView
+                listView.setVisible(true); // Make the ListView visible
+            } else {
+                listView.setVisible(false); // Hide the ListView if no item is selected
+            }
+        });
+
+        comboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null)
+                setButton.setDisable(true);
+            if (newValue != null) {
+                comboBox.setValue(newValue); // Update the selected item in the ComboBox
+                setButton.setDisable(false);
+            }
+        });
+
+        toolBarHBox.getChildren().addAll(comboBox, setButton);
+        setButton.setOnMouseClicked(e -> changeTexture(comboBox.getValue()));
+        removeHover();
+        handleHover(gridPane);
     }
 
     private void handleMove() {
@@ -1805,6 +1849,15 @@ public class GameMenu extends Application {
         hBox.getChildren().addAll(text, slider);
 
         return hBox;
+    }
+
+    private void removeHover() {
+        for (int i = gridPane.getChildren().size() - 1; i >= 0; i--) {
+            Node child = gridPane.getChildren().get(i);
+            if (child instanceof Label) {
+                gridPane.getChildren().remove(child);
+            }
+        }
     }
 
     private void refreshToolBar() {

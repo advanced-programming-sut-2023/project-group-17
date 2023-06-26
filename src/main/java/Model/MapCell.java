@@ -195,7 +195,8 @@ public class MapCell {
 
     public boolean isTraversable() {
         //TODO drawbridge
-        if (haveBuilding() && !(getBuilding() instanceof Trap)) return false;
+        if (haveBuilding() && !(getBuilding() instanceof Trap || getBuilding().getBuildingName().equals("drawbridge")))
+            return false;
 
         if (getTunnel() != null) return false;
         if (getWall() != null && dfsForStair(getX(), getY())) {
