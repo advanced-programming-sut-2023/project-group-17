@@ -2,12 +2,12 @@ package Client.view;
 
 //public class TradeMenu{
 //    private TradeMenuController tradeMenuController;
-
-
+//
+//
 //    public TradeMenu(){
 //        this.tradeMenuController = new TradeMenuController();
 //    }
-
+//
 //    @Override
 //    public void run() {
 //        System.out.println("entered trade menu successfully");
