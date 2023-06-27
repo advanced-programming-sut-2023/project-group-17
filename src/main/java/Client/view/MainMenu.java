@@ -6,7 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -23,6 +23,7 @@ public class MainMenu extends Application {
     public TextField turnsCount;
     public TextField width;
     public TextField length;
+    public Button startNewGameButton;
     private MainMenuController controller = new MainMenuController();
     public static String users;
 
@@ -37,38 +38,60 @@ public class MainMenu extends Application {
                 "/assets/Backgrounds/mainBackground.jpg").toExternalForm()),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 new BackgroundSize(1.0, 1.0, true, true, false, false))));
+        ComboBox<String> comboBox = new ComboBox<>();
         ObservableList<String> items = FXCollections.observableArrayList();
-        ArrayList<String> list = new ArrayList<>();
-        controller.addUsers(list);
-        items.addAll(list);
-        users = controller.getLoggedInUserUsername();
-        CheckComboBox<String> control = new CheckComboBox<String>(items);
+        items.addAll("2", "3", "4", "5", "6", "7", "8");
+        comboBox.setItems(items);
+        startNewGameButton.setDisable(true);
 
-        control.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
-            public void onChanged(ListChangeListener.Change<? extends String> c) {
-                users = "," + controller.getLoggedInUserUsername();
-                for (String checkedItem : control.getCheckModel().getCheckedItems()) {
-                    users += "," + checkedItem;
-                }
-                if (users.length() != 0) users = users.substring(1);
+        PopupControl popup = new PopupControl();
+        ListView<String> listView = new ListView<>();
+        listView.setItems(items);
+        popup.getScene().setRoot(listView);
+
+        comboBox.setOnAction(event -> {
+            if (comboBox.getSelectionModel().getSelectedIndex() != -1) {
+                listView.setPrefHeight(200); // Set the preferred height of the ListView
+                listView.setMaxHeight(200); // Set the maximum height of the ListView
+                listView.setMinHeight(200); // Set the minimum height of the ListView
+                listView.setVisible(true); // Make the ListView visible
+            } else {
+                listView.setVisible(false); // Hide the ListView if no item is selected
             }
         });
 
-        pane.getChildren().add(control);
-        control.setLayoutX(657);
-        control.setLayoutY(110);
+        comboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null)
+                startNewGameButton.setDisable(true);
+            if (newValue != null) {
+                comboBox.setValue(newValue); // Update the selected item in the ComboBox
+                startNewGameButton.setDisable(false);
+            }
+        });
+//        ObservableList<String> items = FXCollections.observableArrayList();
+//        ArrayList<String> list = new ArrayList<>();
+//        controller.addUsers(list);
+//        items.addAll(list);
+//        users = controller.getLoggedInUserUsername();
+//        CheckComboBox<String> control = new CheckComboBox<String>(items);
+
+
+        pane.getChildren().add(comboBox);
+        comboBox.setLayoutX(657);
+        comboBox.setLayoutY(110);
         stage.getScene().setRoot(pane);
         stage.setFullScreen(true);
         stage.show();
     }
 
     public void startNewGame(MouseEvent mouseEvent) throws Exception {
-        if (!width.getText().equals("") && !length.getText().equals("") && !users.equals("") && !turnsCount.getText().equals("")) {
-            controller.createNewMap(Integer.parseInt(width.getText()), Integer.parseInt(length.getText()));
-            controller.startNewGame(users, Integer.parseInt(turnsCount.getText()));
-            new SetHeadquarters().start(stage);
-            //TODO set headquarters?
-        }
+        //TODO: open new lobby
+//        if (!width.getText().equals("") && !length.getText().equals("") && !users.equals("") && !turnsCount.getText().equals("")) {
+//            controller.createNewMap(Integer.parseInt(width.getText()), Integer.parseInt(length.getText()));
+//            controller.startNewGame(users, Integer.parseInt(turnsCount.getText()));
+//            new SetHeadquarters().start(stage);
+//            //TODO set headquarters?
+//        }
 //        new GameMenu().start(stage);
     }
 
