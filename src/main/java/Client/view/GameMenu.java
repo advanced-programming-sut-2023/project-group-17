@@ -1,16 +1,12 @@
-package View;
+package Client.view;
 
-import Client.view.LoginMenu;
-import Client.view.Main;
-import Client.view.MainMenu;
-import Client.view.MoveAnimation;
 import Model.Items.Item;
 import Server.controller.*;
 import Utils.Pair;
-import View.Enums.Messages.BuildingMenuMessages;
-import View.Enums.Messages.MapMenuMessages;
-import View.Enums.Messages.UnitMenuMessages;
-import View.Enums.Types.TradeType;
+import Server.enums.Messages.BuildingMenuMessages;
+import Server.enums.Messages.MapMenuMessages;
+import Server.enums.Messages.UnitMenuMessages;
+import Server.enums.Types.TradeType;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;

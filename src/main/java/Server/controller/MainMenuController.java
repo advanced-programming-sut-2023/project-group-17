@@ -1,7 +1,7 @@
 package Server.controller;
 
 import Model.*;
-import View.Enums.Messages.MainMenuMessages;
+import Server.enums.Messages.MainMenuMessages;
 
 import java.util.ArrayList;
 

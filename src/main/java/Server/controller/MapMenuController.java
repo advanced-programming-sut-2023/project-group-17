@@ -6,7 +6,7 @@ import Model.MapCellItems.Rock;
 import Model.MapCellItems.Tree;
 import Model.People.Soldier;
 import Utils.CheckMapCell;
-import View.Enums.Messages.MapMenuMessages;
+import Server.enums.Messages.MapMenuMessages;
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;

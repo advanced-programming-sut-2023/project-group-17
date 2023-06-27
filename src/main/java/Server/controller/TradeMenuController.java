@@ -5,8 +5,8 @@ import Model.Empire;
 import Model.Items.*;
 import Model.TradeRequest;
 import Model.User;
-import View.Enums.Messages.TradeMenuMessages;
-import View.Enums.Types.TradeType;
+import Server.enums.Messages.TradeMenuMessages;
+import Server.enums.Types.TradeType;
 
 public class TradeMenuController {
     Item item;

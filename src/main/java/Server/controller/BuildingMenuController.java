@@ -10,8 +10,8 @@ import Model.MapCellItems.Wall;
 import Model.People.*;
 import Utils.CheckMapCell;
 import Utils.Pair;
-import View.EmpireMenu;
-import View.Enums.Messages.BuildingMenuMessages;
+//import View.EmpireMenu;
+import Server.enums.Messages.BuildingMenuMessages;
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
@@ -217,27 +217,27 @@ public class BuildingMenuController {
         }
     }
 
-    public BuildingMenuMessages selectBuilding(int x, int y) {
-
-        if (!CheckMapCell.validationOfX(x)) return BuildingMenuMessages.X_OUT_OF_BOUNDS;
-
-        if (!CheckMapCell.validationOfY(y)) return BuildingMenuMessages.Y_OUT_OF_BOUNDS;
-
-        switch (CheckMapCell.mapCellHaveBuildingByCoordinates(x, y, Database.getCurrentUser())) {
-            case NO_BUILDING_IN_THIS_CELL:
-                return BuildingMenuMessages.CELL_IS_EMPTY;
-            case OPPONENT_BUILDING:
-                return BuildingMenuMessages.OPPONENT_BUILDING;
-            case SUCCESS:
-                selectedBuilding = Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getBuilding();
-                this.x = x;
-                this.y = y;
-                break;
-        }
-
-        BuildingsHandler.handleBuildingFunction(selectedBuilding);
-        return BuildingMenuMessages.SUCCESS;
-    }
+//    public BuildingMenuMessages selectBuilding(int x, int y) {
+//
+//        if (!CheckMapCell.validationOfX(x)) return BuildingMenuMessages.X_OUT_OF_BOUNDS;
+//
+//        if (!CheckMapCell.validationOfY(y)) return BuildingMenuMessages.Y_OUT_OF_BOUNDS;
+//
+//        switch (CheckMapCell.mapCellHaveBuildingByCoordinates(x, y, Database.getCurrentUser())) {
+//            case NO_BUILDING_IN_THIS_CELL:
+//                return BuildingMenuMessages.CELL_IS_EMPTY;
+//            case OPPONENT_BUILDING:
+//                return BuildingMenuMessages.OPPONENT_BUILDING;
+//            case SUCCESS:
+//                selectedBuilding = Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getBuilding();
+//                this.x = x;
+//                this.y = y;
+//                break;
+//        }
+//
+//        BuildingsHandler.handleBuildingFunction(selectedBuilding);
+//        return BuildingMenuMessages.SUCCESS;
+//    }
 
     public BuildingMenuMessages createUnit(int columnIndex, int rowIndex, String type, int count, ImageView imageView) {
 
@@ -307,9 +307,9 @@ public class BuildingMenuController {
         y = 0;
     }
 
-    public static void handleGateHouse(Building building) {
-        new EmpireMenu().run();
-    }
+//    public static void handleGateHouse(Building building) {
+//        new EmpireMenu().run();
+//    }
 
 //    public static void handleMarket(Building building) {
 //        new ShopMenu().run();

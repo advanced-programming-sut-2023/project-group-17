@@ -3,9 +3,7 @@ package Server.controller;
 import Model.Database;
 import Model.Empire;
 import Model.Items.Food;
-import Model.User;
-import View.Enums.Messages.EmpireMenuMessages;
-import javafx.scene.control.Label;
+import Server.enums.Messages.EmpireMenuMessages;
 
 public class EmpireMenuController {
     public String showPopularity() {

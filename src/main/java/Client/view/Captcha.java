@@ -1,4 +1,4 @@
-package View;
+package Client.view;
 
 import Server.controller.DataAnalysisController;
 import javafx.scene.image.Image;

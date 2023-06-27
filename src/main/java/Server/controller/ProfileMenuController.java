@@ -2,10 +2,8 @@ package Server.controller;
 
 import Model.Database;
 import Model.User;
-import Utils.CheckValidation;
+import Server.enums.Messages.ProfileMenuMessages;
 import Utils.Randoms;
-import View.Enums.Messages.ProfileMenuMessages;
-import View.Enums.Messages.UtilsMessages;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -79,32 +77,32 @@ public class ProfileMenuController {
         return ProfileMenuMessages.SUCCESS;
     }
 
-    public ProfileMenuMessages setNewPassword(String newPassword, String confirmationPassword) {
-        if (!newPassword.equals(confirmationPassword))
-            return ProfileMenuMessages.PASSWORDS_DO_NOT_MATCH;
-
-        if (!CheckValidation.isPasswordStrong(newPassword).equals(UtilsMessages.PASSWORD_IS_STRONG)) {
-            switch (CheckValidation.isPasswordStrong(newPassword)) {
-                case SHORT_PASSWORD:
-                    return ProfileMenuMessages.SHORT_PASSWORD;
-                case PASSWORD_DOES_NOT_CONTAIN_LOWERCASE:
-                    return ProfileMenuMessages.PASSWORD_DOES_NOT_CONTAIN_LOWERCASE;
-                case PASSWORD_DOES_NOT_CONTAIN_INTEGER:
-                    return ProfileMenuMessages.PASSWORD_DOES_NOT_CONTAIN_INTEGER;
-                case PASSWORD_DOES_NOT_CONTAIN_UPPERCASE:
-                    return ProfileMenuMessages.PASSWORD_DOES_NOT_CONTAIN_UPPERCASE;
-                case PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER:
-                    return ProfileMenuMessages.PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER;
-                case PASSWORD_IS_STRONG:
-                    return ProfileMenuMessages.PASSWORD_IS_STRONG;
-            }
-        }
-
-        getCurrentUser().setPassword(User.SHA256Code(newPassword));
-        Database.saveUsers();
-        if (Database.getStayLoggedInUser() != null) Database.setStayLoggedInUser(getCurrentUser());
-        return ProfileMenuMessages.SUCCESS;
-    }
+//    public ProfileMenuMessages setNewPassword(String newPassword, String confirmationPassword) {
+//        if (!newPassword.equals(confirmationPassword))
+//            return ProfileMenuMessages.PASSWORDS_DO_NOT_MATCH;
+//
+//        if (!CheckValidation.isPasswordStrong(newPassword).equals(UtilsMessages.PASSWORD_IS_STRONG)) {
+//            switch (CheckValidation.isPasswordStrong(newPassword)) {
+//                case SHORT_PASSWORD:
+//                    return ProfileMenuMessages.SHORT_PASSWORD;
+//                case PASSWORD_DOES_NOT_CONTAIN_LOWERCASE:
+//                    return ProfileMenuMessages.PASSWORD_DOES_NOT_CONTAIN_LOWERCASE;
+//                case PASSWORD_DOES_NOT_CONTAIN_INTEGER:
+//                    return ProfileMenuMessages.PASSWORD_DOES_NOT_CONTAIN_INTEGER;
+//                case PASSWORD_DOES_NOT_CONTAIN_UPPERCASE:
+//                    return ProfileMenuMessages.PASSWORD_DOES_NOT_CONTAIN_UPPERCASE;
+//                case PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER:
+//                    return ProfileMenuMessages.PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER;
+//                case PASSWORD_IS_STRONG:
+//                    return ProfileMenuMessages.PASSWORD_IS_STRONG;
+//            }
+//        }
+//
+//        getCurrentUser().setPassword(User.SHA256Code(newPassword));
+//        Database.saveUsers();
+//        if (Database.getStayLoggedInUser() != null) Database.setStayLoggedInUser(getCurrentUser());
+//        return ProfileMenuMessages.SUCCESS;
+//    }
 
     public ProfileMenuMessages changeEmail(String email){
         if(emailExists(email))

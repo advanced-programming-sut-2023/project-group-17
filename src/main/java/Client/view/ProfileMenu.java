@@ -29,6 +29,8 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 
+import static Server.enums.Messages.UtilsMessages.*;
+
 public class ProfileMenu extends Application {
 
     private final ProfileMenuController controller;

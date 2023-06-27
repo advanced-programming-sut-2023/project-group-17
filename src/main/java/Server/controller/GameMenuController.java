@@ -13,7 +13,7 @@ import Model.People.Person;
 import Model.People.Soldier;
 import Utils.CheckMapCell;
 import Utils.Pair;
-import View.Enums.Messages.GameMenuMessages;
+import Server.enums.Messages.GameMenuMessages;
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;

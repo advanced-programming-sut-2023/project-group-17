@@ -3,7 +3,7 @@ package Server.controller;
 import Model.Database;
 import Model.Empire;
 import Model.Items.Item;
-import View.Enums.Messages.ShopMenuMessages;
+import Server.enums.Messages.ShopMenuMessages;
 
 public class ShopMenuController {
     Item item;

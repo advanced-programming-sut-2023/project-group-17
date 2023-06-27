@@ -6,12 +6,12 @@ public class BuildingsHandler {
     public static void handleBuildingFunction(Building building) {
 
         switch (building.getCategory()) {
-            case "gate house":
-                BuildingMenuController.handleGateHouse(building);
-                break;
-            case "other buildings":
-                handleOtherBuildings(building);
-                break;
+//            case "gate house":
+//                BuildingMenuController.handleGateHouse(building);
+//                break;
+//            case "other buildings":
+//                handleOtherBuildings(building);
+//                break;
             case "storage":
                 handleStorageBuildings(building);
                 break;
@@ -26,9 +26,9 @@ public class BuildingsHandler {
         }
     }
 
-    public static void handleOtherBuildings(Building building) {
-        if (building.getBuildingName().equals("market")) {
-            BuildingMenuController.handleMarket(building);
-        }
-    }
+//    public static void handleOtherBuildings(Building building) {
+//        if (building.getBuildingName().equals("market")) {
+//            BuildingMenuController.handleMarket(building);
+//        }
+//    }
 }

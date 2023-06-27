@@ -2,7 +2,6 @@ package Client.view;
 
 import Server.controller.SignupMenuController;
 import Utils.CheckValidation;
-import View.Captcha;
 import View.Enums.Messages.UtilsMessages;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;

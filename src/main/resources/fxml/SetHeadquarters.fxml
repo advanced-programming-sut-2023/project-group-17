@@ -9,7 +9,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
       prefHeight="500.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/19"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.SetHeadquarters">
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.view.SetHeadquarters">
     <children>
         <Text layoutX="450.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" fx:id="user1Text">
             <font>

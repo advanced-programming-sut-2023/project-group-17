@@ -20,6 +20,6 @@ module StrongHold {
     opens Model.Buildings to com.google.gson;
     exports Model.MapGeneration;
     opens Model.MapGeneration to com.google.gson;
-    exports View;
-    exports View.Enums.Types;
+    exports Server.enums.Messages;
+    exports Client.view;
 }

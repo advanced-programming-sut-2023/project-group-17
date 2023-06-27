@@ -2,13 +2,13 @@ package Server.controller;
 
 import Model.Database;
 import Model.User;
-import Utils.Captcha;
+import Server.enums.Messages.SignupMenuMessages;
+import Server.enums.Messages.UtilsMessages;
 import Utils.CheckValidation;
 import Utils.Randoms;
-import View.Enums.Messages.SignupMenuMessages;
-import View.Enums.Messages.UtilsMessages;
 
 import static Model.Database.*;
+import static Server.enums.Messages.LoginMenuMessages.*;
 
 public class SignupMenuController {
     User tmpUser;
@@ -91,10 +91,10 @@ public class SignupMenuController {
         return questions;
     }
 
-    public void GenerateCaptcha() {
-        verifyingNumber = Captcha.generateRandomNumber();
-        Captcha.printTextArt(verifyingNumber);
-    }
+//    public void GenerateCaptcha() {
+//        verifyingNumber = Captcha.generateRandomNumber();
+//        Captcha.printTextArt(verifyingNumber);
+//    }
 
     public boolean validateCaptcha(int input) {
         return verifyingNumber == input;

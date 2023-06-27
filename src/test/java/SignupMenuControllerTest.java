@@ -1,5 +1,5 @@
-import Server.controller.SignupMenuController;
 import Model.Database;
+import Server.controller.SignupMenuController;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,7 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 
-import static View.Enums.Messages.SignupMenuMessages.*;
+import static Server.enums.Messages.SignupMenuMessages.*;
 
 @ExtendWith(MockitoExtension.class)
 public class SignupMenuControllerTest {

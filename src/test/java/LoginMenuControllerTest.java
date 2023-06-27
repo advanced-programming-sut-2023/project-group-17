@@ -3,7 +3,7 @@ import Server.controller.SignupMenuController;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static View.Enums.Messages.LoginMenuMessages.WRONG_PASSWORD;
+import static Server.enums.Messages.LoginMenuMessages.WRONG_PASSWORD;
 
 public class LoginMenuControllerTest {
     LoginMenuController controller = new LoginMenuController();

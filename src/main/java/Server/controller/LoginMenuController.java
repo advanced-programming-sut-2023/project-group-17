@@ -2,10 +2,9 @@ package Server.controller;
 
 import Model.Database;
 import Model.User;
-import Utils.Captcha;
 import Utils.CheckValidation;
-import View.Enums.Messages.LoginMenuMessages;
-import View.Enums.Messages.UtilsMessages;
+import Server.enums.Messages.LoginMenuMessages;
+import Server.enums.Messages.UtilsMessages;
 
 import static Model.Database.setCurrentUser;
 
@@ -83,25 +82,25 @@ public class LoginMenuController {
         return false;
     }
 
-    public void GenerateCaptcha() {
-        verifyingNumber = Captcha.generateRandomNumber();
-        Captcha.printTextArt(verifyingNumber);
-    }
+//    public void GenerateCaptcha() {
+//        verifyingNumber = Captcha.generateRandomNumber();
+//        Captcha.printTextArt(verifyingNumber);
+//    }
+//
+//    public boolean validateCaptcha(int input) {
+//        return verifyingNumber == input;
+//    }
+//
+//    public boolean checkPassword(String username, String password) {
+//        return Database.getUserByUsername(username).getPassword().equals(User.SHA256Code(password));
+//    }
 
-    public boolean validateCaptcha(int input) {
-        return verifyingNumber == input;
-    }
-
-    public boolean checkPassword(String username, String password) {
-        return Database.getUserByUsername(username).getPassword().equals(User.SHA256Code(password));
-    }
-
-    public void setLoggedInUserInController(String username) {
-        User user = Database.getUserByUsername(username);
-        setCurrentUser(user);
-        Database.loadUnits();
-        Database.loadBuildings();
-    }
+//    public void setLoggedInUserInController(String username) {
+//        User user = Database.getUserByUsername(username);
+//        setCurrentUser(user);
+//        Database.loadUnits();
+//        Database.loadBuildings();
+//    }
 
     public User getUserByUsername(String username) {
         return Database.getUserByUsername(username);

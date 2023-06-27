@@ -1,7 +1,7 @@
 package Model;
 
 import Model.Items.Item;
-import View.Enums.Types.TradeType;
+import Server.enums.Types.TradeType;
 
 public class TradeRequest {
     private final User senderUser;

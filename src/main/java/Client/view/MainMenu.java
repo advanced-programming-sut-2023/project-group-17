@@ -1,7 +1,6 @@
 package Client.view;
 
 import Server.controller.MainMenuController;
-import View.SetHeadquarters;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;

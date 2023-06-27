@@ -1,6 +1,5 @@
-package View;
+package Client.view;
 
-import Client.view.LoginMenu;
 import Server.controller.HeadquarterMenuController;
 import javafx.application.Application;
 import javafx.event.ActionEvent;

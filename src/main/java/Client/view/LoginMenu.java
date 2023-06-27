@@ -2,7 +2,6 @@ package Client.view;
 
 import Server.controller.LoginMenuController;
 import Utils.CheckValidation;
-import View.Captcha;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
