@@ -1,5 +1,6 @@
 package Client.view;
 
+import Client.ClientMain;
 import Server.controller.AvatarMenuController;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -194,7 +195,7 @@ public class AvatarMenu extends Application {
     }
 
     public void backToProfile() throws Exception {
-        new ProfileMenu().start(Main.stage);
+        new ProfileMenu().start(ClientMain.stage);
     }
 
     public void getOtherPlayersAvatar(MouseEvent mouseEvent) {

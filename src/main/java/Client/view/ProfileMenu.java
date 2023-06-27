@@ -1,5 +1,6 @@
 package Client.view;
 
+import Client.ClientMain;
 import Server.controller.ProfileMenuController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -576,7 +577,7 @@ public class ProfileMenu extends Application {
     }
 
     public void backToMainMenu(ActionEvent actionEvent) throws Exception {
-        new MainMenu().start(Main.stage);
+        new MainMenu().start(ClientMain.stage);
     }
 
     private void makeListenerForDisablingRemoveButton() {
@@ -620,6 +621,6 @@ public class ProfileMenu extends Application {
     }
 
     public void openAvatarMenu(ActionEvent actionEvent) throws Exception {
-        new AvatarMenu().start(Main.stage);
+        new AvatarMenu().start(ClientMain.stage);
     }
 }

@@ -1,5 +1,6 @@
 package Client.view;
 
+import Client.ClientMain;
 import Model.Database;
 import Model.User;
 import javafx.application.Application;
@@ -28,13 +29,13 @@ public class ScoreBoardMenu extends Application {
 //        pane.getChildren().add(new ImageView(new Image(ProfileMenu.class.
 //                getResource("/assets/Backgrounds/LoginBackground.PNG").toExternalForm())));
         Scene scene = new Scene(pane);
-        Main.stage.setFullScreen(false);
+        ClientMain.stage.setFullScreen(false);
         stage.setScene(scene);
         stage.show();
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
-                Main.stage.setFullScreen(true);
+                ClientMain.stage.setFullScreen(true);
             }
         });
     }
