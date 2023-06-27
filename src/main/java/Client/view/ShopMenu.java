@@ -1,4 +1,4 @@
-package View;
+package Client.view;
 
 //public class ShopMenu extends Menu{
 //    private ShopMenuController controller;

@@ -1,6 +1,7 @@
-package View;
+package Client.view;
 
 import Server.controller.MainMenuController;
+import View.SetHeadquarters;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -15,7 +16,7 @@ import org.controlsfx.control.CheckComboBox;
 
 import java.util.ArrayList;
 
-import static View.Main.stage;
+import static Client.view.Main.stage;
 
 
 public class MainMenu extends Application {

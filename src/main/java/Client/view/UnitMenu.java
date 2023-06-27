@@ -1,4 +1,4 @@
-package View;
+package Client.view;
 
 //public class UnitMenu extends Menu {
 //    private final UnitMenuController controller;

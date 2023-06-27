@@ -1,7 +1,8 @@
-package View;
+package Client.view;
 
 import Server.controller.SignupMenuController;
 import Utils.CheckValidation;
+import View.Captcha;
 import View.Enums.Messages.UtilsMessages;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -22,7 +23,7 @@ import javafx.stage.Stage;
 import java.util.Objects;
 import java.util.Random;
 
-import static View.Main.stage;
+import static Client.view.Main.stage;
 
 public class SignupMenu extends Application {
     private static Pane pane;

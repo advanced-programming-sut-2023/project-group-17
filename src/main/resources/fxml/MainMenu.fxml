@@ -4,7 +4,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="838.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MainMenu">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="838.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.view.MainMenu">
    <children>
       <TextField fx:id="turnsCount" layoutX="654.0" layoutY="162.0" prefWidth="120" promptText="number of turns" />
       <Button layoutX="654.0" layoutY="266.0" mnemonicParsing="false" onMouseClicked="#startNewGame" prefWidth="120" text="start new game" />

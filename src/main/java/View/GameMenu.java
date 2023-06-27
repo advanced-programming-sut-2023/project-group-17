@@ -1,5 +1,9 @@
 package View;
 
+import Client.view.LoginMenu;
+import Client.view.Main;
+import Client.view.MainMenu;
+import Client.view.MoveAnimation;
 import Model.Items.Item;
 import Server.controller.*;
 import Utils.Pair;
@@ -64,7 +68,7 @@ public class GameMenu extends Application {
     private EmpireMenuController empireMenuController;
     private MainMenuController mainMenuController;
     private TradeMenuController tradeMenuController;
-    private MapMenu mapMenu;
+//    private MapMenu mapMenu;
     private GridPane gridPane;
     private ToolBar toolBar;
     private HBox toolBarHBox;
@@ -95,7 +99,7 @@ public class GameMenu extends Application {
 
     public GameMenu() {
         this.gameMenuController = new GameMenuController();
-        this.mapMenu = new MapMenu();
+//        this.mapMenu = new MapMenu();
         this.dataController = new DataAnalysisController();
         this.buildingMenuController = new BuildingMenuController();
         this.mapMenuController = new MapMenuController();

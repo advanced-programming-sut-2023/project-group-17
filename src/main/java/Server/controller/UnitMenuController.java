@@ -12,7 +12,6 @@ import Model.People.Soldier;
 import Model.People.Tunneler;
 import Utils.CheckMapCell;
 import View.Enums.Messages.UnitMenuMessages;
-import View.Main;
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;

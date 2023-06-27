@@ -12,7 +12,7 @@
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.CheckBox?>
-<Pane fx:controller="View.ProfileMenu"
+<Pane fx:controller="Client.view.ProfileMenu"
       maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
       <TextField fx:id="usernameText" layoutX="558.0" layoutY="355.0" />
       <TextField fx:id="nicknameText" layoutX="558.0" layoutY="405.0"/>

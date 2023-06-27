@@ -1,5 +1,6 @@
 package View;
 
+import Client.view.LoginMenu;
 import Server.controller.HeadquarterMenuController;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -14,7 +15,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
-import static View.Main.stage;
+import static Client.view.Main.stage;
 
 public class SetHeadquarters extends Application {
     public HeadquarterMenuController controller = new HeadquarterMenuController();

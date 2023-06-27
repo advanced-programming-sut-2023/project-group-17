@@ -1,4 +1,4 @@
-package View;
+package Client.view;
 
 import Server.controller.ProfileMenuController;
 import Utils.CheckValidation;
