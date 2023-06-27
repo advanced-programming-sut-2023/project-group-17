@@ -13,7 +13,8 @@ import static javafx.application.Application.launch;
 
 public class ClientMain extends Application {
     public static Stage stage;
-    public LoginMenuController controller = new LoginMenuController();
+    public Controller controller = new Controller();
+//    public LoginMenuController controller = new LoginMenuController();
     public static void main(String[] args) {
         launch(args);
     }
@@ -23,6 +24,7 @@ public class ClientMain extends Application {
         Pane pane = new Pane();
         stage.setScene(new Scene(pane));
         ClientMain.stage = stage;
+        controller.loadJson();
 //        controller.loadCaptcha();
 //        if (controller.checkStayLoggedIn()) new MainMenu().start(stage);
 //        else new LoginMenu().start(stage);

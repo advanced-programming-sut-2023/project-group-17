@@ -1,5 +1,6 @@
 package Client.view;
 
+import Client.controller.Controller;
 import Server.controller.DataAnalysisController;
 import javafx.scene.image.Image;
 
@@ -10,21 +11,22 @@ public class Captcha {
     int answer;
     Image captchaImage;
     private ArrayList<String> captchas;
-    private DataAnalysisController controller;
+    private Controller controller;
 
-//    Captcha() {
-//        this.controller = new DataAnalysisController();
-//        this.captchas = controller.getCaptchas();
-//        generateNewCaptcha();
-//    }
+    Captcha() {
+        this.controller = new Controller();
+        this.captchas = controller.getCaptchas();
+        System.out.println(captchas.size());
+        generateNewCaptcha();
+    }
 
-//    public void generateNewCaptcha() {
-//        int size = captchas.size();
-//        int index = (int) (Math.random() * size);
-//        this.answer = Integer.parseInt(captchas.get(index));
-//        String path = getClass().getResource("/Captcha/" + answer + ".png").toExternalForm();
-//        this.captchaImage = new Image(path, 80, 80, false, false);
-//    }
+    public void generateNewCaptcha() {
+        int size = captchas.size();
+        int index = (int) (Math.random() * size);
+        this.answer = Integer.parseInt(captchas.get(index));
+        String path = getClass().getResource("/Captcha/" + answer + ".png").toExternalForm();
+        this.captchaImage = new Image(path, 80, 80, false, false);
+    }
 
     public int getAnswer() {
         return answer;

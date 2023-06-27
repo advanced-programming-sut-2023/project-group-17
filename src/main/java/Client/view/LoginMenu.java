@@ -46,9 +46,9 @@ public class LoginMenu extends Application {
     private Captcha captcha;
     public LoginMenu() {
         controller = new LoginMenuController();
-//        this.captcha = new Captcha();
-//        this.CaptchaImageView = new ImageView(new Image(getClass().getResource
-//                ("/Captcha/" + captcha.getAnswer() + ".png").toExternalForm(), 120, 80, false, false));
+        this.captcha = new Captcha();
+        this.CaptchaImageView = new ImageView(new Image(getClass().getResource
+                ("/Captcha/" + captcha.getAnswer() + ".png").toExternalForm(), 120, 80, false, false));
     }
     @Override
     public void start(Stage stage) throws Exception {
@@ -59,18 +59,18 @@ public class LoginMenu extends Application {
                 new BackgroundSize(1.0, 1.0, true, true, false, false))));
 
         LoginMenu.pane = pane;
-//        setCaptcha();
+        setCaptcha();
         stage.getScene().setRoot(pane);
         stage.setFullScreen(true);
         stage.show();
     }
 
-//    private void setCaptcha() {
-//        imageView = new ImageView(new Image(getClass().getResource
-//                ("/Captcha/" + captcha.getAnswer() + ".png").toExternalForm(), 120, 80, false, false));
-//        imageView.setX(755); imageView.setY(559);
-//        pane.getChildren().add(imageView);
-//    }
+    private void setCaptcha() {
+        imageView = new ImageView(new Image(getClass().getResource
+                ("/Captcha/" + captcha.getAnswer() + ".png").toExternalForm(), 120, 80, false, false));
+        imageView.setX(755); imageView.setY(559);
+        pane.getChildren().add(imageView);
+    }
 
     @FXML
     public void initialize() {
@@ -277,14 +277,14 @@ public class LoginMenu extends Application {
         }));
     }
 
-//    public void resetCaptcha(MouseEvent mouseEvent) {
-//        captcha.generateNewCaptcha();
-//        setCaptcha();
-//    }
-//
-//    public void checkCaptcha(MouseEvent mouseEvent) {
-//        loginButton.setDisable(!CaptchaTextField.getText().equals(String.valueOf(captcha.getAnswer())));
-//    }
+    public void resetCaptcha(MouseEvent mouseEvent) {
+        captcha.generateNewCaptcha();
+        setCaptcha();
+    }
+
+    public void checkCaptcha(MouseEvent mouseEvent) {
+        loginButton.setDisable(!CaptchaTextField.getText().equals(String.valueOf(captcha.getAnswer())));
+    }
 
 
 //    private final LoginMenuController controller;

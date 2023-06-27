@@ -28,7 +28,7 @@
       <Text fx:id="forgotPasswordUsernameError" layoutX="846.0" layoutY="397.0" strokeType="OUTSIDE" strokeWidth="0.0" />
 <!--      <ImageView fx:id="CaptchaImageView" fitHeight="71.0" fitWidth="92.0" layoutX="755.0" layoutY="559.0" pickOnBounds="true" preserveRatio="true" />-->
       <TextField fx:id="CaptchaTextField" layoutX="597.0" layoutY="564.0" prefHeight="26.0" prefWidth="115.0" />
-<!--      <Button fx:id="ResetCaptchaButton" layoutX="662.0" layoutY="607.0" mnemonicParsing="false" text="Reset" onMouseClicked="#resetCaptcha"/>-->
-<!--      <Button fx:id="ConfirmCaptchaButton" layoutX="597.0" layoutY="608.0" mnemonicParsing="false" text="Confirm" onMouseClicked="#checkCaptcha"/>-->
+      <Button fx:id="ResetCaptchaButton" layoutX="662.0" layoutY="607.0" mnemonicParsing="false" text="Reset" onMouseClicked="#resetCaptcha"/>
+      <Button fx:id="ConfirmCaptchaButton" layoutX="597.0" layoutY="608.0" mnemonicParsing="false" text="Confirm" onMouseClicked="#checkCaptcha"/>
    </children>
 </AnchorPane>
