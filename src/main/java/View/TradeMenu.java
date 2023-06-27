@@ -1,14 +1,12 @@
 package View;
 
-import Server.controller.TradeMenuController;
-
-public class TradeMenu{
-    private TradeMenuController tradeMenuController;
+//public class TradeMenu{
+//    private TradeMenuController tradeMenuController;
 
 
-    public TradeMenu(){
-        this.tradeMenuController = new TradeMenuController();
-    }
+//    public TradeMenu(){
+//        this.tradeMenuController = new TradeMenuController();
+//    }
 
 //    @Override
 //    public void run() {
@@ -106,4 +104,4 @@ public class TradeMenu{
 //                break;
 //        }
 //    }
-}
+//}
