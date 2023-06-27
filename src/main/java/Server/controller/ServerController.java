@@ -1,7 +1,12 @@
 package Server.controller;
 
+import Model.Database;
+
+import javax.xml.crypto.Data;
 import java.io.IOException;
+import java.net.ServerSocket;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class ServerController {
     private static ServerController serverController = null;
@@ -28,7 +33,24 @@ public class ServerController {
     }
 
     public void run() throws IOException {
-        //TODO
+        Database.loadUsers();
+        new Thread(() -> {
+            Scanner scanner = new Scanner(System.in);
+            if (scanner.nextLine().equals("exit")) {
+                Database.saveUsers();
+                System.exit(0);
+            }
+        }).start();
+        ServerSocket serverSocket = new ServerSocket(13000);
+        System.out.println("server listening...");
+        while (true) {
+            SocketHandler socketHandler = new SocketHandler(serverSocket.accept());
+            System.out.println("New connection made");
+            socketHandler.start();
+            CommandSender commandSender = new CommandSender(serverSocket.accept());
+            socketHandler.setCommandSender(commandSender);
+            socketHandlers.add(socketHandler);
+        }
     }
 
     public void removeSocket(SocketHandler socketHandler) {
