@@ -1,0 +1,30 @@
+package Client.enums.Messages;
+
+public enum ProfileMenuMessages {
+    SUCCESS,
+    //messages for username
+    INVALID_USERNAME,
+    USERNAME_EXISTS,
+    SAME_USERNAME,
+    //message for nickname
+    SAME_NICKNAME,
+    //messages for password
+    INCORRECT_PASSWORD,
+    SAME_PASSWORD,
+    PASSWORDS_DO_NOT_MATCH,
+    SHORT_PASSWORD,
+    PASSWORD_DOES_NOT_CONTAIN_LOWERCASE,
+    PASSWORD_DOES_NOT_CONTAIN_UPPERCASE,
+    PASSWORD_DOES_NOT_CONTAIN_INTEGER,
+    PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER,
+    PASSWORD_IS_STRONG,
+    //message for email
+    INVALID_EMAIL,
+    EMAIL_EXISTS,
+    SAME_EMAIL,
+    //message for slogan
+    SAME_SLOGAN,
+    RANDOM_SLOGAN,
+    EMPTY_SLOGAN,
+    RANDOM_PASSWORD, ENTER_PASSWORD_AGAIN;
+}
