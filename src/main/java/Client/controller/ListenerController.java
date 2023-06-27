@@ -14,7 +14,7 @@ public class ListenerController extends Thread{
         this.setDaemon(true);
         try {
             //TODO: host and port?
-            Socket socket = new Socket("localhost", 0000);
+            Socket socket = new Socket("localhost", 13000);
             dataInputStream = new DataInputStream(socket.getInputStream());
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
         } catch (Exception e) {
