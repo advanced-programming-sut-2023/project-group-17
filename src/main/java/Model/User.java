@@ -15,7 +15,8 @@ public class User {
     private Empire empire;
     private String avatarPath;
 
-    public User(String username, String password, String nickname, String email, String slogan, String passwordRecoveryQuestion, String passwordRecoveryAnswer) {
+    public User(String username, String password, String nickname, String email, String slogan,
+                String passwordRecoveryQuestion, String passwordRecoveryAnswer) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;

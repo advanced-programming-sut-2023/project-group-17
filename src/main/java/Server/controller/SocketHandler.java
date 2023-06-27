@@ -40,4 +40,8 @@ public class SocketHandler extends Thread{
         //TODO
         return null;
     }
+
+    public void setCommandSender(CommandSender commandSender) {
+        this.commandSender = commandSender;
+    }
 }

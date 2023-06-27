@@ -1,8 +1,6 @@
 package Client.view;
 
 import Server.controller.SignupMenuController;
-import Server.enums.Messages.UtilsMessages;
-import Utils.CheckValidation;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -19,7 +17,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 
-import java.util.Objects;
 import java.util.Random;
 
 import static Client.view.Main.stage;
@@ -137,11 +134,12 @@ public class SignupMenu extends Application {
 
         email.textProperty().addListener((observable, oldText, newText)-> {
             emailError.setFill(Color.DARKRED);
-            if (Objects.requireNonNull(CheckValidation.isEmailOk(email.getText())) == UtilsMessages.INVALID_EMAIL) {
-                emailError.setText("Invalid email format");
-            } else {
-                emailError.setText("");
-            }
+            //TODO uncomment she
+//            if (Objects.requireNonNull(CheckValidation.isEmailOk(email.getText())) == UtilsMessages.INVALID_EMAIL) {
+//                emailError.setText("Invalid email format");
+//            } else {
+//                emailError.setText("");
+//            }
         });
         signUpButton.setDisable(true);
     }
