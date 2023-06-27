@@ -1,8 +1,8 @@
 package Client.view;
 
 import Server.controller.SignupMenuController;
+import Server.enums.Messages.UtilsMessages;
 import Utils.CheckValidation;
-import View.Enums.Messages.UtilsMessages;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -86,45 +86,46 @@ public class SignupMenu extends Application {
     @FXML
     public void initialize () {
 
-        password.textProperty().addListener((observable, oldText, newText)-> {
-            passwordVisible.setText(password.getText());
-            passwordError.setFill(Color.DARKRED);
-            switch (Utils.CheckValidation.isPasswordStrong(password.getText())) {
-                case SHORT_PASSWORD:
-                    passwordError.setText("password must have at least 6 characters");
-                    break;
-                case PASSWORD_DOES_NOT_CONTAIN_LOWERCASE:
-                    passwordError.setText("password must have at least 1 lowercase character");
-                    break;
-                case PASSWORD_DOES_NOT_CONTAIN_UPPERCASE:
-                    passwordError.setText("password must have at least 1 uppercase character");
-                    break;
-                case PASSWORD_DOES_NOT_CONTAIN_INTEGER:
-                    passwordError.setText("password must have at least 1 integer");
-                    break;
-                case PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER:
-                    passwordError.setText("password must have at least 1 special character");
-                    break;
-                default:
-                    passwordError.setText("");
-                    break;
-            }
-        });
+        //TODO: solve this for validation?
+//        password.textProperty().addListener((observable, oldText, newText)-> {
+//            passwordVisible.setText(password.getText());
+//            passwordError.setFill(Color.DARKRED);
+//            switch (Utils.CheckValidation.isPasswordStrong(password.getText())) {
+//                case SHORT_PASSWORD:
+//                    passwordError.setText("password must have at least 6 characters");
+//                    break;
+//                case PASSWORD_DOES_NOT_CONTAIN_LOWERCASE:
+//                    passwordError.setText("password must have at least 1 lowercase character");
+//                    break;
+//                case PASSWORD_DOES_NOT_CONTAIN_UPPERCASE:
+//                    passwordError.setText("password must have at least 1 uppercase character");
+//                    break;
+//                case PASSWORD_DOES_NOT_CONTAIN_INTEGER:
+//                    passwordError.setText("password must have at least 1 integer");
+//                    break;
+//                case PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER:
+//                    passwordError.setText("password must have at least 1 special character");
+//                    break;
+//                default:
+//                    passwordError.setText("");
+//                    break;
+//            }
+//        });
 
-        username.textProperty().addListener((observable, oldText, newText)-> {
-            usernameError.setFill(Color.DARKRED);
-            switch (Utils.CheckValidation.isUsernameOk(username.getText())) {
-                case INVALID_USERNAME:
-                    usernameError.setText("Invalid username format");
-                    break;
-                case USERNAME_EXISTS:
-                    usernameError.setText("Username exists");
-                    break;
-                default:
-                    usernameError.setText("");
-                    break;
-            }
-        });
+//        username.textProperty().addListener((observable, oldText, newText)-> {
+//            usernameError.setFill(Color.DARKRED);
+//            switch (Utils.CheckValidation.isUsernameOk(username.getText())) {
+//                case INVALID_USERNAME:
+//                    usernameError.setText("Invalid username format");
+//                    break;
+//                case USERNAME_EXISTS:
+//                    usernameError.setText("Username exists");
+//                    break;
+//                default:
+//                    usernameError.setText("");
+//                    break;
+//            }
+//        });
 
         nickname.textProperty().addListener((observable, oldText, newText)-> {
             if (!nickname.getText().equals("")) nicknameError.setText("");

@@ -1,7 +1,6 @@
 package Client.view;
 
 import Server.controller.ProfileMenuController;
-import Utils.CheckValidation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -14,7 +13,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -28,8 +30,6 @@ import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 import java.io.IOException;
-
-import static Server.enums.Messages.UtilsMessages.*;
 
 public class ProfileMenu extends Application {
 
@@ -434,7 +434,8 @@ public class ProfileMenu extends Application {
         Text controllerError = new Text("");
         controllerError.setFill(Color.RED);
 
-        makeListenerForNewPassword(newPasswordTextField, errorText, controllerError);
+        //TODO: solve this for validation?
+//        makeListenerForNewPassword(newPasswordTextField, errorText, controllerError);
 
         // Create the submit and cancel buttons
         Button submitButton = new Button("Submit");
@@ -527,31 +528,31 @@ public class ProfileMenu extends Application {
         });
     }
 
-    private void makeListenerForNewPassword(TextField newPasswordTextField, Text errorText, Text controllerError) {
-        controllerError.setText("");
-        newPasswordTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            switch (CheckValidation.isPasswordStrong(newValue)) {
-                case PASSWORD_IS_STRONG:
-                    errorText.setText("");
-                    break;
-                case SHORT_PASSWORD:
-                    errorText.setText("password change failed : password must have at least 6 characters");
-                    break;
-                case PASSWORD_DOES_NOT_CONTAIN_LOWERCASE:
-                    errorText.setText("password change failed : password must have at least 1 lowercase character");
-                    break;
-                case PASSWORD_DOES_NOT_CONTAIN_UPPERCASE:
-                    errorText.setText("password change failed : password must have at least 1 uppercase character");
-                    break;
-                case PASSWORD_DOES_NOT_CONTAIN_INTEGER:
-                    errorText.setText("password change failed : password must have at least 1 integer");
-                    break;
-                case PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER:
-                    errorText.setText("password change failed : password must have at least 1 special character");
-                    break;
-            }
-        });
-    }
+//    private void makeListenerForNewPassword(TextField newPasswordTextField, Text errorText, Text controllerError) {
+//        controllerError.setText("");
+//        newPasswordTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+//            switch (CheckValidation.isPasswordStrong(newValue)) {
+//                case PASSWORD_IS_STRONG:
+//                    errorText.setText("");
+//                    break;
+//                case SHORT_PASSWORD:
+//                    errorText.setText("password change failed : password must have at least 6 characters");
+//                    break;
+//                case PASSWORD_DOES_NOT_CONTAIN_LOWERCASE:
+//                    errorText.setText("password change failed : password must have at least 1 lowercase character");
+//                    break;
+//                case PASSWORD_DOES_NOT_CONTAIN_UPPERCASE:
+//                    errorText.setText("password change failed : password must have at least 1 uppercase character");
+//                    break;
+//                case PASSWORD_DOES_NOT_CONTAIN_INTEGER:
+//                    errorText.setText("password change failed : password must have at least 1 integer");
+//                    break;
+//                case PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER:
+//                    errorText.setText("password change failed : password must have at least 1 special character");
+//                    break;
+//            }
+//        });
+//    }
 
     public void changeSlogan(ActionEvent actionEvent) {
         if (sloganText.isDisable()) {

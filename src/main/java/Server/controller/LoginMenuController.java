@@ -2,9 +2,7 @@ package Server.controller;
 
 import Model.Database;
 import Model.User;
-import Utils.CheckValidation;
 import Server.enums.Messages.LoginMenuMessages;
-import Server.enums.Messages.UtilsMessages;
 
 import static Model.Database.setCurrentUser;
 
@@ -47,14 +45,15 @@ public class LoginMenuController {
         if (!recoveryQuestionAnswer.equals(user.getPasswordRecoveryAnswer()))
             return LoginMenuMessages.WRONG_PASSWORD_RECOVERY_ANSWER;
 
-        if(!CheckValidation.isPasswordStrong(newPassword).equals(UtilsMessages.PASSWORD_IS_STRONG)) {
-            switch (CheckValidation.isPasswordStrong(newPassword)) {
-                case PASSWORD_IS_STRONG:
-                    break;
-                default:
-                    return LoginMenuMessages.WEAK_PASSWORD;
-            }
-        }
+        //TODO: solve this for validation?
+//        if(!CheckValidation.isPasswordStrong(newPassword).equals(UtilsMessages.PASSWORD_IS_STRONG)) {
+//            switch (CheckValidation.isPasswordStrong(newPassword)) {
+//                case PASSWORD_IS_STRONG:
+//                    break;
+//                default:
+//                    return LoginMenuMessages.WEAK_PASSWORD;
+//            }
+//        }
 
         user.setPassword(User.SHA256Code(newPassword));
         Database.saveUsers();

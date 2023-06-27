@@ -1,7 +1,6 @@
 package Client.view;
 
 import Server.controller.LoginMenuController;
-import Utils.CheckValidation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -74,29 +73,30 @@ public class LoginMenu extends Application {
 
     @FXML
     public void initialize() {
-        newPassword.textProperty().addListener((observable, oldText, newText) -> {
-            newPasswordError.setFill(Color.DARKRED);
-            switch (CheckValidation.isPasswordStrong(newPassword.getText())) {
-                case SHORT_PASSWORD:
-                    newPasswordError.setText("password must have at least 6 characters");
-                    break;
-                case PASSWORD_DOES_NOT_CONTAIN_LOWERCASE:
-                    newPasswordError.setText("password must have at least 1 lowercase character");
-                    break;
-                case PASSWORD_DOES_NOT_CONTAIN_UPPERCASE:
-                    newPasswordError.setText("password must have at least 1 uppercase character");
-                    break;
-                case PASSWORD_DOES_NOT_CONTAIN_INTEGER:
-                    newPasswordError.setText("password must have at least 1 integer");
-                    break;
-                case PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER:
-                    newPasswordError.setText("password must have at least 1 special character");
-                    break;
-                default:
-                    newPasswordError.setText("");
-                    break;
-            }
-        });
+        //TODO: solve this for validation?
+//        newPassword.textProperty().addListener((observable, oldText, newText) -> {
+//            newPasswordError.setFill(Color.DARKRED);
+//            switch (CheckValidation.isPasswordStrong(newPassword.getText())) {
+//                case SHORT_PASSWORD:
+//                    newPasswordError.setText("password must have at least 6 characters");
+//                    break;
+//                case PASSWORD_DOES_NOT_CONTAIN_LOWERCASE:
+//                    newPasswordError.setText("password must have at least 1 lowercase character");
+//                    break;
+//                case PASSWORD_DOES_NOT_CONTAIN_UPPERCASE:
+//                    newPasswordError.setText("password must have at least 1 uppercase character");
+//                    break;
+//                case PASSWORD_DOES_NOT_CONTAIN_INTEGER:
+//                    newPasswordError.setText("password must have at least 1 integer");
+//                    break;
+//                case PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER:
+//                    newPasswordError.setText("password must have at least 1 special character");
+//                    break;
+//                default:
+//                    newPasswordError.setText("");
+//                    break;
+//            }
+//        });
 
         username.textProperty().addListener((observable, oldText, newText) -> {
             usernameError.setFill(Color.DARKRED);

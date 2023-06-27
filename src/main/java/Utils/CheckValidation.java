@@ -1,8 +1,7 @@
 package Utils;
 
 import Model.Database;
-import View.Enums.Messages.SignupMenuMessages;
-import View.Enums.Messages.UtilsMessages;
+import Server.enums.Messages.UtilsMessages;
 
 import static Model.Database.getUserByUsername;
 

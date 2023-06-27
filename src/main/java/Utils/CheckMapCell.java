@@ -3,7 +3,7 @@ package Utils;
 import Model.Database;
 import Model.MapCell;
 import Model.User;
-import View.Enums.Messages.UtilsMessages;
+import Server.enums.Messages.UtilsMessages;
 
 public class CheckMapCell {
     public static boolean validationOfX(int x) {

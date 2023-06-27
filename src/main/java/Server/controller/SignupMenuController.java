@@ -3,12 +3,9 @@ package Server.controller;
 import Model.Database;
 import Model.User;
 import Server.enums.Messages.SignupMenuMessages;
-import Server.enums.Messages.UtilsMessages;
-import Utils.CheckValidation;
 import Utils.Randoms;
 
 import static Model.Database.*;
-import static Server.enums.Messages.LoginMenuMessages.*;
 
 public class SignupMenuController {
     User tmpUser;
@@ -31,20 +28,21 @@ public class SignupMenuController {
         if(password.equals("random") && confirmationPassword == null)
             return SignupMenuMessages.RANDOM_PASSWORD;
 
-        if(!CheckValidation.isPasswordStrong(password).equals(UtilsMessages.PASSWORD_IS_STRONG)) {
-            switch (CheckValidation.isPasswordStrong(password)) {
-                case SHORT_PASSWORD:
-                    return SignupMenuMessages.SHORT_PASSWORD;
-                case PASSWORD_DOES_NOT_CONTAIN_LOWERCASE:
-                    return SignupMenuMessages.PASSWORD_DOES_NOT_CONTAIN_LOWERCASE;
-                case PASSWORD_DOES_NOT_CONTAIN_INTEGER:
-                    return SignupMenuMessages.PASSWORD_DOES_NOT_CONTAIN_INTEGER;
-                case PASSWORD_DOES_NOT_CONTAIN_UPPERCASE:
-                    return SignupMenuMessages.PASSWORD_DOES_NOT_CONTAIN_UPPERCASE;
-                case PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER:
-                    return SignupMenuMessages.PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER;
-            }
-        }
+        //TODO: solve this for validation?
+//        if(!CheckValidation.isPasswordStrong(password).equals(UtilsMessages.PASSWORD_IS_STRONG)) {
+//            switch (CheckValidation.isPasswordStrong(password)) {
+//                case SHORT_PASSWORD:
+//                    return SignupMenuMessages.SHORT_PASSWORD;
+//                case PASSWORD_DOES_NOT_CONTAIN_LOWERCASE:
+//                    return SignupMenuMessages.PASSWORD_DOES_NOT_CONTAIN_LOWERCASE;
+//                case PASSWORD_DOES_NOT_CONTAIN_INTEGER:
+//                    return SignupMenuMessages.PASSWORD_DOES_NOT_CONTAIN_INTEGER;
+//                case PASSWORD_DOES_NOT_CONTAIN_UPPERCASE:
+//                    return SignupMenuMessages.PASSWORD_DOES_NOT_CONTAIN_UPPERCASE;
+//                case PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER:
+//                    return SignupMenuMessages.PASSWORD_DOES_NOT_CONTAIN_SPECIFIC_CHARACTER;
+//            }
+//        }
 
         if(!password.equals(confirmationPassword))
             return SignupMenuMessages.PASSWORD_DOES_NOT_MATCH;
