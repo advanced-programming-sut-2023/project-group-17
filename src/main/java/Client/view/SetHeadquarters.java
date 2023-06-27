@@ -1,5 +1,6 @@
 package Client.view;
 
+import Client.ClientMain;
 import Server.controller.HeadquarterMenuController;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -13,8 +14,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-
-import static Client.view.Main.stage;
 
 public class SetHeadquarters extends Application {
     public HeadquarterMenuController controller = new HeadquarterMenuController();
@@ -106,6 +105,6 @@ public class SetHeadquarters extends Application {
                 controller.setHeadquartersByNumber(i / 2, textFields.get(i - 1).getText(), textFields.get(i).getText());
             }
         }
-        new GameMenu().start(stage);
+        new GameMenu().start(ClientMain.stage);
     }
 }

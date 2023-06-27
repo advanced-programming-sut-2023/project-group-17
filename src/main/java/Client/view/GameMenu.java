@@ -1,5 +1,6 @@
 package Client.view;
 
+import Client.ClientMain;
 import Model.Items.Item;
 import Server.controller.*;
 import Utils.Pair;
@@ -521,7 +522,7 @@ public class GameMenu extends Application {
             @Override
             public void handle(MouseEvent event) {
                 label.setText("Destination set");
-                popup.show(Main.stage);
+                popup.show(ClientMain.stage);
                 timeline.play();
                 soldiers.clear();
                 openGatehouseBuildings();
@@ -578,7 +579,7 @@ public class GameMenu extends Application {
                 if (cheatCode.match(keyEvent)) {
                     if (cheatMode) label.setText("Cheat Mode OFF");
                     else label.setText("Cheat Mode ON");
-                    popup.show(Main.stage);
+                    popup.show(ClientMain.stage);
                     timeline.play();
                     cheatMode = !cheatMode;
                     System.out.println(cheatMode);
@@ -615,13 +616,13 @@ public class GameMenu extends Application {
                                 moveUnitTo(columnIndex + 1, rowIndex + 1);
                         if (unitMenuMessages.equals(UnitMenuMessages.SUCCESS)) {
                             label.setText("Destination set");
-                            popup.show(Main.stage);
+                            popup.show(ClientMain.stage);
                             timeline.play();
                             soldiers.clear();
                             openGatehouseBuildings();
                         } else {
                             label.setText("Destination set failed");
-                            popup.show(Main.stage);
+                            popup.show(ClientMain.stage);
                             timeline.play();
                         }
                     }
@@ -909,17 +910,17 @@ public class GameMenu extends Application {
         switch (tradeMenuController.tradeRequest(itemType.getName(), amountValue.get(), messageTextField.getText(), sendTradeTo, TradeType.DONATE)) {
             case SUCCESS:
                 label.setText("Item Donated Successfully");
-                popup.show(Main.stage);
+                popup.show(ClientMain.stage);
                 timeline.play();
                 break;
             case INSUFFICIENT_ITEM_AMOUNT:
                 label.setText("Insufficient Item Amount");
-                popup.show(Main.stage);
+                popup.show(ClientMain.stage);
                 timeline.play();
                 break;
             case NO_USER_SELECTED:
                 label.setText("No User is Selected!");
-                popup.show(Main.stage);
+                popup.show(ClientMain.stage);
                 timeline.play();
                 break;
 
@@ -935,12 +936,12 @@ public class GameMenu extends Application {
         switch (tradeMenuController.tradeRequest(itemType.getName(), amountValue.get(), messageTextField.getText(), sendTradeTo, TradeType.REQUEST)) {
             case SUCCESS:
                 label.setText("Request Sent Successfully");
-                popup.show(Main.stage);
+                popup.show(ClientMain.stage);
                 timeline.play();
                 break;
             case NO_USER_SELECTED:
                 label.setText("No User is Selected!");
-                popup.show(Main.stage);
+                popup.show(ClientMain.stage);
                 timeline.play();
                 break;
         }
@@ -985,34 +986,34 @@ public class GameMenu extends Application {
 
         if (idTextField.getText().equals("")) {
             label.setText("Improper Id!");
-            popup.show(Main.stage);
+            popup.show(ClientMain.stage);
             timeline.play();
         }
 
         switch (tradeMenuController.acceptRequest(idTextField.getText())) {
             case IMPROPER_ID:
                 label.setText("Invalid Id format");
-                popup.show(Main.stage);
+                popup.show(ClientMain.stage);
                 timeline.play();
                 break;
             case SUCCESS:
                 label.setText("Item Donated Successfully");
-                popup.show(Main.stage);
+                popup.show(ClientMain.stage);
                 timeline.play();
                 break;
             case INVALID_TRADE_TYPE:
                 label.setText("Invalid Trade Type");
-                popup.show(Main.stage);
+                popup.show(ClientMain.stage);
                 timeline.play();
                 break;
             case INSUFFICIENT_ITEM_AMOUNT:
                 label.setText("Insufficient Item Amount");
-                popup.show(Main.stage);
+                popup.show(ClientMain.stage);
                 timeline.play();
                 break;
             case ID_DOES_NOT_EXISTS:
                 label.setText("Id Does Not Exist");
-                popup.show(Main.stage);
+                popup.show(ClientMain.stage);
                 timeline.play();
                 break;
         }
@@ -1080,12 +1081,12 @@ public class GameMenu extends Application {
         switch (shopMenuController.sellItem(itemType.getName(), 1)) {
             case ITEM_DOES_NOT_EXISTS:
                 label.setText("Not Enough " + itemType.getName());
-                popup.show(Main.stage);
+                popup.show(ClientMain.stage);
                 timeline.play();
                 break;
             case SUCCESS:
                 label.setText(itemType.getName() + " Sold Successfully");
-                popup.show(Main.stage);
+                popup.show(ClientMain.stage);
                 timeline.play();
                 break;
         }
@@ -1101,12 +1102,12 @@ public class GameMenu extends Application {
         switch (shopMenuController.buyItem(itemType.getName(), 1)) {
             case NOT_ENOUGH_COIN:
                 label.setText("Not Enough Coin");
-                popup.show(Main.stage);
+                popup.show(ClientMain.stage);
                 timeline.play();
                 break;
             case SUCCESS:
                 label.setText(itemType.getName() + " Bought Successfully");
-                popup.show(Main.stage);
+                popup.show(ClientMain.stage);
                 timeline.play();
                 break;
         }
@@ -1260,7 +1261,7 @@ public class GameMenu extends Application {
                         popup.getContent().add(label);
                         Timeline timeline = hidePopup(popup);
                         label.setText("Destination set");
-                        popup.show(Main.stage);
+                        popup.show(ClientMain.stage);
                         timeline.play();
                     soldiers.clear();
                         openGatehouseBuildings();
@@ -1383,7 +1384,7 @@ public class GameMenu extends Application {
         HBox populationHBox = getPopulationHBox("Population", empireMenuController.getPopulation());
         vBox.getChildren().addAll(coinHBox, populationHBox);
         popup.getContent().add(vBox);
-        popup.show(Main.stage);
+        popup.show(ClientMain.stage);
         Timeline timeline = hidePopup(popup);
         timeline.play();
     }
@@ -1479,7 +1480,7 @@ public class GameMenu extends Application {
         popularityGrowth.getChildren().addAll(popularityGrowthLabel); popularity.setAlignment(Pos.CENTER);
         vBox.getChildren().addAll(fear, tax, food, religious, popularity, popularityGrowth);
         popup.getContent().add(vBox);
-        popup.show(Main.stage);
+        popup.show(ClientMain.stage);
         Timeline timeline = hidePopup(popup);
         timeline.play();
     }

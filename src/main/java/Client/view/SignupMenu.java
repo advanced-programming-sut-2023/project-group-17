@@ -20,7 +20,8 @@ import javafx.stage.Stage;
 
 import java.util.Random;
 
-import static Client.view.Main.stage;
+import static Client.ClientMain.stage;
+
 
 public class SignupMenu extends Application {
     private static Pane pane;
@@ -227,7 +228,7 @@ public class SignupMenu extends Application {
     }
 
     public void enterLoginMenu(MouseEvent mouseEvent) throws Exception{
-        new LoginMenu().start(ClientMain.stage);
+        new LoginMenu().start(stage);
     }
 
     public void resetCaptcha(MouseEvent mouseEvent) {

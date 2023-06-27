@@ -2,7 +2,6 @@ package Client;
 
 import Client.controller.Controller;
 import Client.view.LoginMenu;
-import Client.view.Main;
 import Client.view.MainMenu;
 import Server.controller.LoginMenuController;
 import javafx.application.Application;

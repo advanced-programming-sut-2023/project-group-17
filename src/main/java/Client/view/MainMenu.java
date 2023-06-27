@@ -11,11 +11,10 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import static Client.ClientMain.stage;
 import org.controlsfx.control.CheckComboBox;
 
 import java.util.ArrayList;
-
-import static Client.view.Main.stage;
 
 
 public class MainMenu extends Application {
