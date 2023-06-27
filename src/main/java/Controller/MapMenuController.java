@@ -11,6 +11,7 @@ import View.Enums.Messages.BuildingMenuMessages;
 import View.Enums.Messages.MapMenuMessages;
 import javafx.scene.image.ImageView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -156,21 +157,27 @@ public class MapMenuController {
         return MapMenuMessages.SUCCESS;
     }
 
-    public MapMenuMessages clearBlock(int x, int y) {
+    public ArrayList<ImageView> clearBlock(int x, int y) {
+        ArrayList<ImageView> imageViews = new ArrayList<>();
 
-        if (!CheckMapCell.validationOfX(x)) return MapMenuMessages.X_OUT_OF_BOUNDS;
-        if (!CheckMapCell.validationOfY(y)) return MapMenuMessages.Y_OUT_OF_BOUNDS;
+        if (!CheckMapCell.validationOfX(x)) return imageViews;
+        if (!CheckMapCell.validationOfY(y)) return imageViews;
 
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
+
+        imageViews.add(BuildingMenuController.buildingImageViewHashMap.get(mapCell.getBuilding()));
+        for (Soldier soldier : mapCell.getSoldier()) {
+            imageViews.add(UnitMenuController.soldierImageViewHashMap.get(soldier));
+        }
 
         mapCell.setBuilding(null);
         mapCell.getMapCellItems().clear();
         mapCell.getItems().clear();
         mapCell.setAttackToolsAndMethods(null);
         mapCell.getPeople().clear();
-        mapCell.setMaterialMap(MaterialMap.getTextureMap("land"));
+//        mapCell.setMaterialMap(MaterialMap.getTextureMap("land"));
 
-        return MapMenuMessages.SUCCESS;
+        return imageViews;
     }
 
     public MapMenuMessages dropRock(int x, int y, String direction) {

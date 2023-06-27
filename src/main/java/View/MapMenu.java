@@ -136,17 +136,17 @@ public class MapMenu extends Menu{
         }
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
-        switch (controller.clearBlock(x, y)) {
-            case SUCCESS:
-                System.out.println("Block cleared successfully");
-                break;
-            case X_OUT_OF_BOUNDS:
-                System.out.println("Clear block failed : Coordinate of x is out of bounds");
-                break;
-            case Y_OUT_OF_BOUNDS:
-                System.out.println("Clear block failed : Coordinate of y is out of bounds");
-                break;
-        }
+//        switch (controller.clearBlock(x, y)) {
+//            case SUCCESS:
+//                System.out.println("Block cleared successfully");
+//                break;
+//            case X_OUT_OF_BOUNDS:
+//                System.out.println("Clear block failed : Coordinate of x is out of bounds");
+//                break;
+//            case Y_OUT_OF_BOUNDS:
+//                System.out.println("Clear block failed : Coordinate of y is out of bounds");
+//                break;
+//        }
     }
 
     private void dropRock(Matcher matcher) {

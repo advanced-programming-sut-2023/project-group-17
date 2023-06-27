@@ -343,6 +343,17 @@ public class GameMenu extends Application {
             vBox.getChildren().addAll(hBox, slider);
             toolBarHBox.getChildren().add(vBox);
         }
+//        System.out.println("startRow : " + startRow);
+//        System.out.println("endRow : " + endRow);
+//        System.out.println("startCol : " + startCol);
+//        System.out.println("endRow : " + endCol);
+        if (startRow == endRow && startCol == endCol) {
+            Button deleteButton = new Button();
+            deleteButton.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
+                    "/assets/ToolBar/Buttons/Delete.png").toExternalForm(), 20, 20, false, false)));
+            deleteButton.setOnMouseClicked(e -> deleteCell());
+            toolBarHBox.getChildren().add(deleteButton);
+        }
         button.setGraphic(new ImageView(new Image(GameMenu.class.getResource(
                 "/assets/ToolBar/Buttons/unitMenu.png").toExternalForm(), 20, 20, false, false)));
         toolBarHBox.getChildren().addAll(button, changeTexture);
@@ -360,6 +371,20 @@ public class GameMenu extends Application {
         unitMenuController.setSelectedUnit(startCol + 1, startRow + 1,
                 endCol + 1, endRow + 1, soldiers);
 //        if (soldiers.size() > 0) handleMove(startCol, startRow, endCol, endRow);
+    }
+
+    private void deleteCell() {
+        ArrayList<ImageView> deleteImageViews = mapMenuController.clearBlock((int)startCol + 1, (int)startRow + 1);
+        for (ImageView deleteImageView : deleteImageViews) {
+            gridPane.getChildren().remove(deleteImageView);
+        }
+//        ImageView land = new ImageView(new Image(getClass().getResource("/assets/Texture/graveland.png")
+//                .toExternalForm(), 80, 80, false, false));
+//        gridPane.add(land, (int)startCol, (int)startRow);
+        removeHover();
+        handleHover(gridPane);
+        setDropActionForGridPane();
+        scrollPane.requestFocus();
     }
 
     private void openTextureMenu() {
