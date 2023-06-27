@@ -12,7 +12,6 @@ import Utils.CheckMapCell;
 import Utils.Pair;
 import View.EmpireMenu;
 import View.Enums.Messages.BuildingMenuMessages;
-import View.ShopMenu;
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
@@ -312,9 +311,9 @@ public class BuildingMenuController {
         new EmpireMenu().run();
     }
 
-    public static void handleMarket(Building building) {
-        new ShopMenu().run();
-    }
+//    public static void handleMarket(Building building) {
+//        new ShopMenu().run();
+//    }
 
     public BuildingMenuMessages createAttackTool(int x, int y, String type) {
         if (!CheckMapCell.validationOfX(x)) return BuildingMenuMessages.X_OUT_OF_BOUNDS;
