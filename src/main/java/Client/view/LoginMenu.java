@@ -1,5 +1,6 @@
 package Client.view;
 
+import Client.ClientMain;
 import Server.controller.LoginMenuController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -45,9 +46,9 @@ public class LoginMenu extends Application {
     private Captcha captcha;
     public LoginMenu() {
         controller = new LoginMenuController();
-        this.captcha = new Captcha();
-        this.CaptchaImageView = new ImageView(new Image(getClass().getResource
-                ("/Captcha/" + captcha.getAnswer() + ".png").toExternalForm(), 120, 80, false, false));
+//        this.captcha = new Captcha();
+//        this.CaptchaImageView = new ImageView(new Image(getClass().getResource
+//                ("/Captcha/" + captcha.getAnswer() + ".png").toExternalForm(), 120, 80, false, false));
     }
     @Override
     public void start(Stage stage) throws Exception {
@@ -58,18 +59,18 @@ public class LoginMenu extends Application {
                 new BackgroundSize(1.0, 1.0, true, true, false, false))));
 
         LoginMenu.pane = pane;
-        setCaptcha();
+//        setCaptcha();
         stage.getScene().setRoot(pane);
         stage.setFullScreen(true);
         stage.show();
     }
 
-    private void setCaptcha() {
-        imageView = new ImageView(new Image(getClass().getResource
-                ("/Captcha/" + captcha.getAnswer() + ".png").toExternalForm(), 120, 80, false, false));
-        imageView.setX(755); imageView.setY(559);
-        pane.getChildren().add(imageView);
-    }
+//    private void setCaptcha() {
+//        imageView = new ImageView(new Image(getClass().getResource
+//                ("/Captcha/" + captcha.getAnswer() + ".png").toExternalForm(), 120, 80, false, false));
+//        imageView.setX(755); imageView.setY(559);
+//        pane.getChildren().add(imageView);
+//    }
 
     @FXML
     public void initialize() {
@@ -156,7 +157,7 @@ public class LoginMenu extends Application {
     }
 
     public void enterSignupMenu(MouseEvent mouseEvent) throws Exception{
-        new SignupMenu().start(Main.stage);
+        new SignupMenu().start(ClientMain.stage);
     }
 
     public void submit(MouseEvent mouseEvent) {
@@ -170,22 +171,22 @@ public class LoginMenu extends Application {
         switch (controller.setNewPassword(forgotPasswordUsername.getText(), newPassword.getText(), securityQuestionAnswer.getText())) {
             case SUCCESS:
                 label.setText("Password Changed Successfully");
-                popup.show(Main.stage);
+                popup.show(ClientMain.stage);
                 timeline.play();
                 break;
             case WRONG_PASSWORD_RECOVERY_ANSWER:
                 label.setText("Recovery Answer is Wrong");
-                popup.show(Main.stage);
+                popup.show(ClientMain.stage);
                 timeline.play();
                 break;
             case WEAK_PASSWORD:
                 label.setText("Your password is Weak");
-                popup.show(Main.stage);
+                popup.show(ClientMain.stage);
                 timeline.play();
                 break;
             case BLANK_FIELD:
                 label.setText("Blank Field");
-                popup.show(Main.stage);
+                popup.show(ClientMain.stage);
                 timeline.play();
                 break;
         }
@@ -216,7 +217,7 @@ public class LoginMenu extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
                 try {
-                    new MainMenu().start(Main.stage);
+                    new MainMenu().start(ClientMain.stage);
                 }catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -227,23 +228,23 @@ public class LoginMenu extends Application {
         switch (controller.loginUser(username.getText(), password.getText(), true)) {
             case SUCCESS:
                 label.setText("You have entered successfully!");
-                popup.show(Main.stage);
+                popup.show(ClientMain.stage);
                 timeline.play();
                 mainMenuTimeLine.play();
                 break;
             case BLANK_FIELD:
                 label.setText("Blank Field!");
-                popup.show(Main.stage);
+                popup.show(ClientMain.stage);
                 timeline.play();
                 break;
             case USERNAME_DOES_NOT_EXISTS:
                 label.setText("Username doesn't exist!");
-                popup.show(Main.stage);
+                popup.show(ClientMain.stage);
                 timeline.play();
                 break;
             case WRONG_PASSWORD:
                 label.setText("Your password is wrong!");
-                popup.show(Main.stage);
+                popup.show(ClientMain.stage);
                 timeline.play();
                 break;
         }
@@ -276,14 +277,14 @@ public class LoginMenu extends Application {
         }));
     }
 
-    public void resetCaptcha(MouseEvent mouseEvent) {
-        captcha.generateNewCaptcha();
-        setCaptcha();
-    }
-
-    public void checkCaptcha(MouseEvent mouseEvent) {
-        loginButton.setDisable(!CaptchaTextField.getText().equals(String.valueOf(captcha.getAnswer())));
-    }
+//    public void resetCaptcha(MouseEvent mouseEvent) {
+//        captcha.generateNewCaptcha();
+//        setCaptcha();
+//    }
+//
+//    public void checkCaptcha(MouseEvent mouseEvent) {
+//        loginButton.setDisable(!CaptchaTextField.getText().equals(String.valueOf(captcha.getAnswer())));
+//    }
 
 
 //    private final LoginMenuController controller;

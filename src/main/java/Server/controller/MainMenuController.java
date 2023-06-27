@@ -49,11 +49,14 @@ public class MainMenuController {
     }
 
     public void addUsers(ArrayList<String> list) {
-        Database.loadUsers();
-        for (User user : Database.getUsers()) {
-            if (!user.getUsername().equals(Database.getLoggedInUser().getUsername()))
-                list.add(user.getUsername());
+        for (int i = 2; i < 8; i++) {
+            list.add(String.valueOf(i));
         }
+//        Database.loadUsers();
+//        for (User user : Database.getUsers()) {
+//            if (!user.getUsername().equals(Database.getLoggedInUser().getUsername()))
+//                list.add(user.getUsername());
+//        }
     }
 
     public MainMenuMessages createNewMap(int width, int length) {

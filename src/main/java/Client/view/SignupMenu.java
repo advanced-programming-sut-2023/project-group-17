@@ -1,5 +1,6 @@
 package Client.view;
 
+import Client.ClientMain;
 import Server.controller.SignupMenuController;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -66,19 +67,18 @@ public class SignupMenu extends Application {
                 new BackgroundSize(1.0, 1.0, true, true, false, false))));
 
         SignupMenu.pane = pane;
-        setCaptcha();
-
+//        setCaptcha();
         stage.getScene().setRoot(pane);
         stage.setFullScreen(true);
         stage.show();
     }
 
-    private void setCaptcha() {
-        imageView = new ImageView(new Image(getClass().getResource
-                ("/Captcha/" + captcha.getAnswer() + ".png").toExternalForm(), 120, 80, false, false));
-        imageView.setX(727); imageView.setY(720);
-        pane.getChildren().add(imageView);
-    }
+//    private void setCaptcha() {
+//        imageView = new ImageView(new Image(getClass().getResource
+//                ("/Captcha/" + captcha.getAnswer() + ".png").toExternalForm(), 120, 80, false, false));
+//        imageView.setX(727); imageView.setY(720);
+//        pane.getChildren().add(imageView);
+//    }
 
     @FXML
     public void initialize () {
@@ -227,12 +227,12 @@ public class SignupMenu extends Application {
     }
 
     public void enterLoginMenu(MouseEvent mouseEvent) throws Exception{
-        new LoginMenu().start(Main.stage);
+        new LoginMenu().start(ClientMain.stage);
     }
 
     public void resetCaptcha(MouseEvent mouseEvent) {
         this.captcha = new Captcha();
-        setCaptcha();
+//        setCaptcha();
     }
 
     public void checkCaptcha(MouseEvent mouseEvent) {
