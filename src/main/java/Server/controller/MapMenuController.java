@@ -1,4 +1,4 @@
-package Controller;
+package Server.controller;
 
 import Model.Buildings.Building;
 import Model.*;
@@ -6,8 +6,6 @@ import Model.MapCellItems.Rock;
 import Model.MapCellItems.Tree;
 import Model.People.Soldier;
 import Utils.CheckMapCell;
-import View.BuildingMenu;
-import View.Enums.Messages.BuildingMenuMessages;
 import View.Enums.Messages.MapMenuMessages;
 import javafx.scene.image.ImageView;
 

@@ -1,4 +1,4 @@
-package Controller;
+package Server.controller;
 
 import Model.*;
 import Model.Buildings.*;
@@ -19,8 +19,8 @@ import javafx.scene.image.ImageView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
-import static Controller.UnitMenuController.selectedUnit;
-import static Controller.UnitMenuController.soldierImageViewHashMap;
+import static Server.controller.UnitMenuController.selectedUnit;
+import static Server.controller.UnitMenuController.soldierImageViewHashMap;
 
 public class GameMenuController {
     public GameMenuMessages chooseMapGame(int id) {

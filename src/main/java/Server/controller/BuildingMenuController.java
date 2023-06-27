@@ -1,4 +1,4 @@
-package Controller;
+package Server.controller;
 
 import Model.*;
 import Model.Buildings.*;
@@ -12,7 +12,6 @@ import Utils.CheckMapCell;
 import Utils.Pair;
 import View.EmpireMenu;
 import View.Enums.Messages.BuildingMenuMessages;
-import View.Enums.Messages.MapMenuMessages;
 import View.ShopMenu;
 import javafx.scene.image.ImageView;
 

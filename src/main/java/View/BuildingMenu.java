@@ -1,6 +1,6 @@
 package View;
 
-import Controller.BuildingMenuController;
+import Server.controller.BuildingMenuController;
 import View.Enums.Commands.BuildingMenuCommands;
 
 import java.util.regex.Matcher;

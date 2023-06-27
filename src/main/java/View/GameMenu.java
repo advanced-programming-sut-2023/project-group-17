@@ -1,7 +1,7 @@
 package View;
 
-import Controller.*;
 import Model.Items.Item;
+import Server.controller.*;
 import Utils.Pair;
 import View.Enums.Messages.BuildingMenuMessages;
 import View.Enums.Messages.MapMenuMessages;

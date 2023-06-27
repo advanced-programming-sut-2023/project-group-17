@@ -1,5 +1,5 @@
-import Controller.LoginMenuController;
-import Controller.SignupMenuController;
+import Server.controller.LoginMenuController;
+import Server.controller.SignupMenuController;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

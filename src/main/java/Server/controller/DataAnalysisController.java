@@ -1,4 +1,4 @@
-package Controller;
+package Server.controller;
 
 import Model.Buildings.Building;
 import Model.Buildings.SoldierProduction;

@@ -1,4 +1,4 @@
-package Controller;
+package Server.controller;
 
 import Model.*;
 import View.Enums.Messages.MainMenuMessages;

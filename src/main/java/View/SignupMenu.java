@@ -1,6 +1,6 @@
 package View;
 
-import Controller.SignupMenuController;
+import Server.controller.SignupMenuController;
 import Utils.CheckValidation;
 import View.Enums.Messages.UtilsMessages;
 import javafx.application.Application;

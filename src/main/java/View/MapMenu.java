@@ -1,6 +1,6 @@
 package View;
 
-import Controller.MapMenuController;
+import Server.controller.MapMenuController;
 import View.Enums.Commands.MapMenuCommands;
 
 import java.util.regex.Matcher;

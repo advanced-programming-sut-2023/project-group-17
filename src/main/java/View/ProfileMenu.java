@@ -1,6 +1,6 @@
 package View;
 
-import Controller.ProfileMenuController;
+import Server.controller.ProfileMenuController;
 import Utils.CheckValidation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -18,7 +18,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.SwipeEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;

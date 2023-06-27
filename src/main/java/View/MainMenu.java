@@ -1,6 +1,6 @@
 package View;
 
-import Controller.MainMenuController;
+import Server.controller.MainMenuController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;

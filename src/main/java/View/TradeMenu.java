@@ -1,6 +1,6 @@
 package View;
 
-import Controller.TradeMenuController;
+import Server.controller.TradeMenuController;
 
 public class TradeMenu{
     private TradeMenuController tradeMenuController;

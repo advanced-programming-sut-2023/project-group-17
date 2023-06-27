@@ -1,6 +1,6 @@
 package View;
 
-import Controller.LoginMenuController;
+import Server.controller.LoginMenuController;
 import Utils.CheckValidation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -10,7 +10,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

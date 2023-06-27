@@ -1,6 +1,6 @@
 package View;
 
-import Controller.LoginMenuController;
+import Server.controller.LoginMenuController;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;

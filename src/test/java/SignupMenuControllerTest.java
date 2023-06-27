@@ -1,16 +1,13 @@
-import Controller.SignupMenuController;
+import Server.controller.SignupMenuController;
 import Model.Database;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.exceptions.base.MockitoException;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static View.Enums.Messages.SignupMenuMessages.*;
 
