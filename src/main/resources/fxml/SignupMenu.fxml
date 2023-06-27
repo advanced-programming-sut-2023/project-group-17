@@ -8,16 +8,15 @@
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="1000.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.view.SignupMenu">
    <children>
-      <TextField fx:id="username" layoutX="619.0" layoutY="191.0" promptText="username" />
-      <TextField fx:id="nickname" layoutX="619.0" layoutY="400.0" promptText="nickname" />
-      <TextField fx:id="email" layoutX="619.0" layoutY="353.0" promptText="email" />
-      <ChoiceBox fx:id="securityQuestionChoiceBox" layoutX="617.0" layoutY="531.0" onMouseClicked="#chooseSecurityQuestion" prefHeight="26.0" prefWidth="167.0" value="choose security question">
+      <TextField fx:id="username" layoutX="631.0" layoutY="51.0" promptText="username" />
+      <TextField fx:id="nickname" layoutX="631.0" layoutY="260.0" promptText="nickname" />
+      <TextField fx:id="email" layoutX="631.0" layoutY="213.0" promptText="email" />
+      <ChoiceBox fx:id="securityQuestionChoiceBox" layoutX="629.0" layoutY="391.0" onMouseClicked="#chooseSecurityQuestion" prefHeight="26.0" prefWidth="167.0" value="choose security question">
          <items>
             <FXCollections fx:factory="observableArrayList">
                <String fx:value="What is my father's name?" />
@@ -26,15 +25,15 @@
             </FXCollections>
          </items>
       </ChoiceBox>
-      <TextField fx:id="answer" layoutX="622.0" layoutY="572.0" promptText="security answer" />
-      <PasswordField fx:id="password" layoutX="619.0" layoutY="253.0" promptText="password" />
-      <TextField fx:id="passwordVisible" layoutX="619.0" layoutY="253.0" promptText="password" visible="false" />
-      <CheckBox fx:id="showPassword" layoutX="641.0" layoutY="289.0" mnemonicParsing="false" onAction="#showPassword" text="show password" />
-      <CheckBox fx:id="randomPassword" layoutX="641.0" layoutY="316.0" mnemonicParsing="false" onAction="#randomPassword" text="random password" />
-      <CheckBox fx:id="sloganYes" layoutX="652.0" layoutY="454.0" mnemonicParsing="false" onAction="#addSlogan" text="add slogan" />
-      <TextField fx:id="slogan" layoutX="711.0" layoutY="449.0" promptText="slogan" visible="false" />
-      <CheckBox fx:id="randomSlogan" layoutX="646.0" layoutY="489.0" mnemonicParsing="false" onAction="#randomSlogan" text="random slogan" visible="false" />
-      <ChoiceBox fx:id="randomSlogans" layoutX="532.0" layoutY="449.0" onMouseClicked="#chooseSlogan" prefHeight="26.0" prefWidth="167.0" value="choose a slogan" visible="false">
+      <TextField fx:id="answer" layoutX="634.0" layoutY="432.0" promptText="security answer" />
+      <PasswordField fx:id="password" layoutX="631.0" layoutY="113.0" promptText="password" />
+      <TextField fx:id="passwordVisible" layoutX="631.0" layoutY="113.0" promptText="password" visible="false" />
+      <CheckBox fx:id="showPassword" layoutX="653.0" layoutY="149.0" mnemonicParsing="false" onAction="#showPassword" text="show password" />
+      <CheckBox fx:id="randomPassword" layoutX="653.0" layoutY="176.0" mnemonicParsing="false" onAction="#randomPassword" text="random password" />
+      <CheckBox fx:id="sloganYes" layoutX="664.0" layoutY="314.0" mnemonicParsing="false" onAction="#addSlogan" text="add slogan" />
+      <TextField fx:id="slogan" layoutX="723.0" layoutY="309.0" promptText="slogan" visible="false" />
+      <CheckBox fx:id="randomSlogan" layoutX="658.0" layoutY="349.0" mnemonicParsing="false" onAction="#randomSlogan" text="random slogan" visible="false" />
+      <ChoiceBox fx:id="randomSlogans" layoutX="544.0" layoutY="309.0" onMouseClicked="#chooseSlogan" prefHeight="26.0" prefWidth="167.0" value="choose a slogan" visible="false">
          <items>
             <FXCollections fx:factory="observableArrayList">
                <String fx:value="Give up or I will make you give up" />
@@ -46,17 +45,17 @@
             </FXCollections>
          </items>
       </ChoiceBox>
-      <Text fx:id="usernameError" layoutX="813.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <Text fx:id="passwordError" layoutX="813.0" layoutY="273.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <Text fx:id="emailError" layoutX="813.0" layoutY="373.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <Text fx:id="nicknameError" layoutX="813.0" layoutY="420.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <Text fx:id="answerError" layoutX="813.0" layoutY="592.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <Button layoutX="675.0" layoutY="616.0" mnemonicParsing="false" onMouseClicked="#signup" text="Sign up" fx:id="signUpButton"/>
-      <Text layoutX="607.0" layoutY="822.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Already Have an Account?" />
-      <Hyperlink layoutX="750.0" layoutY="804.0" onMouseClicked="#enterLoginMenu" text="Login" />
-      <Button layoutX="588.0" layoutY="772.0" mnemonicParsing="false" text="Reset" onMouseClicked="#resetCaptcha" fx:id="ResetCaptchaButton"/>
-      <Button layoutX="648.0" layoutY="772.0" mnemonicParsing="false" text="Confirm" onMouseClicked="#checkCaptcha" fx:id="ConfirmCaptchaButton"/>
-      <TextField layoutX="588.0" layoutY="722.0" prefHeight="26.0" prefWidth="115.0" fx:id="CaptchaTextField"/>
+      <Text fx:id="usernameError" layoutX="813.0" layoutY="186.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="passwordError" layoutX="813.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="emailError" layoutX="813.0" layoutY="350.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="nicknameError" layoutX="813.0" layoutY="397.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="answerError" layoutX="813.0" layoutY="569.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Button fx:id="signUpButton" layoutX="687.0" layoutY="476.0" mnemonicParsing="false" onMouseClicked="#signup" text="Sign up" />
+      <Text layoutX="619.0" layoutY="682.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Already Have an Account?" />
+      <Hyperlink layoutX="762.0" layoutY="664.0" onMouseClicked="#enterLoginMenu" text="Login" />
+      <Button fx:id="ResetCaptchaButton" layoutX="600.0" layoutY="632.0" mnemonicParsing="false" onMouseClicked="#resetCaptcha" text="Reset" />
+      <Button fx:id="ConfirmCaptchaButton" layoutX="660.0" layoutY="632.0" mnemonicParsing="false" onMouseClicked="#checkCaptcha" text="Confirm" />
+      <TextField fx:id="CaptchaTextField" layoutX="600.0" layoutY="582.0" prefHeight="26.0" prefWidth="115.0" />
 <!--      <ImageView fitHeight="71.0" fitWidth="104.0" layoutX="727.0" layoutY="720.0" pickOnBounds="true" preserveRatio="true" />-->
    </children>
 </AnchorPane>

@@ -4,7 +4,6 @@ import Model.Database;
 import Model.User;
 import Server.enums.Messages.SignupMenuMessages;
 import Utils.Randoms;
-
 import static Model.Database.*;
 
 public class SignupMenuController {
