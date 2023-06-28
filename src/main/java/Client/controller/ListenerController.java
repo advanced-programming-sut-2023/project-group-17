@@ -1,6 +1,9 @@
 package Client.controller;
 
+import Client.model.Global;
+import Client.model.Request;
 import Client.model.Response;
+import com.google.gson.Gson;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -13,7 +16,6 @@ public class ListenerController extends Thread{
     public ListenerController() {
         this.setDaemon(true);
         try {
-            //TODO: host and port?
             Socket socket = new Socket("localhost", 13000);
             dataInputStream = new DataInputStream(socket.getInputStream());
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
@@ -24,7 +26,19 @@ public class ListenerController extends Thread{
 
     @Override
     public void run() {
-        //TODO
+        try {
+            while (true) {
+                Gson gson = Global.gson;
+                dataOutputStream.writeUTF(gson.toJson(new Request()));
+                dataOutputStream.flush();
+                System.out.println("Waiting for command from server");
+                Response response = gson.fromJson(dataInputStream.readUTF(), Response.class);
+                System.out.println("command from server received");
+                handle(response);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void handle(Response response) {
