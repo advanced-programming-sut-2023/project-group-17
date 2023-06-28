@@ -1,8 +1,7 @@
-package Server.model;
+package Client.model;
 
 
 import Model.Empire;
-import com.google.gson.Gson;
 
 import java.security.MessageDigest;
 
@@ -17,9 +16,6 @@ public class User {
     private int highScore;
     private Empire empire;
     private String avatarPath;
-    private static transient final Gson gson = Global.gson;
-    private LocalDateTime lastScoreChangedTime;
-    private LocalDateTime lastOnlineTime;
 
     public User(String username, String password, String nickname, String email, String slogan,
                 String passwordRecoveryQuestion, String passwordRecoveryAnswer) {
