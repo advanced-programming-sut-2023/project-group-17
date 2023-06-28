@@ -2,6 +2,7 @@ package Client.view;
 
 import Client.ClientMain;
 import Client.controller.Controller;
+import Client.enums.Messages.LoginMenuMessages;
 import Server.controller.LoginMenuController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -42,11 +43,11 @@ public class LoginMenu extends Application {
     public TextField CaptchaTextField;
     public Button ResetCaptchaButton;
     public Button ConfirmCaptchaButton;
-    private LoginMenuController controller;
+//    private LoginMenuController controller;
     private ImageView imageView;
     private Captcha captcha;
     public LoginMenu() {
-        controller = new LoginMenuController();
+//        controller = new LoginMenuController();
         this.captcha = new Captcha();
         this.CaptchaImageView = new ImageView(new Image(getClass().getResource
                 ("/Captcha/" + captcha.getAnswer() + ".png").toExternalForm(), 120, 80, false, false));
@@ -111,26 +112,26 @@ public class LoginMenu extends Application {
             if (!password.getText().equals("")) passwordError.setText("");
         });
 
-        forgotPasswordUsername.textProperty().addListener((observableValue, oldText, newText) -> {
-            forgotPasswordUsernameError.setFill(Color.DARKRED);
-            if (forgotPasswordUsername.getText().equals("")) {
-                forgotPasswordUsernameError.setText("");
-                securityQuestion.setText("");
-            }
+//        forgotPasswordUsername.textProperty().addListener((observableValue, oldText, newText) -> {
+//            forgotPasswordUsernameError.setFill(Color.DARKRED);
+//            if (forgotPasswordUsername.getText().equals("")) {
+//                forgotPasswordUsernameError.setText("");
+//                securityQuestion.setText("");
+//            }
 
-            if (controller.getUserByUsername(forgotPasswordUsername.getText()) != null) {
-                securityQuestion.setText(controller.getUserRecoveryQuestion(forgotPasswordUsername.getText()));
-                forgotPasswordUsernameError.setText("");
-            }else forgotPasswordUsernameError.setText("Username doesn't exist");
+//            if (controller.getUserByUsername(forgotPasswordUsername.getText()) != null) {
+//                securityQuestion.setText(controller.getUserRecoveryQuestion(forgotPasswordUsername.getText()));
+//                forgotPasswordUsernameError.setText("");
+//            }else forgotPasswordUsernameError.setText("Username doesn't exist");
 
-        });
-
-        securityQuestionAnswer.textProperty().addListener((observable, oldText, newText) -> {
-            if (controller.getUserByUsername(forgotPasswordUsername.getText()) != null) {
-                newPassword.setDisable(!controller.getUserByUsername(
-                        forgotPasswordUsername.getText()).getPasswordRecoveryAnswer().equals(securityQuestionAnswer.getText()));
-            }
-        });
+//        });
+//
+//        securityQuestionAnswer.textProperty().addListener((observable, oldText, newText) -> {
+//            if (controller.getUserByUsername(forgotPasswordUsername.getText()) != null) {
+//                newPassword.setDisable(!controller.getUserByUsername(
+//                        forgotPasswordUsername.getText()).getPasswordRecoveryAnswer().equals(securityQuestionAnswer.getText()));
+//            }
+//        });
         loginButton.setDisable(true);
     }
 
@@ -163,39 +164,39 @@ public class LoginMenu extends Application {
     }
 
     public void submit(MouseEvent mouseEvent) {
-
-        Popup popup = getPopup();
-        Label label = getLabel();
-        popup.getContent().add(label);
-
-        Timeline timeline = hidePopup(popup);
-
-        switch (controller.setNewPassword(forgotPasswordUsername.getText(), newPassword.getText(), securityQuestionAnswer.getText())) {
-            case SUCCESS:
-                label.setText("Password Changed Successfully");
-                popup.show(ClientMain.stage);
-                timeline.play();
-                break;
-            case WRONG_PASSWORD_RECOVERY_ANSWER:
-                label.setText("Recovery Answer is Wrong");
-                popup.show(ClientMain.stage);
-                timeline.play();
-                break;
-            case WEAK_PASSWORD:
-                label.setText("Your password is Weak");
-                popup.show(ClientMain.stage);
-                timeline.play();
-                break;
-            case BLANK_FIELD:
-                label.setText("Blank Field");
-                popup.show(ClientMain.stage);
-                timeline.play();
-                break;
-        }
-
-        toggleForgotPasswordFields();
-        resetForgetPasswordFields();
-        forgotPassword.setSelected(false);
+//
+//        Popup popup = getPopup();
+//        Label label = getLabel();
+//        popup.getContent().add(label);
+//
+//        Timeline timeline = hidePopup(popup);
+//
+//        switch (controller.setNewPassword(forgotPasswordUsername.getText(), newPassword.getText(), securityQuestionAnswer.getText())) {
+//            case SUCCESS:
+//                label.setText("Password Changed Successfully");
+//                popup.show(ClientMain.stage);
+//                timeline.play();
+//                break;
+//            case WRONG_PASSWORD_RECOVERY_ANSWER:
+//                label.setText("Recovery Answer is Wrong");
+//                popup.show(ClientMain.stage);
+//                timeline.play();
+//                break;
+//            case WEAK_PASSWORD:
+//                label.setText("Your password is Weak");
+//                popup.show(ClientMain.stage);
+//                timeline.play();
+//                break;
+//            case BLANK_FIELD:
+//                label.setText("Blank Field");
+//                popup.show(ClientMain.stage);
+//                timeline.play();
+//                break;
+//        }
+//
+//        toggleForgotPasswordFields();
+//        resetForgetPasswordFields();
+//        forgotPassword.setSelected(false);
     }
 
     public void login(MouseEvent mouseEvent) throws Exception{
@@ -226,25 +227,26 @@ public class LoginMenu extends Application {
             }
         }));
 
-
-        switch (controller.loginUser(username.getText(), password.getText(), true)) {
-            case SUCCESS:
+        //TODO: for stay logged in true the bottom false
+        String loginMenuMessage = (String) Controller.send("login", username.getText(), password.getText(), false);
+        switch (loginMenuMessage) {
+            case "SUCCESS":
                 label.setText("You have entered successfully!");
                 popup.show(ClientMain.stage);
                 timeline.play();
                 mainMenuTimeLine.play();
                 break;
-            case BLANK_FIELD:
+            case "BLANK_FIELD":
                 label.setText("Blank Field!");
                 popup.show(ClientMain.stage);
                 timeline.play();
                 break;
-            case USERNAME_DOES_NOT_EXISTS:
+            case "USERNAME_DOES_NOT_EXISTS":
                 label.setText("Username doesn't exist!");
                 popup.show(ClientMain.stage);
                 timeline.play();
                 break;
-            case WRONG_PASSWORD:
+            case "WRONG_PASSWORD":
                 label.setText("Your password is wrong!");
                 popup.show(ClientMain.stage);
                 timeline.play();

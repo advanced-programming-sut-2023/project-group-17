@@ -1,10 +1,8 @@
 package Server.controller;
 
-import Server.model.Request;
-import Server.model.Response;
+import Server.enums.Messages.LoginMenuMessages;
+import Server.model.*;
 import Server.enums.Messages.SignupMenuMessages;
-import Server.model.Global;
-import Server.model.User;
 import com.google.gson.Gson;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -28,6 +26,7 @@ public class SocketHandler extends Thread{
     //TODO: add contorllers
     private LoginMenuController loginMenuController = new LoginMenuController();
     private SignupMenuController signupMenuController;
+    private MainMenuController mainMenuController;
 
 
     public SocketHandler(Socket socket) throws IOException {
@@ -96,6 +95,17 @@ public class SocketHandler extends Thread{
             response.setAnswer(signupMenuMessage.toString());
             return response;
         }
+        if (methodName.equals("login")) {
+            Response response = new Response();
+            LoginMenuMessages loginMenuMessage = loginMenuController.loginUser((String) request.getParameters().get(0), (String) request.getParameters().get(1), (Boolean) request.getParameters().get(2));
+            response.setAnswer(loginMenuMessage.toString());
+            if (response.getAnswer().equals("SUCCESS")) {
+                user = Database.getUserByUsername((String) request.getParameters().get(0));
+                user.setLastOnlineTime(null);
+                changeMenu("main");
+            }
+            return response;
+        }
         return null;
     }
 
@@ -107,6 +117,9 @@ public class SocketHandler extends Thread{
                 break;
             case "login":
                 loginMenuController = new LoginMenuController();
+                break;
+            case "main":
+                mainMenuController = new MainMenuController();
                 break;
         }
     }

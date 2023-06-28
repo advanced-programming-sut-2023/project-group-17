@@ -346,7 +346,7 @@ public class Database {
             String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/BuildingDatabase.json")));
 //            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/BuildingDatabase.json")));
             ArrayList<Building> savedBuildings;
-            savedBuildings = new Gson().fromJson(json, new TypeToken<List<Building>>() {}.getType());
+            savedBuildings = gson.fromJson(json, new TypeToken<List<Building>>() {}.getType());
             if (savedBuildings != null) setBuildings(savedBuildings);
         } catch (IOException e) {
             e.printStackTrace();
@@ -394,7 +394,7 @@ public class Database {
             String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/SoldiersDatabase.json")));
 //            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/SoldiersDatabase.json")));
             ArrayList<Soldier> savedSoldiers;
-            savedSoldiers = new Gson().fromJson(json, new TypeToken<List<Soldier>>() {}.getType());
+            savedSoldiers = gson.fromJson(json, new TypeToken<List<Soldier>>() {}.getType());
             if (savedSoldiers != null) setAllSoldiers(savedSoldiers);
         } catch (IOException e) {
             e.printStackTrace();
@@ -406,7 +406,7 @@ public class Database {
             String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/DefensiveBuildings.json")));
 //            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/DefensiveBuildings.json")));
             ArrayList<DefensiveBuilding> savedBuildings;
-            savedBuildings = new Gson().fromJson(json, new TypeToken<List<DefensiveBuilding>>() {}.getType());
+            savedBuildings = gson.fromJson(json, new TypeToken<List<DefensiveBuilding>>() {}.getType());
             if (savedBuildings != null) setDefensiveBuildings(savedBuildings);
         } catch (IOException e) {
             e.printStackTrace();
@@ -418,7 +418,7 @@ public class Database {
             String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/GatehouseBuildings.json")));
 //            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/GatehouseBuildings.json")));
             ArrayList<GateHouse> savedBuildings;
-            savedBuildings = new Gson().fromJson(json, new TypeToken<List<GateHouse>>() {}.getType());
+            savedBuildings = gson.fromJson(json, new TypeToken<List<GateHouse>>() {}.getType());
             if (savedBuildings != null) setGateHouses(savedBuildings);
         } catch (IOException e) {
             e.printStackTrace();
@@ -430,7 +430,7 @@ public class Database {
             String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/MiningBuildings.json")));
 //            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/MiningBuildings.json")));
             ArrayList<MiningBuilding> savedBuildings;
-            savedBuildings = new Gson().fromJson(json, new TypeToken<List<MiningBuilding>>() {}.getType());
+            savedBuildings = gson.fromJson(json, new TypeToken<List<MiningBuilding>>() {}.getType());
             if (savedBuildings != null) setMiningBuildings(savedBuildings);
         } catch (IOException e) {
             e.printStackTrace();
@@ -442,7 +442,7 @@ public class Database {
             String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/OtherBuildings.json")));
 //            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/OtherBuildings.json")));
             ArrayList<OtherBuilding> savedBuildings;
-            savedBuildings = new Gson().fromJson(json, new TypeToken<List<OtherBuilding>>() {}.getType());
+            savedBuildings = gson.fromJson(json, new TypeToken<List<OtherBuilding>>() {}.getType());
             if (savedBuildings != null) setOtherBuildings(savedBuildings);
         } catch (IOException e) {
             e.printStackTrace();
@@ -454,7 +454,7 @@ public class Database {
             String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/ProductionBuildings.json")));
 //            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/ProductionBuildings.json")));
             ArrayList<ProductionBuilding> savedBuildings;
-            savedBuildings = new Gson().fromJson(json, new TypeToken<List<ProductionBuilding>>() {}.getType());
+            savedBuildings = gson.fromJson(json, new TypeToken<List<ProductionBuilding>>() {}.getType());
             if (savedBuildings != null) setProductionBuildings(savedBuildings);
         } catch (IOException e) {
             e.printStackTrace();
@@ -466,7 +466,7 @@ public class Database {
             String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/SoldierBuildings.json")));
 //            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/SoldierBuildings.json")));
             ArrayList<SoldierProduction> savedBuildings;
-            savedBuildings = new Gson().fromJson(json, new TypeToken<List<SoldierProduction>>() {}.getType());
+            savedBuildings = gson.fromJson(json, new TypeToken<List<SoldierProduction>>() {}.getType());
             if (savedBuildings != null) setSoldierProductions(savedBuildings);
         } catch (IOException e) {
             e.printStackTrace();
@@ -478,7 +478,7 @@ public class Database {
             String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/StorageBuildings.json")));
 //            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/StorageBuildings.json")));
             ArrayList<StorageBuilding> savedBuildings;
-            savedBuildings = new Gson().fromJson(json, new TypeToken<List<StorageBuilding>>() {}.getType());
+            savedBuildings = gson.fromJson(json, new TypeToken<List<StorageBuilding>>() {}.getType());
             if (savedBuildings != null) setStorageBuildings(savedBuildings);
         } catch (IOException e) {
             e.printStackTrace();
@@ -490,7 +490,7 @@ public class Database {
             String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/AttackToolsAndMethodsDatabase.json")));
 //            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/AttackToolsAndMethodsDatabase.json")));
             ArrayList<AttackToolsAndMethods> savedBuildings;
-            savedBuildings = new Gson().fromJson(json, new TypeToken<List<AttackToolsAndMethods>>() {}.getType());
+            savedBuildings = gson.fromJson(json, new TypeToken<List<AttackToolsAndMethods>>() {}.getType());
             if (savedBuildings != null) setAttackToolsAndMethods(savedBuildings);
         } catch (IOException e) {
             e.printStackTrace();
@@ -502,7 +502,7 @@ public class Database {
             String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/Captchas.json")));
 //            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/Captchas.json")));
             ArrayList<String> savedCaptcha;
-            savedCaptcha = new Gson().fromJson(json, new TypeToken<List<String>>() {}.getType());
+            savedCaptcha = gson.fromJson(json, new TypeToken<List<String>>() {}.getType());
             if (savedCaptcha != null) setCaptcha(savedCaptcha);
         } catch (IOException e) {
             e.printStackTrace();
