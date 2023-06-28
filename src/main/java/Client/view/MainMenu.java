@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -41,7 +42,6 @@ public class MainMenu extends Application {
         ObservableList<String> items = FXCollections.observableArrayList();
         items.addAll("2", "3", "4", "5", "6", "7", "8");
         comboBox.setItems(items);
-        startNewGameButton.setDisable(true);
 
         PopupControl popup = new PopupControl();
         ListView<String> listView = new ListView<>();
@@ -81,6 +81,11 @@ public class MainMenu extends Application {
         stage.getScene().setRoot(pane);
         stage.setFullScreen(true);
         stage.show();
+    }
+
+    @FXML
+    public void initialize() {
+        startNewGameButton.setDisable(true);
     }
 
     public void startNewGame(MouseEvent mouseEvent) throws Exception {
