@@ -7,6 +7,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+import static Server.model.Global.gson;
+
 public class CommandSender {
     private final DataInputStream dataInputStream;
     private final DataOutputStream dataOutputStream;
@@ -17,6 +19,12 @@ public class CommandSender {
     }
 
     public void sendCommand(Response response) {
-        //TODO
+        try {
+            String s = dataInputStream.readUTF();
+            dataOutputStream.writeUTF(gson.toJson(response));
+            dataOutputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

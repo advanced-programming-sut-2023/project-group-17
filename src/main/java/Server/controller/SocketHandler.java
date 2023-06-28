@@ -2,12 +2,15 @@ package Server.controller;
 
 import Client.model.Request;
 import Client.model.Response;
+import Server.model.Global;
 import Server.model.User;
-
+import com.google.gson.Gson;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.Socket;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class SocketHandler extends Thread{
@@ -33,10 +36,29 @@ public class SocketHandler extends Thread{
 
     @Override
     public void run() {
-        //TODO
+        try {
+            while (true) {
+                Gson gson = Global.gson;
+                String s = dataInputStream.readUTF();
+                //System.out.println("<<REQUEST>> : \n" + s); // TODO : delete this line
+                Request request = gson.fromJson(s, Request.class);
+                //System.out.println("New request from " + socket);
+                Response response = handleRequest(request);
+                // System.out.println("<<RESPONSE>> : \n" + gson.toJson(response)); // TODO : delete this line
+                dataOutputStream.writeUTF(gson.toJson(response));
+                dataOutputStream.flush();
+            }
+        } catch (IOException | NoSuchMethodException | InvocationTargetException | IllegalAccessException exception) {
+            if (user != null)
+                user.setLastOnlineTime(LocalDateTime.now());
+            exception.printStackTrace();
+            ServerController.getInstance().removeSocket(this);
+            // TODO : send updated list of users to online users
+        }
     }
 
     private Response handleRequest(Request request) {
+        String methodName = request.getMethodName();
         //TODO
         return null;
     }
