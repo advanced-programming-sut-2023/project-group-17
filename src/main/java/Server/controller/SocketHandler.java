@@ -201,8 +201,9 @@ public class SocketHandler extends Thread{
         }
         if (methodName.equals("user exist")) {
             Response response = new Response();
-            if (friendshipMenuController.getUserByUsername((String) request.getParameters().get(0)) == null
-                    ||(request.getParameters().get(0)).equals(user.getUsername())) {
+            User tmpUser = friendshipMenuController.getUserByUsername((String) request.getParameters().get(0));
+            if (tmpUser == null || (request.getParameters().get(0)).equals(user.getUsername()) ||
+                    friendshipMenuController.haveUserInFriends(user, tmpUser)) {
                 return response;
             }
             response.setAnswer("Success");

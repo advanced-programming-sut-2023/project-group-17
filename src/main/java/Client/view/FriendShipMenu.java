@@ -42,6 +42,14 @@ public class FriendShipMenu extends Application {
     @FXML
     public void initialize() {
         sendRequestButton.setDisable(true);
+        setScrollPane();
+        usernameTextField.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            String result = (String) Controller.send("user exist", newValue);
+            sendRequestButton.setDisable(result == null);
+        });
+    }
+
+    private void setScrollPane() {
         VBox vBox = new VBox(); vBox.setAlignment(Pos.CENTER); vBox.setSpacing(5);
         int counter = 0;
         while (true) {
@@ -53,14 +61,11 @@ public class FriendShipMenu extends Application {
             counter++;
         }
         friendshipRequests.setContent(vBox);
-        usernameTextField.textProperty().addListener((observableValue, oldValue, newValue) -> {
-            String result = (String) Controller.send("user exist", newValue);
-            sendRequestButton.setDisable(result == null);
-        });
     }
 
     public void sendRequest(ActionEvent actionEvent) {
         Controller.send("send request", usernameTextField.getText());
+        setScrollPane();
     }
 
     public void back(ActionEvent actionEvent) throws Exception {

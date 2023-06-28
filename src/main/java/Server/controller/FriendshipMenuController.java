@@ -22,4 +22,8 @@ public class FriendshipMenuController {
         Database.getUserByUsername(user.getUsername()).getFriendReqsSent().put(username, "Wait");
         Database.saveUsers();
     }
+
+    public boolean haveUserInFriends(User user, User tmpUser) {
+        return user.getFriendReqs().contains(tmpUser.getUsername());
+    }
 }
