@@ -1,5 +1,6 @@
 package Client.view;
 
+//TODO: delete controller & model
 import Client.ClientMain;
 import Server.model.Items.Item;
 import Server.controller.*;
@@ -1405,10 +1406,11 @@ public class GameMenu extends Application {
             gridPane.getChildren().remove(fire);
         }
         openGatehouseBuildings();
-        HashMap<ImageView, ArrayList<ArrayList<Pair>>> hashMap = gameMenuController.applyMoves();
-        for (Map.Entry<ImageView, ArrayList<ArrayList<Pair>>> imageViewArrayListEntry : hashMap.entrySet()) {
-            new MoveAnimation(imageViewArrayListEntry.getKey(), gridPane, imageViewArrayListEntry.getValue().get(0)).play();
-        }
+        //TODO: uncomment
+//        HashMap<ImageView, ArrayList<ArrayList<Pair>>> hashMap = gameMenuController.applyMoves();
+//        for (Map.Entry<ImageView, ArrayList<ArrayList<Pair>>> imageViewArrayListEntry : hashMap.entrySet()) {
+//            new MoveAnimation(imageViewArrayListEntry.getKey(), gridPane, imageViewArrayListEntry.getValue().get(0)).play();
+//        }
         gameMenuController.nextTurnView();
         ArrayList<ImageView> deadBodies = gameMenuController.removeDeadBodies();
         for (ImageView deadBody : deadBodies) {
@@ -1427,13 +1429,14 @@ public class GameMenu extends Application {
         for (ImageView destroyedBuilding : destroyedBuildings) {
             gridPane.getChildren().remove(destroyedBuilding);
         }
-        ArrayList<Pair> buildingsOnFire = buildingMenuController.getBuildingsOnFire();
-        for (Pair pair : buildingsOnFire) {
-            ImageView imageView = new ImageView(new
-                Image(getClass().getResource("/assets/Texture/fire.png").toExternalForm(), 50, 50, false, false));
-            gridPane.add(imageView, pair.getCol(), pair.getRow());
-            fires.add(imageView);
-        }
+        //TODO: uncomment
+//        ArrayList<Pair> buildingsOnFire = buildingMenuController.getBuildingsOnFire();
+//        for (Pair pair : buildingsOnFire) {
+//            ImageView imageView = new ImageView(new
+//                Image(getClass().getResource("/assets/Texture/fire.png").toExternalForm(), 50, 50, false, false));
+//            gridPane.add(imageView, pair.getCol(), pair.getRow());
+//            fires.add(imageView);
+//        }
         refreshToolBar();
     }
 

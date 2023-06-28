@@ -106,6 +106,12 @@ public class SocketHandler extends Thread{
             }
             return response;
         }
+        if (methodName.equals("logout")) {
+            user.setLastOnlineTime(LocalDateTime.now());
+            user = null;
+            changeMenu("login");
+            return new Response();
+        }
         return null;
     }
 

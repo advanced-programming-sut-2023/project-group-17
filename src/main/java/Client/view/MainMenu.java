@@ -1,5 +1,6 @@
 package Client.view;
 
+import Client.controller.Controller;
 import Server.controller.MainMenuController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -21,7 +22,7 @@ public class MainMenu extends Application {
     public TextField width;
     public TextField length;
     public Button startNewGameButton;
-    private MainMenuController controller = new MainMenuController();
+//    private MainMenuController controller = new MainMenuController();
     public static String users;
 
 //    public MainMenu() {
@@ -93,7 +94,8 @@ public class MainMenu extends Application {
     }
 
     public void logout(MouseEvent mouseEvent) throws Exception {
-        controller.logout();
+        Controller.send("logout");
+//        controller.logout();
         new LoginMenu().start(stage);
     }
 
