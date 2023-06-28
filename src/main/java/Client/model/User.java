@@ -2,10 +2,14 @@ package Client.model;
 
 
 import Model.Empire;
+import com.google.gson.Gson;
 
 import java.security.MessageDigest;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
 
-public class User {
+public class User implements Comparable<User> {
     private String username;
     private String password;
     private String nickname;
@@ -16,17 +20,67 @@ public class User {
     private int highScore;
     private Empire empire;
     private String avatarPath;
+    private transient static final Gson gson = Global.gson;
+    private LocalDateTime lastScoreChangedTime;
+    private LocalDateTime lastOnlineTime;
+    ArrayList<String> friendReqs = new ArrayList<>();
+    ArrayList<String> friends = new ArrayList<>();
 
-    public User(String username, String password, String nickname, String email, String slogan,
-                String passwordRecoveryQuestion, String passwordRecoveryAnswer) {
-        this.username = username;
-        this.password = password;
-        this.nickname = nickname;
-        this.email = email;
-        this.slogan = slogan;
-        this.passwordRecoveryQuestion = passwordRecoveryQuestion;
-        this.passwordRecoveryAnswer = passwordRecoveryAnswer;
-        this.highScore = 0;
+    public static User fromJson(String json) {
+        return gson.fromJson(json, User.class);
+    }
+
+    public String toJson() {
+        return gson.toJson(this);
+    }
+
+
+//    public User(String username, String password, String nickname, String email, String slogan,
+//                String passwordRecoveryQuestion, String passwordRecoveryAnswer) {
+//        this.username = username;
+//        this.password = password;
+//        this.nickname = nickname;
+//        this.email = email;
+//        this.slogan = slogan;
+//        this.passwordRecoveryQuestion = passwordRecoveryQuestion;
+//        this.passwordRecoveryAnswer = passwordRecoveryAnswer;
+//        this.highScore = 0;
+//    }
+
+    @Override
+    public int compareTo(User o) {
+        Integer myScore = this.getHighScore();
+        Integer otherScore = o.getHighScore();
+        if (!otherScore.equals(myScore))
+            return otherScore.compareTo(myScore);
+        if (!lastScoreChangedTime.equals(o.lastScoreChangedTime))
+            return this.lastScoreChangedTime.compareTo(o.lastScoreChangedTime);
+        return this.getUsername().compareTo(o.getUsername());
+    }
+
+    public LocalDateTime getLastOnlineTime() {
+        return lastOnlineTime;
+    }
+
+    public void setLastOnlineTime(LocalDateTime lastOnlineTime) {
+        this.lastOnlineTime = lastOnlineTime;
+    }
+
+    public String getOnlineTime() {
+        if (this.lastOnlineTime != null)
+            return this.lastOnlineTime.format(DateTimeFormatter.ofPattern("d MMM, uuuu HH:mm:ss"));
+        else
+            return "online";
+    }
+
+
+
+    public LocalDateTime getLastScoreChangedTime() {
+        return lastScoreChangedTime;
+    }
+
+    public void setLastScoreChangedTime(LocalDateTime lastScoreChangedTime) {
+        this.lastScoreChangedTime = lastScoreChangedTime;
     }
 
     public static String SHA256Code(String value) {
