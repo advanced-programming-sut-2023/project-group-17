@@ -28,6 +28,7 @@ public class SocketHandler extends Thread{
     private SignupMenuController signupMenuController;
     private MainMenuController mainMenuController;
     private ProfileMenuController profileMenuController;
+    private FriendshipMenuController friendshipMenuController;
 
 
     public SocketHandler(Socket socket) throws IOException {
@@ -185,6 +186,28 @@ public class SocketHandler extends Thread{
             changeMenu("login");
             return new Response();
         }
+        if (methodName.equals("send request")) {
+            friendshipMenuController.sendFriendRequest(user, (String) request.getParameters().get(0));
+            return new Response();
+        }
+        if (methodName.equals("get user by index")) {
+            Response response = new Response();
+            if (((Double) request.getParameters().get(0)).intValue() == user.getFriendReqs().size()) {
+                response.setAnswer("finish");
+                return response;
+            }
+            response.setAnswer(friendshipMenuController.getUserRequestByIndex(((Double) request.getParameters().get(0)).intValue(), user));
+            return response;
+        }
+        if (methodName.equals("user exist")) {
+            Response response = new Response();
+            if (friendshipMenuController.getUserByUsername((String) request.getParameters().get(0)) == null
+                    ||(request.getParameters().get(0)).equals(user.getUsername())) {
+                return response;
+            }
+            response.setAnswer("Success");
+            return response;
+        }
         return null;
     }
 
@@ -202,6 +225,10 @@ public class SocketHandler extends Thread{
                 break;
             case "profile":
                 profileMenuController = new ProfileMenuController();
+                break;
+            case "friendship":
+                friendshipMenuController = new FriendshipMenuController();
+                break;
         }
     }
 

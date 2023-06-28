@@ -4,6 +4,7 @@ import Client.controller.Controller;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -96,6 +97,11 @@ public class MainMenu extends Application {
         Controller.send("logout");
 //        controller.logout();
         new LoginMenu().start(stage);
+    }
+
+    public void openFriendshipMenu(ActionEvent actionEvent) throws Exception {
+        Controller.send("change menu friendship");
+        new FriendShipMenu().start(stage);
     }
 
 //    public void run() {

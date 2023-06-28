@@ -7,6 +7,7 @@ import java.security.MessageDigest;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class User implements Comparable<User> {
     private String username;
@@ -25,6 +26,7 @@ public class User implements Comparable<User> {
     private String authToken;
     private ArrayList<String> friendReqs = new ArrayList<>();
     private ArrayList<String> friends = new ArrayList<>();
+    private HashMap<String, String> friendReqsSent = new HashMap<>();
 
     public User(String username, String password, String nickname, String email, String slogan,
                 String passwordRecoveryQuestion, String passwordRecoveryAnswer) {
@@ -51,6 +53,7 @@ public class User implements Comparable<User> {
     }
 
     public ArrayList<String> getFriendReqs() {
+        if (friendReqs == null) friendReqs = new ArrayList<>();
         return friendReqs;
     }
 
@@ -209,5 +212,14 @@ public class User implements Comparable<User> {
     public String randomPathGenerator() {
         int x = (int) (Math.random() * 4 + 1);
         return User.class.getResource("/assets/avatars/" + x + ".png").toString();
+    }
+
+    public HashMap<String, String> getFriendReqsSent() {
+        if (friendReqsSent == null) friendReqsSent = new HashMap<>();
+        return friendReqsSent;
+    }
+
+    public void setFriendReqsSent(HashMap<String, String> friendReqsSent) {
+        this.friendReqsSent = friendReqsSent;
     }
 }
