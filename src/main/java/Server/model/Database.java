@@ -37,6 +37,7 @@ public class Database {
     private static ArrayList<empireColors> empireColors;
     private static User loggedInUser;
     private static ArrayList<String> captcha = new ArrayList<>();
+    private static transient final Gson gson = Global.gson;
     public static final String[] recoveryQuestions = {
         "What is my father's name?",
         "What was my first pet's name?",
@@ -322,11 +323,12 @@ public class Database {
         try {
 //            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/UserDatabase.json")));
 // //           String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/UserDatabase.json")));
-            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/UserDatabase.json")));
-//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/UserDatabase.json")));
+
+//            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/UserDatabase.json")));
+            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/UserDatabase.json")));
 
             ArrayList<User> savedUsers;
-            savedUsers = new Gson().fromJson(json, new TypeToken<List<User>>() {}.getType());
+            savedUsers = gson.fromJson(json, new TypeToken<List<User>>() {}.getType());
             if (savedUsers != null) setUsers(savedUsers);
         } catch (IOException e) {
             e.printStackTrace();
