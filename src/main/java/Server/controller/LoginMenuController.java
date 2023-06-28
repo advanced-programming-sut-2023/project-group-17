@@ -1,10 +1,10 @@
 package Server.controller;
 
-import Model.Database;
-import Model.User;
+import Server.model.Database;
+import Server.model.User;
 import Server.enums.Messages.LoginMenuMessages;
 
-import static Model.Database.setCurrentUser;
+import static Server.model.Database.setCurrentUser;
 
 public class LoginMenuController {
     int verifyingNumber;

@@ -1,9 +1,9 @@
 package Utils;
 
-import Model.Database;
+import Server.model.Database;
 import Server.enums.Messages.UtilsMessages;
 
-import static Model.Database.getUserByUsername;
+import static Server.model.Database.getUserByUsername;
 
 public class CheckValidation {
     public static UtilsMessages isPasswordStrong(String password) {

@@ -1,7 +1,7 @@
 package Client.view;
 
 import Client.ClientMain;
-import Model.Items.Item;
+import Server.model.Items.Item;
 import Server.controller.*;
 import Utils.Pair;
 import Server.enums.Messages.BuildingMenuMessages;

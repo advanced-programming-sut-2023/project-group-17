@@ -1,6 +1,6 @@
 package Server.controller;
 
-import Model.Buildings.Building;
+import Server.model.Buildings.Building;
 
 public class BuildingsHandler {
     public static void handleBuildingFunction(Building building) {

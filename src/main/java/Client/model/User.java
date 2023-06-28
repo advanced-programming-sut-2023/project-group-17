@@ -1,7 +1,7 @@
 package Client.model;
 
 
-import Model.Empire;
+import Server.model.Empire;
 import com.google.gson.Gson;
 
 import java.security.MessageDigest;

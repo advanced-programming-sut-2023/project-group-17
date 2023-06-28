@@ -1,4 +1,4 @@
-import Model.Database;
+import Server.model.Database;
 import Server.controller.SignupMenuController;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

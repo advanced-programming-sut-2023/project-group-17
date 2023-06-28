@@ -1,14 +1,9 @@
 package Server.controller;
 
-import Model.Buildings.Building;
-import Model.Database;
-import Model.Items.Item;
-import Model.Map;
-import Model.MapCell;
-import Model.MapCellItems.MapCellItems;
-import Model.User;
+import Server.model.Map;
+import Server.model.MapCell;
+import Server.model.User;
 
-import javax.xml.crypto.Data;
 import java.util.*;
 
 public class MoveController {

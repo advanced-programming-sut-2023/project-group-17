@@ -1,7 +1,11 @@
 package Server.controller;
 
-import Model.*;
 import Server.enums.Messages.MainMenuMessages;
+import Server.model.Database;
+import Server.model.Empire;
+import Server.model.Map;
+import Server.model.empireColors;
+import Server.model.User;
 
 import java.util.ArrayList;
 

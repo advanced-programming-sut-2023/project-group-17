@@ -1,15 +1,12 @@
 package Server.model;
 
 
-import Model.Database;
-import Model.Empire;
 import com.google.gson.Gson;
 
 import java.security.MessageDigest;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 public class User implements Comparable<User> {
     private String username;

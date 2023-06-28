@@ -1,10 +1,10 @@
 package Server.controller;
 
-import Model.Database;
-import Model.Empire;
-import Model.Items.*;
-import Model.TradeRequest;
-import Model.User;
+import Server.model.Database;
+import Server.model.Empire;
+import Server.model.Items.*;
+import Server.model.TradeRequest;
+import Server.model.User;
 import Server.enums.Messages.TradeMenuMessages;
 import Server.enums.Types.TradeType;
 

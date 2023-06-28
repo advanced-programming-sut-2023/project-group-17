@@ -1,17 +1,12 @@
 package Client.view;
 
-import Model.People.Person;
 import Utils.Pair;
 import javafx.animation.*;
 import javafx.event.ActionEvent;
-import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
 import javafx.util.Duration;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.util.ArrayList;
 
 public class MoveAnimation extends Transition {

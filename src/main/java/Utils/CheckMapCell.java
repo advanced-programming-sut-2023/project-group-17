@@ -1,7 +1,7 @@
 package Utils;
 
-import Model.Database;
-import Model.MapCell;
+import Server.model.Database;
+import Server.model.MapCell;
 
 public class CheckMapCell {
     public static boolean validationOfX(int x) {

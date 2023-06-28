@@ -1,11 +1,11 @@
 package Server.controller;
 
-import Model.Database;
-import Model.User;
+import Server.model.Database;
+import Server.model.User;
 
 import java.util.ArrayList;
 
-import static Model.Database.getCurrentUser;
+import static Server.model.Database.getCurrentUser;
 
 public class AvatarMenuController {
     public void changeAvatarCustom(String avatarPath) {

@@ -1,10 +1,10 @@
 package Server.controller;
 
-import Model.Buildings.Building;
-import Model.*;
-import Model.MapCellItems.Rock;
-import Model.MapCellItems.Tree;
-import Model.People.Soldier;
+import Server.model.*;
+import Server.model.Buildings.Building;
+import Server.model.MapCellItems.Rock;
+import Server.model.MapCellItems.Tree;
+import Server.model.People.Soldier;
 import Utils.CheckMapCell;
 import Server.enums.Messages.MapMenuMessages;
 import javafx.scene.image.ImageView;

@@ -1,16 +1,16 @@
 package Server.controller;
 
-import Model.*;
-import Model.Buildings.*;
-import Model.Items.Animal;
-import Model.Items.Item;
-import Model.MapCellItems.MapCellItems;
-import Model.MapCellItems.Wall;
-import Model.MapGeneration.MapOrganizer;
-import Model.People.King;
-import Model.People.NormalPeople;
-import Model.People.Person;
-import Model.People.Soldier;
+import Server.model.*;
+import Server.model.Buildings.*;
+import Server.model.Items.Animal;
+import Server.model.Items.Item;
+import Server.model.MapCellItems.MapCellItems;
+import Server.model.MapCellItems.Wall;
+import Server.model.MapGeneration.MapOrganizer;
+import Server.model.People.King;
+import Server.model.People.NormalPeople;
+import Server.model.People.Person;
+import Server.model.People.Soldier;
 import Utils.CheckMapCell;
 import Utils.Pair;
 import Server.enums.Messages.GameMenuMessages;

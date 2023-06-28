@@ -1,8 +1,8 @@
 package Client.view;
 
 import Client.ClientMain;
-import Model.Database;
-import Model.User;
+import Server.model.Database;
+import Server.model.User;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;

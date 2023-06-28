@@ -1,8 +1,8 @@
 package Server.controller;
 
-import Model.Database;
-import Model.Empire;
-import Model.Items.Food;
+import Server.model.Database;
+import Server.model.Empire;
+import Server.model.Items.Food;
 import Server.enums.Messages.EmpireMenuMessages;
 
 public class EmpireMenuController {

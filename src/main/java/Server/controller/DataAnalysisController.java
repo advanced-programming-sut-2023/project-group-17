@@ -1,10 +1,10 @@
 package Server.controller;
 
-import Model.Buildings.Building;
-import Model.Buildings.SoldierProduction;
-import Model.Database;
-import Model.Items.Item;
-import Model.People.Soldier;
+import Server.model.Buildings.Building;
+import Server.model.Buildings.SoldierProduction;
+import Server.model.Database;
+import Server.model.Items.Item;
+import Server.model.People.Soldier;
 
 import java.util.ArrayList;
 

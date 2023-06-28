@@ -1,7 +1,7 @@
 package Server.controller;
 
-import Model.Database;
-import Model.User;
+import Server.model.Database;
+import Server.model.User;
 import Server.enums.Messages.ProfileMenuMessages;
 import Utils.Randoms;
 
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
-import static Model.Database.*;
+import static Server.model.Database.*;
 
 public class ProfileMenuController {
     public ProfileMenuMessages changeUsername(String username) {

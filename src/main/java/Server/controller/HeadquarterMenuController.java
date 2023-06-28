@@ -1,8 +1,8 @@
 package Server.controller;
 
-import Model.Database;
-import Model.Empire;
-import Model.User;
+import Server.model.Database;
+import Server.model.Empire;
+import Server.model.User;
 
 public class HeadquarterMenuController {
     public int numberOfPlayerInTheGame() {

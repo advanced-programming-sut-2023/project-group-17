@@ -1,8 +1,7 @@
 package Server.controller;
 
-import Model.Database;
+import Server.model.Database;
 
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;

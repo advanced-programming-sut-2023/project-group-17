@@ -1,15 +1,15 @@
 package Server.controller;
 
-import Model.*;
-import Model.Buildings.Building;
-import Model.Buildings.DefensiveBuilding;
-import Model.MapCellItems.MapCellItems;
-import Model.MapCellItems.Tunnel;
-import Model.MapCellItems.Wall;
-import Model.People.Engineer;
-import Model.People.Person;
-import Model.People.Soldier;
-import Model.People.Tunneler;
+import Server.model.*;
+import Server.model.Buildings.Building;
+import Server.model.Buildings.DefensiveBuilding;
+import Server.model.MapCellItems.MapCellItems;
+import Server.model.MapCellItems.Tunnel;
+import Server.model.MapCellItems.Wall;
+import Server.model.People.Engineer;
+import Server.model.People.Person;
+import Server.model.People.Soldier;
+import Server.model.People.Tunneler;
 import Utils.CheckMapCell;
 import Server.enums.Messages.UnitMenuMessages;
 import javafx.scene.image.ImageView;

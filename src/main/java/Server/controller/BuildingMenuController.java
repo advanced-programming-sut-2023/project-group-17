@@ -1,13 +1,13 @@
 package Server.controller;
 
-import Model.*;
-import Model.Buildings.*;
-import Model.Items.Animal;
-import Model.Items.ArmorAndWeapon;
-import Model.Items.Resource;
-import Model.MapCellItems.Stair;
-import Model.MapCellItems.Wall;
-import Model.People.*;
+import Server.model.*;
+import Server.model.Buildings.*;
+import Server.model.Items.Animal;
+import Server.model.Items.ArmorAndWeapon;
+import Server.model.Items.Resource;
+import Server.model.MapCellItems.Stair;
+import Server.model.MapCellItems.Wall;
+import Server.model.People.*;
 import Utils.CheckMapCell;
 import Utils.Pair;
 //import View.EmpireMenu;

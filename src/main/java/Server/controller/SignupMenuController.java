@@ -1,10 +1,10 @@
 package Server.controller;
 
-import Model.Database;
-import Model.User;
+import Server.model.Database;
+import Server.model.User;
 import Server.enums.Messages.SignupMenuMessages;
 import Utils.Randoms;
-import static Model.Database.*;
+import static Server.model.Database.*;
 
 public class SignupMenuController {
     User tmpUser;
