@@ -3,7 +3,6 @@ package Client.view;
 import Server.controller.MainMenuController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,10 +11,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import static Client.ClientMain.stage;
-import org.controlsfx.control.CheckComboBox;
 
-import java.util.ArrayList;
+import static Client.ClientMain.stage;
 
 
 public class MainMenu extends Application {

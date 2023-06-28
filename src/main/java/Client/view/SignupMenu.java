@@ -1,6 +1,5 @@
 package Client.view;
 
-import Client.ClientMain;
 import Server.controller.SignupMenuController;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -77,7 +76,7 @@ public class SignupMenu extends Application {
     private void setCaptcha() {
         imageView = new ImageView(new Image(getClass().getResource
                 ("/Captcha/" + captcha.getAnswer() + ".png").toExternalForm(), 120, 80, false, false));
-        imageView.setX(727); imageView.setY(720);
+        imageView.setX(727); imageView.setY(582);
         pane.getChildren().add(imageView);
     }
 
@@ -233,7 +232,7 @@ public class SignupMenu extends Application {
 
     public void resetCaptcha(MouseEvent mouseEvent) {
         this.captcha = new Captcha();
-//        setCaptcha();
+        setCaptcha();
     }
 
     public void checkCaptcha(MouseEvent mouseEvent) {
