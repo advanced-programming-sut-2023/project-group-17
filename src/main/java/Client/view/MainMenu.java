@@ -56,14 +56,11 @@ public class MainMenu extends Application {
             }
         });
 
+        comboBox.setValue("2");
         comboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == null)
-                startNewGameButton.setDisable(true);
-            if (newValue != null) {
+            if (newValue != null)
                 comboBox.setValue(newValue); // Update the selected item in the ComboBox
-                startNewGameButton.setDisable(false);
-            }
-        });
+            });
 //        ObservableList<String> items = FXCollections.observableArrayList();
 //        ArrayList<String> list = new ArrayList<>();
 //        controller.addUsers(list);
@@ -78,11 +75,6 @@ public class MainMenu extends Application {
         stage.getScene().setRoot(pane);
         stage.setFullScreen(true);
         stage.show();
-    }
-
-    @FXML
-    public void initialize() {
-        startNewGameButton.setDisable(true);
     }
 
     public void startNewGame(MouseEvent mouseEvent) throws Exception {
