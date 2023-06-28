@@ -1,4 +1,4 @@
-package Utils;
+package Server.Utils;
 
 //public class Captcha {
 //    static Random random = new Random();

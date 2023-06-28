@@ -1,5 +1,6 @@
 package Server.model.MapCellItems;
 
+import Server.Utils.CheckMapCell;
 import Server.model.Database;
 import Server.model.MapCell;
 import Server.model.User;
@@ -75,7 +76,7 @@ public class Wall extends MapCellItems {
         MapCell mapCell;
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
-                if (Utils.CheckMapCell.validationOfY(y + j) && Utils.CheckMapCell.validationOfX(x + i)) {
+                if (CheckMapCell.validationOfY(y + j) && CheckMapCell.validationOfX(x + i)) {
                     mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x + i, y + j);
                     if ((mapCell.getStair() != null) && mapCell.getStair().getOwner().equals(getOwner()))
                         return true;

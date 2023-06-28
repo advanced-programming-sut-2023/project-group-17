@@ -5,7 +5,7 @@ import Server.model.Buildings.Building;
 import Server.model.MapCellItems.Rock;
 import Server.model.MapCellItems.Tree;
 import Server.model.People.Soldier;
-import Utils.CheckMapCell;
+import Server.Utils.CheckMapCell;
 import Server.enums.Messages.MapMenuMessages;
 import javafx.scene.image.ImageView;
 

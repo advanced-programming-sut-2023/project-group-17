@@ -1,5 +1,6 @@
 package Server.model;
 
+import Server.Utils.CheckMapCell;
 import Server.model.Buildings.Building;
 import Server.model.Buildings.GateHouse;
 import Server.model.Buildings.StorageBuilding;
@@ -153,7 +154,7 @@ public class Empire {
 
         for (int z = -1; z < 2; z++) {
             for (int j = -1; j < 2; j++) {
-                if (Utils.CheckMapCell.validationOfY(y + j) && Utils.CheckMapCell.validationOfX(x + z) &&
+                if (CheckMapCell.validationOfY(y + j) && CheckMapCell.validationOfX(x + z) &&
                         !Database.getCurrentMapGame().getMapCellByCoordinates(x + z, y + j).haveBuilding()
                         && !(z == 0 && j == 1)) {
 
@@ -171,7 +172,7 @@ public class Empire {
 
         for (int z = -1; z < 2; z++) {
             for (int j = -1; j < 2; j++) {
-                if (Utils.CheckMapCell.validationOfY(y + j) && Utils.CheckMapCell.validationOfX(x + z) &&
+                if (CheckMapCell.validationOfY(y + j) && CheckMapCell.validationOfX(x + z) &&
                         !Database.getCurrentMapGame().getMapCellByCoordinates(x + z, y + j).haveBuilding()
                         && !(z == 0 && j == 1)) {
                     MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x + z, y + j);

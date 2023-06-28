@@ -1,4 +1,4 @@
-package Utils;
+package Server.Utils;
 
 import java.util.Random;
 

@@ -1,6 +1,6 @@
 package Server.controller;
 
-import Client.model.Response;
+import Server.model.Response;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

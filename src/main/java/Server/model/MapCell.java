@@ -1,5 +1,6 @@
 package Server.model;
 
+import Server.Utils.CheckMapCell;
 import Server.model.Buildings.Building;
 import Server.model.Buildings.Trap;
 import Server.model.Items.Animal;
@@ -218,7 +219,7 @@ public class MapCell {
         for (int i = 0; i < 9; i++) {
             x = firstX + xMove[i];
             y = firstY + yMove[i];
-            if (Utils.CheckMapCell.validationOfX(x) && Utils.CheckMapCell.validationOfY(y) &&
+            if (CheckMapCell.validationOfX(x) && CheckMapCell.validationOfY(y) &&
             !checkForDfs.contains(Database.getCurrentMapGame().getMapCellByCoordinates(x, y)) &&
             Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getWall() != null) {
                 mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);

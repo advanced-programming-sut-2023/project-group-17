@@ -3,7 +3,7 @@ package Server.controller;
 import Server.model.Database;
 import Server.model.User;
 import Server.enums.Messages.SignupMenuMessages;
-import Utils.Randoms;
+import Server.Utils.Randoms;
 import static Server.model.Database.*;
 
 public class SignupMenuController {

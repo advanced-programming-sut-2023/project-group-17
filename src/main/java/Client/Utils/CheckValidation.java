@@ -1,4 +1,4 @@
-package Utils;
+package Client.Utils;
 
 import Server.model.Database;
 import Server.enums.Messages.UtilsMessages;

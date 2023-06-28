@@ -8,8 +8,8 @@ import Server.model.Items.Resource;
 import Server.model.MapCellItems.Stair;
 import Server.model.MapCellItems.Wall;
 import Server.model.People.*;
-import Utils.CheckMapCell;
-import Utils.Pair;
+import Server.Utils.CheckMapCell;
+import Server.Utils.Pair;
 //import View.EmpireMenu;
 import Server.enums.Messages.BuildingMenuMessages;
 import javafx.scene.image.ImageView;
@@ -147,7 +147,7 @@ public class BuildingMenuController {
         outer :
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
-                if (Utils.CheckMapCell.validationOfY(y + j) && Utils.CheckMapCell.validationOfX(x + i)) {
+                if (CheckMapCell.validationOfY(y + j) && CheckMapCell.validationOfX(x + i)) {
                     mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x + i, y + j);
                     if ((mapCell.getWall() != null) && mapCell.getWall().getOwner().equals(Database.getCurrentUser())) {
                         break outer;
@@ -327,7 +327,7 @@ public class BuildingMenuController {
         if(!selectedBuilding.getBuildingName().equals("siege tent")) return BuildingMenuMessages.INVALID_TYPE_BUILDING;
 
         MapCell mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x, y);
-        if(!Utils.CheckMapCell.mapCellEmptyByCoordinates(x, y))
+        if(!CheckMapCell.mapCellEmptyByCoordinates(x, y))
             return BuildingMenuMessages.CELL_IS_FULL;
 
         Empire empire = Database.getCurrentUser().getEmpire();
@@ -360,7 +360,7 @@ public class BuildingMenuController {
         for (int i = 0; i < 5; i++) {
             for (int j = x - i; j < x + i; j++) {
                 for (int h = y - i; h < y + i; h++) {
-                    if (Utils.CheckMapCell.validationOfY(h) && Utils.CheckMapCell.validationOfX(j)) {
+                    if (CheckMapCell.validationOfY(h) && CheckMapCell.validationOfX(j)) {
                         mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(j, h);
                         for (Soldier soldier : mapCell.getSoldier()) {
                             Animal dogs = empire.getAnimalByName("dog");

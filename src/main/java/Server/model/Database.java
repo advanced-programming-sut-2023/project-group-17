@@ -311,8 +311,8 @@ public class Database {
             FileWriter fileWriter = new FileWriter("src/main/resources/jsons/UserDatabase.json");
 //            FileWriter fileWriter = new FileWriter("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/UserDatabase.json");
 
-            String gson = new Gson().toJson(getUsers());
-            fileWriter.write(gson);
+            String json = gson.toJson(getUsers());
+            fileWriter.write(json);
             fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -324,8 +324,8 @@ public class Database {
 //            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/UserDatabase.json")));
 // //           String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/UserDatabase.json")));
 
-//            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/UserDatabase.json")));
-            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/UserDatabase.json")));
+            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/UserDatabase.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/UserDatabase.json")));
 
             ArrayList<User> savedUsers;
             savedUsers = gson.fromJson(json, new TypeToken<List<User>>() {}.getType());

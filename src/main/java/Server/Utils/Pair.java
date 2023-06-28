@@ -1,4 +1,4 @@
-package Utils;
+package Server.Utils;
 
 public class Pair {
     private int col;

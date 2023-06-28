@@ -1,6 +1,6 @@
 package Client.view;
 
-import Utils.Pair;
+import Client.Utils.Pair;
 import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.scene.image.ImageView;

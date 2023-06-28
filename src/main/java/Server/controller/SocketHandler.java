@@ -1,8 +1,8 @@
 package Server.controller;
 
-import Client.model.Request;
-import Client.model.Response;
-import Client.view.LoginMenu;
+import Server.model.Request;
+import Server.model.Response;
+import Server.enums.Messages.SignupMenuMessages;
 import Server.model.Global;
 import Server.model.User;
 import com.google.gson.Gson;
@@ -85,11 +85,15 @@ public class SocketHandler extends Thread{
         }
         if (methodName.equals("create user")) {
             Response response = new Response();
-            signupMenuController.createUser((String) request.getParameters().get(0), (String) request.getParameters().get(1),
-            (String) request.getParameters().get(1), (String) request.getParameters().get(2), (String) request.getParameters().get(3),
-            (String) request.getParameters().get(4));
-            signupMenuController.pickQuestion(((Double) request.getParameters().get(5)).intValue(), (String) request.getParameters().get(6), (String) request.getParameters().get(6));
-            response.setAnswer("1");
+            SignupMenuMessages signupMenuMessage = signupMenuController.createUser((String)
+                            request.getParameters().get(0), (String) request.getParameters().get(1),
+                    (String) request.getParameters().get(1), (String) request.getParameters().get(2),
+                    (String) request.getParameters().get(3),
+                    (String) request.getParameters().get(4));
+            if (signupMenuMessage.equals(SignupMenuMessages.SUCCESS))
+                signupMenuController.pickQuestion(((Double) request.getParameters().get(5)).intValue(),
+                        (String) request.getParameters().get(6), (String) request.getParameters().get(6));
+            response.setAnswer(signupMenuMessage.toString());
             return response;
         }
         return null;

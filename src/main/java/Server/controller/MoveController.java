@@ -1,8 +1,8 @@
 package Server.controller;
 
+import Server.Utils.CheckMapCell;
 import Server.model.Map;
 import Server.model.MapCell;
-import Server.model.User;
 
 import java.util.*;
 
@@ -12,7 +12,7 @@ public class MoveController {
     }
 
     static boolean isUnBlocked(Map map, int x, int y) {
-        return Utils.CheckMapCell.mapCellTraversableByCoordinates(x, y);
+        return CheckMapCell.mapCellTraversableByCoordinates(x, y);
     }
 
     static boolean isDestination(int x, int y, int destinationX, int destinationY) {

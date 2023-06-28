@@ -3,7 +3,7 @@ package Client.view;
 import Client.ClientMain;
 import Server.model.Items.Item;
 import Server.controller.*;
-import Utils.Pair;
+import Client.Utils.Pair;
 import Server.enums.Messages.BuildingMenuMessages;
 import Server.enums.Messages.MapMenuMessages;
 import Server.enums.Messages.UnitMenuMessages;

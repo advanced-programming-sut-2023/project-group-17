@@ -11,8 +11,8 @@ import Server.model.People.King;
 import Server.model.People.NormalPeople;
 import Server.model.People.Person;
 import Server.model.People.Soldier;
-import Utils.CheckMapCell;
-import Utils.Pair;
+import Server.Utils.CheckMapCell;
+import Server.Utils.Pair;
 import Server.enums.Messages.GameMenuMessages;
 import javafx.scene.image.ImageView;
 
@@ -280,7 +280,7 @@ public class GameMenuController {
         for (int i = 0; i < range; i++) {
             for (int x = startX - i; x < startX + i + 1; x++) {
                 for (int y = startY - i; y < startY + i + 1; y++) {
-                    if (!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y)) continue;
+                    if (!CheckMapCell.validationOfX(x) || !CheckMapCell.validationOfY(y)) continue;
 
                     AttackToolsAndMethods attackTool = Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getAttackToolsAndMethods();
                     if (attackTool != null && attackTool.getName().equals("portable shield") &&
@@ -356,7 +356,7 @@ public class GameMenuController {
             outerLoop:
             for(int x = startX - range; x < startX + range + 1; x++) {
                 for(int y = startY - range; y < startY + range + 1; y++) {
-                    if(!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y)) continue;
+                    if(!CheckMapCell.validationOfX(x) || !CheckMapCell.validationOfY(y)) continue;
 
                     for (MapCellItems mapCellItem : Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getMapCellItems()) {
                         if(mapCellItem instanceof Wall && !soldier.getOwner().equals(mapCellItem.getOwner())) {
@@ -375,7 +375,7 @@ public class GameMenuController {
         for (int i = 0; i < range; i++) {
             for (int x = startX - i; x < startX + i + 1; x++) {
                 for (int y = startY - i; y < startY + i + 1; y++) {
-                    if (!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y)) continue;
+                    if (!CheckMapCell.validationOfX(x) || !CheckMapCell.validationOfY(y)) continue;
 
                     Building building = Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getBuilding();
                     if (building != null && !soldier.getOwner().equals(building.getOwner())) {
@@ -418,7 +418,7 @@ public class GameMenuController {
         MapCell mapCell;
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
-                if (Utils.CheckMapCell.validationOfY(y + j) && Utils.CheckMapCell.validationOfX(x + i)) {
+                if (CheckMapCell.validationOfY(y + j) && CheckMapCell.validationOfX(x + i)) {
                     mapCell = Database.getCurrentMapGame().getMapCellByCoordinates(x + i, y + j);
                     if ((mapCell.getWall() != null) && !mapCell.getWall().getOwner().equals(siegeTower.getOwner())) {
                         for (Soldier soldier : siegeTower.getSoldiers()) {
@@ -446,7 +446,7 @@ public class GameMenuController {
         outerLoop:
         for(int x = startX - range; x < startX + range + 1; x++) {
             for(int y = startY - range; y < startY + range + 1; y++) {
-                if(!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y)) continue;
+                if(!CheckMapCell.validationOfX(x) || !CheckMapCell.validationOfY(y)) continue;
 
                 Building building = Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getBuilding();
                 if(building != null && !attackToolsAndMethods.getOwner().equals(building.getOwner())) {
@@ -477,7 +477,7 @@ public class GameMenuController {
         int range = attackToolsAndMethods.getRange();
         for(int x = startX - range; x < startX + range + 1; x++) {
             for(int y = startY - range; y < startY + range + 1; y++) {
-                if(!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y)) continue;
+                if(!CheckMapCell.validationOfX(x) || !CheckMapCell.validationOfY(y)) continue;
 
                 for (MapCellItems mapCellItem : Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getMapCellItems()) {
                     if(mapCellItem instanceof Wall && !attackToolsAndMethods.getOwner().equals(mapCellItem.getOwner()))
@@ -500,7 +500,7 @@ public class GameMenuController {
         for (int i = 0; i < range; i++) {
             for (int x = startX - i; x < startX + i + 1; x++) {
                 for (int y = startY - i; y < startY + i + 1; y++) {
-                    if (!Utils.CheckMapCell.validationOfX(x) || !Utils.CheckMapCell.validationOfY(y)) continue;
+                    if (!CheckMapCell.validationOfX(x) || !CheckMapCell.validationOfY(y)) continue;
 
                     AttackToolsAndMethods attackTool = Database.getCurrentMapGame().getMapCellByCoordinates(x, y).getAttackToolsAndMethods();
                     if (attackTool != null && !soldier.getOwner().equals(attackTool.getOwner()))
@@ -798,7 +798,7 @@ public class GameMenuController {
     public static void handleDrawBridge(Building building) {
         for(int i = building.getX()-1; i <= building.getX()+1; i++) {
             for(int j = building.getY()-1; j <= building.getY()+1; j++) {
-                if(Utils.CheckMapCell.validationOfX(i) && Utils.CheckMapCell.validationOfY(j)) {
+                if(CheckMapCell.validationOfX(i) && CheckMapCell.validationOfY(j)) {
                     for (Soldier soldier : Database.getCurrentMapGame().
                             getMapCellByCoordinates(i, j).getSoldier()) {
                         if (!soldier.getOwner().equals(Database.getCurrentUser())) {
@@ -857,7 +857,7 @@ public class GameMenuController {
         if (!mapCell.isTraversable()) {
             for (int i = -1; i < 2; i++) {
                 for (int j = -1; j < 2; j++) {
-                    if (Utils.CheckMapCell.validationOfY(goalY + j) && Utils.CheckMapCell.validationOfX(goalX + i)
+                    if (CheckMapCell.validationOfY(goalY + j) && CheckMapCell.validationOfX(goalX + i)
                             && Database.getCurrentMapGame().getMapCellByCoordinates(goalX + i, goalY + j).isTraversable()) {
                         goalX = goalX + i;
                         goalY = goalY + j;
@@ -891,7 +891,7 @@ public class GameMenuController {
         if (!mapCell.isTraversable()) {
             for (int i = -1; i < 2; i++) {
                 for (int j = -1; j < 2; j++) {
-                    if (Utils.CheckMapCell.validationOfY(goalY2 + j) && Utils.CheckMapCell.validationOfX(goalX2 + i)
+                    if (CheckMapCell.validationOfY(goalY2 + j) && CheckMapCell.validationOfX(goalX2 + i)
                             && Database.getCurrentMapGame().getMapCellByCoordinates(goalX2 + i, goalY2 + j).isTraversable()) {
                         goalX2 = goalX2 + i;
                         goalY2 = goalY2 + j;

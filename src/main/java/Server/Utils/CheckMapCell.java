@@ -1,4 +1,4 @@
-package Utils;
+package Server.Utils;
 
 import Server.model.Database;
 import Server.model.MapCell;
