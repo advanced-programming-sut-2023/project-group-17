@@ -206,7 +206,7 @@ public class SignupMenu extends Application {
 //        popup.getContent().add()
         if (usernameError.getText().equals("") && passwordError.getText().equals("") && nicknameError.getText().equals("")
         && answerError.getText().equals("") && emailError.getText().equals("")) {
-            String result = (String) Controller.send("create user", username.getText(), password.getText(), email.getText(), nickname.getText(), questionNumber, answer.getText());
+            String result = (String) Controller.send("create user", username.getText(), password.getText(), email.getText(), nickname.getText(), slogan.getText(), questionNumber, answer.getText());
 //            controller.createUser(username.getText(), password.getText(), password.getText(),
 //                    email.getText(), nickname.getText(), slogan.getText());
 //            controller.pickQuestion(questionNumber, answer.getText(), answer.getText());

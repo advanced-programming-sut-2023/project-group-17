@@ -18,6 +18,7 @@ public class Controller {
         for (Object parameter : parameters) {
             request.addParameter(parameter);
         }
+        System.out.println(request.getMethodName());
         Response response = SOCKET_CONTROLLER.send(request);
         return response.getAnswer();
     }

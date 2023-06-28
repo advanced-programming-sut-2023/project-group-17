@@ -64,11 +64,9 @@ public class SocketHandler extends Thread{
     private Response handleRequest(Request request) {
         String methodName = request.getMethodName();
         //TODO
-        if (methodName.equals("change menu")) {
+        if (methodName.startsWith("change menu")) {
             changeMenu(methodName.substring(12));
-            Response response = new Response();
-            response.setAnswer("1");
-            return response;
+            return new Response();
         }
         if (methodName.equals("random password")) {
             Response response = new Response();
@@ -82,7 +80,16 @@ public class SocketHandler extends Thread{
         }
         if (methodName.equals("get security question")) {
             Response response = new Response();
-            response.setAnswer(signupMenuController.getSecurityQuestions(Integer.parseInt((String) request.getParameters().get(0))));
+            response.setAnswer(signupMenuController.getSecurityQuestions(((Double) request.getParameters().get(0)).intValue()));
+            return response;
+        }
+        if (methodName.equals("create user")) {
+            Response response = new Response();
+            signupMenuController.createUser((String) request.getParameters().get(0), (String) request.getParameters().get(1),
+            (String) request.getParameters().get(1), (String) request.getParameters().get(2), (String) request.getParameters().get(3),
+            (String) request.getParameters().get(4));
+            signupMenuController.pickQuestion(((Double) request.getParameters().get(5)).intValue(), (String) request.getParameters().get(6), (String) request.getParameters().get(6));
+            response.setAnswer("1");
             return response;
         }
         return null;

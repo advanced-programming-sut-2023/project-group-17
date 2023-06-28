@@ -1,6 +1,7 @@
 package Client.view;
 
 import Client.ClientMain;
+import Client.controller.Controller;
 import Server.controller.LoginMenuController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -157,6 +158,7 @@ public class LoginMenu extends Application {
     }
 
     public void enterSignupMenu(MouseEvent mouseEvent) throws Exception{
+        Controller.send("change menu signUp");
         new SignupMenu().start(ClientMain.stage);
     }
 
