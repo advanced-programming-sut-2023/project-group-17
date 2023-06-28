@@ -1,7 +1,7 @@
 package Client.view;
 
 import Client.ClientMain;
-import Server.controller.ProfileMenuController;
+import Client.controller.Controller;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -34,7 +34,6 @@ import java.io.IOException;
 
 public class ProfileMenu extends Application {
 
-    private final ProfileMenuController controller;
     private static Pane mainPane;
     public TextField usernameText;
     public TextField nicknameText;
@@ -56,13 +55,14 @@ public class ProfileMenu extends Application {
     public Button randomSlogan;
     public Button scoreboard;
     public Button avatarMenu;
+//    private final ProfileMenuController profileController;
 
     public static void main(String[] args) {
         launch(args);
     }
 
     public ProfileMenu() {
-        controller = new ProfileMenuController();
+//        profileController = new ProfileMenuController();
     }
 
     @Override
@@ -73,7 +73,7 @@ public class ProfileMenu extends Application {
                 "/assets/Backgrounds/profileMenu.jpg").toExternalForm()),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 new BackgroundSize(1.0, 1.0, true, true, false, false))));
-        ImageView imageView = new ImageView(new Image(controller.getAvatarPath() , 160 ,160, false, false));
+        ImageView imageView = new ImageView(new Image((String) Controller.send("avatar path"), 160 ,160, false, false));
         imageView.setX(0); imageView.setY(0);
         pane.getChildren().add(imageView);
         mainPane = pane;
@@ -85,27 +85,28 @@ public class ProfileMenu extends Application {
     @FXML
     public void initialize() throws IOException {
 //        usernameText.setText("shamim");
-        usernameText.setText(controller.getUsername());
+        usernameText.setText((String) Controller.send("currentUsername"));
         usernameText.setDisable(true);
         usernameError.setFill(Color.RED);
         makeListenerForUsernameTextField();
-//        nicknameText.setText("ashkan");
+
         nicknameError.setFill(Color.RED);
-        nicknameText.setText(controller.getNickname());
+        nicknameText.setText((String) Controller.send("currentNickname"));
         makeListenerForNicknameTextField();
         nicknameText.setDisable(true);
-//        emailText.setText("a.kasrahmi@gmail.com");
+
         emailError.setFill(Color.RED);
-        emailText.setText(controller.getEmail());
+        emailText.setText((String) Controller.send("currentEmail"));
         makeListenerForEmailTextField();
         emailText.setDisable(true);
-//        sloganText.setText("Slogan is empty");
-        if (controller.getSlogan().equals("")) sloganText.setText("Slogan is empty");
-        else sloganText.setText(controller.getSlogan());
+
+        String slogan = (String) Controller.send("currentSlogan");
+        if (slogan.equals("")) sloganText.setText("Slogan is empty");
+        else sloganText.setText(slogan);
         sloganText.setDisable(true);
         makeListenerForDisablingRemoveButton();
         if (sloganText.getText().equals("Slogan is empty")) deleteSlogan.setDisable(true);
-        avatar = new ImageView(new Image(controller.getAvatarPath(), 160 ,160, false, false));
+        avatar = new ImageView(new Image((String) Controller.send("avatar path"), 160 ,160, false, false));
 
         makeListenerForRandomSlogans();
 //        changeDataPane = FXMLLoader.load(ProfileMenu.class.getResource("/fxml/profileMenu/dataPane.fxml"));
@@ -115,27 +116,27 @@ public class ProfileMenu extends Application {
     private void makeListenerForRandomSlogans() {
         randomSlogans.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue ov, Number value, Number new_value) {
-                sloganText.setText(controller.getAvailableSlogans(new_value.intValue()));
+                sloganText.setText((String) Controller.send("available slogans", new_value.intValue()));
             }
         });
     }
 
     private void makeListenerForEmailTextField() {
         emailText.textProperty().addListener((observable, oldValue, newValue) -> {
-            switch (controller.changeEmailError(newValue)) {
-                case SUCCESS:
+            switch ((String) Controller.send("change email", newValue)) {
+                case "SUCCESS":
                     emailError.setText("");
                     changeEmail.setDisable(false);
                     break;
-                case INVALID_EMAIL:
+                case "INVALID_EMAIL":
                     emailError.setText("email change failed : invalid email format");
                     changeEmail.setDisable(true);
                     break;
-                case EMAIL_EXISTS:
+                case "EMAIL_EXISTS":
                     emailError.setText("email change failed : email already exists");
                     changeEmail.setDisable(true);
                     break;
-                case SAME_EMAIL:
+                case "SAME_EMAIL":
                     emailError.setText("email change failed : your new email cannot be the same as your current email");
                     changeEmail.setDisable(true);
                     break;
@@ -145,12 +146,12 @@ public class ProfileMenu extends Application {
 
     private void makeListenerForNicknameTextField() {
         nicknameError.textProperty().addListener((observableValue, oldValue, newValue) -> {
-            switch (controller.changeNicknameErrors(newValue)) {
-                case SUCCESS:
+            switch ((String) Controller.send("change nickname", newValue)) {
+                case "SUCCESS":
                     nicknameError.setText("");
                     changeNickname.setDisable(false);
                     break;
-                case SAME_NICKNAME:
+                case "SAME_NICKNAME":
                     nicknameError.setText("nickname change failed : your new nickname cannot be the same as your current nickname");
                     changeNickname.setDisable(true);
                     break;
@@ -160,20 +161,20 @@ public class ProfileMenu extends Application {
 
     private void makeListenerForUsernameTextField() {
         usernameText.textProperty().addListener(((observableValue, oldValue, newValue) -> {
-            switch (controller.changeUsernameErrors(newValue)) {
-                case SUCCESS:
+            switch ((String) Controller.send("change username", newValue)) {
+                case "SUCCESS":
                     usernameError.setText("");
                     changeUsername.setDisable(false);
                     break;
-                case SAME_USERNAME:
+                case "SAME_USERNAME":
                     usernameError.setText("username change failed : your new username cannot be the same as your current username");
                     changeUsername.setDisable(true);
                     break;
-                case USERNAME_EXISTS:
+                case "USERNAME_EXISTS":
                     usernameError.setText("username change failed : username " + newValue + " already exists");
                     changeUsername.setDisable(true);
                     break;
-                case INVALID_USERNAME:
+                case "INVALID_USERNAME":
                     usernameError.setText("username change failed : invalid username format");
                     changeUsername.setDisable(true);
                     break;
@@ -181,6 +182,8 @@ public class ProfileMenu extends Application {
             }
         }));
     }
+
+
 
 //    @Override
 //    public void run() {
@@ -403,7 +406,7 @@ public class ProfileMenu extends Application {
             usernameText.setDisable(false);
         } else {
             changeUsername.setText("Change Username");
-            controller.changeUsername(emailText.getText());
+            Controller.send("change username", usernameText.getText());
             usernameText.setDisable(true);
         }
     }
@@ -476,8 +479,8 @@ public class ProfileMenu extends Application {
         submitButton.setOnAction(event -> {
             // Get the values from the text fields
             if (!newPasswordTextField.getText().equals( "" ) && errorText.getText().equals("")) {
-                switch (controller.changePassword(oldPasswordTextField.getText(), newPasswordTextField.getText())) {
-                    case INCORRECT_PASSWORD:
+                switch ((String) Controller.send("change password", oldPasswordTextField.getText(), newPasswordTextField.getText())) {
+                    case "INCORRECT_PASSWORD":
                         controllerError.setText("password change failed : current password is incorrect");
                         new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
                             @Override
@@ -486,7 +489,7 @@ public class ProfileMenu extends Application {
                             }
                         })).play();
                         break;
-                    case SAME_PASSWORD:
+                    case "SAME_PASSWORD":
                         controllerError.setText("password change failed : your new password cannot be the same as your current password");
                         new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
                             @Override
@@ -495,14 +498,13 @@ public class ProfileMenu extends Application {
                             }
                         })).play();
                         break;
-                    case SUCCESS:
+                    case "SUCCESS":
                         Popup popup = new Popup();
                         popup.setOpacity(0.5);
                         popup.setAnchorX(580); popup.setAnchorY(300);
                         Label label = new Label("You have successfully changed your password");
                         label.setTextFill(Color.WHITE);
-                        label.setMinWidth(200);
-                        label.setMinHeight(100);
+                        label.setMinWidth(200); label.setMinHeight(100);
                         label.setStyle("-fx-background-color: black;");
                         popup.getContent().add(label);
                         popup.show(dialogStage);
@@ -564,7 +566,7 @@ public class ProfileMenu extends Application {
             randomSlogan.setVisible(true);
         } else {
             changeSlogan.setText("Change");
-            controller.changeSlogan(sloganText.getText());
+            Controller.send("change slogan", sloganText.getText());
             if (sloganText.getText().equals("")) sloganText.setText("Slogan is empty");
             sloganText.setDisable(true);
             randomSlogans.setVisible(false);
@@ -592,7 +594,7 @@ public class ProfileMenu extends Application {
             nicknameText.setDisable(false);
         } else {
             changeNickname.setText("Change Nickname");
-            controller.changeNickname(nicknameText.getText());
+            Controller.send("change nickname", nicknameText.getText());
             nicknameText.setDisable(true);
         }
     }
@@ -603,7 +605,7 @@ public class ProfileMenu extends Application {
             emailText.setDisable(false);
         } else {
             changeEmail.setText("Change Email");
-            controller.changeEmail(emailText.getText());
+            Controller.send("change email", emailText.getText());
             emailText.setDisable(true);
         }
     }
@@ -613,7 +615,7 @@ public class ProfileMenu extends Application {
     }
 
     public void randomSlogan(ActionEvent actionEvent) {
-        sloganText.setText(controller.getRandomSlogan());
+        sloganText.setText((String) Controller.send("random slogan"));
     }
 
     public void openScoreboard(ActionEvent actionEvent) throws Exception {

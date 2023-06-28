@@ -210,7 +210,7 @@ public class SignupMenu extends Application {
 //            controller.createUser(username.getText(), password.getText(), password.getText(),
 //                    email.getText(), nickname.getText(), slogan.getText());
 //            controller.pickQuestion(questionNumber, answer.getText(), answer.getText());
-            System.out.println(result);
+//            System.out.println(result);
             if (result.equals("SUCCESS")) new LoginMenu().start(stage);
 //            else if (result.equals("INVALID_USERNAME"))
         }

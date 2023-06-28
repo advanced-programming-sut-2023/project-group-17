@@ -53,12 +53,12 @@ public class ProfileMenuController {
         return ProfileMenuMessages.SUCCESS;
     }
 
-    public ProfileMenuMessages changeNicknameErrors(String nickname) {
-        if (getCurrentUser().getNickname().equals(nickname))
-            return ProfileMenuMessages.SAME_NICKNAME;
-
-        return ProfileMenuMessages.SUCCESS;
-    }
+//    public ProfileMenuMessages changeNicknameErrors(String nickname) {
+//        if (getCurrentUser().getNickname().equals(nickname))
+//            return ProfileMenuMessages.SAME_NICKNAME;
+//
+//        return ProfileMenuMessages.SUCCESS;
+//    }
 
     public ProfileMenuMessages changePassword(String oldPassword, String newPassword) {
         if (!getCurrentUser().getPassword().equals(User.SHA256Code(oldPassword)))

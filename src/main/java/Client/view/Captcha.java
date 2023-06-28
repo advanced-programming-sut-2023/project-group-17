@@ -1,7 +1,6 @@
 package Client.view;
 
 import Client.controller.Controller;
-import Server.controller.DataAnalysisController;
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ public class Captcha {
     Captcha() {
         this.controller = new Controller();
         this.captchas = controller.getCaptchas();
-        System.out.println(captchas.size());
         generateNewCaptcha();
     }
 

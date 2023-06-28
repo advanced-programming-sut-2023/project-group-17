@@ -74,6 +74,7 @@ public class SignupMenuController {
         if(!answer.equals(confirmationAnswer))
             return SignupMenuMessages.ANSWER_DOES_NOT_MATCH;
 
+        System.out.println("question number" + " " + questionNumber);
         tmpUser.setPasswordRecoveryQuestion(getQuestionByNumber(questionNumber));
         tmpUser.setPasswordRecoveryAnswer(answer);
         tmpUser = null;

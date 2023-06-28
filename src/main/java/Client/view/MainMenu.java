@@ -1,11 +1,9 @@
 package Client.view;
 
 import Client.controller.Controller;
-import Server.controller.MainMenuController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -90,6 +88,7 @@ public class MainMenu extends Application {
     }
 
     public void enterProfileMenu(MouseEvent mouseEvent) throws Exception {
+        Controller.send("change menu profile");
         new ProfileMenu().start(stage);
     }
 

@@ -1,13 +1,13 @@
 package Server.controller;
 
 import Server.enums.Messages.LoginMenuMessages;
-import Server.model.*;
 import Server.enums.Messages.SignupMenuMessages;
+import Server.model.*;
 import com.google.gson.Gson;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.Socket;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -27,6 +27,7 @@ public class SocketHandler extends Thread{
     private LoginMenuController loginMenuController = new LoginMenuController();
     private SignupMenuController signupMenuController;
     private MainMenuController mainMenuController;
+    private ProfileMenuController profileMenuController;
 
 
     public SocketHandler(Socket socket) throws IOException {
@@ -84,11 +85,10 @@ public class SocketHandler extends Thread{
         }
         if (methodName.equals("create user")) {
             Response response = new Response();
-            SignupMenuMessages signupMenuMessage = signupMenuController.createUser((String)
-                            request.getParameters().get(0), (String) request.getParameters().get(1),
+            SignupMenuMessages signupMenuMessage = signupMenuController.createUser(
+                    (String) request.getParameters().get(0), (String) request.getParameters().get(1),
                     (String) request.getParameters().get(1), (String) request.getParameters().get(2),
-                    (String) request.getParameters().get(3),
-                    (String) request.getParameters().get(4));
+                    (String) request.getParameters().get(3), (String) request.getParameters().get(4));
             if (signupMenuMessage.equals(SignupMenuMessages.SUCCESS))
                 signupMenuController.pickQuestion(((Double) request.getParameters().get(5)).intValue(),
                         (String) request.getParameters().get(6), (String) request.getParameters().get(6));
@@ -104,6 +104,79 @@ public class SocketHandler extends Thread{
                 user.setLastOnlineTime(null);
                 changeMenu("main");
             }
+            return response;
+        }
+        if (methodName.equals("avatar path")) {
+            Response response = new Response();
+            String path = profileMenuController.getAvatarPath();
+            response.setAnswer(path);
+            return response;
+        }
+        if (methodName.equals("currentUsername")) {
+            Response response = new Response();
+            String username = profileMenuController.getUsername();
+            response.setAnswer(username);
+            return response;
+        }
+        if (methodName.equals("currentNickname")) {
+            Response response = new Response();
+            String nickname = profileMenuController.getNickname();
+            response.setAnswer(nickname);
+            return response;
+        }
+        if (methodName.equals("currentEmail")) {
+            Response response = new Response();
+            String email = profileMenuController.getEmail();
+            response.setAnswer(email);
+            return response;
+        }
+        if (methodName.equals("currentSlogan")) {
+            Response response = new Response();
+            String slogan = profileMenuController.getSlogan();
+            response.setAnswer(slogan);
+            return response;
+        }
+        if (methodName.equals("available slogans")) {
+            Response response = new Response();
+            int number = (Integer) request.getParameters().get(0);
+            String slogan = profileMenuController.getAvailableSlogans(number);
+            response.setAnswer(slogan);
+            return response;
+        }
+        if (methodName.equals("change email")) {
+            Response response = new Response();
+            String newEmail = (String) request.getParameters().get(0);
+            String answer = profileMenuController.changeEmail(newEmail).toString();
+            response.setAnswer(answer);
+            return response;
+        }
+        if (methodName.equals("change password")) {
+            Response response = new Response();
+            String oldPass = (String) request.getParameters().get(0);
+            String newPass = (String) request.getParameters().get(1);
+            String answer = profileMenuController.changePassword(oldPass, newPass).toString();
+            response.setAnswer(answer);
+            return response;
+        }
+        if (methodName.equals("change username")) {
+            Response response = new Response();
+            String newUsername = (String) request.getParameters().get(0);
+            String answer = profileMenuController.changeUsername(newUsername).toString();
+            response.setAnswer(answer);
+            return response;
+        }
+        if (methodName.equals("change nickname")) {
+            Response response = new Response();
+            String newNickname = (String) request.getParameters().get(0);
+            String answer = profileMenuController.changeNickname(newNickname).toString();
+            response.setAnswer(answer);
+            return response;
+        }
+        if (methodName.equals("change slogan")) {
+            Response response = new Response();
+            String newSlogan = (String) request.getParameters().get(0);
+            String answer = profileMenuController.changeSlogan(newSlogan).toString();
+            response.setAnswer(answer);
             return response;
         }
         if (methodName.equals("logout")) {
@@ -127,6 +200,8 @@ public class SocketHandler extends Thread{
             case "main":
                 mainMenuController = new MainMenuController();
                 break;
+            case "profile":
+                profileMenuController = new ProfileMenuController();
         }
     }
 
