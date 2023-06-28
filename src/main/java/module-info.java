@@ -24,4 +24,6 @@ module StrongHold {
     exports Client.view;
     exports Client;
     exports Server.enums.Types;
+    exports Client.model;
+    opens Client.model to com.google.gson;
 }

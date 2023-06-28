@@ -2,6 +2,7 @@ package Server.controller;
 
 import Client.model.Request;
 import Client.model.Response;
+import Client.view.LoginMenu;
 import Server.model.Global;
 import Server.model.User;
 import com.google.gson.Gson;
@@ -25,6 +26,8 @@ public class SocketHandler extends Thread{
     //TODO: Xstream?
     private String menu = "Login";
     //TODO: add contorllers
+    private LoginMenuController loginMenuController = new LoginMenuController();
+    private SignupMenuController signupMenuController;
 
 
     public SocketHandler(Socket socket) throws IOException {
@@ -48,7 +51,8 @@ public class SocketHandler extends Thread{
                 dataOutputStream.writeUTF(gson.toJson(response));
                 dataOutputStream.flush();
             }
-        } catch (IOException | NoSuchMethodException | InvocationTargetException | IllegalAccessException exception) {
+        } catch (IOException exception) {
+            //TODO: more exception
             if (user != null)
                 user.setLastOnlineTime(LocalDateTime.now());
             exception.printStackTrace();
@@ -60,7 +64,40 @@ public class SocketHandler extends Thread{
     private Response handleRequest(Request request) {
         String methodName = request.getMethodName();
         //TODO
+        if (methodName.equals("change menu")) {
+            changeMenu(methodName.substring(12));
+            Response response = new Response();
+            response.setAnswer("1");
+            return response;
+        }
+        if (methodName.equals("random password")) {
+            Response response = new Response();
+            response.setAnswer(signupMenuController.getRandomPassword());
+            return response;
+        }
+        if (methodName.equals("random slogan")) {
+            Response response = new Response();
+            response.setAnswer(signupMenuController.getRandomSlogan());
+            return response;
+        }
+        if (methodName.equals("get security question")) {
+            Response response = new Response();
+            response.setAnswer(signupMenuController.getSecurityQuestions(Integer.parseInt((String) request.getParameters().get(0))));
+            return response;
+        }
         return null;
+    }
+
+    private void changeMenu(String menuName) {
+        menu = menuName;
+        switch (menuName) {
+            case "signUp":
+                signupMenuController = new SignupMenuController();
+                break;
+            case "login":
+                loginMenuController = new LoginMenuController();
+                break;
+        }
     }
 
     public void setCommandSender(CommandSender commandSender) {

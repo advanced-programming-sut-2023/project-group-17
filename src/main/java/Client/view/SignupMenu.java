@@ -1,5 +1,6 @@
 package Client.view;
 
+import Client.controller.Controller;
 import Server.controller.SignupMenuController;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -49,12 +50,12 @@ public class SignupMenu extends Application {
     public TextField CaptchaTextField;
     public Button signUpButton;
     private Random random = new Random();
-    private SignupMenuController controller;
+//    private SignupMenuController controller;
     private ImageView imageView;
     private Captcha captcha;
 
     public SignupMenu() {
-        controller = new SignupMenuController();
+//        controller = new SignupMenuController();
         this.captcha = new Captcha();
     }
 
@@ -157,7 +158,7 @@ public class SignupMenu extends Application {
 
     public void randomPassword(ActionEvent actionEvent) {
         if (randomPassword.isSelected()) {
-            password.setText(controller.getRandomPassword());
+            password.setText((String) Controller.send("random password"));
         }
     }
 
@@ -171,7 +172,10 @@ public class SignupMenu extends Application {
     }
 
     public void randomSlogan(ActionEvent actionEvent) {
-        if (randomSlogan.isSelected()) slogan.setText(controller.getRandomSlogan());
+        if (randomSlogan.isSelected()) {
+//            slogan.setText(controller.getRandomSlogan());
+            slogan.setText((String) Controller.send("random slogan"));
+        }
     }
 
     public void signup(MouseEvent mouseEvent) throws Exception {
@@ -202,9 +206,10 @@ public class SignupMenu extends Application {
 //        popup.getContent().add()
         if (usernameError.getText().equals("") && passwordError.getText().equals("") && nicknameError.getText().equals("")
         && answerError.getText().equals("") && emailError.getText().equals("")) {
-            controller.createUser(username.getText(), password.getText(), password.getText(),
-                    email.getText(), nickname.getText(), slogan.getText());
-            controller.pickQuestion(questionNumber, answer.getText(), answer.getText());
+            String result = (String) Controller.send("create user", username.getText(), password.getText(), email.getText(), nickname.getText(), questionNumber, answer.getText());
+//            controller.createUser(username.getText(), password.getText(), password.getText(),
+//                    email.getText(), nickname.getText(), slogan.getText());
+//            controller.pickQuestion(questionNumber, answer.getText(), answer.getText());
             new LoginMenu().start(stage);
         }
     }
@@ -212,7 +217,8 @@ public class SignupMenu extends Application {
     public void chooseSlogan(MouseEvent mouseEvent) {
         randomSlogans.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue ov, Number value, Number new_value) {
-                slogan.setText(controller.getAvailableSlogans(new_value.intValue()));
+//                slogan.setText(controller.getAvailableSlogans(new_value.intValue()));
+                slogan.setText((String) Controller.send("get slogan", new_value.intValue()));
             }
         });
     }
@@ -220,7 +226,8 @@ public class SignupMenu extends Application {
     public void chooseSecurityQuestion(MouseEvent mouseEvent) {
         securityQuestionChoiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue ov, Number value, Number new_value) {
-                securityQuestionSelected = controller.getSecurityQuestions(new_value.intValue());
+//                securityQuestionSelected = controller.getSecurityQuestions(new_value.intValue());
+                securityQuestionSelected = (String) Controller.send("get security question", new_value.intValue());
                 questionNumber = new_value.intValue() + 1;
             }
         });
