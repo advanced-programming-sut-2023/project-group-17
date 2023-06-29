@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="838.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.view.FriendShipMenu">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.view.FriendShipMenu">
    <children>
       <TextField fx:id="usernameTextField" layoutX="569.0" layoutY="159.0" prefHeight="26.0" prefWidth="139.0" />
       <Button fx:id="sendRequestButton" layoutX="729.0" layoutY="159.0" mnemonicParsing="false" onAction="#sendRequest" prefHeight="26.0" prefWidth="103.0" text="Send Request" />
@@ -17,6 +17,11 @@
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="248.0" />
         </content>
       </ScrollPane>
-      <Button fx:id="backButton" layoutX="702.0" layoutY="416.0" mnemonicParsing="false" onAction="#back" text="Back" />
+      <Button fx:id="backButton" layoutX="702.0" layoutY="465.0" mnemonicParsing="false" onAction="#back" text="Main Menu" />
+      <Text layoutX="521.0" layoutY="435.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Invite from:" />
+      <Text fx:id="usernameRequest" layoutX="600.0" layoutY="435.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="94.21630859375" />
+      <Button fx:id="acceptButton" layoutX="714.0" layoutY="417.0" mnemonicParsing="false" onAction="#acceptRequest" text="Accept" />
+      <Button fx:id="declineButton" layoutX="788.0" layoutY="417.0" mnemonicParsing="false" onAction="#declineRequest" prefHeight="26.0" prefWidth="60.0" text="Decline" />
+      <Button fx:id="nextButton" layoutX="865.0" layoutY="417.0" mnemonicParsing="false" onAction="#nextRequest" prefHeight="26.0" prefWidth="56.0" text="Next" />
    </children>
 </Pane>

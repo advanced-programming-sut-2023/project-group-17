@@ -7,9 +7,7 @@ import com.google.gson.Gson;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.EOFException;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.Socket;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -56,11 +54,10 @@ public class SocketHandler extends Thread{
             //TODO: more exception
             if (user != null)
                 user.setLastOnlineTime(LocalDateTime.now());
-            System.out.println("A client has been disconnected");
+            System.out.println("User " + this.getId() + " Got Disconnected");
             ServerController.getInstance().removeSocket(this);
             // TODO : send updated list of users to online users
         }
-
     }
 
     private Response handleRequest(Request request) {
@@ -212,14 +209,33 @@ public class SocketHandler extends Thread{
             response.setAnswer(friendshipMenuController.getUserRequestByIndex(((Double) request.getParameters().get(0)).intValue(), user));
             return response;
         }
-        if (methodName.equals("user exist")) {
+        if (methodName.equals("can send request")) {
             Response response = new Response();
             User tmpUser = friendshipMenuController.getUserByUsername((String) request.getParameters().get(0));
-            if (tmpUser == null || (request.getParameters().get(0)).equals(user.getUsername()) ||
-                    friendshipMenuController.haveUserInFriends(user, tmpUser)) {
+            if (!friendshipMenuController.canSendRequest(user, tmpUser)) {
                 return response;
             }
             response.setAnswer("Success");
+            return response;
+        }
+        if (methodName.equals("number of requests")) {
+            Response response = new Response();
+            response.setAnswer(friendshipMenuController.getNumberOfFriendsRequests(user));
+            return response;
+        }
+        if (methodName.equals("get friend request by index")) {
+            Response response = new Response();
+            response.setAnswer(friendshipMenuController.
+                    getFriendsRequestByIndex(user, ((Double)request.getParameters().get(0)).intValue()));
+            return response;
+        }
+        if (methodName.equals("accept invite")) {
+            friendshipMenuController.acceptFriendRequest(user, (String) request.getParameters().get(0));
+            return new Response();
+        }
+        if (methodName.equals("get friends")) {
+            Response response = new Response();
+            response.setAnswer(friendshipMenuController.getFriends(user));
             return response;
         }
         return null;

@@ -27,6 +27,7 @@ public class User implements Comparable<User> {
     private ArrayList<String> friendReqs = new ArrayList<>();
     private ArrayList<String> friends = new ArrayList<>();
     private HashMap<String, String> friendReqsSent = new HashMap<>();
+    private ArrayList<String> receivedRequests = new ArrayList<>();
 
     public User(String username, String password, String nickname, String email, String slogan,
                 String passwordRecoveryQuestion, String passwordRecoveryAnswer) {
@@ -58,6 +59,7 @@ public class User implements Comparable<User> {
     }
 
     public ArrayList<String> getFriends() {
+        if (friends == null) friends = new ArrayList<>();
         return friends;
     }
 
@@ -222,5 +224,14 @@ public class User implements Comparable<User> {
 
     public void setFriendReqsSent(HashMap<String, String> friendReqsSent) {
         this.friendReqsSent = friendReqsSent;
+    }
+
+    public ArrayList<String> getReceivedRequests() {
+        if (receivedRequests == null) receivedRequests = new ArrayList<>();
+        return receivedRequests;
+    }
+
+    public void setReceivedRequests(ArrayList<String> receivedRequests) {
+        this.receivedRequests = receivedRequests;
     }
 }
