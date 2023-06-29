@@ -37,7 +37,8 @@ public class ListenerController extends Thread{
                 handle(response);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Server disconnected");
+            System.exit(0);
         }
     }
 

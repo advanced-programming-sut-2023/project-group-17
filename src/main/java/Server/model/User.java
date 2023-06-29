@@ -95,6 +95,7 @@ public class User implements Comparable<User> {
 
     public void setLastOnlineTime(LocalDateTime lastOnlineTime) {
         this.lastOnlineTime = lastOnlineTime;
+        Database.saveUsers();
     }
 
     public String getOnlineTime() {
