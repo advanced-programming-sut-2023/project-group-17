@@ -5,6 +5,8 @@ import Server.model.User;
 
 import java.util.ArrayList;
 
+import static Server.model.Database.getCurrentUser;
+
 public class FriendshipMenuController {
 
     public String getUserRequestByIndex(int i, User user) {
@@ -62,5 +64,13 @@ public class FriendshipMenuController {
         if (user.getFriends().contains(tmpUser.getUsername())) return false;
         if (user.getReceivedRequests().contains(tmpUser.getUsername())) return false;
         return true;
+    }
+
+    public String getAvatarPath(String username) {
+        if (Database.getUserByUsername(username).getAvatarPath() == null) {
+            Database.getUserByUsername(username).setAvatarPath(Database.getUserByUsername(username).randomPathGenerator());
+            Database.saveUsers();
+        }
+        return Database.getUserByUsername(username).getAvatarPath();
     }
 }
