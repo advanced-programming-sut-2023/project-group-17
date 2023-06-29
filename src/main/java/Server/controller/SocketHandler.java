@@ -30,7 +30,7 @@ public class SocketHandler extends Thread{
     private ProfileMenuController profileMenuController;
     private ScoreBoardController scoreBoardController;
     private FriendshipMenuController friendshipMenuController;
-
+    private LobbyMenuController lobbyMenuController;
 
     public SocketHandler(Socket socket) throws IOException {
         this.socket = socket;
@@ -186,6 +186,7 @@ public class SocketHandler extends Thread{
         if (methodName.equals("logout")) {
             user.setLastOnlineTime(LocalDateTime.now());
             user = null;
+            Database.saveLobbies();
             changeMenu("login");
             return new Response();
         }
@@ -238,6 +239,23 @@ public class SocketHandler extends Thread{
             response.setAnswer(friendshipMenuController.getFriends(user));
             return response;
         }
+        if (methodName.equals("create new lobby")) {
+            Response response = new Response();
+            response.setAnswer(mainMenuController.createNewLobby(user, ((Double)request.getParameters().get(0)).intValue(),
+                    ((Double) request.getParameters().get(1)).intValue()));
+            changeMenu("lobby");
+            return response;
+        }
+        if (methodName.equals("get my user")) {
+            Response response = new Response();
+            response.setAnswer(user.getUsername());
+            return response;
+        }
+        if (methodName.equals("exit lobby")) {
+            lobbyMenuController.exitFromLobby(user, ((Double) request.getParameters().get(0)).intValue());
+            changeMenu("main");
+            return new Response();
+        }
         return null;
     }
 
@@ -260,6 +278,9 @@ public class SocketHandler extends Thread{
                 break;
             case "friendship":
                 friendshipMenuController = new FriendshipMenuController();
+                break;
+            case "lobby":
+                lobbyMenuController = new LobbyMenuController();
                 break;
         }
     }

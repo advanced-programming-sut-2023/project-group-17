@@ -1,11 +1,7 @@
 package Server.controller;
 
 import Server.enums.Messages.MainMenuMessages;
-import Server.model.Database;
-import Server.model.Empire;
-import Server.model.Map;
-import Server.model.empireColors;
-import Server.model.User;
+import Server.model.*;
 
 import java.util.ArrayList;
 
@@ -76,5 +72,12 @@ public class MainMenuController {
         Database.getAllMaps().add(map);
         Database.setCurrentMapGame(map);
         return MainMenuMessages.SUCCESS;
+    }
+
+    public int createNewLobby(User admin, int capacity, int turn) {
+        Lobby lobby = new Lobby(admin, capacity, turn);
+        Database.getLobbies().add(lobby);
+        Database.saveLobbies();
+        return lobby.getCode();
     }
 }

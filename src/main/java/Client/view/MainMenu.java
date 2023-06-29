@@ -27,6 +27,7 @@ public class MainMenu extends Application {
 //    public MainMenu() {
 //        this.controller = new MainMenuController();
 //    }
+    public static int capacity;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -56,11 +57,14 @@ public class MainMenu extends Application {
             }
         });
 
+        MainMenu.capacity = 2;
         comboBox.setValue("2");
         comboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null)
+            if (newValue != null) {
                 comboBox.setValue(newValue); // Update the selected item in the ComboBox
-            });
+                MainMenu.capacity = Integer.parseInt(newValue);
+            }
+        });
 //        ObservableList<String> items = FXCollections.observableArrayList();
 //        ArrayList<String> list = new ArrayList<>();
 //        controller.addUsers(list);
@@ -79,6 +83,14 @@ public class MainMenu extends Application {
 
     public void startNewGame(MouseEvent mouseEvent) throws Exception {
         //TODO: open new lobby
+        if (!turnsCount.getText().equals("") && turnsCount.getText().matches("\\d+")) {
+            int lobbyCode = ((Double) Controller.send("create new lobby", MainMenu.capacity,
+                    Integer.parseInt(turnsCount.getText()))).intValue();
+            String usernameAdmin = (String) Controller.send("get my user");
+//            System.out.println("Username admin : " + usernameAdmin);
+            new Lobby(usernameAdmin, capacity, Integer.parseInt(turnsCount.getText()), lobbyCode);
+            new LobbyMenu().start(stage);
+        }
 //        if (!width.getText().equals("") && !length.getText().equals("") && !users.equals("") && !turnsCount.getText().equals("")) {
 //            controller.createNewMap(Integer.parseInt(width.getText()), Integer.parseInt(length.getText()));
 //            controller.startNewGame(users, Integer.parseInt(turnsCount.getText()));

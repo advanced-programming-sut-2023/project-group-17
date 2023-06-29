@@ -24,6 +24,7 @@ public class LoginMenuController {
         setCurrentUser(user);
         Database.loadUnits();
         Database.loadBuildings();
+        Database.loadLobbies();
         Database.loadAttackToolsAndMethods();
         Database.setLoggedInUser(Database.getCurrentUser());
         return LoginMenuMessages.SUCCESS;

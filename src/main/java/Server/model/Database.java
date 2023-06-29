@@ -37,6 +37,7 @@ public class Database {
     private static ArrayList<empireColors> empireColors;
     private static User loggedInUser;
     private static ArrayList<String> captcha = new ArrayList<>();
+    private static ArrayList<Lobby> lobbies = new ArrayList<>();
     private static transient final Gson gson = Global.gson;
     public static final String[] recoveryQuestions = {
         "What is my father's name?",
@@ -529,5 +530,46 @@ public class Database {
 
     public static ArrayList<String> getCaptcha() {
         return captcha;
+    }
+
+    public static ArrayList<Lobby> getLobbies() {
+        return lobbies;
+    }
+
+    public static void setLobbies(ArrayList<Lobby> lobbies) {
+        Database.lobbies = lobbies;
+    }
+
+    public static void saveLobbies() {
+        try {
+            FileWriter fileWriter = new FileWriter("src/main/resources/jsons/Lobbies.json");
+//            FileWriter fileWriter = new FileWriter("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/Lobbies.json");
+
+            String json = gson.toJson(getLobbies());
+            fileWriter.write(json);
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        getAvatarPaths();
+    }
+    public static void loadLobbies() {
+        try {
+            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/Lobbies.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/Lobbies.json")));
+
+            ArrayList<Lobby> savedLobbies;
+            savedLobbies = gson.fromJson(json, new TypeToken<List<Lobby>>() {}.getType());
+            if (savedLobbies != null) setLobbies(savedLobbies);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Lobby getLobbyWithCode(int code) {
+        for (Lobby lobby : lobbies) {
+            if (code == lobby.getCode()) return lobby;
+        }
+        return null;
     }
 }
