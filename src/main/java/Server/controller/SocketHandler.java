@@ -256,6 +256,29 @@ public class SocketHandler extends Thread{
             changeMenu("main");
             return new Response();
         }
+        if (methodName.equals("is lobby exist")) {
+            Response response = new Response();
+            response.setAnswer(mainMenuController.isLobbyExist(((Double) request.getParameters().get(0)).intValue()));
+            return response;
+        }
+        if (methodName.equals("get lobby admin by code")) {
+            Response response = new Response();
+            response.setAnswer(mainMenuController.getLobbyAdminUsernameByCode((
+                    (Double) request.getParameters().get(0)).intValue()));
+            return response;
+        }
+        if (methodName.equals("get capacity by code")) {
+            Response response = new Response();
+            response.setAnswer(mainMenuController.getCapacityByCode((
+                    (Double) request.getParameters().get(0)).intValue()));
+            return response;
+        }
+        if (methodName.equals("get turns by code")) {
+            Response response = new Response();
+            response.setAnswer(mainMenuController.getTurnsByCode((
+                    (Double) request.getParameters().get(0)).intValue()));
+            return response;
+        }
         return null;
     }
 

@@ -80,4 +80,21 @@ public class MainMenuController {
         Database.saveLobbies();
         return lobby.getCode();
     }
+
+    public boolean isLobbyExist(int code) {
+        Lobby lobby = Database.getLobbyWithCode(code);
+        return lobby != null && lobby.canJoin();
+    }
+
+    public String getLobbyAdminUsernameByCode(int code) {
+        return Database.getLobbyWithCode(code).getAdminUsername();
+    }
+
+    public int getCapacityByCode(int code) {
+        return Database.getLobbyWithCode(code).getCapacity();
+    }
+
+    public int getTurnsByCode(int code) {
+        return Database.getLobbyWithCode(code).getGameTurns();
+    }
 }

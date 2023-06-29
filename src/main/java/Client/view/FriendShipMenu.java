@@ -37,6 +37,7 @@ public class FriendShipMenu extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        //TODO: show profile
         Pane pane = FXMLLoader.load(LoginMenu.class.getResource("/fxml/FriendshipMenu.fxml"));
         pane.setBackground(new Background(new BackgroundImage(new Image(LoginMenu.class.getResource(
                 "/assets/Backgrounds/mainBackground.jpg").toExternalForm()),
@@ -45,8 +46,10 @@ public class FriendShipMenu extends Application {
         ArrayList<String> friends = (ArrayList<String>) Controller.send("get friends");
         ObservableList<String> items = FXCollections.observableArrayList(friends);
         listView.setItems(items);
-        listView.setPrefHeight(Math.min(items.size() * 40, 100));
-        pane.getChildren().add(listView);
+        if (items.size() != 0) {
+            listView.setPrefHeight(Math.min(items.size() * 40, 100));
+            pane.getChildren().add(listView);
+        }
         FriendShipMenu.pane = pane;
 
         stage.getScene().setRoot(pane);

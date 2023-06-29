@@ -11,7 +11,7 @@ public class LobbyMenuController {
         if (lobby.getWaitingUsernames().size() == 0) {
             Database.getLobbies().remove(lobby);
             Database.saveLobbies();
-        } else {
+        } else if (lobby.getAdminUsername().equals(user.getUsername())) {
             lobby.setNextAdmin();
         }
     }

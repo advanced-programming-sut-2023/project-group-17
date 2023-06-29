@@ -65,4 +65,8 @@ public class Lobby {
     public void setNextAdmin() {
         adminUsername = waitingUsernames.get(0);
     }
+
+    public boolean canJoin() {
+        return waitingUsernames.size() < capacity;
+    }
 }

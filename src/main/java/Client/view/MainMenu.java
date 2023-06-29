@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -18,7 +19,7 @@ import static Client.ClientMain.stage;
 public class MainMenu extends Application {
 
     public TextField turnsCount;
-    public TextField width;
+    public TextField lobbyCode;
     public TextField length;
     public Button startNewGameButton;
 //    private MainMenuController controller = new MainMenuController();
@@ -28,6 +29,7 @@ public class MainMenu extends Application {
 //        this.controller = new MainMenuController();
 //    }
     public static int capacity;
+    public Button enterLobbyButton;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -81,6 +83,15 @@ public class MainMenu extends Application {
         stage.show();
     }
 
+    @FXML
+    public void initialize() {
+        enterLobbyButton.setDisable(true);
+        lobbyCode.textProperty().addListener(((observableValue, oldValue, newValue) -> {
+            if (newValue != null && newValue.matches("\\d+")) {
+                enterLobbyButton.setDisable(!((boolean) Controller.send("is lobby exist", Integer.parseInt(newValue))));
+            }
+        }));
+    }
     public void startNewGame(MouseEvent mouseEvent) throws Exception {
         //TODO: open new lobby
         if (!turnsCount.getText().equals("") && turnsCount.getText().matches("\\d+")) {
@@ -114,6 +125,14 @@ public class MainMenu extends Application {
     public void openFriendshipMenu(ActionEvent actionEvent) throws Exception {
         Controller.send("change menu friendship");
         new FriendShipMenu().start(stage);
+    }
+
+    public void enterLobby(ActionEvent actionEvent) throws Exception {
+        String usernameAdmin = (String) Controller.send("get lobby admin by code", lobbyCode);
+        int capacity = ((Double) Controller.send("get capacity by code", lobbyCode)).intValue();
+        int gameTurns = ((Double) Controller.send("get turns by code", lobbyCode)).intValue();
+        Lobby lobby = new Lobby(usernameAdmin, capacity, gameTurns, Integer.parseInt(lobbyCode.getText()));
+        new LobbyMenu().start(stage);
     }
 
 //    public void run() {
