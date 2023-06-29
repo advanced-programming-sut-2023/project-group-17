@@ -7,9 +7,7 @@ import com.google.gson.Gson;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.EOFException;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.Socket;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -56,11 +54,10 @@ public class SocketHandler extends Thread{
             //TODO: more exception
             if (user != null)
                 user.setLastOnlineTime(LocalDateTime.now());
-            System.out.println("A client has been disconnected");
+            System.out.println("User " + this.getId() + " Got Disconnected");
             ServerController.getInstance().removeSocket(this);
             // TODO : send updated list of users to online users
         }
-
     }
 
     private Response handleRequest(Request request) {
