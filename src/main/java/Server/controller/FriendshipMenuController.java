@@ -65,12 +65,4 @@ public class FriendshipMenuController {
         if (user.getReceivedRequests().contains(tmpUser.getUsername())) return false;
         return true;
     }
-
-    public String getAvatarPath(String username) {
-        if (Database.getUserByUsername(username).getAvatarPath() == null) {
-            Database.getUserByUsername(username).setAvatarPath(Database.getUserByUsername(username).randomPathGenerator());
-            Database.saveUsers();
-        }
-        return Database.getUserByUsername(username).getAvatarPath();
-    }
 }

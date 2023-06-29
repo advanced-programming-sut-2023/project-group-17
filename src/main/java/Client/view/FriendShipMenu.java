@@ -152,6 +152,7 @@ public class FriendShipMenu extends Application {
                 if (! cell.isEmpty()) {
                     String item = cell.getItem();
                     System.out.println("Item clicked: " + item);
+                    showProfile(item);
                 }
             });
 

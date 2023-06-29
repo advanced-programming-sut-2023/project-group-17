@@ -4,6 +4,8 @@ import Server.model.Database;
 import Server.model.Lobby;
 import Server.model.User;
 
+import java.util.ArrayList;
+
 public class LobbyMenuController {
     public void exitFromLobby(User user, int lobbyCode) {
         Lobby lobby = Database.getLobbyWithCode(lobbyCode);
@@ -14,5 +16,10 @@ public class LobbyMenuController {
             lobby.setNextAdmin();
         }
         Database.saveLobbies();
+    }
+
+    public ArrayList<String> getLobbyUsers(int code) {
+        Lobby lobby = Database.getLobbyWithCode(code);
+        return new ArrayList<>(lobby.getWaitingUsernames());
     }
 }

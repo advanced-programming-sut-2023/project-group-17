@@ -112,4 +112,12 @@ public class MainMenuController {
         lobby.getWaitingUsernames().add(user.getUsername());
         Database.saveLobbies();
     }
+
+    public String getAvatarPath(String username) {
+        if (Database.getUserByUsername(username).getAvatarPath() == null) {
+            Database.getUserByUsername(username).setAvatarPath(Database.getUserByUsername(username).randomPathGenerator());
+            Database.saveUsers();
+        }
+        return Database.getUserByUsername(username).getAvatarPath();
+    }
 }

@@ -291,7 +291,12 @@ public class SocketHandler extends Thread{
         }
         if (methodName.equals("avatar path friend")) {
             Response response = new Response();
-            response.setAnswer(friendshipMenuController.getAvatarPath((String) request.getParameters().get(0)));
+            response.setAnswer(mainMenuController.getAvatarPath((String) request.getParameters().get(0)));
+            return response;
+        }
+        if (methodName.equals("get users in lobby")) {
+            Response response = new Response();
+            response.setAnswer(lobbyMenuController.getLobbyUsers(((Double) request.getParameters().get(0)).intValue()));
             return response;
         }
         return null;
