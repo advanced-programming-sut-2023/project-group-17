@@ -619,6 +619,7 @@ public class ProfileMenu extends Application {
     }
 
     public void openScoreboard(ActionEvent actionEvent) throws Exception {
+        Controller.send("change menu scoreBoard");
         new ScoreBoardMenu().start(new Stage());
     }
 

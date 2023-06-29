@@ -1,8 +1,7 @@
 package Client.view;
 
 import Client.ClientMain;
-import Server.model.Database;
-import Server.model.User;
+import Client.controller.Controller;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -51,21 +50,7 @@ public class ScoreBoardMenu extends Application {
     }
 
     private String generateText(int scrollTimes) {
-        List<User> users = new ArrayList<>();
-        users = (ArrayList) Database.getUsers().clone();
-
-        Comparator<User> comp = Comparator.comparingInt(User::getHighScore).reversed();
-        Collections.sort(users , comp);
-        String path = "";
-
-        int j = 0;
-        if (Database.getUsers().size() < scrollTimes * 10 + 10) j = Database.getUsers().size();
-        else j = scrollTimes * 10 + 10;
-
-        for (int i = scrollTimes * 10; i < j; i++) {
-            path += (i + 1) + "- " + users.get(i).getUsername() + " " + users.get(i).getHighScore() + "\n";
-        }
-
-        return path;
+        String res = (String) Controller.send("score board", scrollTimes);
+        return res;
     }
 }

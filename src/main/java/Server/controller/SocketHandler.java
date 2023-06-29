@@ -7,7 +7,9 @@ import com.google.gson.Gson;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.Socket;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ public class SocketHandler extends Thread{
     private SignupMenuController signupMenuController;
     private MainMenuController mainMenuController;
     private ProfileMenuController profileMenuController;
+    private ScoreBoardController scoreBoardController;
     private FriendshipMenuController friendshipMenuController;
 
 
@@ -44,11 +47,8 @@ public class SocketHandler extends Thread{
             while (true) {
                 Gson gson = Global.gson;
                 String s = dataInputStream.readUTF();
-                //System.out.println("<<REQUEST>> : \n" + s); // TODO : delete this line
                 Request request = gson.fromJson(s, Request.class);
-                //System.out.println("New request from " + socket);
                 Response response = handleRequest(request);
-                // System.out.println("<<RESPONSE>> : \n" + gson.toJson(response)); // TODO : delete this line
                 dataOutputStream.writeUTF(gson.toJson(response));
                 dataOutputStream.flush();
             }
@@ -56,10 +56,11 @@ public class SocketHandler extends Thread{
             //TODO: more exception
             if (user != null)
                 user.setLastOnlineTime(LocalDateTime.now());
-            exception.printStackTrace();
+            System.out.println("A client has been disconnected");
             ServerController.getInstance().removeSocket(this);
             // TODO : send updated list of users to online users
         }
+
     }
 
     private Response handleRequest(Request request) {
@@ -68,6 +69,11 @@ public class SocketHandler extends Thread{
         if (methodName.startsWith("change menu")) {
             changeMenu(methodName.substring(12));
             return new Response();
+        }
+        if (methodName.equals("all users")) {
+            Response response = new Response();
+            response.setAnswer(Database.getUsers());
+            return response;
         }
         if (methodName.equals("random password")) {
             Response response = new Response();
@@ -186,6 +192,13 @@ public class SocketHandler extends Thread{
             changeMenu("login");
             return new Response();
         }
+        if (methodName.equals("score board")) {
+            Response response = new Response();
+            String result = scoreBoardController.scoreBoard((Double) request.getParameters().get(0));
+            response.setAnswer(result);
+            return response;
+        }
+
         if (methodName.equals("send request")) {
             friendshipMenuController.sendFriendRequest(user, (String) request.getParameters().get(0));
             return new Response();
@@ -226,6 +239,8 @@ public class SocketHandler extends Thread{
                 break;
             case "profile":
                 profileMenuController = new ProfileMenuController();
+            case "scoreBoard":
+                scoreBoardController = new ScoreBoardController();
                 break;
             case "friendship":
                 friendshipMenuController = new FriendshipMenuController();
