@@ -279,6 +279,16 @@ public class SocketHandler extends Thread{
                     (Double) request.getParameters().get(0)).intValue()));
             return response;
         }
+        if (methodName.equals("get lobbies")) {
+            Response response = new Response();
+            response.setAnswer(mainMenuController.getPublicLobbies());
+            return response;
+        }
+        if (methodName.equals("join lobby")) {
+            mainMenuController.joinLobby(user, ((Double) request.getParameters().get(0)).intValue());
+            changeMenu("lobby");
+            return new Response();
+        }
         return null;
     }
 
