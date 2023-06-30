@@ -153,7 +153,7 @@ public class MainMenu extends Application {
     }
 
     public void openLobbiesList(ActionEvent actionEvent) {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.5), e -> refresh()));
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), e -> refresh()));
         this.updateTimeLine = timeline;
         timeline.setCycleCount(-1);
         timeline.play();
@@ -161,7 +161,8 @@ public class MainMenu extends Application {
         ArrayList<String> friends = (ArrayList<String>) Controller.send("get lobbies");
         ObservableList<String> items = FXCollections.observableArrayList(friends);
         listView.setItems(items);
-        listView.setPrefHeight(Math.min(items.size() * 40, 100));
+        if (friends.size() == 0) listView.setPrefHeight(10);
+        else listView.setPrefHeight(Math.min(items.size() * 40, 100));
         listView.setVisible(true);
         String[] code = {null};
         listView.setCellFactory(lv -> {
@@ -194,7 +195,8 @@ public class MainMenu extends Application {
         ArrayList<String> friends = (ArrayList<String>) Controller.send("get lobbies");
         ObservableList<String> items = FXCollections.observableArrayList(friends);
         listView.setItems(items);
-        listView.setPrefHeight(Math.min(items.size() * 40, 100));
+        if (friends.size() == 0) listView.setPrefHeight(10);
+        else listView.setPrefHeight(Math.min(items.size() * 40, 100));
         listView.setVisible(true);
         String[] code = {null};
         listView.setCellFactory(lv -> {
