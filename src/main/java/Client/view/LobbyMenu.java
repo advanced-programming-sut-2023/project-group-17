@@ -154,7 +154,7 @@ public class LobbyMenu extends Application {
     }
 
     public void refresh(ActionEvent actionEvent) {
-        adminUsername = (String) Controller.send("get lobby admin by code", lobbyCode);
+        adminUsernameLabel.setText("Admin : " + Controller.send("get lobby admin by code", lobbyCode));
         setListView();
     }
 }

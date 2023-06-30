@@ -28,6 +28,7 @@ public class User implements Comparable<User> {
     private ArrayList<String> friends = new ArrayList<>();
     private HashMap<String, String> friendReqsSent = new HashMap<>();
     private ArrayList<String> receivedRequests = new ArrayList<>();
+    private Lobby lobby;
 
     public User(String username, String password, String nickname, String email, String slogan,
                 String passwordRecoveryQuestion, String passwordRecoveryAnswer) {
@@ -233,5 +234,13 @@ public class User implements Comparable<User> {
 
     public void setReceivedRequests(ArrayList<String> receivedRequests) {
         this.receivedRequests = receivedRequests;
+    }
+
+    public Lobby getLobby() {
+        return lobby;
+    }
+
+    public void setLobby(Lobby lobby) {
+        this.lobby = lobby;
     }
 }

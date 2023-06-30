@@ -15,6 +15,7 @@ public class LobbyMenuController {
         } else if (lobby.getAdminUsername().equals(user.getUsername())) {
             lobby.setNextAdmin();
         }
+        user.setLobby(null);
         Database.saveLobbies();
     }
 

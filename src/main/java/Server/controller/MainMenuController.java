@@ -78,6 +78,7 @@ public class MainMenuController {
         Lobby lobby = new Lobby(admin, capacity, turn);
         Database.getLobbies().add(lobby);
         Database.saveLobbies();
+        admin.setLobby(lobby);
         return lobby.getCode();
     }
 
@@ -110,6 +111,7 @@ public class MainMenuController {
     public void joinLobby(User user, int code) {
         Lobby lobby = Database.getLobbyWithCode(code);
         lobby.getWaitingUsernames().add(user.getUsername());
+        user.setLobby(lobby);
         Database.saveLobbies();
     }
 

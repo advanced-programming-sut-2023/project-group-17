@@ -57,6 +57,9 @@ public class SocketHandler extends Thread{
             if (user != null) {
                 user.setLastOnlineTime(LocalDateTime.now());
                 Database.removeOnlineUser(user);
+                if (lobbyMenuController != null && user.getLobby() != null) {
+                    lobbyMenuController.exitFromLobby(user, user.getLobby().getCode());
+                }
             }
             System.out.println("User " + this.getId() + " Got Disconnected");
             ServerController.getInstance().removeSocket(this);
