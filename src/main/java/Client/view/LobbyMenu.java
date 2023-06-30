@@ -44,6 +44,8 @@ public class LobbyMenu extends Application {
     private ArrayList<String> waitingUsernames;
     private int lobbyCode;
     private boolean privateLobby;
+    public Timeline updateListTimeLine;
+    public Timeline enterGameTimeLine;
     public LobbyMenu() {
         this.adminUsername = Lobby.getAdminUsername();
         this.capacity = Lobby.getCapacity();
@@ -74,6 +76,21 @@ public class LobbyMenu extends Application {
         adminUsernameLabel.setTextFill(Color.WHITE); lobbyCodeLabel.setTextFill(Color.WHITE);
         privateLobbyLabel.setTextFill(Color.WHITE); users.setFont(Font.font(20)); users.setFill(Color.WHITE);
         setListView();
+        createUpdateListTimeLine(); createEnterGameTimeLine();
+    }
+
+    private void createEnterGameTimeLine() {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1.5), e -> enterGame()));
+        this.enterGameTimeLine = timeline;
+        timeline.setCycleCount(-1);
+        timeline.play();
+    }
+
+    private void createUpdateListTimeLine() {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1.5), e -> refresh()));
+        this.updateListTimeLine = timeline;
+        timeline.setCycleCount(-1);
+        timeline.play();
     }
 
     private void setListView() {
@@ -145,6 +162,8 @@ public class LobbyMenu extends Application {
 
     public void exit(ActionEvent actionEvent) throws Exception {
         Controller.send("exit lobby", lobbyCode);
+        updateListTimeLine.stop();
+        enterGameTimeLine.stop();
         new MainMenu().start(stage);
     }
 
@@ -154,7 +173,7 @@ public class LobbyMenu extends Application {
         new ChatMenu().start(stage);
     }
 
-    public void refresh(ActionEvent actionEvent) {
+    public void refresh() {
         adminUsernameLabel.setText("Admin : " + Controller.send("get lobby admin by code", lobbyCode));
         setListView();
     }
