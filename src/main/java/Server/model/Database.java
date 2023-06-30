@@ -39,13 +39,26 @@ public class Database {
     private static User loggedInUser;
     private static ArrayList<String> captcha = new ArrayList<>();
     private static ArrayList<Lobby> lobbies = new ArrayList<>();
+    private static ArrayList<Chat> chats = new ArrayList<>();
     private static transient final Gson gson = Global.gson;
+
+    //TODO: user tekrari runtime:D
     public static final String[] recoveryQuestions = {
         "What is my father's name?",
         "What was my first pet's name?",
         "What is my mother's last name?",
     };
 
+    public static ArrayList<Chat> getChats() {
+        loadChats();
+        return chats;
+    }
+
+    public static void addChat(Chat chat) {
+        loadChats();
+        chats.add(chat);
+        saveChats();
+    }
 
     public static ArrayList<User> getUsers() {
         return users;
@@ -310,8 +323,8 @@ public class Database {
 
     public static void saveUsers() {
         try {
-            FileWriter fileWriter = new FileWriter("src/main/resources/jsons/UserDatabase.json");
-//            FileWriter fileWriter = new FileWriter("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/UserDatabase.json");
+//            FileWriter fileWriter = new FileWriter("src/main/resources/jsons/UserDatabase.json");
+            FileWriter fileWriter = new FileWriter("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/UserDatabase.json");
 
             String json = gson.toJson(getUsers());
             fileWriter.write(json);
@@ -326,8 +339,8 @@ public class Database {
 //            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/UserDatabase.json")));
 // //           String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/UserDatabase.json")));
 
-            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/UserDatabase.json")));
-//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/UserDatabase.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/UserDatabase.json")));
+            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/UserDatabase.json")));
 
             ArrayList<User> savedUsers;
             savedUsers = gson.fromJson(json, new TypeToken<List<User>>() {}.getType());
@@ -345,8 +358,8 @@ public class Database {
         loadProductionBuilding();
         loadSoldierBuilding();
         try {
-            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/BuildingDatabase.json")));
-//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/BuildingDatabase.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/BuildingDatabase.json")));
+            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/BuildingDatabase.json")));
             ArrayList<Building> savedBuildings;
             savedBuildings = gson.fromJson(json, new TypeToken<List<Building>>() {}.getType());
             if (savedBuildings != null) setBuildings(savedBuildings);
@@ -357,8 +370,8 @@ public class Database {
 
     public static void setStayLoggedInUser(User user) {
         try {
-            FileWriter fileWriter = new FileWriter("src/main/resources/jsons/StayLoggedInUser.json");
-//            FileWriter fileWriter = new FileWriter("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/StayLoggedInUser.json");
+//            FileWriter fileWriter = new FileWriter("src/main/resources/jsons/StayLoggedInUser.json");
+            FileWriter fileWriter = new FileWriter("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/StayLoggedInUser.json");
             String gson = new Gson().toJson(user);
             fileWriter.write(gson);
             fileWriter.close();
@@ -369,8 +382,8 @@ public class Database {
 
     public static void clearStayLoggedIn() {
         try {
-            FileWriter fileWriter = new FileWriter("src/main/resources/jsons/StayLoggedInUser.json");
-//            FileWriter fileWriter = new FileWriter("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/StayLoggedInUser.json");
+//            FileWriter fileWriter = new FileWriter("src/main/resources/jsons/StayLoggedInUser.json");
+            FileWriter fileWriter = new FileWriter("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/StayLoggedInUser.json");
             fileWriter.write("");
             fileWriter.close();
         } catch (IOException e) {
@@ -380,8 +393,8 @@ public class Database {
 
     public static String getStayLoggedInUser() {
         try {
-            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/StayLoggedInUser.json")));
-//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/StayLoggedInUser.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/StayLoggedInUser.json")));
+            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/StayLoggedInUser.json")));
 
             User stayLoggedInUser;
             stayLoggedInUser = new Gson().fromJson(json, new TypeToken<User>() {}.getType());
@@ -393,8 +406,8 @@ public class Database {
     }
     public static void loadUnits() {
         try {
-            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/SoldiersDatabase.json")));
-//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/SoldiersDatabase.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/SoldiersDatabase.json")));
+            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/SoldiersDatabase.json")));
             ArrayList<Soldier> savedSoldiers;
             savedSoldiers = gson.fromJson(json, new TypeToken<List<Soldier>>() {}.getType());
             if (savedSoldiers != null) setAllSoldiers(savedSoldiers);
@@ -405,8 +418,8 @@ public class Database {
 
     public static void loadDefensiveBuilding() {
         try {
-            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/DefensiveBuildings.json")));
-//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/DefensiveBuildings.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/DefensiveBuildings.json")));
+            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/DefensiveBuildings.json")));
             ArrayList<DefensiveBuilding> savedBuildings;
             savedBuildings = gson.fromJson(json, new TypeToken<List<DefensiveBuilding>>() {}.getType());
             if (savedBuildings != null) setDefensiveBuildings(savedBuildings);
@@ -417,8 +430,8 @@ public class Database {
 
     public static void loadGatehouseBuilding() {
         try {
-            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/GatehouseBuildings.json")));
-//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/GatehouseBuildings.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/GatehouseBuildings.json")));
+            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/GatehouseBuildings.json")));
             ArrayList<GateHouse> savedBuildings;
             savedBuildings = gson.fromJson(json, new TypeToken<List<GateHouse>>() {}.getType());
             if (savedBuildings != null) setGateHouses(savedBuildings);
@@ -429,8 +442,8 @@ public class Database {
 
     public static void loadMiningBuilding() {
         try {
-            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/MiningBuildings.json")));
-//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/MiningBuildings.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/MiningBuildings.json")));
+            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/MiningBuildings.json")));
             ArrayList<MiningBuilding> savedBuildings;
             savedBuildings = gson.fromJson(json, new TypeToken<List<MiningBuilding>>() {}.getType());
             if (savedBuildings != null) setMiningBuildings(savedBuildings);
@@ -441,8 +454,8 @@ public class Database {
 
     public static void loadOtherBuilding() {
         try {
-            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/OtherBuildings.json")));
-//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/OtherBuildings.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/OtherBuildings.json")));
+            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/OtherBuildings.json")));
             ArrayList<OtherBuilding> savedBuildings;
             savedBuildings = gson.fromJson(json, new TypeToken<List<OtherBuilding>>() {}.getType());
             if (savedBuildings != null) setOtherBuildings(savedBuildings);
@@ -453,8 +466,8 @@ public class Database {
 
     public static void loadProductionBuilding() {
         try {
-            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/ProductionBuildings.json")));
-//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/ProductionBuildings.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/ProductionBuildings.json")));
+            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/ProductionBuildings.json")));
             ArrayList<ProductionBuilding> savedBuildings;
             savedBuildings = gson.fromJson(json, new TypeToken<List<ProductionBuilding>>() {}.getType());
             if (savedBuildings != null) setProductionBuildings(savedBuildings);
@@ -465,8 +478,8 @@ public class Database {
 
     public static void loadSoldierBuilding() {
         try {
-            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/SoldierBuildings.json")));
-//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/SoldierBuildings.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/SoldierBuildings.json")));
+            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/SoldierBuildings.json")));
             ArrayList<SoldierProduction> savedBuildings;
             savedBuildings = gson.fromJson(json, new TypeToken<List<SoldierProduction>>() {}.getType());
             if (savedBuildings != null) setSoldierProductions(savedBuildings);
@@ -477,8 +490,8 @@ public class Database {
 
     public static void loadStorageBuilding() {
         try {
-            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/StorageBuildings.json")));
-//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/StorageBuildings.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/StorageBuildings.json")));
+            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/StorageBuildings.json")));
             ArrayList<StorageBuilding> savedBuildings;
             savedBuildings = gson.fromJson(json, new TypeToken<List<StorageBuilding>>() {}.getType());
             if (savedBuildings != null) setStorageBuildings(savedBuildings);
@@ -489,8 +502,8 @@ public class Database {
 
     public static void loadAttackToolsAndMethods() {
         try {
-            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/AttackToolsAndMethodsDatabase.json")));
-//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/AttackToolsAndMethodsDatabase.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/AttackToolsAndMethodsDatabase.json")));
+            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/AttackToolsAndMethodsDatabase.json")));
             ArrayList<AttackToolsAndMethods> savedBuildings;
             savedBuildings = gson.fromJson(json, new TypeToken<List<AttackToolsAndMethods>>() {}.getType());
             if (savedBuildings != null) setAttackToolsAndMethods(savedBuildings);
@@ -501,8 +514,8 @@ public class Database {
 
     public static void loadCaptcha() {
         try {
-            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/Captchas.json")));
-//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/Captchas.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/Captchas.json")));
+            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/Captchas.json")));
             ArrayList<String> savedCaptcha;
             savedCaptcha = gson.fromJson(json, new TypeToken<List<String>>() {}.getType());
             if (savedCaptcha != null) setCaptcha(savedCaptcha);
@@ -543,8 +556,8 @@ public class Database {
 
     public static void saveLobbies() {
         try {
-            FileWriter fileWriter = new FileWriter("src/main/resources/jsons/Lobbies.json");
-//            FileWriter fileWriter = new FileWriter("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/Lobbies.json");
+//            FileWriter fileWriter = new FileWriter("src/main/resources/jsons/Lobbies.json");
+            FileWriter fileWriter = new FileWriter("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/Lobbies.json");
 
             String json = gson.toJson(getLobbies());
             fileWriter.write(json);
@@ -556,8 +569,8 @@ public class Database {
     }
     public static void loadLobbies() {
         try {
-            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/Lobbies.json")));
-//            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/Lobbies.json")));
+//            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/Lobbies.json")));
+            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/Lobbies.json")));
 
             ArrayList<Lobby> savedLobbies;
             savedLobbies = gson.fromJson(json, new TypeToken<List<Lobby>>() {}.getType());
@@ -565,6 +578,36 @@ public class Database {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void saveChats() {
+        try {
+//            FileWriter fileWriter = new FileWriter("src/main/resources/jsons/Chats.json");
+            FileWriter fileWriter = new FileWriter("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/Chats.json");
+
+            String json = gson.toJson(getChats());
+            fileWriter.write(json);
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        getAvatarPaths();
+    }
+    public static void loadChats() {
+        try {
+//            String json = new String(Files.readAllBytes(Paths.get("src/main/resources/jsons/Chats.json")));
+            String json = new String(Files.readAllBytes(Paths.get("D:/Programming/AP/StrongHold/project-group-17/src/main/resources/jsons/Chats.json")));
+
+            ArrayList<Chat> savedChats;
+            savedChats = gson.fromJson(json, new TypeToken<List<Chat>>() {}.getType());
+            if (savedChats != null) setChats(savedChats);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void setChats(ArrayList<Chat> chats) {
+        Database.chats = chats;
     }
 
     public static Lobby getLobbyWithCode(int code) {
