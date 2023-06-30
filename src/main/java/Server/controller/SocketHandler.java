@@ -57,9 +57,9 @@ public class SocketHandler extends Thread{
                         dataOutputStream.flush();
                     }
                     if (methodName.equals("update chat")) {
-                        Chat chat = (Chat) request.getParameters().get(0);
+                        int chatCode = ((Double) request.getParameters().get(0)).intValue();
                         dataOutputStream.writeUTF(new Gson().toJson(
-                                chatMenuController.getUpdatedChat(chat), Chat.class));
+                                chatMenuController.getUpdatedChat(chatCode), Chat.class));
                         dataOutputStream.flush();
                     }
                 } else {

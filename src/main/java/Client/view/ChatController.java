@@ -47,7 +47,7 @@ public class ChatController {
 
     private VBox chatVBox;
     private ScrollPane scrollPane;
-    private ArrayList<Chat> chats = new ArrayList<>();
+    private static ArrayList<Chat> chats = new ArrayList<>();
     private Chat currentChat;
     private static boolean isInTheGame = false;
     private Timeline timeline;
@@ -256,7 +256,7 @@ public class ChatController {
     //update chats on the server
     private void updateSavedCurrentChat() {
 //        ChatPayload payload = new ChatPayload("update chat", currentChat);
-        Controller.send("update chat", currentChat);
+        Controller.send("update chat", currentChat.getCode());
     }
 
 
@@ -513,5 +513,9 @@ public class ChatController {
         errorAlert.initOwner(ClientMain.stage);
         errorAlert.showAndWait();
         return errorAlert;
+    }
+
+    public static ArrayList<Chat> getChats() {
+        return chats;
     }
 }

@@ -7,10 +7,12 @@ public class Chat implements Serializable {
     private String name;
     private final ArrayList<String> users;
     private final ArrayList<Message> messages = new ArrayList<>();
+    private final int code;
 
-    public Chat(String name, ArrayList<String> members) {
+    public Chat(String name, ArrayList<String> members, int code) {
         this.name = name;
         this.users = members;
+        this.code = code;
     }
 
     public void addMessage(Message message) {
@@ -33,4 +35,7 @@ public class Chat implements Serializable {
         return users;
     }
 
+    public int getCode() {
+        return code;
+    }
 }

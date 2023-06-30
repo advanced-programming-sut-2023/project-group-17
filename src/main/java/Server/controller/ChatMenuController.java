@@ -10,9 +10,9 @@ public class ChatMenuController {
         return Database.getChats();
     }
 
-    public Chat getUpdatedChat(Chat chat) {
+    public Chat getUpdatedChat(int chat) {
         for (Chat eachChat : Database.getChats()) {
-            if (eachChat.equals(chat)) {
+            if (eachChat.getCode() == chat) {
                 return eachChat;
             }
         }

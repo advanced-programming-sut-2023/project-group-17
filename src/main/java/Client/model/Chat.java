@@ -1,9 +1,14 @@
 package Client.model;
 
+import Client.view.ChatController;
+import Server.model.Database;
+import Server.model.Lobby;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Chat implements Serializable {
+    private final int code;
     private String name;
     private final ArrayList<String> users;
     private final ArrayList<Message> messages = new ArrayList<>();
@@ -11,6 +16,7 @@ public class Chat implements Serializable {
     public Chat(String name, ArrayList<String> members) {
         this.name = name;
         this.users = members;
+        this.code = getChatCode();
     }
 
     public void addMessage(Message message) {
@@ -31,6 +37,21 @@ public class Chat implements Serializable {
 
     public ArrayList<String> getUsers() {
         return users;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    private int getChatCode() {
+        int code = (int) (Math.random() * 1000);
+        for (Chat chat : ChatController.getChats()) {
+            if (chat != this && code == chat.getCode()) {
+                code = getChatCode();
+                break;
+            }
+        }
+        return code;
     }
 
 }
