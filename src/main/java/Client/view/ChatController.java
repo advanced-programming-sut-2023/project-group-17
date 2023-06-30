@@ -1,12 +1,10 @@
 package Client.view;
+
 import Client.ClientMain;
 import Client.controller.Controller;
 import Client.model.Chat;
-import Client.model.ChatPayload;
 import Client.model.Message;
-import Client.model.User;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -26,8 +24,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
 
 import static Client.ClientMain.stage;
 import static Client.view.ChatMenu.lobbyCode;
@@ -266,20 +266,24 @@ public class ChatController {
         String date = calendar.getTime().toString();// + calendar.get(Calendar.DAY_OF_MONTH) + " " + new DateFormatSymbols().getShortMonths()[calendar.get(Calendar.MONTH)] + " " + calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND);
         date = date.substring(0, date.length() - 10);
         Text title = new Text(message.getSender());
-        if (message.getSender().equals(Controller.send("get my user")))
-            date += " Sent";
-        Text msg = new Text(message.getContent() + "\n_________________\n" + date);
+//        if (message.getSender().equals(Controller.send("get my user")))
+//            date += " Sent";
+        Text msg = new Text(message.getContent());
+        Text dte = new Text( date);
 
         Image image = new Image((String) Controller.send("avatar path friend", message.getSender()));
 
         ImageView avatar = new ImageView(image);
-        avatar.setFitHeight(50);
-        avatar.setFitWidth(50);
+        avatar.setFitHeight(50); avatar.setFitWidth(50);
 
-        Label senderName = getLabel(title, 30, message);
+        Label senderName = getLabel(title, 25, message);
         Label messageLabel = getLabel(msg, 20, message);
+        Label timeLabel = getLabel(dte, 10, message);
+        ImageView sentImage = new ImageView(new Image(getClass().getResource
+                ("/assets/check.png").toExternalForm(), 25, 25, false, false));
+        HBox hBox = new HBox(timeLabel, sentImage);
 
-        VBox totalMessage = new VBox(senderName, messageLabel);
+        VBox totalMessage = new VBox(senderName, messageLabel, hBox);
         totalMessage.setOnMouseClicked(mouseEvent -> {
             message.toggleSelected();
             updateSavedCurrentChat();
