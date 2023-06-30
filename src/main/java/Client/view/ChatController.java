@@ -1,11 +1,10 @@
 package Client.view;
+import Client.ClientMain;
+import Client.controller.Controller;
 import Client.model.Chat;
 import Client.model.ChatPayload;
 import Client.model.Message;
 import Client.model.User;
-import com.example.demo.controller.LoginController;
-import com.example.demo.controller.NetworkController;
-import com.example.demo.model.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import javafx.animation.Animation;
@@ -27,6 +26,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class ChatController {
@@ -72,8 +72,8 @@ public class ChatController {
         deleteForAll.setOnAction(event -> {
             for (Message message : currentChat.getAllMessages()) {
                 if (message.isSelected()) {
-                    if (!message.getUser().equals(LoginController.getLoggedUser())) {
-                        StageController.errorMaker("Fault", "You can not delete message that not belong to you.", Alert.AlertType.ERROR);
+                    if (!message.getSender().equals(Controller.send("get my user"))) {
+                        errorMaker("Fault", "You can not delete message that not belong to you.", Alert.AlertType.ERROR);
                         return;
                     }
                 }
@@ -81,7 +81,7 @@ public class ChatController {
 
             Alert alert = new Alert(Alert.AlertType.NONE, "Delete selected Message(s)?", ButtonType.OK, ButtonType.CANCEL);
             alert.setTitle("Delete for all");
-            alert.initOwner(StageController.getStage());
+            alert.initOwner(ClientMain.stage);
             alert.showAndWait().ifPresent(buttonType -> {
                 if (buttonType.equals(ButtonType.OK)) {
                     for (Message message : currentChat.getAllMessages())
@@ -99,7 +99,7 @@ public class ChatController {
         deleteForMe.setOnAction(event -> {
             Alert alert = new Alert(Alert.AlertType.NONE, "Delete selected Message(s)?", ButtonType.OK, ButtonType.CANCEL);
             alert.setTitle("Delete for me");
-            alert.initOwner(StageController.getStage());
+            alert.initOwner(ClientMain.stage);
             alert.showAndWait().ifPresent(buttonType -> {
                 if (buttonType.equals(ButtonType.OK)) {
                     currentChat.getAllMessages().removeIf(Message::isSelected);
@@ -121,8 +121,8 @@ public class ChatController {
                         break;
                 }
             if (counter == 1) {
-                if (!selectedMessage.getUser().equals(LoginController.getLoggedUser())) {
-                    StageController.errorMaker("Fault", "You can not edit message that not belong to you.", Alert.AlertType.ERROR);
+                if (!selectedMessage.getSender().equals(Controller.send("get my user"))) {
+                    errorMaker("Fault", "You can not edit message that not belong to you.", Alert.AlertType.ERROR);
                     return;
                 }
                 messageField.setText(selectedMessage.getContent());
@@ -140,7 +140,7 @@ public class ChatController {
                 });
             } else {
                 Alert alert = new Alert(Alert.AlertType.NONE, "Cannot edit multiple messages at once.", ButtonType.OK);
-                alert.initOwner(StageController.getStage());
+                alert.initOwner(ClientMain.stage);
                 alert.show();
             }
         });
@@ -227,7 +227,7 @@ public class ChatController {
         String content = messageField.getText();
         if (content.equals("") || content.matches("^\\s+$"))
             return;
-        Message message = new Message(LoginController.getLoggedUser(), content);
+        Message message = new Message((String) Controller.send("get my user"), content);
         currentChat.addMessage(message);
         updateSavedCurrentChat();
         showMessage(message);
@@ -244,7 +244,7 @@ public class ChatController {
 
         for (Chat chat : chats) {
             System.out.print("chat name: " + chat.getName() + "  chat members: ");
-            for (User user : chat.getUsers())
+            for (String user : chat.getUsers())
                 System.out.print(user + ", ");
             System.out.println();
         }
@@ -262,7 +262,7 @@ public class ChatController {
         String date = calendar.getTime().toString();// + calendar.get(Calendar.DAY_OF_MONTH) + " " + new DateFormatSymbols().getShortMonths()[calendar.get(Calendar.MONTH)] + " " + calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND);
         date = date.substring(0, date.length() - 10);
         Text title = new Text(message.getSender());
-        if (message.getUser().getUsername().equals(LoginController.getLoggedUser().getUsername()))
+        if (message.getSender().equals(Controller.send("get my user")))
             date += " Sent";
         Text msg = new Text(message.getContent() + "\n_________________\n" + date);
 
@@ -363,7 +363,7 @@ public class ChatController {
         userField.setMaxWidth(600);
         userField.setPromptText("Enter a username");
 
-        Set<User> usersSet = new HashSet<>();
+        Set<String> usersSet = new HashSet<>();
         Button add = new Button("Add user");
         Text users = new Text("Added users: ");
         users.setStyle("-fx-font-size: 15;-fx-fill: white;");
@@ -373,7 +373,7 @@ public class ChatController {
 
         ChatPayload payload = new ChatPayload("get all users");
         String response = NetworkController.send(new Gson().toJson(payload));
-        ArrayList<User> usersList = new Gson().fromJson(response, new TypeToken<List<User>>() {
+        ArrayList<String> usersList = new Gson().fromJson(response, new TypeToken<List<String>>() {
         }.getType());
 
         add.setOnAction(event -> {
@@ -381,9 +381,9 @@ public class ChatController {
                 error.setText("Enter a username.");
             else {
                 //username validation
-                User addedUser = null;
-                for (User user : usersList) {
-                    if (user.getUsername().equals(userField.getText())) {
+                String addedUser = null;
+                for (String user : usersList) {
+                    if (user.equals(userField.getText())) {
                         addedUser = user;
                     }
                 }
@@ -410,9 +410,9 @@ public class ChatController {
         userField.setOnKeyReleased(event2 -> {
             error.setText("");
             if (event2.getCode().toString().equals("ENTER")) {//username validation
-                User addedUser = null;
-                for (User user : usersList) {
-                    if (user.getUsername().equals(userField.getText())) {
+                String addedUser = null;
+                for (String user : usersList) {
+                    if (user.equals(userField.getText())) {
                         addedUser = user;
                     }
                 }
@@ -429,14 +429,14 @@ public class ChatController {
         nameField.requestFocus();
     }
 
-    private void startRoomChat(TextField nameField, Set<User> usersSet, Text error) {
+    private void startRoomChat(TextField nameField, Set<String> usersSet, Text error) {
         if (nameField.getText().equals(""))
             error.setText("Enter a name for the room.");
         else if (usersSet.isEmpty())
             error.setText("Add at list one user to the room.");
         else {
-            usersSet.add(LoginController.getLoggedUser());
-            ArrayList<User> members = new ArrayList<>(usersSet);
+            usersSet.add((String) Controller.send("get my user"));
+            List<String> members = new ArrayList<>(usersSet);
             Chat chat = new Chat("room: " + nameField.getText(), members);
             chats.add(chat);
             showUsersBar();
@@ -456,19 +456,19 @@ public class ChatController {
         ArrayList<User> usersList = new Gson().fromJson(response, new TypeToken<List<User>>() {
         }.getType());
         //username validation
-        User oppositeUser = null;
+        User addedUser = null;
         for (User user : usersList) {
             if (user.getUsername().equals(usernameField.getText())) {
-                oppositeUser = user;
+                addedUser = user;
             }
         }
-        if (oppositeUser == null) {
+        if (addedUser == null) {
             error.setText("No User exists with this username.");
         } else {
-            ArrayList<User> members = new ArrayList<>();
-            members.add(oppositeUser);
-            members.add(LoginController.getLoggedUser());
-            Chat chat = new Chat(oppositeUser.getUsername() + " and " + LoginController.getLoggedUser().getUsername(), members);
+            ArrayList<String> members = new ArrayList<>();
+            members.add(addedUser.getUsername());
+            members.add((String) Controller.send("get my user"));
+            Chat chat = new Chat(addedUser.getUsername() + " and " + Controller.send("get my user"), members);
             chats.add(chat);
             showUsersBar();
             currentChat = chat;
@@ -480,15 +480,17 @@ public class ChatController {
 
 
     public void back() {
-        if (isInTheGame)
-            StageController.sceneChanger("diplomacy.fxml");
-        else {
-            timeline.stop();
-            ChatPayload payload = new ChatPayload("menu exit");
-            NetworkController.send(new Gson().toJson(payload));
-            StageController.sceneChanger("mainMenu.fxml");
-        }
-        isInTheGame = false;
+//        if (isInGame)
+//            Controller.send("change menu")
+//            StageController.sceneChanger("diplomacy.fxml");
+//        else {
+//            timeline.stop();
+//            ChatPayload payload = new ChatPayload("menu exit");
+//            NetworkController.send(new Gson().toJson(payload));
+//            Controller.send("change menu main")
+//        }
+//        isInGame = false;
+        //TODO
     }
 
     public void checkEnter(KeyEvent keyEvent) {
@@ -499,5 +501,14 @@ public class ChatController {
 
     public static void setInGame(boolean inGame) {
         isInTheGame = inGame;
+    }
+
+    public static Alert errorMaker(String header, String content,Alert.AlertType type) {
+        Alert errorAlert = new Alert(type);
+        errorAlert.setHeaderText(header);
+        errorAlert.setContentText(content);
+        errorAlert.initOwner(ClientMain.stage);
+        errorAlert.showAndWait();
+        return errorAlert;
     }
 }
