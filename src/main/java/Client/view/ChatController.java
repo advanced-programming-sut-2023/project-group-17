@@ -232,6 +232,7 @@ public class ChatController {
             return;
         Message message = new Message((String) Controller.send("get my user"), content);
         currentChat.addMessage(message);
+        Controller.sendChat("send message chat", currentChat.getCode(), new Gson().toJson(message, Message.class));
         updateSavedCurrentChat();
         showMessage(message);
         messageField.setText("");
@@ -437,6 +438,7 @@ public class ChatController {
             ArrayList<String> members = new ArrayList<>(usersSet);
             Chat chat = new Chat("room: " + nameField.getText(), members);
             chats.add(chat);
+            Controller.sendChat("save chat", new Gson().toJson(chat, Chat.class));
             showUsersBar();
             currentChat = chat;
             updateSavedCurrentChat();
@@ -467,6 +469,7 @@ public class ChatController {
             members.add((String) Controller.send("get my user"));
             Chat chat = new Chat(addedUser + " and " + Controller.send("get my user"), members);
             chats.add(chat);
+            Controller.sendChat("save chat", new Gson().toJson(chat, Chat.class));
             showUsersBar();
             currentChat = chat;
             updateSavedCurrentChat();

@@ -65,6 +65,12 @@ public class SocketController {
             else if (request.getMethodName().equals("update chat")) {
                 response = new Gson().fromJson(dataInputStream.readUTF(), Chat.class);
             }
+//            else if (request.getMethodName().equals("send message chat")) {
+//                ;
+//            }
+//            else if (request.getMethodName().equals("save chat")) {
+//                ;
+//            }
             System.out.println("response received");
             return response;
         } catch (Exception e) {

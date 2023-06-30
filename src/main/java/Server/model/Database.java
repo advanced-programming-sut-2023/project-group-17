@@ -54,6 +54,14 @@ public class Database {
         return chats;
     }
 
+    public static Chat getChatByCode(int code) {
+        loadChats();
+        for (Chat chat : getChats()) {
+            if (chat.getCode() == code) return chat;
+        }
+        return null;
+    }
+
     public static void addChat(Chat chat) {
         loadChats();
         chats.add(chat);
