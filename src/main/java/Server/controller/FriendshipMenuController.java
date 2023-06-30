@@ -5,6 +5,8 @@ import Server.model.User;
 
 import java.util.ArrayList;
 
+import static Server.model.Database.getCurrentUser;
+
 public class FriendshipMenuController {
 
     public String getUserRequestByIndex(int i, User user) {

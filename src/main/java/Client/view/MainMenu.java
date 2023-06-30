@@ -13,6 +13,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import static Client.ClientMain.stage;
 
 
@@ -28,8 +32,10 @@ public class MainMenu extends Application {
 //    public MainMenu() {
 //        this.controller = new MainMenuController();
 //    }
+    public ListView<String> listView = new ListView<>();
     public static int capacity;
     public Button enterLobbyButton;
+    public Button openLobbieButton;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -91,6 +97,7 @@ public class MainMenu extends Application {
                 enterLobbyButton.setDisable(!((boolean) Controller.send("is lobby exist", Integer.parseInt(newValue))));
             }
         }));
+        listView.setVisible(false);
     }
     public void startNewGame(MouseEvent mouseEvent) throws Exception {
         //TODO: open new lobby
@@ -127,12 +134,47 @@ public class MainMenu extends Application {
         new FriendShipMenu().start(stage);
     }
 
-    public void enterLobby(ActionEvent actionEvent) throws Exception {
-        String usernameAdmin = (String) Controller.send("get lobby admin by code", lobbyCode);
-        int capacity = ((Double) Controller.send("get capacity by code", lobbyCode)).intValue();
-        int gameTurns = ((Double) Controller.send("get turns by code", lobbyCode)).intValue();
+    public void enterLobby() throws Exception {
+        String usernameAdmin = (String) Controller.send("get lobby admin by code", Integer.parseInt(lobbyCode.getText()));
+        int capacity = ((Double) Controller.send("get capacity by code", Integer.parseInt(lobbyCode.getText()))).intValue();
+        int gameTurns = ((Double) Controller.send("get turns by code", Integer.parseInt(lobbyCode.getText()))).intValue();
+        Controller.send("join lobby", Integer.parseInt(lobbyCode.getText()));
         Lobby lobby = new Lobby(usernameAdmin, capacity, gameTurns, Integer.parseInt(lobbyCode.getText()));
         new LobbyMenu().start(stage);
+    }
+
+    public void openLobbiesList(ActionEvent actionEvent) {
+        openLobbieButton.setVisible(false);
+        ArrayList<String> friends = (ArrayList<String>) Controller.send("get lobbies");
+        ObservableList<String> items = FXCollections.observableArrayList(friends);
+        listView.setItems(items);
+        listView.setPrefHeight(Math.min(items.size() * 40, 100));
+        listView.setVisible(true);
+        String[] code = {null};
+        listView.setCellFactory(lv -> {
+            ListCell<String> cell = new ListCell<>();
+
+            cell.setOnMouseClicked(event -> {
+                if (! cell.isEmpty()) {
+                    String item = cell.getItem();
+                    System.out.println("Item clicked: " + item);
+                    String regex = ".+code : (?<code>\\d+).+";
+                    Matcher matcher = Pattern.compile(regex).matcher(item);
+                    matcher.matches();
+                    code[0] = matcher.group("code");
+                    lobbyCode.setText(code[0]);
+                    try {
+                        enterLobby();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
+
+            cell.textProperty().bind(cell.itemProperty());
+
+            return cell ;
+        });
     }
 
 //    public void run() {

@@ -289,6 +289,26 @@ public class SocketHandler extends Thread{
                     (Double) request.getParameters().get(0)).intValue()));
             return response;
         }
+        if (methodName.equals("get lobbies")) {
+            Response response = new Response();
+            response.setAnswer(mainMenuController.getPublicLobbies());
+            return response;
+        }
+        if (methodName.equals("join lobby")) {
+            mainMenuController.joinLobby(user, ((Double) request.getParameters().get(0)).intValue());
+            changeMenu("lobby");
+            return new Response();
+        }
+        if (methodName.equals("avatar path friend")) {
+            Response response = new Response();
+            response.setAnswer(mainMenuController.getAvatarPath((String) request.getParameters().get(0)));
+            return response;
+        }
+        if (methodName.equals("get users in lobby")) {
+            Response response = new Response();
+            response.setAnswer(lobbyMenuController.getLobbyUsers(((Double) request.getParameters().get(0)).intValue()));
+            return response;
+        }
         return null;
     }
 

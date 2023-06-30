@@ -97,4 +97,27 @@ public class MainMenuController {
     public int getTurnsByCode(int code) {
         return Database.getLobbyWithCode(code).getGameTurns();
     }
+
+    public ArrayList<String> getPublicLobbies() {
+        ArrayList<String> lobbies = new ArrayList<>();
+        for (Lobby lobby : Database.getLobbies()) {
+            if (!lobby.isPrivateLobby() && lobby.canJoin())
+                lobbies.add("Admin : " + lobby.getAdminUsername() + "  code : " + lobby.getCode() + " capacity : " + lobby.getFilledCapacity() + "/" + lobby.getCapacity());
+        }
+        return lobbies;
+    }
+
+    public void joinLobby(User user, int code) {
+        Lobby lobby = Database.getLobbyWithCode(code);
+        lobby.getWaitingUsernames().add(user.getUsername());
+        Database.saveLobbies();
+    }
+
+    public String getAvatarPath(String username) {
+        if (Database.getUserByUsername(username).getAvatarPath() == null) {
+            Database.getUserByUsername(username).setAvatarPath(Database.getUserByUsername(username).randomPathGenerator());
+            Database.saveUsers();
+        }
+        return Database.getUserByUsername(username).getAvatarPath();
+    }
 }

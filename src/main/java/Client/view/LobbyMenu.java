@@ -2,18 +2,29 @@ package Client.view;
 
 import Client.controller.Controller;
 import Server.model.User;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 
@@ -24,6 +35,8 @@ public class LobbyMenu extends Application {
     public Label lobbyCodeLabel;
     public Label privateLobbyLabel;
     public Button exit;
+    public ListView listView;
+    public Text users;
     private String adminUsername;
     private int capacity;
     private int gameTurns;
@@ -58,11 +71,84 @@ public class LobbyMenu extends Application {
         lobbyCodeLabel.setText("Lobby code : " + lobbyCode); lobbyCodeLabel.setFont(Font.font(20));
         privateLobbyLabel.setText("Public"); privateLobbyLabel.setFont(Font.font(20));
         adminUsernameLabel.setTextFill(Color.WHITE); lobbyCodeLabel.setTextFill(Color.WHITE);
-        privateLobbyLabel.setTextFill(Color.WHITE);
+        privateLobbyLabel.setTextFill(Color.WHITE); users.setFont(Font.font(20)); users.setFill(Color.WHITE);
+        setListView();
+    }
+
+    private void setListView() {
+        ArrayList<String> friends = (ArrayList<String>) Controller.send("get users in lobby", lobbyCode);
+        ObservableList<String> items = FXCollections.observableArrayList(friends);
+        listView.setItems(items);
+        listView.setPrefHeight(Math.min(items.size() * 40, 100));
+        listView.setCellFactory(lv -> {
+            ListCell<String> cell = new ListCell<>();
+
+            cell.setOnMouseClicked(event -> {
+                if (! cell.isEmpty()) {
+                    String item = cell.getItem();
+                    System.out.println("Item clicked: " + item);
+                    showProfile(item);
+                }
+            });
+
+            cell.textProperty().bind(cell.itemProperty());
+
+            return cell ;
+        });
+    }
+
+    private void showProfile(String username) {
+        HBox hBox = new HBox(); hBox.setAlignment(Pos.CENTER); hBox.setSpacing(5);
+        hBox.setPrefHeight(200); hBox.setPrefWidth(350);
+        hBox.setStyle("-fx-background-color: black;");
+        Label usernameLabel = getLabel(); usernameLabel.setText(username);
+        ImageView imageView = new ImageView(new
+                Image((String) Controller.send("avatar path friend", username), 100 ,100, false, false));
+        hBox.getChildren().addAll(usernameLabel, imageView);
+        Popup popup = getPopup();
+        popup.getContent().add(hBox);
+        popup.show(stage);
+        hidePopup(popup).play();
+    }
+
+    public Popup getPopup() {
+        Popup popup = new Popup();
+
+        //TODO: delete one of these comments
+//        popup.setAnchorX(580); popup.setAnchorY(300);
+        popup.setAnchorX(540); popup.setAnchorY(250);
+
+        popup.centerOnScreen();
+        popup.setOpacity(0.7);
+        return popup;
+    }
+
+    public Label getLabel() {
+        Label label = new Label();
+        label.setTextFill(Color.WHITE);
+        label.setMinWidth(200);
+        label.setMinHeight(60);
+//        label.setStyle("-fx-background-color: black;");
+        label.setAlignment(Pos.CENTER);
+        return label;
+    }
+
+    public Timeline hidePopup(Popup popup) {
+        return new Timeline(new KeyFrame(Duration.seconds(1.5), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                popup.hide();
+            }
+        }));
     }
 
     public void exit(ActionEvent actionEvent) throws Exception {
         Controller.send("exit lobby", lobbyCode);
         new MainMenu().start(stage);
+    }
+
+    public void refresh(ActionEvent actionEvent) {
+        adminUsername = (String) Controller.send("get lobby admin by code", lobbyCode);
+        setListView();
     }
 }
