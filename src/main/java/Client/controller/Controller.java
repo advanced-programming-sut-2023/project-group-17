@@ -1,9 +1,6 @@
 package Client.controller;
 
-import Client.model.ClientDatabase;
-import Client.model.Request;
-import Client.model.Response;
-import Client.model.User;
+import Client.model.*;
 import Client.view.LoginMenu;
 import javafx.stage.Stage;
 
@@ -24,6 +21,16 @@ public class Controller {
         System.out.println(request.getMethodName());
         Response response = SOCKET_CONTROLLER.send(request);
         return response.getAnswer();
+    }
+
+    public static synchronized Object sendChat(String method, Object... parameters) {
+        Request request = new Request();
+        request.setMethodName(method);
+        for (Object parameter : parameters) {
+            request.addParameter(parameter);
+        }
+        System.out.println(request.getMethodName());
+        return SOCKET_CONTROLLER.sendChat(request);
     }
 
     public static ArrayList<User> getAllUsers() {

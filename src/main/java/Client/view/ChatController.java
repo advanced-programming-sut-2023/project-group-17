@@ -240,7 +240,7 @@ public class ChatController {
 //        ChatPayload chatPayload = new ChatPayload("get all chats");
 //        String response = NetworkController.send(new Gson().toJson(chatPayload));
 //        chatPayload = new Gson().fromJson(response, ChatPayload.class);
-        chats = (ArrayList<Chat>) Controller.send("all chats");
+        chats = (ArrayList<Chat>) Controller.sendChat("all chat");
 
         for (Chat chat : chats) {
             System.out.print("chat name: " + chat.getName() + "  chat members: ");

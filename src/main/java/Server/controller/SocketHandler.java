@@ -48,9 +48,24 @@ public class SocketHandler extends Thread{
                 Gson gson = Global.gson;
                 String s = dataInputStream.readUTF();
                 Request request = gson.fromJson(s, Request.class);
-                Response response = handleRequest(request);
-                dataOutputStream.writeUTF(gson.toJson(response));
-                dataOutputStream.flush();
+                if (request.getMethodName().endsWith("chat")) {
+                    String methodName = request.getMethodName();
+                    if (methodName.equals("all chat")) {
+                        ArrayList<Chat> chats = Database.getChats();
+                        dataOutputStream.writeUTF(new Gson().toJson(chats));
+                        dataOutputStream.flush();
+                    }
+                    if (methodName.equals("update chat")) {
+                        Chat chat = (Chat) request.getParameters().get(0);
+                        dataOutputStream.writeUTF(new Gson().toJson(
+                                chatMenuController.getUpdatedChat(chat), Chat.class));
+                        dataOutputStream.flush();
+                    }
+                } else {
+                    Response response = handleRequest(request);
+                    dataOutputStream.writeUTF(gson.toJson(response));
+                    dataOutputStream.flush();
+                }
             }
         } catch (IOException exception) {
             //TODO: more exception
@@ -311,17 +326,17 @@ public class SocketHandler extends Thread{
             lobbyMenuController.changePublicity(((Double) request.getParameters().get(0)).intValue());
             return new Response();
         }
-        if (methodName.equals("all chat")) {
-            Response response = new Response();
-            response.setAnswer(Database.getChats());
-            return response;
-        }
-        if (methodName.equals("update chat")) {
-            Response response = new Response();
-            Chat chat = (Chat) request.getParameters().get(0);
-            response.setAnswer(chatMenuController.getUpdatedChat(chat));
-            return response;
-        }
+//        if (methodName.equals("all chat")) {
+//            Response response = new Response();
+//            response.setAnswer(Database.getChats());
+//            return response;
+//        }
+//        if (methodName.equals("update chat")) {
+//            Response response = new Response();
+//            Chat chat = (Chat) request.getParameters().get(0);
+//            response.setAnswer(chatMenuController.getUpdatedChat(chat));
+//            return response;
+//        }
         if (methodName.equals("all usernames")) {
             Response response = new Response();
             ArrayList<String> usernames = new ArrayList<>();
@@ -331,6 +346,7 @@ public class SocketHandler extends Thread{
             response.setAnswer(usernames);
             return response;
         }
+
         return null;
     }
 

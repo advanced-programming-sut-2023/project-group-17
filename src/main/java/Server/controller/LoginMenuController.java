@@ -25,6 +25,8 @@ public class LoginMenuController {
         Database.loadUnits();
         Database.loadBuildings();
         Database.loadLobbies();
+        Database.saveChats();
+        Database.loadChats();
         Database.loadAttackToolsAndMethods();
         Database.setLoggedInUser(Database.getCurrentUser());
         return LoginMenuMessages.SUCCESS;

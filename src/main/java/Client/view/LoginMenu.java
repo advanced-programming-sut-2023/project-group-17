@@ -3,6 +3,7 @@ package Client.view;
 import Client.ClientMain;
 import Client.controller.Controller;
 import Client.enums.Messages.LoginMenuMessages;
+import Client.model.Chat;
 import Server.controller.LoginMenuController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -22,6 +23,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.util.ArrayList;
 
 public class LoginMenu extends Application {
     private static Pane pane;
