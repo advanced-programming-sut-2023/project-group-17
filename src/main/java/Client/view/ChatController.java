@@ -256,7 +256,7 @@ public class ChatController {
     //update chats on the server
     private void updateSavedCurrentChat() {
 //        ChatPayload payload = new ChatPayload("update chat", currentChat);
-        Controller.send("update chat", currentChat.getCode());
+        Controller.sendChat("update chat", currentChat.getCode());
     }
 
 
