@@ -151,6 +151,17 @@ public class ChatController {
         getChatsFromServer();
 
         showUsersBar();
+
+        if ((Controller.send("get lobby admin by code", lobbyCode))
+                .equals(Controller.send("get my user")))
+            startPublicChat();
+    }
+
+    private void startPublicChat() {
+        ArrayList<String> friends = (ArrayList<String>) Controller.send("all usernames");
+
+        TextField textField = new TextField("Public Chat");
+        startRoomChat(textField, friends, null);
     }
 
     private void editMessage(Message message) {
@@ -429,6 +440,24 @@ public class ChatController {
     }
 
     private void startRoomChat(TextField nameField, Set<String> usersSet, Text error) {
+        if (nameField.getText().equals(""))
+            error.setText("Enter a name for the room.");
+        else if (usersSet.isEmpty())
+            error.setText("Add at list one user to the room.");
+        else {
+            usersSet.add((String) Controller.send("get my user"));
+            ArrayList<String> members = new ArrayList<>(usersSet);
+            Chat chat = new Chat("room: " + nameField.getText(), members, lobbyCode);
+            chats.add(chat);
+            Controller.sendChat("save chat", new Gson().toJson(chat, Chat.class));
+            showUsersBar();
+            currentChat = chat;
+            updateSavedCurrentChat();
+            startChatting(chat.getName());
+        }
+    }
+
+    private void startRoomChat(TextField nameField, ArrayList<String> usersSet, Text error) {
         if (nameField.getText().equals(""))
             error.setText("Enter a name for the room.");
         else if (usersSet.isEmpty())

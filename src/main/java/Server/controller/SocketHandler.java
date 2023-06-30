@@ -12,7 +12,9 @@ import java.io.IOException;
 import java.net.Socket;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class SocketHandler extends Thread{
     private CommandSender commandSender;
@@ -373,7 +375,15 @@ public class SocketHandler extends Thread{
             response.setAnswer(usernames);
             return response;
         }
-
+        if (methodName.equals("set")) {
+            Response response = new Response();
+            Set<String> usernames = new HashSet<>();
+            for (User user : Database.getUsers()) {
+                usernames.add(user.getUsername());
+            }
+            response.setAnswer(usernames);
+            return response;
+        }
         return null;
     }
 
