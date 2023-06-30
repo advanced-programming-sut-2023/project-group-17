@@ -205,7 +205,6 @@ public class SocketHandler extends Thread{
             response.setAnswer(result);
             return response;
         }
-
         if (methodName.equals("send request")) {
             friendshipMenuController.sendFriendRequest(user, (String) request.getParameters().get(0));
             return new Response();

@@ -266,11 +266,7 @@ public class ChatController {
             date += " Sent";
         Text msg = new Text(message.getContent() + "\n_________________\n" + date);
 
-        Image image = AssetsController.getUserAvatarImages().get(0);
-        for (int i = 0; i < UserIcon.getVALUES().size(); i++) {
-            if (UserIcon.getVALUES().get(i) == message.getUser().getIcon() && message.getUser().getIcon() != UserIcon.CUSTOM)
-                image = AssetsController.getUserAvatarImages().get(i);
-        }
+        Image image = new Image((String) Controller.send("avatar path friend", message.getSender()));
 
         ImageView avatar = new ImageView(image);
         avatar.setFitHeight(50);

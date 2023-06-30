@@ -29,4 +29,40 @@ public class ScoreBoardController {
         }
         return path;
     }
+
+    public ArrayList<String> getUsernames(Double scrollTimes) {
+        ArrayList<User> users = new ArrayList<>();
+        users = Database.getUsers();
+
+        Comparator<User> comp = Comparator.comparingInt(Server.model.User::getHighScore).reversed();
+        users.sort(comp);
+        ArrayList<String> usernames = new ArrayList<>();
+
+        int j = 0;
+        if (users.size() < scrollTimes * 10 + 10) j = users.size();
+        else j = (int) (scrollTimes * 10 + 10);
+
+        for (int i = (int) (scrollTimes * 10); i < j; i++) {
+            usernames.add(users.get(i).getUsername());
+        }
+        return usernames;
+    }
+
+    public ArrayList<Integer> getScores(Double scrollTimes) {
+        ArrayList<User> users = new ArrayList<>();
+        users = Database.getUsers();
+
+        Comparator<User> comp = Comparator.comparingInt(Server.model.User::getHighScore).reversed();
+        users.sort(comp);
+        ArrayList<Integer> scores = new ArrayList<>();
+
+        int j = 0;
+        if (users.size() < scrollTimes * 10 + 10) j = users.size();
+        else j = (int) (scrollTimes * 10 + 10);
+
+        for (int i = (int) (scrollTimes * 10); i < j; i++) {
+            scores.add(users.get(i).getHighScore());
+        }
+        return scores;
+    }
 }
