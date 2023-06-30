@@ -89,11 +89,15 @@ public class ChatController {
                 if (buttonType.equals(ButtonType.OK)) {
                     for (Message message : currentChat.getAllMessages())
                         if (message.isSelected()) {
-                            message.setContent("This message was deleted.");
-                            updateSavedCurrentChat();
+                            Message selectedMessage = message;
+                            selectedMessage.setContent("This message was deleted.");
+                            editMessage(selectedMessage);
+                            Controller.sendChat("delete chat", currentChat.getCode(),
+                                    new Gson().toJson(selectedMessage, Message.class));
+//                            updateSavedCurrentChat();
                             message.toggleSelected();
                         }
-                    loadChats(currentChat.getName());
+//                    loadChats(currentChat.getName());
                 }
                 commandBarShowHide();
             });
@@ -164,6 +168,18 @@ public class ChatController {
                 .equals(Controller.send("get my user"))) {
             startPublicChat();
         }
+    }
+
+    private void deleteChat(Message message) {
+        chatVBox.getChildren().clear();
+        for (Message allMessage : currentChat.getAllMessages()) {
+            if (allMessage.getCode() == message.getCode()) {
+                allMessage.setContent(message.getContent());
+                System.out.println("Deleted message : " + allMessage.getContent());
+            }
+            showMessage(allMessage);
+        }
+        System.out.println(currentChat.getAllMessages());
     }
 
     private void startPublicChat() {

@@ -80,6 +80,11 @@ public class SocketHandler extends Thread{
                         Message message = new Gson().fromJson(String.valueOf(request.getParameters().get(1)), Message.class);
                         chatMenuController.editChat(chatCode, message);
                     }
+                    if (methodName.equals("delete chat")) {
+                        int chatCode = ((Double) request.getParameters().get(0)).intValue();
+                        Message message = new Gson().fromJson(String.valueOf(request.getParameters().get(1)), Message.class);
+                        chatMenuController.editChat(chatCode, message);
+                    }
                 } else {
                     Response response = handleRequest(request);
                     dataOutputStream.writeUTF(gson.toJson(response));
