@@ -29,6 +29,9 @@ import javafx.util.Duration;
 import java.lang.reflect.Array;
 import java.util.*;
 
+import static Client.ClientMain.stage;
+import static Client.view.ChatMenu.lobbyCode;
+
 public class ChatController {
 
     @FXML
@@ -473,7 +476,13 @@ public class ChatController {
     }
 
 
-    public void back() {
+    public void back() throws Exception {
+        String usernameAdmin = (String) Controller.send("get lobby admin by code", lobbyCode);
+        int capacity = ((Double) Controller.send("get capacity by code", lobbyCode)).intValue();
+        int gameTurns = ((Double) Controller.send("get turns by code", lobbyCode)).intValue();
+        Lobby lobby = new Lobby(usernameAdmin, capacity, gameTurns, lobbyCode);
+        timeline.stop();
+        new LobbyMenu().start(stage);
 //        if (isInGame)
 //            Controller.send("change menu")
 //            StageController.sceneChanger("diplomacy.fxml");

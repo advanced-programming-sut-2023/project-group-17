@@ -15,9 +15,9 @@ public class ChatMenu extends Application {
     public Button publicButton;
     public Button privateButton;
     public Button backButton;
-    public int lobbyCode;
+    public static int lobbyCode;
     public ChatMenu() {
-        this.lobbyCode = Lobby.getLobbyCode();
+        lobbyCode = Lobby.getLobbyCode();
     }
 
     @Override
