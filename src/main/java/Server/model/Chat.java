@@ -8,11 +8,13 @@ public class Chat implements Serializable {
     private final ArrayList<String> users;
     private final ArrayList<Message> messages = new ArrayList<>();
     private final int code;
+    private final int lobbyCode;
 
-    public Chat(String name, ArrayList<String> members, int code) {
+    public Chat(String name, ArrayList<String> members, int code, int lobbyCode) {
         this.name = name;
         this.users = members;
         this.code = code;
+        this.lobbyCode = lobbyCode;
     }
 
     public void addMessage(Message message) {
@@ -37,5 +39,9 @@ public class Chat implements Serializable {
 
     public int getCode() {
         return code;
+    }
+
+    public int getLobbyCode() {
+        return lobbyCode;
     }
 }

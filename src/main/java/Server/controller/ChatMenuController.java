@@ -7,8 +7,14 @@ import Server.model.Message;
 import java.util.ArrayList;
 
 public class ChatMenuController {
-    public ArrayList<Chat> getAllChats() {
-        return Database.getChats();
+    public ArrayList<Chat> getAllChats(int lobbyCode, String username) {
+        ArrayList<Chat> chats = new ArrayList<>();
+        for (Chat chat : Database.getChats()) {
+            if (chat.getLobbyCode() == lobbyCode && chat.getUsers().contains(username)) {
+                chats.add(chat);
+            }
+        }
+        return chats;
     }
 
     public Chat getUpdatedChat(int chat) {

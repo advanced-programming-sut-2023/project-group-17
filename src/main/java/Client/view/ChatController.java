@@ -244,7 +244,7 @@ public class ChatController {
 //        ChatPayload chatPayload = new ChatPayload("get all chats");
 //        String response = NetworkController.send(new Gson().toJson(chatPayload));
 //        chatPayload = new Gson().fromJson(response, ChatPayload.class);
-        chats = (ArrayList<Chat>) Controller.sendChat("all chat");
+        chats = (ArrayList<Chat>) Controller.sendChat("all chat", lobbyCode, Controller.send("get my user"));
 
         for (Chat chat : chats) {
             System.out.print("chat name: " + chat.getName() + "  chat members: ");
@@ -436,7 +436,7 @@ public class ChatController {
         else {
             usersSet.add((String) Controller.send("get my user"));
             ArrayList<String> members = new ArrayList<>(usersSet);
-            Chat chat = new Chat("room: " + nameField.getText(), members);
+            Chat chat = new Chat("room: " + nameField.getText(), members, lobbyCode);
             chats.add(chat);
             Controller.sendChat("save chat", new Gson().toJson(chat, Chat.class));
             showUsersBar();
@@ -467,7 +467,7 @@ public class ChatController {
             ArrayList<String> members = new ArrayList<>();
             members.add(addedUser);
             members.add((String) Controller.send("get my user"));
-            Chat chat = new Chat(addedUser + " and " + Controller.send("get my user"), members);
+            Chat chat = new Chat(addedUser + " and " + Controller.send("get my user"), members, lobbyCode);
             chats.add(chat);
             Controller.sendChat("save chat", new Gson().toJson(chat, Chat.class));
             showUsersBar();

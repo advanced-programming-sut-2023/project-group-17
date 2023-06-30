@@ -52,7 +52,9 @@ public class SocketHandler extends Thread{
                 if (request.getMethodName().endsWith("chat")) {
                     String methodName = request.getMethodName();
                     if (methodName.equals("all chat")) {
-                        ArrayList<Chat> chats = Database.getChats();
+                        ArrayList<Chat> chats = chatMenuController.getAllChats(
+                                ((Double) request.getParameters().get(0)).intValue(),
+                                ((String) request.getParameters().get(1)));
                         dataOutputStream.writeUTF(new Gson().toJson(chats));
                         dataOutputStream.flush();
                     }
