@@ -237,10 +237,10 @@ public class ChatController {
 
     private void getChatsFromServer() {
         System.out.println("getting chats from server");
-        ChatPayload chatPayload = new ChatPayload("get all chats");
-        String response = NetworkController.send(new Gson().toJson(chatPayload));
-        chatPayload = new Gson().fromJson(response, ChatPayload.class);
-        chats = chatPayload.getChats();
+//        ChatPayload chatPayload = new ChatPayload("get all chats");
+//        String response = NetworkController.send(new Gson().toJson(chatPayload));
+//        chatPayload = new Gson().fromJson(response, ChatPayload.class);
+        chats = (ArrayList<Chat>) Controller.send("all chats");
 
         for (Chat chat : chats) {
             System.out.print("chat name: " + chat.getName() + "  chat members: ");
@@ -252,8 +252,8 @@ public class ChatController {
 
     //update chats on the server
     private void updateSavedCurrentChat() {
-        ChatPayload payload = new ChatPayload("update chat", currentChat);
-        NetworkController.send(new Gson().toJson(payload));
+//        ChatPayload payload = new ChatPayload("update chat", currentChat);
+        Controller.send("update chat", currentChat);
     }
 
 
@@ -436,7 +436,7 @@ public class ChatController {
             error.setText("Add at list one user to the room.");
         else {
             usersSet.add((String) Controller.send("get my user"));
-            List<String> members = new ArrayList<>(usersSet);
+            ArrayList<String> members = new ArrayList<>(usersSet);
             Chat chat = new Chat("room: " + nameField.getText(), members);
             chats.add(chat);
             showUsersBar();
