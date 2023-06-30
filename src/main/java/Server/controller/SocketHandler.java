@@ -312,6 +312,17 @@ public class SocketHandler extends Thread{
             lobbyMenuController.changePublicity(((Double) request.getParameters().get(0)).intValue());
             return new Response();
         }
+        if (methodName.equals("all chats")) {
+            Response response = new Response();
+            response.setAnswer(Database.getChats());
+            return response;
+        }
+        if (methodName.equals("update chat")) {
+            Response response = new Response();
+            Chat chat = (Chat) request.getParameters().get(0);
+            response.setAnswer(chatMenuController.getUpdatedChat(chat));
+            return response;
+        }
         return null;
     }
 
