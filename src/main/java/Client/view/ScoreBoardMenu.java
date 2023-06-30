@@ -2,6 +2,8 @@ package Client.view;
 
 import Client.ClientMain;
 import Client.controller.Controller;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -12,6 +14,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,6 +45,14 @@ public class ScoreBoardMenu extends Application {
     @FXML
     public void initialize() {
         textArea.setText(generateText(0));
+        createAutoUpdateTimeLine();
+    }
+
+    private void createAutoUpdateTimeLine() {
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(2), e -> textArea.setText(generateText(scrollTimes))));
+        timeline.setCycleCount(-1);
+        timeline.play();
     }
 
     public void showNextTen(ScrollEvent scrollEvent) {
