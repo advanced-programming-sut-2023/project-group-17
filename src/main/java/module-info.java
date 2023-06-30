@@ -7,6 +7,7 @@ module StrongHold {
     requires java.xml.crypto;
     requires java.desktop;
     requires org.controlsfx.controls;
+    requires com.auth0.jwt;
 
     exports Server.model;
     opens Server.model to com.google.gson;

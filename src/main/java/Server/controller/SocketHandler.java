@@ -4,6 +4,11 @@ import Server.enums.Messages.LoginMenuMessages;
 import Server.enums.Messages.SignupMenuMessages;
 import Server.model.*;
 import com.google.gson.Gson;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -31,6 +36,7 @@ public class SocketHandler extends Thread{
     private ScoreBoardController scoreBoardController;
     private FriendshipMenuController friendshipMenuController;
     private LobbyMenuController lobbyMenuController;
+    private JWTVerifier verifier;
 
     public SocketHandler(Socket socket) throws IOException {
         this.socket = socket;
@@ -52,8 +58,10 @@ public class SocketHandler extends Thread{
             }
         } catch (IOException exception) {
             //TODO: more exception
-            if (user != null)
+            if (user != null) {
                 user.setLastOnlineTime(LocalDateTime.now());
+                Database.removeOnlineUser(user);
+            }
             System.out.println("User " + this.getId() + " Got Disconnected");
             ServerController.getInstance().removeSocket(this);
             // TODO : send updated list of users to online users
@@ -106,6 +114,7 @@ public class SocketHandler extends Thread{
             if (response.getAnswer().equals("SUCCESS")) {
                 user = Database.getUserByUsername((String) request.getParameters().get(0));
                 user.setLastOnlineTime(null);
+                Database.addOnlineUser(user);
                 changeMenu("main");
             }
             return response;
@@ -185,6 +194,7 @@ public class SocketHandler extends Thread{
         }
         if (methodName.equals("logout")) {
             user.setLastOnlineTime(LocalDateTime.now());
+            Database.removeOnlineUser(user);
             user = null;
             Database.saveLobbies();
             changeMenu("login");

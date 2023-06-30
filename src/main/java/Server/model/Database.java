@@ -15,6 +15,7 @@ import java.util.List;
 
 public class Database {
     private static ArrayList<String> mapId = new ArrayList<>();
+    private static ArrayList<User> onlineUsers = new ArrayList<>();
     private static ArrayList<User> users = new ArrayList<>();
     private static ArrayList<Building> buildings = new ArrayList<>();
     private static ArrayList<DefensiveBuilding> defensiveBuildings = new ArrayList<>();
@@ -571,5 +572,17 @@ public class Database {
             if (code == lobby.getCode()) return lobby;
         }
         return null;
+    }
+
+    public static void addOnlineUser(User user) {
+        onlineUsers.add(user);
+    }
+
+    public static void removeOnlineUser(User user) {
+        onlineUsers.remove(user);
+    }
+
+    public static ArrayList<User> getOnlineUsers() {
+        return onlineUsers;
     }
 }
