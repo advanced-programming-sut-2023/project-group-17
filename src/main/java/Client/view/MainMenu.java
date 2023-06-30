@@ -1,6 +1,8 @@
 package Client.view;
 
 import Client.controller.Controller;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -21,6 +24,7 @@ import static Client.ClientMain.stage;
 
 
 public class MainMenu extends Application {
+    public Timeline updateTimeLine;
 
     public TextField turnsCount;
     public TextField lobbyCode;
@@ -101,6 +105,7 @@ public class MainMenu extends Application {
     }
     public void startNewGame(MouseEvent mouseEvent) throws Exception {
         //TODO: open new lobby
+        if (updateTimeLine != null) updateTimeLine.stop();
         if (!turnsCount.getText().equals("") && turnsCount.getText().matches("\\d+")) {
             int lobbyCode = ((Double) Controller.send("create new lobby", MainMenu.capacity,
                     Integer.parseInt(turnsCount.getText()))).intValue();
@@ -119,22 +124,26 @@ public class MainMenu extends Application {
     }
 
     public void enterProfileMenu(MouseEvent mouseEvent) throws Exception {
+        if (updateTimeLine != null) updateTimeLine.stop();
         Controller.send("change menu profile");
         new ProfileMenu().start(stage);
     }
 
     public void logout(MouseEvent mouseEvent) throws Exception {
+        if (updateTimeLine != null) updateTimeLine.stop();
         Controller.send("logout");
 //        controller.logout();
         new LoginMenu().start(stage);
     }
 
     public void openFriendshipMenu(ActionEvent actionEvent) throws Exception {
+        if (updateTimeLine != null) updateTimeLine.stop();
         Controller.send("change menu friendship");
         new FriendShipMenu().start(stage);
     }
 
     public void enterLobby() throws Exception {
+        if (updateTimeLine != null) updateTimeLine.stop();
         String usernameAdmin = (String) Controller.send("get lobby admin by code", Integer.parseInt(lobbyCode.getText()));
         int capacity = ((Double) Controller.send("get capacity by code", Integer.parseInt(lobbyCode.getText()))).intValue();
         int gameTurns = ((Double) Controller.send("get turns by code", Integer.parseInt(lobbyCode.getText()))).intValue();
@@ -144,11 +153,50 @@ public class MainMenu extends Application {
     }
 
     public void openLobbiesList(ActionEvent actionEvent) {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), e -> refresh()));
+        this.updateTimeLine = timeline;
+        timeline.setCycleCount(-1);
+        timeline.play();
         openLobbieButton.setVisible(false);
         ArrayList<String> friends = (ArrayList<String>) Controller.send("get lobbies");
         ObservableList<String> items = FXCollections.observableArrayList(friends);
         listView.setItems(items);
-        listView.setPrefHeight(Math.min(items.size() * 40, 100));
+        if (friends.size() == 0) listView.setPrefHeight(10);
+        else listView.setPrefHeight(Math.min(items.size() * 40, 100));
+        listView.setVisible(true);
+        String[] code = {null};
+        listView.setCellFactory(lv -> {
+            ListCell<String> cell = new ListCell<>();
+
+            cell.setOnMouseClicked(event -> {
+                if (! cell.isEmpty()) {
+                    String item = cell.getItem();
+                    System.out.println("Item clicked: " + item);
+                    String regex = ".+code : (?<code>\\d+).+";
+                    Matcher matcher = Pattern.compile(regex).matcher(item);
+                    matcher.matches();
+                    code[0] = matcher.group("code");
+                    lobbyCode.setText(code[0]);
+                    try {
+                        enterLobby();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
+
+            cell.textProperty().bind(cell.itemProperty());
+
+            return cell ;
+        });
+    }
+
+    public void refresh() {
+        ArrayList<String> friends = (ArrayList<String>) Controller.send("get lobbies");
+        ObservableList<String> items = FXCollections.observableArrayList(friends);
+        listView.setItems(items);
+        if (friends.size() == 0) listView.setPrefHeight(10);
+        else listView.setPrefHeight(Math.min(items.size() * 40, 100));
         listView.setVisible(true);
         String[] code = {null};
         listView.setCellFactory(lv -> {
