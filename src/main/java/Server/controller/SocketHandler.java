@@ -312,7 +312,7 @@ public class SocketHandler extends Thread{
             lobbyMenuController.changePublicity(((Double) request.getParameters().get(0)).intValue());
             return new Response();
         }
-        if (methodName.equals("all chats")) {
+        if (methodName.equals("all chat")) {
             Response response = new Response();
             response.setAnswer(Database.getChats());
             return response;
@@ -321,6 +321,15 @@ public class SocketHandler extends Thread{
             Response response = new Response();
             Chat chat = (Chat) request.getParameters().get(0);
             response.setAnswer(chatMenuController.getUpdatedChat(chat));
+            return response;
+        }
+        if (methodName.equals("all usernames")) {
+            Response response = new Response();
+            ArrayList<String> usernames = new ArrayList<>();
+            for (User user : Database.getUsers()) {
+                usernames.add(user.getUsername());
+            }
+            response.setAnswer(usernames);
             return response;
         }
         return null;
