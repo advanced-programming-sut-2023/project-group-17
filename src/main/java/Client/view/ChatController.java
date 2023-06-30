@@ -367,10 +367,9 @@ public class ChatController {
         Text error = new Text();
         error.setStyle("-fx-font-size: 20;-fx-fill: white;");
 
-        ChatPayload payload = new ChatPayload("get all users");
-        String response = NetworkController.send(new Gson().toJson(payload));
-        ArrayList<String> usersList = new Gson().fromJson(response, new TypeToken<List<String>>() {
-        }.getType());
+//        ChatPayload payload = new ChatPayload("get all users");
+//        String response = NetworkController.send(new Gson().toJson(payload));
+        ArrayList<String> usersList = (ArrayList<String>) Controller.send("all usernames");
 
         add.setOnAction(event -> {
             if (userField.getText().isEmpty())
@@ -447,14 +446,13 @@ public class ChatController {
             error.setText("Enter a username.");
             return;
         }
-        ChatPayload payload = new ChatPayload("get all users");
-        String response = NetworkController.send(new Gson().toJson(payload));
-        ArrayList<User> usersList = new Gson().fromJson(response, new TypeToken<List<User>>() {
-        }.getType());
+//        ChatPayload payload = new ChatPayload("get all users");
+//        String response = NetworkController.send(new Gson().toJson(payload));
+        ArrayList<String> usersList = (ArrayList<String>) Controller.send("all usernames");
         //username validation
-        User addedUser = null;
-        for (User user : usersList) {
-            if (user.getUsername().equals(usernameField.getText())) {
+        String addedUser = null;
+        for (String user : usersList) {
+            if (user.equals(usernameField.getText())) {
                 addedUser = user;
             }
         }
@@ -462,9 +460,9 @@ public class ChatController {
             error.setText("No User exists with this username.");
         } else {
             ArrayList<String> members = new ArrayList<>();
-            members.add(addedUser.getUsername());
+            members.add(addedUser);
             members.add((String) Controller.send("get my user"));
-            Chat chat = new Chat(addedUser.getUsername() + " and " + Controller.send("get my user"), members);
+            Chat chat = new Chat(addedUser + " and " + Controller.send("get my user"), members);
             chats.add(chat);
             showUsersBar();
             currentChat = chat;
