@@ -11,11 +11,13 @@
             <Label fx:id="adminUsernameLabel" layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="183.0" />
             <Label fx:id="lobbyCodeLabel" layoutX="14.0" layoutY="41.0" prefHeight="17.0" prefWidth="183.0" />
             <Label fx:id="privateLobbyLabel" layoutX="14.0" layoutY="71.0" prefHeight="17.0" prefWidth="183.0" />
-      <Button fx:id="exit" layoutX="176.0" layoutY="110.0" mnemonicParsing="false" onAction="#exit" prefHeight="26.0" prefWidth="61.0" text="Exit" />
+      <Button fx:id="exit" layoutX="180.0" layoutY="110.0" mnemonicParsing="false" onAction="#exit" prefHeight="26.0" prefWidth="61.0" text="Exit" />
       <ListView fx:id="listView" layoutX="594.0" layoutY="140.0" prefHeight="200.0" prefWidth="200.0" />
       <Text fx:id="users" layoutX="594.0" layoutY="119.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Users:" />
 <!--      <Button layoutX="149.0" layoutY="114.0" mnemonicParsing="false" onAction="#refresh" prefHeight="25.0" prefWidth="61.0" text="Refresh" />-->
       <Button fx:id="chat" layoutX="106.0" layoutY="110.0" mnemonicParsing="false" onMouseClicked="#enterChatMenu" prefHeight="25.0" prefWidth="61.0" text="Chat" />
-      <Button fx:id="publicButton" layoutX="40.0" layoutY="110.0" mnemonicParsing="false" onAction="#publicOrPrivate" text="Private" />
+      <Button fx:id="publicButton" layoutX="140.0" layoutY="154.0" mnemonicParsing="false" onAction="#publicOrPrivate" text="Private" />
+      <Button layoutX="37.0" layoutY="110.0" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
+      <Button fx:id="enterGameButton" layoutX="37.0" layoutY="154.0" mnemonicParsing="false" text="Enter Game" />
       </children>
 </Pane>

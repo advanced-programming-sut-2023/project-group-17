@@ -39,6 +39,7 @@ public class LobbyMenu extends Application {
     public Text users;
     public Button chat;
     public Button publicButton;
+    public Button enterGameButton;
     private String adminUsername;
     private int capacity;
     private int gameTurns;
@@ -47,6 +48,7 @@ public class LobbyMenu extends Application {
     private boolean privateLobby;
     public Timeline updateListTimeLine;
     public Timeline enterGameTimeLine;
+    public String myUsername;
     public LobbyMenu() {
         this.adminUsername = Lobby.getAdminUsername();
         this.capacity = Lobby.getCapacity();
@@ -78,6 +80,10 @@ public class LobbyMenu extends Application {
         privateLobbyLabel.setTextFill(Color.WHITE); users.setFont(Font.font(20)); users.setFill(Color.WHITE);
         setListView();
         createUpdateListTimeLine(); createEnterGameTimeLine();
+        this.myUsername = (String) Controller.send("get my user");
+        enterGameButton.setDisable(true);
+        publicButton.setVisible(adminUsername.equals(myUsername));
+        enterGameButton.setVisible(adminUsername.equals(myUsername));
     }
 
     private void createEnterGameTimeLine() {
@@ -96,6 +102,7 @@ public class LobbyMenu extends Application {
 
     private void setListView() {
         ArrayList<String> friends = (ArrayList<String>) Controller.send("get users in lobby", lobbyCode);
+        enterGameButton.setDisable(friends.size() < 2);
         ObservableList<String> items = FXCollections.observableArrayList(friends);
         listView.setItems(items);
         listView.setPrefHeight(Math.min(items.size() * 40, 100));
@@ -176,6 +183,9 @@ public class LobbyMenu extends Application {
 
     public void refresh() {
         adminUsernameLabel.setText("Admin : " + Controller.send("get lobby admin by code", lobbyCode));
+        adminUsername = (String) Controller.send("get lobby admin by code", lobbyCode);
+        publicButton.setVisible(adminUsername.equals(myUsername));
+        enterGameButton.setVisible(adminUsername.equals(myUsername));
         setListView();
     }
 
