@@ -38,4 +38,8 @@ public class Lobby {
     public static int getLobbyCode() {
         return lobbyCode;
     }
+
+    public static void setLobbyCode(int lobbyCode) {
+        Lobby.lobbyCode = lobbyCode;
+    }
 }

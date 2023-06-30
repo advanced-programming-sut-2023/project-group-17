@@ -150,6 +150,7 @@ public class LobbyMenu extends Application {
 
     public void enterChatMenu(MouseEvent mouseEvent) throws Exception{
         Controller.send("change menu chat");
+        Lobby.setLobbyCode(lobbyCode);
         new ChatMenu().start(stage);
     }
 
