@@ -46,6 +46,7 @@ public class FriendShipMenu extends Application {
     public ListView<String> listView = new ListView<>();
     public int counter = 0;
     public Timeline timeline;
+    public Button showProfileButton;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -138,6 +139,7 @@ public class FriendShipMenu extends Application {
         usernameTextField.textProperty().addListener((observableValue, oldValue, newValue) -> {
             String result = (String) Controller.send("can send request", newValue);
             sendRequestButton.setDisable(result == null);
+            showProfileButton.setDisable(result == null);
         });
     }
 
@@ -224,5 +226,9 @@ public class FriendShipMenu extends Application {
     public void nextRequest(ActionEvent actionEvent) {
         counter++;
         setInviteRequests();
+    }
+
+    public void showProfile(ActionEvent actionEvent) {
+        showProfile(usernameTextField.getText());
     }
 }

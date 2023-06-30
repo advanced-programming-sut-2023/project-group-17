@@ -23,5 +23,6 @@
       <Button fx:id="acceptButton" layoutX="714.0" layoutY="417.0" mnemonicParsing="false" onAction="#acceptRequest" text="Accept" />
       <Button fx:id="declineButton" layoutX="788.0" layoutY="417.0" mnemonicParsing="false" onAction="#declineRequest" prefHeight="26.0" prefWidth="60.0" text="Decline" />
       <Button fx:id="nextButton" layoutX="865.0" layoutY="417.0" mnemonicParsing="false" onAction="#nextRequest" prefHeight="26.0" prefWidth="56.0" text="Next" />
+      <Button fx:id="showProfileButton" layoutX="838.0" layoutY="160.0" mnemonicParsing="false" onAction="#showProfile" prefHeight="26.0" prefWidth="94.0" text="Show Profile" />
    </children>
 </Pane>
