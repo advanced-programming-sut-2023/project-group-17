@@ -5,7 +5,6 @@ import java.util.Calendar;
 
 
 public class Message implements Serializable {
-    private User user;
     private final String sender;
     private String content;
     private boolean sent;
@@ -13,9 +12,8 @@ public class Message implements Serializable {
     private transient boolean isSelected;
     private Calendar calendar;
 
-    public Message(User user, String content) {
-        this.user = user;
-        this.sender = user.getUsername();
+    public Message(String sender, String content) {
+        this.sender = sender;
         this.content = content;
         calendar = Calendar.getInstance();
     }
@@ -64,7 +62,4 @@ public class Message implements Serializable {
         return calendar;
     }
 
-    public User getUser() {
-        return user;
-    }
 }

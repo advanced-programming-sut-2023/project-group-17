@@ -2,14 +2,13 @@ package Client.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Chat implements Serializable {
     private String name;
-    private final List<User> users;
-    private final List<Message> messages = new ArrayList<>();
+    private final ArrayList<String> users;
+    private final ArrayList<Message> messages = new ArrayList<>();
 
-    public Chat(String name, List<User> members) {
+    public Chat(String name, ArrayList<String> members) {
         this.name = name;
         this.users = members;
     }
@@ -18,7 +17,7 @@ public class Chat implements Serializable {
         messages.add(message);
     }
 
-    public List<Message> getAllMessages() {
+    public ArrayList<Message> getAllMessages() {
         return messages;
     }
 
@@ -30,7 +29,7 @@ public class Chat implements Serializable {
         this.name = name;
     }
 
-    public List<User> getUsers() {
+    public ArrayList<String> getUsers() {
         return users;
     }
 

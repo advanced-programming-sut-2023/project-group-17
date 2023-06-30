@@ -1,10 +1,10 @@
 package Client.model;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class ChatPayload {
     private final String header;
-    private List<Chat> chats = null;
+    private ArrayList<Chat> chats = null;
     private Chat chat = null;
     private Message message = null;
 
@@ -22,12 +22,12 @@ public class ChatPayload {
         this.chat = chat;
     }
 
-    public ChatPayload(String header, List<Chat> chats) {
+    public ChatPayload(String header, ArrayList<Chat> chats) {
         this.header = header;
         this.chats = chats;
     }
 
-    public List<Chat> getChats() {
+    public ArrayList<Chat> getChats() {
         return chats;
     }
 

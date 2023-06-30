@@ -11,8 +11,6 @@ import com.google.gson.reflect.TypeToken;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -45,10 +43,10 @@ public class ChatController {
     private VBox mainSection;
 
     private VBox chatVBox;
-    private ScrollPane scroll;
-    private List<Chat> chats = new ArrayList<>();
+    private ScrollPane scrollPane;
+    private ArrayList<Chat> chats = new ArrayList<>();
     private Chat currentChat;
-    private static boolean isInGame = false;
+    private static boolean isInTheGame = false;
     private Timeline timeline;
 
 
@@ -191,9 +189,9 @@ public class ChatController {
         chatVBox.setSpacing(15);
         chatVBox.setStyle("-fx-background-color: #0e1621");
         chatVBox.setFillWidth(true);
-        scroll = new ScrollPane(chatVBox);
-        scroll.setStyle("-fx-background: #0e1621; -fx-border-color: #0e1621; -fx-padding: 10");
-        mainSection.getChildren().add(scroll);
+        scrollPane = new ScrollPane(chatVBox);
+        scrollPane.setStyle("-fx-background: #0e1621; -fx-border-color: #0e1621; -fx-padding: 10");
+        mainSection.getChildren().add(scrollPane);
 
         //unselect all
         for (Chat chat : chats)
@@ -208,7 +206,7 @@ public class ChatController {
         sendButton.setOnAction(event1 -> sendMessage());
         messageField.setText("");
 
-        scroll.vvalueProperty().bind(chatVBox.heightProperty());
+        scrollPane.vvalueProperty().bind(chatVBox.heightProperty());
         messageField.requestFocus();
     }
 
@@ -234,7 +232,7 @@ public class ChatController {
         updateSavedCurrentChat();
         showMessage(message);
         messageField.setText("");
-        scroll.vvalueProperty().bind(chatVBox.heightProperty());
+        scrollPane.vvalueProperty().bind(chatVBox.heightProperty());
     }
 
     private void getChatsFromServer() {
@@ -438,7 +436,7 @@ public class ChatController {
             error.setText("Add at list one user to the room.");
         else {
             usersSet.add(LoginController.getLoggedUser());
-            List<User> members = new ArrayList<>(usersSet);
+            ArrayList<User> members = new ArrayList<>(usersSet);
             Chat chat = new Chat("room: " + nameField.getText(), members);
             chats.add(chat);
             showUsersBar();
@@ -458,19 +456,19 @@ public class ChatController {
         ArrayList<User> usersList = new Gson().fromJson(response, new TypeToken<List<User>>() {
         }.getType());
         //username validation
-        User addedUser = null;
+        User oppositeUser = null;
         for (User user : usersList) {
             if (user.getUsername().equals(usernameField.getText())) {
-                addedUser = user;
+                oppositeUser = user;
             }
         }
-        if (addedUser == null) {
+        if (oppositeUser == null) {
             error.setText("No User exists with this username.");
         } else {
-            List<User> members = new ArrayList<>();
-            members.add(addedUser);
+            ArrayList<User> members = new ArrayList<>();
+            members.add(oppositeUser);
             members.add(LoginController.getLoggedUser());
-            Chat chat = new Chat(addedUser.getUsername() + " and " + LoginController.getLoggedUser().getUsername(), members);
+            Chat chat = new Chat(oppositeUser.getUsername() + " and " + LoginController.getLoggedUser().getUsername(), members);
             chats.add(chat);
             showUsersBar();
             currentChat = chat;
@@ -482,7 +480,7 @@ public class ChatController {
 
 
     public void back() {
-        if (isInGame)
+        if (isInTheGame)
             StageController.sceneChanger("diplomacy.fxml");
         else {
             timeline.stop();
@@ -490,7 +488,7 @@ public class ChatController {
             NetworkController.send(new Gson().toJson(payload));
             StageController.sceneChanger("mainMenu.fxml");
         }
-        isInGame = false;
+        isInTheGame = false;
     }
 
     public void checkEnter(KeyEvent keyEvent) {
@@ -500,6 +498,6 @@ public class ChatController {
     }
 
     public static void setInGame(boolean inGame) {
-        isInGame = inGame;
+        isInTheGame = inGame;
     }
 }
