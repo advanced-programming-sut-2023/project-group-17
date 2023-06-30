@@ -1,5 +1,6 @@
 package Client.view;
 import Client.model.Chat;
+import Client.model.ChatPayload;
 import Client.model.Message;
 import Client.model.User;
 import com.example.demo.controller.LoginController;
@@ -62,7 +63,6 @@ public class ChatController {
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
 
-        //command bar
         commandBar.getChildren().clear();
         Button deleteForMe = new Button("Delete for me");
         Button deleteForAll = new Button("Delete for all");
@@ -70,7 +70,6 @@ public class ChatController {
         deleteForAll.setVisible(false);
         deleteForMe.setVisible(false);
         edit.setVisible(false);
-//        commandBar.getChildren().addAll(deleteForAll, deleteForMe, edit);
         commandBar.getChildren().addAll(deleteForAll, edit);
         deleteForAll.setOnAction(event -> {
             for (Message message : currentChat.getAllMessages()) {
