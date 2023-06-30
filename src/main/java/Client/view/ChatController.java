@@ -134,9 +134,13 @@ public class ChatController {
                 sendButton.setOnAction(event1 -> {
 //                    editMessage(finalSelectedMessage);
                     finalSelectedMessage.setContent(messageField.getText());
+                    System.out.println("final selection get content : " + finalSelectedMessage.getContent());
                     finalSelectedMessage.setSelected(false);
-                    updateSavedCurrentChat();
-                    loadChats(currentChat.getName());
+                    editMessage(finalSelectedMessage);
+                    Controller.sendChat("edit chat", currentChat.getCode(),
+                            new Gson().toJson(finalSelectedMessage, Message.class));
+//                    updateSavedCurrentChat();
+//                    loadChats(currentChat.getName());
                     messageField.setText("");
                     sendButton.setText("Send");
                     sendButton.setOnAction(actionEvent -> sendMessage());
@@ -154,10 +158,8 @@ public class ChatController {
 
         boolean alreadyHavePublicChat = false;
         for (Chat chat : chats) {
-            System.out.println(chat.getName());
             if (chat.getName().equals("room: Public Chat")) alreadyHavePublicChat = true;
         }
-        System.out.println(alreadyHavePublicChat);
         if (!alreadyHavePublicChat && (Controller.send("get lobby admin by code", lobbyCode))
                 .equals(Controller.send("get my user"))) {
             startPublicChat();
@@ -171,14 +173,13 @@ public class ChatController {
         startRoomChat(textField, friends, null);
     }
 
-    private void editMessage(Message message) {
-        message.setContent(messageField.getText());
-        message.setSelected(false);
-        updateSavedCurrentChat();
-        loadChats(currentChat.getName());
-        messageField.setText("");
-        sendButton.setText("Send");
-        sendButton.setOnAction(event1 -> sendMessage());
+    private void editMessage(Message newMessage) {
+        chatVBox.getChildren().clear();
+        for (Message allMessage : currentChat.getAllMessages()) {
+            if (allMessage.getCode() == newMessage.getCode())
+                allMessage.setContent(newMessage.getContent());
+            showMessage(allMessage);
+        }
     }
 
 
@@ -248,7 +249,8 @@ public class ChatController {
         String content = messageField.getText();
         if (content.equals("") || content.matches("^\\s+$"))
             return;
-        Message message = new Message((String) Controller.send("get my user"), content);
+        Message message = new Message((String) Controller.send("get my user"), content,
+                currentChat.getAllMessages().size());
         currentChat.addMessage(message);
         Controller.sendChat("send message chat", currentChat.getCode(), new Gson().toJson(message, Message.class));
         updateSavedCurrentChat();

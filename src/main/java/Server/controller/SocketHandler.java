@@ -68,13 +68,17 @@ public class SocketHandler extends Thread{
                     }
                     if (methodName.equals("send message chat")) {
                         int chatCode = ((Double) request.getParameters().get(0)).intValue();
-                        System.out.println(String.valueOf(request.getParameters().get(1)));
                         Message message = new Gson().fromJson(String.valueOf(request.getParameters().get(1)), Message.class);
                         chatMenuController.updateChat(message, chatCode);
                     }
                     if (methodName.equals("save chat")) {
                         Chat chat = new Gson().fromJson(String.valueOf(request.getParameters().get(0)), Chat.class);
                         Database.addChat(chat);
+                    }
+                    if (methodName.equals("edit chat")) {
+                        int chatCode = ((Double) request.getParameters().get(0)).intValue();
+                        Message message = new Gson().fromJson(String.valueOf(request.getParameters().get(1)), Message.class);
+                        chatMenuController.editChat(chatCode, message);
                     }
                 } else {
                     Response response = handleRequest(request);

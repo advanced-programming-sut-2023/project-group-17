@@ -49,4 +49,17 @@ public class ChatMenuController {
         }
         Database.saveChats();
     }
+
+    public void editChat(int chatCode, Message message) {
+        ArrayList<Message> messages = new ArrayList<>();
+        Chat chat = Database.getChatByCode(chatCode);
+        for (Message allMessage : chat.getAllMessages()) {
+            if (message.getCode() == allMessage.getCode()) {
+                allMessage.setContent(message.getContent());
+            }
+            messages.add(allMessage);
+        }
+        chat.setMessages(messages);
+        Database.saveChats();
+    }
 }

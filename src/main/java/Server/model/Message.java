@@ -11,11 +11,13 @@ public class Message implements Serializable {
     private boolean seen;
     private transient boolean isSelected;
     private Calendar calendar;
+    private final int code;
 
-    public Message(String sender, String content) {
+    public Message(String sender, String content, int code) {
         this.sender = sender;
         this.content = content;
         calendar = Calendar.getInstance();
+        this.code = code;
     }
 
     public String getSender() {
@@ -62,4 +64,7 @@ public class Message implements Serializable {
         return calendar;
     }
 
+    public int getCode() {
+        return code;
+    }
 }

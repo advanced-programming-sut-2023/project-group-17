@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Chat implements Serializable {
     private String name;
     private final ArrayList<String> users;
-    private final ArrayList<Message> messages = new ArrayList<>();
+    private ArrayList<Message> messages = new ArrayList<>();
     private final int code;
     private final int lobbyCode;
 
@@ -43,5 +43,9 @@ public class Chat implements Serializable {
 
     public int getLobbyCode() {
         return lobbyCode;
+    }
+
+    public void setMessages(ArrayList<Message> messages) {
+        this.messages = messages;
     }
 }
