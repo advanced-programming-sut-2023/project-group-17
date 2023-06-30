@@ -45,6 +45,7 @@ public class FriendShipMenu extends Application {
     public Button nextButton;
     public ListView<String> listView = new ListView<>();
     public int counter = 0;
+    public Timeline timeline;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -133,10 +134,18 @@ public class FriendShipMenu extends Application {
         sendRequestButton.setDisable(true);
         setScrollPane();
         setInviteRequests();
+        updateFriendsList();
         usernameTextField.textProperty().addListener((observableValue, oldValue, newValue) -> {
             String result = (String) Controller.send("can send request", newValue);
             sendRequestButton.setDisable(result == null);
         });
+    }
+
+    private void updateFriendsList() {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), e -> setListView()));
+        this.timeline = timeline;
+        timeline.setCycleCount(-1);
+        timeline.play();
     }
 
     private void setListView() {
@@ -144,6 +153,7 @@ public class FriendShipMenu extends Application {
         ObservableList<String> items = FXCollections.observableArrayList(friends);
         listView.setItems(items);
         listView.setPrefHeight(Math.min(items.size() * 40, 100));
+        FriendShipMenu.pane.getChildren().remove(listView);
         FriendShipMenu.pane.getChildren().add(listView);
         listView.setCellFactory(lv -> {
             ListCell<String> cell = new ListCell<>();
@@ -195,6 +205,7 @@ public class FriendShipMenu extends Application {
     }
 
     public void back(ActionEvent actionEvent) throws Exception {
+        timeline.stop();
         Controller.send("change menu main");
         new MainMenu().start(stage);
     }

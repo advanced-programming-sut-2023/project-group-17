@@ -158,4 +158,8 @@ public class LobbyMenu extends Application {
         adminUsernameLabel.setText("Admin : " + Controller.send("get lobby admin by code", lobbyCode));
         setListView();
     }
+
+    public void enterGame() {
+
+    }
 }
