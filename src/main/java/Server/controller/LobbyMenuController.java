@@ -23,4 +23,9 @@ public class LobbyMenuController {
         Lobby lobby = Database.getLobbyWithCode(code);
         return new ArrayList<>(lobby.getWaitingUsernames());
     }
+
+    public void changePublicity(int code) {
+        Lobby lobby = Database.getLobbyWithCode(code);
+        lobby.setPrivateLobby(!lobby.isPrivateLobby());
+    }
 }

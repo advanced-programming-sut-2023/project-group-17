@@ -38,6 +38,7 @@ public class LobbyMenu extends Application {
     public ListView listView;
     public Text users;
     public Button chat;
+    public Button publicButton;
     private String adminUsername;
     private int capacity;
     private int gameTurns;
@@ -180,5 +181,18 @@ public class LobbyMenu extends Application {
 
     public void enterGame() {
 
+    }
+
+    public void publicOrPrivate(ActionEvent actionEvent) {
+        privateLobby = !privateLobby;
+        if (privateLobby) {
+            privateLobbyLabel.setText("Private");
+            publicButton.setText("Public");
+        }
+        else {
+            privateLobbyLabel.setText("Public");
+            publicButton.setText("Private");
+        }
+        Controller.send("change publicity", lobbyCode);
     }
 }

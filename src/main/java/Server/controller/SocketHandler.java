@@ -308,6 +308,10 @@ public class SocketHandler extends Thread{
             response.setAnswer(lobbyMenuController.getLobbyUsers(((Double) request.getParameters().get(0)).intValue()));
             return response;
         }
+        if (methodName.equals("change publicity")) {
+            lobbyMenuController.changePublicity(((Double) request.getParameters().get(0)).intValue());
+            return new Response();
+        }
         return null;
     }
 
