@@ -152,9 +152,16 @@ public class ChatController {
 
         showUsersBar();
 
-        if ((Controller.send("get lobby admin by code", lobbyCode))
-                .equals(Controller.send("get my user")))
+        boolean alreadyHavePublicChat = false;
+        for (Chat chat : chats) {
+            System.out.println(chat.getName());
+            if (chat.getName().equals("room: Public Chat")) alreadyHavePublicChat = true;
+        }
+        System.out.println(alreadyHavePublicChat);
+        if (!alreadyHavePublicChat && (Controller.send("get lobby admin by code", lobbyCode))
+                .equals(Controller.send("get my user"))) {
             startPublicChat();
+        }
     }
 
     private void startPublicChat() {
