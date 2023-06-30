@@ -95,11 +95,18 @@ public class MainMenu extends Application {
 
     @FXML
     public void initialize() {
+        startNewGameButton.setDisable(true);
         enterLobbyButton.setDisable(true);
         lobbyCode.textProperty().addListener(((observableValue, oldValue, newValue) -> {
             if (newValue != null && newValue.matches("\\d+")) {
                 enterLobbyButton.setDisable(!((boolean) Controller.send("is lobby exist", Integer.parseInt(newValue))));
             }
+        }));
+        turnsCount.textProperty().addListener(((observableValue, oldValue, newValue) -> {
+            if (newValue != null && newValue.matches("\\d+") && !newValue.equals("")) {
+                startNewGameButton.setDisable(false);
+            }
+            else startNewGameButton.setDisable(true);
         }));
         listView.setVisible(false);
     }
