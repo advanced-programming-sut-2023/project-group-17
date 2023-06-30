@@ -373,7 +373,7 @@ public class SocketHandler extends Thread{
             case "lobby":
                 lobbyMenuController = new LobbyMenuController();
                 break;
-            case "chat":
+            case "chats":
                 chatMenuController = new ChatMenuController();
                 break;
 

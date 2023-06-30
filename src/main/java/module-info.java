@@ -27,4 +27,5 @@ module StrongHold {
     exports Server.enums.Types;
     exports Client.model;
     opens Client.model to com.google.gson;
+    opens Client.view to javafx.fxml;
 }
