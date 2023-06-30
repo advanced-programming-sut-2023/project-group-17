@@ -206,11 +206,13 @@ public class User implements Comparable<User> {
     }
 
     public String getAvatarPath() {
+        if (avatarPath == null) avatarPath = randomPathGenerator();
         return avatarPath;
     }
 
     public void setAvatarPath(String avatarPath) {
         this.avatarPath = avatarPath;
+        Database.saveUsers();
     }
 
     public String randomPathGenerator() {

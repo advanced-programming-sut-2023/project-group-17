@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class SocketHandler extends Thread{
     private CommandSender commandSender;
@@ -214,9 +215,23 @@ public class SocketHandler extends Thread{
             changeMenu("login");
             return new Response();
         }
-        if (methodName.equals("score board")) {
+        if (methodName.startsWith("score board")) {
             Response response = new Response();
-            String result = scoreBoardController.scoreBoard((Double) request.getParameters().get(0));
+            Object result = "";
+            switch (methodName) {
+                case "score board users":
+                    result = scoreBoardController.getUsernames((Double) request.getParameters().get(0));
+                    break;
+                case "score board scores":
+                    result = scoreBoardController.getScores((Double) request.getParameters().get(0));
+                    break;
+                case "score board paths":
+                    result = scoreBoardController.getAvatarsPaths((Double) request.getParameters().get(0));
+                    break;
+                case "score board times":
+                    result = scoreBoardController.getOnlineTimes((Double) request.getParameters().get(0));
+                    break;
+            }
             response.setAnswer(result);
             return response;
         }

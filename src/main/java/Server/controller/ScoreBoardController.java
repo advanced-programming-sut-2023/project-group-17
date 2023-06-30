@@ -65,4 +65,40 @@ public class ScoreBoardController {
         }
         return scores;
     }
+
+    public ArrayList<String> getOnlineTimes(Double scrollTimes) {
+        ArrayList<User> users = new ArrayList<>();
+        users = Database.getUsers();
+
+        Comparator<User> comp = Comparator.comparingInt(Server.model.User::getHighScore).reversed();
+        users.sort(comp);
+        ArrayList<String> times = new ArrayList<>();
+
+        int j = 0;
+        if (users.size() < scrollTimes * 10 + 10) j = users.size();
+        else j = (int) (scrollTimes * 10 + 10);
+
+        for (int i = (int) (scrollTimes * 10); i < j; i++) {
+            times.add(users.get(i).getOnlineTime());
+        }
+        return times;
+    }
+
+    public ArrayList<String> getAvatarsPaths(Double scrollTimes) {
+        ArrayList<User> users = new ArrayList<>();
+        users = Database.getUsers();
+
+        Comparator<User> comp = Comparator.comparingInt(Server.model.User::getHighScore).reversed();
+        users.sort(comp);
+        ArrayList<String> paths = new ArrayList<>();
+
+        int j = 0;
+        if (users.size() < scrollTimes * 10 + 10) j = users.size();
+        else j = (int) (scrollTimes * 10 + 10);
+
+        for (int i = (int) (scrollTimes * 10); i < j; i++) {
+            paths.add(users.get(i).getAvatarPath());
+        }
+        return paths;
+    }
 }
