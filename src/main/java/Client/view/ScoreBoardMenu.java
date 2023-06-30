@@ -24,6 +24,7 @@ import java.util.List;
 public class ScoreBoardMenu extends Application {
     public TextArea textArea;
     private static int scrollTimes = 0;
+    public static Timeline timeline;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -37,6 +38,7 @@ public class ScoreBoardMenu extends Application {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
+                timeline.stop();
                 ClientMain.stage.setFullScreen(true);
             }
         });
@@ -51,6 +53,7 @@ public class ScoreBoardMenu extends Application {
     private void createAutoUpdateTimeLine() {
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.seconds(2), e -> textArea.setText(generateText(scrollTimes))));
+        ScoreBoardMenu.timeline = timeline;
         timeline.setCycleCount(-1);
         timeline.play();
     }
