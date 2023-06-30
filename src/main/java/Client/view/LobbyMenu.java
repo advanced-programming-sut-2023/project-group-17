@@ -1,7 +1,6 @@
 package Client.view;
 
 import Client.controller.Controller;
-import Server.model.User;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -18,6 +17,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -37,6 +37,7 @@ public class LobbyMenu extends Application {
     public Button exit;
     public ListView listView;
     public Text users;
+    public Button chat;
     private String adminUsername;
     private int capacity;
     private int gameTurns;
@@ -145,6 +146,11 @@ public class LobbyMenu extends Application {
     public void exit(ActionEvent actionEvent) throws Exception {
         Controller.send("exit lobby", lobbyCode);
         new MainMenu().start(stage);
+    }
+
+    public void enterChatMenu(MouseEvent mouseEvent) throws Exception{
+        Controller.send("change menu chat");
+        new ChatMenu().start(stage);
     }
 
     public void refresh(ActionEvent actionEvent) {

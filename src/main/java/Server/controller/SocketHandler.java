@@ -3,12 +3,8 @@ package Server.controller;
 import Server.enums.Messages.LoginMenuMessages;
 import Server.enums.Messages.SignupMenuMessages;
 import Server.model.*;
-import com.google.gson.Gson;
-import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTCreationException;
-import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.google.gson.Gson;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -37,7 +33,7 @@ public class SocketHandler extends Thread{
     private FriendshipMenuController friendshipMenuController;
     private LobbyMenuController lobbyMenuController;
     private JWTVerifier verifier;
-
+    private ChatMenuController chatMenuController;
     public SocketHandler(Socket socket) throws IOException {
         this.socket = socket;
         waitingInLobbyWithYou.add(this);
@@ -335,6 +331,10 @@ public class SocketHandler extends Thread{
             case "lobby":
                 lobbyMenuController = new LobbyMenuController();
                 break;
+            case "chat":
+                chatMenuController = new ChatMenuController();
+                break;
+
         }
     }
 

@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="838.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.view.LobbyMenu">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="838.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.view.LobbyMenu">
       <children>
             <Label fx:id="adminUsernameLabel" layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="183.0" />
             <Label fx:id="lobbyCodeLabel" layoutX="14.0" layoutY="41.0" prefHeight="17.0" prefWidth="183.0" />
@@ -14,6 +14,7 @@
       <Button fx:id="exit" layoutX="72.0" layoutY="114.0" mnemonicParsing="false" onAction="#exit" prefHeight="26.0" prefWidth="61.0" text="Exit" />
       <ListView fx:id="listView" layoutX="594.0" layoutY="140.0" prefHeight="200.0" prefWidth="200.0" />
       <Text fx:id="users" layoutX="594.0" layoutY="119.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Users:" />
-      <Button layoutX="152.0" layoutY="114.0" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
+      <Button layoutX="149.0" layoutY="114.0" mnemonicParsing="false" onAction="#refresh" prefHeight="25.0" prefWidth="61.0" text="Refresh" />
+      <Button fx:id="chat" layoutX="112.0" layoutY="149.0" mnemonicParsing="false" onMouseClicked="#enterChatMenu" prefHeight="25.0" prefWidth="61.0" text="Chat" />
       </children>
 </Pane>
