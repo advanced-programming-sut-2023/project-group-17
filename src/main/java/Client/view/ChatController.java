@@ -229,7 +229,6 @@ public class ChatController {
         scrollPane = new ScrollPane(chatVBox);
         scrollPane.setStyle("-fx-background: rgb(49,50,51); -fx-border-color: rgb(49,50,51); -fx-padding: 10");
         mainSection.getChildren().add(scrollPane);
-        Controller.sendChat("seen chat", currentChat.getCode());
 
         //unselect all
         for (Chat chat : chats)
@@ -238,6 +237,7 @@ public class ChatController {
                     message.setSelected(false);
 
         loadChats(chatName);
+        Controller.sendChat("seen chat", currentChat.getCode());
 
         commandBarShowHide();
         sendButton.setText("Send");
@@ -260,6 +260,19 @@ public class ChatController {
             }
         }
     }
+
+//    private void checkSeenChat(String chatName, ) {
+//        chatVBox.getChildren().clear();
+//        for (Chat chat : chats) {
+//            if (chat.getName().equals(chatName)) {
+//                currentChat = chat;
+//                for (Message message : chat.getAllMessages()) {
+//                    showMessage(message);
+//                }
+//                break;
+//            }
+//        }
+//    }
 
     public void sendMessage() {
         String content = messageField.getText();
@@ -315,9 +328,15 @@ public class ChatController {
         Label senderName = getLabel(title, 25, message);
         Label messageLabel = getLabel(msg, 20, message);
         Label timeLabel = getLabel(dte, 10, message);
-        ImageView sentImage = new ImageView(new Image(getClass().getResource
-                ("/assets/check.png").toExternalForm(), 25, 25, false, false));
-        HBox hBox = new HBox(timeLabel, sentImage);
+        ImageView imageLabel;
+        if (message.isSeen())
+            imageLabel = new ImageView(new Image(getClass().getResource
+                ("/assets/doubleCheck.png").toExternalForm(), 25, 25, false, false));
+        else
+            imageLabel = new ImageView(new Image(getClass().getResource
+                    ("/assets/check.png").toExternalForm(), 25, 25, false, false));
+
+        HBox hBox = new HBox(timeLabel, imageLabel);
 
         VBox totalMessage = new VBox(senderName, messageLabel, hBox);
         totalMessage.setOnMouseClicked(mouseEvent -> {
