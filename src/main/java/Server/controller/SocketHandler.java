@@ -374,7 +374,7 @@ public class SocketHandler extends Thread{
             }
             int turnsCount = ((Double) request.getParameters().get(1)).intValue();
             mainMenuController.createNewMap(80, 80);
-            mainMenuController.startNewGame(usernames.substring(0, usernames.length()-2), turnsCount);
+            mainMenuController.startNewGame(usernames.substring(0, usernames.length()-1), turnsCount);
             return new Response();
         }
         if (methodName.equals("if game started")) {
