@@ -54,7 +54,6 @@ public class ChatController {
 
 
     public void initialize() {
-
         timeline = new Timeline(
                 new KeyFrame(Duration.millis(5000), event -> {
                     getChatsFromServer();

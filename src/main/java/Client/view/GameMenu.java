@@ -2,6 +2,7 @@ package Client.view;
 
 //TODO: delete controller & model
 import Client.ClientMain;
+import Client.controller.Controller;
 import Server.model.Items.Item;
 import Server.controller.*;
 import Client.Utils.Pair;
@@ -120,7 +121,7 @@ public class GameMenu extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         BorderPane borderPane = new BorderPane();
-        gameMenuController.setFirstUser();
+        Controller.send("set first user");
 
         GridPane gridPane = new GridPane(); gridPane.setGridLinesVisible(true);
         this.gridPane = gridPane;
@@ -132,16 +133,16 @@ public class GameMenu extends Application {
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-        final int numCols = gameMenuController.getWidthMap();
-        final int numRows = gameMenuController.getLengthMap();
+        final int numCols = ((Double) Controller.send("get width")).intValue();
+        final int numRows = ((Double) Controller.send("get length")).intValue();
 
         handleMap(numCols, numRows, gridPane);
         scrollPane.requestFocus();
-        handleZoom(scrollPane);
-        handleHover(gridPane);
-        handleCheatMode(borderPane);
-        handleClick(gridPane);
-        moveShortcut(gridPane);
+//        handleZoom(scrollPane);
+//        handleHover(gridPane);
+//        handleCheatMode(borderPane);
+//        handleClick(gridPane);
+//        moveShortcut(gridPane);
         borderPane.setCenter(scrollPane);
         toolBar = createToolbar();
 
@@ -150,12 +151,12 @@ public class GameMenu extends Application {
         this.mainBorderPane = borderPane;
 
 //        handleMiniMap(gridPane, scrollPane, borderPane);
-        selectFunction();
-        setHeadQuarters(gridPane);
-        setDropActionForGridPane();
-        selectedNodes.addListener((ListChangeListener<Node>) change -> {
-            copy = selectedNodes.size() > 0;
-        });
+//        selectFunction();
+//        setHeadQuarters(gridPane);
+//        setDropActionForGridPane();
+//        selectedNodes.addListener((ListChangeListener<Node>) change -> {
+//            copy = selectedNodes.size() > 0;
+//        });
 //        enableCopyPasteShortCut();
 
         borderPane.setBottom(toolBar);

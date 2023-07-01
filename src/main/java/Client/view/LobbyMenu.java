@@ -1,5 +1,6 @@
 package Client.view;
 
+import Client.ClientMain;
 import Client.controller.Controller;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -48,6 +49,7 @@ public class LobbyMenu extends Application {
     private boolean privateLobby;
     public Timeline updateListTimeLine;
     public Timeline enterGameTimeLine;
+    private Timeline gameStartTimeLine;
     public String myUsername;
     public LobbyMenu() {
         this.adminUsername = Lobby.getAdminUsername();
@@ -57,6 +59,7 @@ public class LobbyMenu extends Application {
         this.gameTurns = Lobby.getGameTurns();
         this.lobbyCode = Lobby.getLobbyCode();
         this.privateLobby = false;
+//        Lobby.setGameStarted(false);
     }
     @Override
     public void start(Stage stage) throws Exception {
@@ -79,15 +82,38 @@ public class LobbyMenu extends Application {
         adminUsernameLabel.setTextFill(Color.WHITE); lobbyCodeLabel.setTextFill(Color.WHITE);
         privateLobbyLabel.setTextFill(Color.WHITE); users.setFont(Font.font(20)); users.setFill(Color.WHITE);
         setListView();
-        createUpdateListTimeLine(); createEnterGameTimeLine();
+        createUpdateListTimeLine(); createEnterGameTimeLine(); startGameTimeLine();
         this.myUsername = (String) Controller.send("get my user");
         enterGameButton.setDisable(true);
+        enterGameButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                try {
+                    enterGameWithButton();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
         publicButton.setVisible(adminUsername.equals(myUsername));
         enterGameButton.setVisible(adminUsername.equals(myUsername));
     }
 
+    private void enterGameWithButton() throws Exception {
+        ArrayList<String> friends = (ArrayList<String>) Controller.send("get users in lobby", lobbyCode);
+        if (friends.size() != 1) {
+            Controller.send("new game", lobbyCode, gameTurns);
+        }
+    }
+
     private void createEnterGameTimeLine() {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1.5), e -> enterGame()));
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1.5), e -> {
+            try {
+                enterGame();
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        }));
         this.enterGameTimeLine = timeline;
         timeline.setCycleCount(-1);
         timeline.play();
@@ -98,6 +124,30 @@ public class LobbyMenu extends Application {
         this.updateListTimeLine = timeline;
         timeline.setCycleCount(-1);
         timeline.play();
+    }
+
+    private void startGameTimeLine() {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1.5), e -> {
+            try {
+                refreshStart();
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        }));
+        this.gameStartTimeLine = timeline;
+        timeline.setCycleCount(-1);
+        timeline.play();
+    }
+
+    private void refreshStart() throws Exception {
+        boolean gameStarted = (boolean) Controller.send("if game started", lobbyCode);
+        if (gameStarted) {
+            Controller.send("change menu game");
+            enterGameTimeLine.stop();
+            updateListTimeLine.stop();
+            gameStartTimeLine.stop();
+            new GameMenu().start(stage);
+        }
     }
 
     private void setListView() {
@@ -189,8 +239,16 @@ public class LobbyMenu extends Application {
         setListView();
     }
 
-    public void enterGame() {
-
+    public void enterGame() throws Exception {
+        ArrayList<String> friends = (ArrayList<String>) Controller.send("get users in lobby", lobbyCode);
+        if (friends.size() == this.capacity) {
+            Controller.send("new game", lobbyCode, gameTurns);
+            Controller.send("change menu game");
+            enterGameTimeLine.stop();
+            updateListTimeLine.stop();
+            gameStartTimeLine.stop();
+            new GameMenu().start(stage);
+        }
     }
 
     public void publicOrPrivate(ActionEvent actionEvent) {

@@ -28,4 +28,9 @@ public class LobbyMenuController {
         Lobby lobby = Database.getLobbyWithCode(code);
         lobby.setPrivateLobby(!lobby.isPrivateLobby());
     }
+
+    public void setStartGame(int code) {
+        Lobby lobby = Database.getLobbyWithCode(code);
+        lobby.setGameStarted(true);
+    }
 }

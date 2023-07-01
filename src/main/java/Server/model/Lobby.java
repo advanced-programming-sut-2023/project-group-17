@@ -9,6 +9,7 @@ public class Lobby {
     private ArrayList<String> waitingUsernames;
     private final int code;
     private boolean privateLobby;
+    private boolean gameStarted;
     public Lobby(User admin, int capacity, int gameTurns) {
         this.adminUsername = admin.getUsername();
         this.capacity = capacity;
@@ -17,6 +18,7 @@ public class Lobby {
         this.gameTurns = gameTurns;
         this.code = getLobbyCode();
         this.privateLobby = false;
+        this.gameStarted = false;
     }
 
     private int getLobbyCode() {
@@ -68,5 +70,13 @@ public class Lobby {
 
     public boolean canJoin() {
         return waitingUsernames.size() < capacity;
+    }
+
+    public boolean isGameStarted() {
+        return gameStarted;
+    }
+
+    public void setGameStarted(boolean gameStarted) {
+        this.gameStarted = gameStarted;
     }
 }

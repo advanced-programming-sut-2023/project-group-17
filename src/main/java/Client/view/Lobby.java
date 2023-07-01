@@ -16,6 +16,7 @@ public class Lobby {
     private static int capacity;
     private static int gameTurns;
     private static int lobbyCode;
+    static boolean gameStarted = false;
     public Lobby(String adminUsername, int capacity, int gameTurns, int lobbyCode) {
         Lobby.adminUsername = adminUsername;
         Lobby.capacity = capacity;
@@ -41,5 +42,13 @@ public class Lobby {
 
     public static void setLobbyCode(int lobbyCode) {
         Lobby.lobbyCode = lobbyCode;
+    }
+
+    public static boolean isGameStarted() {
+        return gameStarted;
+    }
+
+    public static void setGameStarted(boolean gameStarted) {
+        Lobby.gameStarted = gameStarted;
     }
 }

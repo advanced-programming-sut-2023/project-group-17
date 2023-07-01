@@ -37,6 +37,7 @@ public class SocketHandler extends Thread{
     private LobbyMenuController lobbyMenuController;
     private JWTVerifier verifier;
     private ChatMenuController chatMenuController;
+    private GameMenuController gameMenuController;
     public SocketHandler(Socket socket) throws IOException {
         this.socket = socket;
         waitingInLobbyWithYou.add(this);
@@ -364,6 +365,38 @@ public class SocketHandler extends Thread{
             lobbyMenuController.changePublicity(((Double) request.getParameters().get(0)).intValue());
             return new Response();
         }
+        if (methodName.equals("new game")) {
+            ArrayList<String> users = lobbyMenuController.getLobbyUsers(((Double) request.getParameters().get(0)).intValue());
+            lobbyMenuController.setStartGame(((Double) request.getParameters().get(0)).intValue());
+            String usernames = "";
+            for (String s : users) {
+                usernames += s + ",";
+            }
+            int turnsCount = ((Double) request.getParameters().get(1)).intValue();
+            mainMenuController.createNewMap(80, 80);
+            mainMenuController.startNewGame(usernames.substring(0, usernames.length()-2), turnsCount);
+            return new Response();
+        }
+        if (methodName.equals("if game started")) {
+            Response response = new Response();
+            Lobby lobby = Database.getLobbyWithCode(((Double) request.getParameters().get(0)).intValue());
+            response.setAnswer(lobby.isGameStarted());
+            return response;
+        }
+        if (methodName.equals("set first user")) {
+            gameMenuController.setFirstUser();
+            return new Response();
+        }
+        if (methodName.equals("get width")) {
+            Response response = new Response();
+            response.setAnswer(gameMenuController.getWidthMap());
+            return response;
+        }
+        if (methodName.equals("get length")) {
+            Response response = new Response();
+            response.setAnswer(gameMenuController.getLengthMap());
+            return response;
+        }
 //        if (methodName.equals("all chat")) {
 //            Response response = new Response();
 //            response.setAnswer(Database.getChats());
@@ -421,6 +454,9 @@ public class SocketHandler extends Thread{
                 break;
             case "chats":
                 chatMenuController = new ChatMenuController();
+                break;
+            case "game":
+                gameMenuController = new GameMenuController();
                 break;
 
         }
