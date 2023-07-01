@@ -393,9 +393,9 @@ public class ChatController {
         error.setStyle("-fx-font-size: 20;-fx-fill: rgba(0,0,0,0.56);");
         Button startChat = new Button("Start messaging");
         startChat.setOnAction(event1 -> startPrivateChat(field, error));
-        Hyperlink link = new Hyperlink("You can create a chat room with multiple users.");
-        link.setOnAction(event1 -> createRoom());
-        mainSection.getChildren().addAll(text, field, error, startChat, link);
+        Button button = new Button("Room");
+        button.setOnAction(event1 -> createRoom());
+        mainSection.getChildren().addAll(text, field, error, startChat, button);
 
         field.setOnKeyReleased(event2 -> {
             error.setText("");
