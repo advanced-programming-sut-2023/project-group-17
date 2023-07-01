@@ -224,10 +224,10 @@ public class ChatController {
         chatVBox = new VBox();
         chatVBox.setAlignment(Pos.BOTTOM_CENTER);
         chatVBox.setSpacing(15);
-        chatVBox.setStyle("-fx-background-color: #0e1621");
+        chatVBox.setStyle("-fx-background-color: rgb(49,50,51)");
         chatVBox.setFillWidth(true);
         scrollPane = new ScrollPane(chatVBox);
-        scrollPane.setStyle("-fx-background: #0e1621; -fx-border-color: #0e1621; -fx-padding: 10");
+        scrollPane.setStyle("-fx-background: rgb(49,50,51); -fx-border-color: rgb(49,50,51); -fx-padding: 10");
         mainSection.getChildren().add(scrollPane);
         Controller.sendChat("seen chat", currentChat.getCode());
 
@@ -347,11 +347,11 @@ public class ChatController {
 
     private Label getLabel(Text title, int fontSize, Message message) {
         Label label = new Label();
-        label.setStyle("-fx-text-fill: white");
+        label.setStyle("-fx-text-fill: rgb(255,255,255)");
         if (message.isSelected())
             label.setBackground(new Background(new BackgroundFill(Color.rgb(46, 112, 164), null, null)));
         else
-            label.setBackground(new Background(new BackgroundFill(Color.rgb(24, 37, 51), null, null)));
+            label.setBackground(new Background(new BackgroundFill(Color.rgb(0, 0, 0, 0.56), null, null)));
         label.setText(title.getText());
         label.setWrapText(true);
         label.setMaxWidth(800);
@@ -366,12 +366,12 @@ public class ChatController {
         mainSection.setAlignment(Pos.CENTER);
         mainSection.getChildren().clear();
         Text text = new Text("Enter a username to start chatting:");
-        text.setStyle("-fx-font-size: 30;-fx-fill: white");
+        text.setStyle("-fx-font-size: 30;-fx-fill: rgba(0,0,0,0.56)");
         TextField field = new TextField();
         field.setMaxWidth(600);
         field.setPromptText("Enter a username");
         Text error = new Text();
-        error.setStyle("-fx-font-size: 20;-fx-fill: white;");
+        error.setStyle("-fx-font-size: 20;-fx-fill: rgba(0,0,0,0.56);");
         Button startChat = new Button("Start messaging");
         startChat.setOnAction(event1 -> startPrivateChat(field, error));
         Hyperlink link = new Hyperlink("You can create a chat room with multiple users.");
@@ -390,14 +390,14 @@ public class ChatController {
     private void createRoom() {
         mainSection.getChildren().clear();
         Text title1 = new Text("Enter the room name:");
-        title1.setStyle("-fx-font-size: 30;-fx-fill: white");
+        title1.setStyle("-fx-font-size: 30;-fx-fill: rgba(0,0,0,0.56)");
 
         TextField nameField = new TextField();
         nameField.setMaxWidth(600);
         nameField.setPromptText("Enter a name");
 
         Text title2 = new Text("Who would you like to add?");
-        title2.setStyle("-fx-font-size: 30;-fx-fill: white");
+        title2.setStyle("-fx-font-size: 30;-fx-fill: rgba(0,0,0,0.56)");
 
         TextField userField = new TextField();
         userField.setMaxWidth(600);
@@ -406,10 +406,10 @@ public class ChatController {
         Set<String> usersSet = new HashSet<>();
         Button add = new Button("Add user");
         Text users = new Text("Added users: ");
-        users.setStyle("-fx-font-size: 15;-fx-fill: white;");
+        users.setStyle("-fx-font-size: 15;-fx-fill: rgba(0,0,0,0.56);");
 
         Text error = new Text();
-        error.setStyle("-fx-font-size: 20;-fx-fill: white;");
+        error.setStyle("-fx-font-size: 20;-fx-fill: rgba(0,0,0,0.56);");
 
 //        ChatPayload payload = new ChatPayload("get all users");
 //        String response = NetworkController.send(new Gson().toJson(payload));

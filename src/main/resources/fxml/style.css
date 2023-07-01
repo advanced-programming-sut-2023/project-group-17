@@ -1,6 +1,6 @@
 .usersBar {
     /*-fx-padding: 10;*/
-    -fx-background-color: #17212b;
+    -fx-background-color: #a5a8a8;
     -fx-font-size: 25;
 }
 
@@ -18,14 +18,14 @@
 .topBar {
     -fx-padding: 10;
     -fx-font-size: 40;
-    -fx-background-color: #17212b;
+    -fx-background-color: rgb(49, 50, 51);
 }
 
 .bottomBar {
     -fx-max-height: 25;
     -fx-font-size: 30;
     -fx-padding: 15;
-    -fx-background-color: #17212b;
+    -fx-background-color: rgb(49, 50, 51);
 }
 
 TextField {
@@ -40,21 +40,21 @@ Button {
     -fx-max-width: 350;
     -fx-pref-height: 40;
     -fx-border-radius: 5;
-    -fx-background-color: #1f2f3f;
-    -fx-text-fill: #ffffff;
+    -fx-background-color: #a5a8a8;
+    -fx-text-fill: rgba(0, 0, 0, 0.56);
 }
 
 Button:hover {
-    -fx-background-color: #384454;
+    -fx-background-color: rgba(165, 168, 168, 0.56);
 }
 
 .centerChat {
-    -fx-background-color: #0e1621;
+    -fx-background-color: rgba(0, 0, 0, 0.56);
 }
 
 TextField {
-    -fx-background-color: #24313d;
-    -fx-text-fill: white;
+    -fx-background-color: #a5a8a8;
+    -fx-text-fill: rgba(0, 0, 0, 0.56);
 }
 .table-row-cell:priority-low {
     -fx-background-color: #78bcc5;
