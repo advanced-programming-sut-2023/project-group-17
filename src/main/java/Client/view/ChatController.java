@@ -229,6 +229,7 @@ public class ChatController {
         scrollPane = new ScrollPane(chatVBox);
         scrollPane.setStyle("-fx-background: #0e1621; -fx-border-color: #0e1621; -fx-padding: 10");
         mainSection.getChildren().add(scrollPane);
+        Controller.sendChat("seen chat", currentChat.getCode());
 
         //unselect all
         for (Chat chat : chats)

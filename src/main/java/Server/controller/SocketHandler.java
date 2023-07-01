@@ -86,6 +86,10 @@ public class SocketHandler extends Thread{
                         Message message = new Gson().fromJson(String.valueOf(request.getParameters().get(1)), Message.class);
                         chatMenuController.editChat(chatCode, message);
                     }
+                    if (methodName.equals("seen chat")) {
+                        int chatCode = ((Double) request.getParameters().get(0)).intValue();
+                        chatMenuController.seenChats(chatCode);
+                    }
                 } else {
                     Response response = handleRequest(request);
                     dataOutputStream.writeUTF(gson.toJson(response));

@@ -62,4 +62,12 @@ public class ChatMenuController {
         chat.setMessages(messages);
         Database.saveChats();
     }
+
+    public void seenChats(int chatCode) {
+        Chat chat = Database.getChatByCode(chatCode);
+        for (Message allMessage : chat.getAllMessages()) {
+            allMessage.setSeen(true);
+        }
+        Database.saveChats();
+    }
 }
