@@ -161,7 +161,7 @@ public class ChatController {
 
         boolean alreadyHavePublicChat = false;
         for (Chat chat : chats) {
-            if (chat.getName().equals("room: Public Chat")) alreadyHavePublicChat = true;
+            if (chat.getName().equals("Public Chat")) alreadyHavePublicChat = true;
         }
         if (!alreadyHavePublicChat && (Controller.send("get lobby admin by code", lobbyCode))
                 .equals(Controller.send("get my user"))) {
@@ -475,7 +475,7 @@ public class ChatController {
         else {
             usersSet.add((String) Controller.send("get my user"));
             ArrayList<String> members = new ArrayList<>(usersSet);
-            Chat chat = new Chat("room: " + nameField.getText(), members, lobbyCode);
+            Chat chat = new Chat(nameField.getText(), members, lobbyCode);
             chats.add(chat);
             Controller.sendChat("save chat", new Gson().toJson(chat, Chat.class));
             showUsersBar();
@@ -493,7 +493,7 @@ public class ChatController {
         else {
             usersSet.add((String) Controller.send("get my user"));
             ArrayList<String> members = new ArrayList<>(usersSet);
-            Chat chat = new Chat("room: " + nameField.getText(), members, lobbyCode);
+            Chat chat = new Chat(nameField.getText(), members, lobbyCode);
             chats.add(chat);
             Controller.sendChat("save chat", new Gson().toJson(chat, Chat.class));
             showUsersBar();
@@ -524,7 +524,7 @@ public class ChatController {
             ArrayList<String> members = new ArrayList<>();
             members.add(addedUser);
             members.add((String) Controller.send("get my user"));
-            Chat chat = new Chat(addedUser + " and " + Controller.send("get my user"), members, lobbyCode);
+            Chat chat = new Chat(addedUser + " & " + Controller.send("get my user"), members, lobbyCode);
             chats.add(chat);
             Controller.sendChat("save chat", new Gson().toJson(chat, Chat.class));
             showUsersBar();
